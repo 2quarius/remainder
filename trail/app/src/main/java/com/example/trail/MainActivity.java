@@ -19,6 +19,7 @@ import android.os.Bundle;
 
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.Lists.ListsFragment;
+import com.example.trail.Map.MapFragment;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ListsFragment(), "LISTS");
         adapter.addFragment(new CalendarFragment(),"TIME");
+        adapter.addFragment(new MapFragment(),"SPACE");
         viewPager.setAdapter(adapter);
     }
     static class Adapter extends FragmentPagerAdapter {
