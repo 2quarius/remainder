@@ -71,8 +71,8 @@ public class ColorfulMonthView extends MonthView {
         int top = y - mItemHeight / 8;
         canvas.drawLine(x,y,x,y+mItemHeight,mOtherMonthTextPaint);
         canvas.drawLine(x,y,x+mItemWidth,y,mOtherMonthTextPaint);
-        canvas.drawLine(x+mItemWidth,y,x+mItemWidth,y+mItemHeight,mOtherMonthTextPaint);
-        canvas.drawLine(x,y+mItemHeight,x+mItemWidth,y+mItemHeight,mOtherMonthTextPaint);
+//        canvas.drawLine(x+mItemWidth,y,x+mItemWidth,y+mItemHeight,mOtherMonthTextPaint);
+//        canvas.drawLine(x,y+mItemHeight,x+mItemWidth,y+mItemHeight,mOtherMonthTextPaint);
         if (isSelected) {
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
                     calendar.isCurrentDay() ? mCurDayTextPaint : mSelectTextPaint);

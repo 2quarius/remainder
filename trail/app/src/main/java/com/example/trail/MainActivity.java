@@ -19,6 +19,7 @@ import android.os.Bundle;
 
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.Lists.ListsFragment;
+import com.example.trail.Map.GoogleMapFragment;
 import com.example.trail.Map.MapFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -39,20 +40,13 @@ public class MainActivity extends AppCompatActivity {
         // Set Tabs inside Toolbar
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-//        ActionBar supportActionBar = getSupportActionBar();
-//        if (supportActionBar != null) {
-//            VectorDrawableCompat indicator
-//                    = VectorDrawableCompat.create(getResources(), R.drawable.checklist, getTheme());
-//            indicator.setTint(ResourcesCompat.getColor(getResources(),R.color.colorAccent,getTheme()));
-//            supportActionBar.setHomeAsUpIndicator(indicator);
-//            supportActionBar.setDisplayHomeAsUpEnabled(true);
-//        }
     }
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ListsFragment(), "LISTS");
         adapter.addFragment(new CalendarFragment(),"TIME");
-        adapter.addFragment(new MapFragment(),"SPACE");
+        adapter.addFragment(new GoogleMapFragment(),"space");
+//        adapter.addFragment(new MapFragment(),"SPACE");
         viewPager.setAdapter(adapter);
     }
     static class Adapter extends FragmentPagerAdapter {
