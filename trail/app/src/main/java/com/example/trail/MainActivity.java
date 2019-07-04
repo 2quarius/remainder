@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(0).setIcon(R.drawable.checklist);
 
         tabs.getTabAt(1).setIcon(R.drawable.calendar);
+//        tabs.getTabAt(2).setIcon(R.drawable.map);
+//        tabs.getTabAt(3).setIcon(R.drawable.settings);
+
     }
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
