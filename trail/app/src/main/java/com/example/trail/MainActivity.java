@@ -27,18 +27,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    private TabLayout tabs;
+    private ViewPager viewPager;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // Setting ViewPager for each Tabs
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         // Set Tabs inside Toolbar
-        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        createTabIcons();
 //        ActionBar supportActionBar = getSupportActionBar();
 //        if (supportActionBar != null) {
 //            VectorDrawableCompat indicator
@@ -48,11 +50,16 @@ public class MainActivity extends AppCompatActivity {
 //            supportActionBar.setDisplayHomeAsUpEnabled(true);
 //        }
     }
+    private void createTabIcons() {
+        tabs.getTabAt(0).setIcon(R.drawable.checklist);
+
+        tabs.getTabAt(1).setIcon(R.drawable.calendar);
+    }
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ListsFragment(), "LISTS");
         adapter.addFragment(new CalendarFragment(),"TIME");
-        adapter.addFragment(new MapFragment(),"SPACE");
+//        adapter.addFragment(new MapFragment(),"SPACE");
         viewPager.setAdapter(adapter);
     }
     static class Adapter extends FragmentPagerAdapter {
