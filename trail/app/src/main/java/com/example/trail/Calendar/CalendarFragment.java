@@ -16,6 +16,12 @@ import com.example.trail.R;
 
 
 public class CalendarFragment extends Fragment {
+    public CalendarFragment(){}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
