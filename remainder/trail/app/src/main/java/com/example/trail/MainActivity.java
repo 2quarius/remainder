@@ -1,23 +1,24 @@
 package com.example.trail;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 
 
 import com.example.trail.Calendar.CalendarFragment;
-import com.example.trail.Setting.AccountFragment;
-import com.example.trail.Setting.SettingFragmnet;
+import com.example.trail.Lists.ListsFragment;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         Adapter adapter = new Adapter(getSupportFragmentManager());
 //        adapter.addFragment(new ListsFragment(), "LISTS");
         adapter.addFragment(new CalendarFragment(), "LISTS");
-        adapter.addFragment(new SettingFragmnet(),"设置");
         viewPager.setAdapter(adapter);
     }
     static class Adapter extends FragmentPagerAdapter {
@@ -83,16 +83,5 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-    //实现不同Fragment之间的跳转
-//    private FragmentManager managerFragmnet;
-//    private FragmentTransaction transactionFragment;
-//    public void gotoFragment() {    //去另外的Fragment
-//        settingFragmnet =getSupportFragmentManager();
-//        fmanager = getSupportFragmentManager();
-//        ftransaction = fmanager.beginTransaction();
-//        mDownloadFragment = new DownloadFragment();
-//        ftransaction.replace(R.id.rl_fragment_container, mDownloadFragment);
-//        ftransaction.commit();
     }
 }
