@@ -33,7 +33,9 @@ public class CalendarFragment extends Fragment{
         return recyclerView;
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements CalendarView.OnCalendarSelectListener, CalendarView.OnYearChangeListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements
+            CalendarView.OnCalendarSelectListener,
+            CalendarView.OnYearChangeListener {
         private static final String MONTH = "月";
         private static final String DAY = "日";
         private static final String LUNAR = "今日";
