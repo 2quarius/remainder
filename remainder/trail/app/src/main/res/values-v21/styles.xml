@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.MyApp.TextField" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+        <item name="android:colorEdgeEffect">@color/inputLine</item>
+        <item name="android:bottomLeftRadius">4dp</item>
+        <item name="android:bottomRightRadius">4dp</item>
+        <item name="android:topLeftRadius">4dp</item>
+        <item name="android:topRightRadius">4dp</item>
+    </style>
+</resources>

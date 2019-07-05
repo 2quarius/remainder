@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Setting.InformationActivity">
+    <TextView
+        android:id="@+id/tx_informationTitle"
+        android:background="@color/cardview_light_background"
+        android:text="个人信息"
+        android:backgroundTint="@color/colorPrimaryLight"
+        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <TextView
+        android:id="@+id/tx_name"
+        android:textSize="18sp"
+        android:textColor="@color/text"
+        android:text="姓名："
+        android:layout_marginTop="20sp"
+        android:layout_below="@id/tx_informationTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tx_age"
+        android:textSize="18sp"
+        android:textColor="@color/text"
+        android:text="年龄："
+        android:layout_marginTop="5sp"
+        android:layout_below="@id/tx_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tx_gender"
+        android:textSize="18sp"
+        android:textColor="@color/text"
+        android:text="性别："
+        android:layout_marginTop="5sp"
+        android:layout_below="@id/tx_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tx_phone"
+        android:textSize="18sp"
+        android:textColor="@color/text"
+        android:text="手机：18888888888"
+        android:layout_marginTop="5sp"
+        android:layout_below="@id/tx_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
