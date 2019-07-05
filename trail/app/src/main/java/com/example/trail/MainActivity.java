@@ -1,10 +1,8 @@
 package com.example.trail;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -12,16 +10,19 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import android.graphics.drawable.Drawable;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 
 
 import com.example.trail.Calendar.CalendarFragment;
-import com.example.trail.Lists.ListsFragment;
 import com.google.android.material.tabs.TabLayout;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,5 +84,66 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+
+    FileOutputStream outputStream;
+    FileInputStream inputStream;
+
+
+
+    public void saveinfile(String data) {
+        try {
+            outputStream.write(data.getBytes());
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String ReadFile(String month) {
+        String FILENAME = month;
+        String out = "";
+        byte[] buffer = null;
+        try {
+            inputStream = openFileInput(FILENAME);
+            try {
+                // 获取文件内容长度
+                int fileLen = inputStream.available();
+                // 读取内容到buffer
+                buffer = new byte[fileLen];
+                inputStream.read(buffer);
+                out = new String(buffer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return out;
+    }
+
+    public void Save() {
+        String month = "201907";
+        String data;
+        String FILENAME = month;
+        try {
+            outputStream = openFileOutput(FILENAME, Context.MODE_APPEND);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        data = "一只鸭子";
+        saveinfile(data);
+
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String Load() {
+        String filecontent = ReadFile("201907");
+        return filecontent;
     }
 }

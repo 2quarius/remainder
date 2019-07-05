@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="left|center_horizontal"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+    android:paddingLeft="10dp" >
+
+
+    <TextView
+        android:layout_marginTop="30dp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="新建事项"
+        android:textSize="40sp" />
+
+    <TextView
+        android:layout_marginTop="800dp"
+        android:layout_marginLeft="-170dp"
+        android:layout_width="70dp"
+        android:layout_height="35dp"
+        android:text="内容："
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="800dp"
+        android:layout_marginLeft="-20dp"
+        android:id="@+id/TaskContent"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="请输入事项内容"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="-320dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
+        android:text="时间："
+        android:textSize="20sp" />
+
+    <RadioButton
+        android:id="@+id/timepoint"
+        android:layout_marginTop="135dp"
+        android:layout_marginLeft="-70dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:text="时刻"
+        android:textSize="15sp"
+        android:checked="true" />
+
+    <EditText
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="-60dp"
+        android:id="@+id/Year"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="2019"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="年"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="0dp"
+        android:id="@+id/Month"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="10"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="月"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="0dp"
+        android:id="@+id/Day"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="30"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="180dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="日"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="230dp"
+        android:layout_marginLeft="-180dp"
+        android:id="@+id/Hour"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="22"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="230dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="时"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="230dp"
+        android:layout_marginLeft="0dp"
+        android:id="@+id/Minute"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="33"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="230dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="分"
+        android:textSize="20sp" />
+
+    <RadioButton
+        android:id="@+id/timeextention"
+        android:layout_marginTop="280dp"
+        android:layout_marginLeft="-302dp"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:text="时段"
+        android:textSize="15sp"/>
+
+    <EditText
+        android:layout_marginTop="315dp"
+        android:layout_marginLeft="-60dp"
+        android:id="@+id/BeginYear"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="2019"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="315dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="年"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="315dp"
+        android:layout_marginLeft="0dp"
+        android:id="@+id/BeginMonth"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="10"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="315dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="月"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="315dp"
+        android:layout_marginLeft="0dp"
+        android:id="@+id/BeginDay"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="30"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="315dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="日"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="365dp"
+        android:layout_marginLeft="-180dp"
+        android:id="@+id/BeginHour"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="22"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="365dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="时"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="365dp"
+        android:layout_marginLeft="0dp"
+        android:id="@+id/BeginMinute"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="33"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="365dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="分"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_marginTop="395dp"
+        android:layout_marginLeft="-250dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="至"
+        android:textSize="23sp" />
+
+
+    <EditText
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="-60dp"
+        android:id="@+id/EndYear"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="2019"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="年"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="0dp"
+        android:id="@+id/EndMonth"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="10"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="月"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="0dp"
+        android:id="@+id/EndDay"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="31"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="450dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="日"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="500dp"
+        android:layout_marginLeft="-180dp"
+        android:id="@+id/EndHour"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="22"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="500dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="时"
+        android:textSize="20sp" />
+
+    <EditText
+        android:layout_marginTop="500dp"
+        android:layout_marginLeft="0dp"
+        android:id="@+id/EndMinute"
+        android:layout_width="90dp"
+        android:layout_height="50dp"
+        android:paddingLeft="2dp"
+        android:hint="33"
+        android:textSize="20sp"
+        android:inputType="number"
+        android:background="@null" />
+
+    <TextView
+        android:layout_marginTop="500dp"
+        android:layout_marginLeft="-30dp"
+        android:layout_width="30dp"
+        android:layout_height="35dp"
+        android:text="分"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_marginTop="550dp"
+        android:layout_marginLeft="-300dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
+        android:text="重复："
+        android:textSize="20sp" />
+
+    <Spinner
+        android:layout_marginTop="610dp"
+        android:layout_marginLeft="-30dp"
+        android:id="@+id/recycling"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true" />
+
+
+
+</LinearLayout>

@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trail.R;
 
-
 public class CalendarFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,4 +75,5 @@ public class CalendarFragment extends Fragment {
             return LENGTH;
         }
     }
+
 }
