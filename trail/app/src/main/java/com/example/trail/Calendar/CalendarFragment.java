@@ -34,6 +34,13 @@ public class CalendarFragment extends Fragment{
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements CalendarView.OnCalendarSelectListener, CalendarView.OnYearChangeListener {
+        private static final String MONTH = "月";
+        private static final String DAY = "日";
+        private static final String LUNAR = "今日";
+        private static String constructMonthDay(int m,int d)
+        {
+            return String.format("%d%s%d%s", m, MONTH, d, DAY);
+        }
         public CalendarView calendar;
         public TextView monthDay;
         public TextView year;
@@ -69,13 +76,6 @@ public class CalendarFragment extends Fragment{
             calendarLayout = (CalendarLayout) itemView.findViewById(R.id.calendar_layout);
             calendar.setOnCalendarSelectListener(this);
             calendar.setOnYearChangeListener(this);
-            calendar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    System.out.println("click");
-                }
-            });
-
         }
 
         @Override
@@ -85,12 +85,21 @@ public class CalendarFragment extends Fragment{
 
         @Override
         public void onCalendarSelect(Calendar calendar, boolean isClick) {
-
+            lunar.setVisibility(View.VISIBLE);
+            year.setVisibility(View.VISIBLE);
+            monthDay.setText(constructMonthDay(calendar.getMonth(),calendar.getDay()));
+            if(calendar.getDay()!=this.calendar.getCurDay()){
+                this.lunar.setText("");
+            }
+            else {
+                this.lunar.setText(LUNAR);
+            }
+            year.setText(String.valueOf(calendar.getYear()));
         }
 
         @Override
         public void onYearChange(int year) {
-
+            monthDay.setText(String.valueOf(year));
         }
     }
 
@@ -99,7 +108,7 @@ public class CalendarFragment extends Fragment{
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of Card in RecyclerView.
-        private final int LENGTH=2;
+        private final int LENGTH=1;
 
         private Calendar getSchemeCalendar(int year, int month, int day, int color, String text) {
             Calendar calendar = new Calendar();
@@ -144,19 +153,10 @@ public class CalendarFragment extends Fragment{
                     getSchemeCalendar(year, month, 27, 0xFF13acf0, "95"));
             //此方法在巨大的数据量上不影响遍历性能，推荐使用
             holder.calendar.setSchemeDate(map);
-            switch (position%2){
-                case 0:
-                    holder.year.setText(String.valueOf(holder.calendar.getCurYear()));
-                    holder.monthDay.setText(holder.calendar.getCurMonth() + "月" + holder.calendar.getCurDay() + "日");
-                    holder.lunar.setText("今日");
-                    holder.currentDay.setText(String.valueOf(holder.calendar.getCurDay()));
-                    break;
-                case 1:
-                    holder.year.setText(String.valueOf(holder.calendar.getCurYear()));
-                    holder.monthDay.setText(holder.calendar.getCurMonth()+1 + "月" );
-                    holder.lunar.setText("");
-                    holder.currentDay.setText(String.valueOf(holder.calendar.getCurDay()));
-            }
+            holder.year.setText(String.valueOf(holder.calendar.getCurYear()));
+            holder.monthDay.setText(ViewHolder.constructMonthDay(holder.calendar.getCurMonth(),holder.calendar.getCurDay()));
+            holder.lunar.setText(ViewHolder.LUNAR);
+            holder.currentDay.setText(String.valueOf(holder.calendar.getCurDay()));
 
         }
 
