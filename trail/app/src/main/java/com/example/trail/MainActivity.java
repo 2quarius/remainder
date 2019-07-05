@@ -1,25 +1,18 @@
 package com.example.trail;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.TargetApi;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
 
 
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.Lists.ListsFragment;
-import com.example.trail.Map.GoogleMapFragment;
 import com.example.trail.Map.MapFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -45,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ListsFragment(), "LISTS");
         adapter.addFragment(new CalendarFragment(),"TIME");
-        adapter.addFragment(new GoogleMapFragment(),"space");
+        adapter.addFragment(new MapFragment(),"space");
 //        adapter.addFragment(new MapFragment(),"SPACE");
         viewPager.setAdapter(adapter);
     }
