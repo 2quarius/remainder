@@ -1,0 +1,38 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="Light.Theme" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="tabStyle">@style/Widget.MaterialComponents.TabLayout.Colored</item>
+        <item name="materialCardViewStyle">@style/Widget.MyApp.MaterialCardView</item>
+        <item name="checkedTextViewStyle">@style/Widget.MyApp.TextField</item>
+        <item name="buttonStyle">@style/Widget.MyApp.Button</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:typeface">@font/raleway</item>-->
+    </style>
+    <style name="Widget.MyApp.MaterialCardView" parent="Theme.MaterialComponents.Light">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item>
+    </style>
+    <style name="Widget.MyApp.TextField" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">4dp</item>
+        <item name="android:colorEdgeEffect" tools:targetApi="lollipop">@color/inputLine</item>
+        <item name="android:bottomLeftRadius">4dp</item>
+        <item name="android:bottomRightRadius">4dp</item>
+        <item name="android:topLeftRadius">4dp</item>
+        <item name="android:topRightRadius">4dp</item>
+    </style>
+    <style name="Widget.MyApp.Button" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="android:buttonCornerRadius">50pt</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/inputLine</item>
+        <item name="android:textColorHighlight">@color/colorAccent</item>
+    </style>
+
+</resources>

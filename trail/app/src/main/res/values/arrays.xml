@@ -18,6 +18,10 @@
         <item>Sultan Ahmed Mosque is mosque locates in Istabul, Turkey</item>
         <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
     </string-array>
+    <string-array name="languange">
+        <item>中文</item>
+        <item>English</item>
+    </string-array>
     <string-array name="english_week_string_array">
         <item>Sun</item>
         <item>Mon</item>
