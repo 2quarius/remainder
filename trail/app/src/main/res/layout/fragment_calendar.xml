@@ -1,40 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    app:cardBackgroundColor="@color/inputLine"
+    android:layout_margin="5dp"
+    android:outlineSpotShadowColor="@color/colorPrimary"
+    android:padding="5dp"
+    android:elevation="50dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="center">
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/card_title"
+        <RelativeLayout
+            android:id="@+id/rl_tool"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/card_title_height"
-            android:layout_alignBottom="@+id/card_image"
-            android:layout_marginLeft="@dimen/md_keylines"
-            tools:text="@string/item_title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/colorPrimary" />
+            android:layout_height="52dp"
+            android:background="@color/inputLine">
 
-        <TextView
-            android:id="@+id/card_text"
+            <TextView
+                android:id="@+id/tv_month_day"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:textColor="#000000"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                tools:ignore="RtlSymmetry" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/tv_month_day"
+                android:orientation="vertical"
+                android:paddingBottom="12dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:paddingTop="12dp"
+                tools:ignore="RelativeOverlap">
+
+                <TextView
+                    android:id="@+id/tv_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tv_lunar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    tools:ignore="SmallSp" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_current"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp"
+                android:background="@color/inputLine">
+
+                <ImageView
+                    android:id="@+id/iv_calendar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tint="#000000"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/calendar" />
+
+                <TextView
+                    android:id="@+id/tv_current_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:text="13"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp" />
+            </FrameLayout>
+        </RelativeLayout>
+
+        <com.haibin.calendarview.CalendarLayout
+            android:id="@+id/calendar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/card_image"
-            android:layout_marginLeft="@dimen/md_keylines"
-            android:layout_marginTop="@dimen/md_keylines"
-            android:layout_marginBottom="@dimen/md_keylines"
-            android:layout_marginRight="@dimen/md_keylines"
-            tools:text="@string/item_desc"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/article_subheading"
-            tools:ignore="UnknownId" />
-    </RelativeLayout>
-    
-</androidx.cardview.widget.CardView>
+            android:orientation="vertical"
+            android:background="@color/inputLine">
+
+            <com.haibin.calendarview.CalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/calendar_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/inputLine"
+                app:calendar_height="70dp"
+                app:current_month_lunar_text_color="#333333"
+                app:current_month_text_color="#333333"
+                app:min_year="2004"
+                app:month_view="com.example.trail.Calendar.ColorfulMonthView"
+                app:month_view_show_mode="mode_only_current"
+                app:other_month_text_color="@color/colorPrimary"
+                app:scheme_text="假"
+                app:scheme_lunar_text_color="@color/colorPrimaryDark"
+                app:scheme_text_color="@color/colorPrimaryDark"
+                app:scheme_theme_color="@color/colorPrimaryDark"
+                app:selected_text_color="@color/inputLine"
+                app:selected_lunar_text_color="@color/inputLine"
+                app:selected_theme_color="@color/colorPrimaryDark"
+                app:week_background="@color/inputLine"
+                app:week_bar_view="com.example.trail.Calendar.EnglishWeekBar"
+                app:week_start_with="mon"
+                app:week_text_color="#111"
+                app:week_view="com.example.trail.Calendar.ColorfulWeekView" />
+        </com.haibin.calendarview.CalendarLayout>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
