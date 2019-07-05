@@ -16,7 +16,6 @@ import android.os.Bundle;
 
 
 import com.example.trail.Calendar.CalendarFragment;
-import com.example.trail.Setting.AccountFragment;
 import com.example.trail.Setting.SettingFragmnet;
 import com.google.android.material.tabs.TabLayout;
 
@@ -84,15 +83,17 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
-    //实现不同Fragment之间的跳转
+
+
+    //实现跳转到账户设置界面 会闪退
 //    private FragmentManager managerFragmnet;
 //    private FragmentTransaction transactionFragment;
-//    public void gotoFragment() {    //去另外的Fragment
-//        settingFragmnet =getSupportFragmentManager();
-//        fmanager = getSupportFragmentManager();
-//        ftransaction = fmanager.beginTransaction();
-//        mDownloadFragment = new DownloadFragment();
-//        ftransaction.replace(R.id.rl_fragment_container, mDownloadFragment);
-//        ftransaction.commit();
-    }
+//    private AccountFragment accountFragment;
+//    public void gotoAccountFragment() {    //去账户设置界面
+//        managerFragmnet =getSupportFragmentManager();
+//        transactionFragment = managerFragmnet.beginTransaction();
+//        accountFragment = new AccountFragment();
+//        transactionFragment.replace(R.id.viewpager, accountFragment);
+//        transactionFragment.commit();
+//    }
 }

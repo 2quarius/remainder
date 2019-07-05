@@ -29,8 +29,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp" />
     <Button
-        android:id="@+id/btn_"
-        android:text="主题"
+        android:id="@+id/btn_information"
+        android:text="个人信息"
         android:background="#ae004c"
         android:textSize="16sp"
         android:layout_width="match_parent"
@@ -38,6 +38,12 @@
     <Button
         android:id="@+id/btn_language"
         android:text="语言"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <Button
+        android:id="@+id/btn_about"
+        android:text="关于我们"
         android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
