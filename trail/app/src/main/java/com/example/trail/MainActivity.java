@@ -12,6 +12,8 @@ import android.os.Bundle;
 
 
 import com.example.trail.Calendar.CalendarFragment;
+import com.example.trail.EventsObject.Event;
+import com.example.trail.EventsObject.MonthEvent;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Map.MapFragment;
@@ -22,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
