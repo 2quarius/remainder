@@ -1,13 +1,11 @@
 package com.example.trail;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
@@ -20,6 +18,11 @@ import android.widget.Button;
 
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.NewTask.NewTaskActivity;
+import com.example.trail.EventsObject.Event;
+import com.example.trail.EventsObject.MonthEvent;
+import com.example.trail.Setting.SettingFragmnet;
+import com.example.trail.Lists.ListsFragment;
+import com.example.trail.Map.MapFragment;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -36,28 +39,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        // Setting ViewPager for each Tabs
+        // Setting ViewPager for each Tabs
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-//        // Set Tabs inside Toolbar
+        // Set Tabs inside Toolbar
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-//        tabs.setTabIconTintResource(getResources().getDrawable(R.drawable.checklist).getAlpha());
-//        Drawable icon= getResources().getDrawable(R.drawable.checklist);
-//        icon.setBounds(0,0,icon.getIntrinsicWidth(),icon.getIntrinsicHeight());
-        ActionBar supportActionBar = getSupportActionBar();
-        if (supportActionBar != null) {
-            VectorDrawableCompat indicator
-                    = VectorDrawableCompat.create(getResources(), R.drawable.checklist, getTheme());
-            indicator.setTint(ResourcesCompat.getColor(getResources(),R.color.colorAccent,getTheme()));
-            supportActionBar.setHomeAsUpIndicator(indicator);
-            supportActionBar.setDisplayHomeAsUpEnabled(true);
-        }
     }
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-//        adapter.addFragment(new ListsFragment(), "LISTS");
-        adapter.addFragment(new CalendarFragment(), "LISTS");
+        adapter.addFragment(new ListsFragment(), "lists");
+        adapter.addFragment(new CalendarFragment(),"time");
+        adapter.addFragment(new MapFragment(),"space");
+        adapter.addFragment(new SettingFragmnet(),"settings");
         viewPager.setAdapter(adapter);
     }
     static class Adapter extends FragmentPagerAdapter {
@@ -87,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
     }
 
     FileOutputStream outputStream;
