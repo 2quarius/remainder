@@ -42,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private FloatingActionButton fabAddTask;
     private MonthTasks monthTasks;
+    private FloatingActionButton fabAddTask;
+    private MonthTasks monthTasks;
+    private TabLayout tabs;
+    private ViewPager viewPager;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,18 @@ public class MainActivity extends AppCompatActivity {
                 NewTaskActivity.monthTasks=monthTasks;
                 startActivity(intent);
             }
+        createTabIcons();
+//        ActionBar supportActionBar = getSupportActionBar();
+//        if (supportActionBar != null) {
+//            VectorDrawableCompat indicator
+//                    = VectorDrawableCompat.create(getResources(), R.drawable.checklist, getTheme());
+//            indicator.setTint(ResourcesCompat.getColor(getResources(),R.color.colorAccent,getTheme()));
+//            supportActionBar.setHomeAsUpIndicator(indicator);
+//            supportActionBar.setDisplayHomeAsUpEnabled(true);
+//        }
+    }
+    private void createTabIcons() {
+        tabs.getTabAt(0).setIcon(R.drawable.checklist);
 
         tabs.getTabAt(1).setIcon(R.drawable.calendar);
 //        tabs.getTabAt(2).setIcon(R.drawable.map);
