@@ -59,7 +59,6 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="0dp"
                     android:layout_marginTop="0dp"
-                    android:checked="true"
                     android:text="时刻"
                     android:textSize="15sp" />
 
@@ -594,11 +593,12 @@
                 android:layout_width="270dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="80dp"
-                android:layout_marginTop="-40dp"
+                android:layout_marginTop="-36dp"
                 android:background="@null"
                 android:hint="请输入事项内容"
                 android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:gravity="top"/>
 
             <ImageView
                 android:id="@+id/imageView8"
