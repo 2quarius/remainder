@@ -21,6 +21,9 @@ public class NewTaskActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newtask);
+//        Button btn = findViewById(R.id.btn);
+//        btn.setBackground(Drawable.createFromPath("G:\\GitHub\\remainder\\trail\\app\\src\\main\\res\\drawable-hdpi\\place.jpg"));
+
     }
 
 
