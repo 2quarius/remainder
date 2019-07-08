@@ -3,4 +3,11 @@
     <dimen name="card_title_height">25dp</dimen>
     <dimen name="md_keylines">10dp</dimen>
     <dimen name="article_subheading">16sp</dimen>
+    <dimen name="nav_header">150dp</dimen>
+    <dimen name="followed">240dp</dimen>
+    <dimen name="side_menu">320dp</dimen>
+    <dimen name="follower">80dp</dimen>
+    <dimen name="padding">20dp</dimen>
+    <dimen name="avatar">100dp</dimen>
+    <dimen name="icon">40dp</dimen>
 </resources>
