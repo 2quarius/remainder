@@ -97,7 +97,6 @@
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="190dp"
                 android:layout_marginLeft="210dp"
                 android:layout_marginTop="-40dp"
                 android:text="月"
@@ -113,7 +112,6 @@
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="260dp"
                 android:layout_marginLeft="300dp"
                 android:layout_marginTop="-40dp"
                 android:text="日"
@@ -128,7 +126,6 @@
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="190dp"
                 android:layout_marginLeft="210dp"
                 android:layout_marginTop="-40dp"
                 android:text="时"
@@ -143,7 +140,6 @@
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="270dp"
                 android:layout_marginLeft="300dp"
                 android:layout_marginTop="-40dp"
                 android:text="分"
@@ -325,6 +321,7 @@
                 android:id="@+id/recycling"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
+                android:entries="@array/recycle_array"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="80dp"
                 android:layout_marginTop="-35dp" />
@@ -374,6 +371,7 @@
                 android:textSize="20sp" />
 
             <Button
+                android:id="@+id/place"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="300dp"
@@ -397,6 +395,7 @@
                 android:textSize="20sp" />
 
             <RadioGroup
+                android:id="@+id/improtance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
@@ -558,6 +557,7 @@
                 app:srcCompat="@android:color/holo_purple" />
 
             <Button
+                android:id="@+id/save"
                 android:layout_width="100dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="140dp"

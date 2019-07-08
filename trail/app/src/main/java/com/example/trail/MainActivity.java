@@ -23,6 +23,7 @@ import com.example.trail.NewTask.NewTaskActivity;
 import com.example.trail.EventsObject.Event;
 import com.example.trail.EventsObject.MonthEvent;
 import com.example.trail.NewTask.NewTaskActivity;
+import com.example.trail.NewTask.task.MonthTasks;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Map.MapFragment;
@@ -40,6 +41,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fabAddTask;
+    private MonthTasks monthTasks;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +53,23 @@ public class MainActivity extends AppCompatActivity {
         // Set Tabs inside Toolbar
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+
+        //初始化monthTasks用来存储数据
+        monthTasks=new MonthTasks();
+
         //Set FloatingActonButton action
         fabAddTask=findViewById(R.id.fab_addTask);
         fabAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(MainActivity.this, NewTaskActivity.class);
+                NewTaskActivity.monthTasks=monthTasks;
                 startActivity(intent);
             }
 
         });
         fabAddTask.setImageDrawable(getResources().getDrawable(R.drawable.add));
+
 
     }
     private void setupViewPager(ViewPager viewPager) {
