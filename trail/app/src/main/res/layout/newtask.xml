@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="1000dp"
     tools:context=".MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="1000dp">
 
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="1000dp"
             android:gravity="left|center_horizontal"
             android:orientation="vertical"
             android:paddingLeft="10dp"
@@ -592,7 +592,7 @@
             <EditText
                 android:id="@+id/TaskContent"
                 android:layout_width="270dp"
-                android:layout_height="35dp"
+                android:layout_height="100dp"
                 android:layout_marginLeft="80dp"
                 android:layout_marginTop="-40dp"
                 android:background="@null"
@@ -600,6 +600,21 @@
                 android:paddingLeft="2dp"
                 android:textSize="20sp" />
 
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="match_parent"
+                android:layout_height="5px"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                app:srcCompat="@android:color/holo_purple" />
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="140dp"
+                android:layout_marginTop="40dp"
+                android:text="保存"
+                android:textSize="20sp"/>
 
         </LinearLayout>
     </ScrollView>
