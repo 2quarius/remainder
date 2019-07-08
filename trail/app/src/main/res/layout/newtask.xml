@@ -60,7 +60,8 @@
                     android:layout_marginLeft="0dp"
                     android:layout_marginTop="0dp"
                     android:text="时刻"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/timeextention"
@@ -74,10 +75,11 @@
 
             <Spinner
                 android:id="@+id/Year"
-                android:layout_width="85dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="-370dp" />
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="-370dp"
+                android:entries="@array/year"/>
 
             <TextView
                 android:layout_width="30dp"
@@ -89,68 +91,75 @@
 
             <Spinner
                 android:id="@+id/Month"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="-45dp" />
+                android:layout_marginTop="-45dp"
+                android:entries="@array/month"/>
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="210dp"
+                android:layout_marginLeft="220dp"
                 android:layout_marginTop="-40dp"
                 android:text="月"
                 android:textSize="20sp" />
 
             <Spinner
                 android:id="@+id/Day"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="240dp"
+                android:layout_marginLeft="250dp"
                 android:layout_marginTop="-45dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="300dp"
+                android:layout_marginLeft="320dp"
                 android:layout_marginTop="-40dp"
                 android:text="日"
                 android:textSize="20sp" />
+
             <Spinner
                 android:id="@+id/Hour"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:entries="@array/hour"/>
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="210dp"
+                android:layout_marginLeft="220dp"
                 android:layout_marginTop="-40dp"
                 android:text="时"
                 android:textSize="20sp" />
+
             <Spinner
                 android:id="@+id/Minute"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="240dp"
-                android:layout_marginTop="-45dp" />
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="-45dp"
+                android:entries="@array/minute"/>
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="300dp"
+                android:layout_marginLeft="320dp"
                 android:layout_marginTop="-40dp"
                 android:text="分"
                 android:textSize="20sp" />
 
+
             <Spinner
                 android:id="@+id/BeginYear"
-                android:layout_width="85dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="30dp" />
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="30dp"
+                android:entries="@array/year"/>
 
             <TextView
                 android:layout_width="30dp"
@@ -162,60 +171,63 @@
 
             <Spinner
                 android:id="@+id/BeginMonth"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="-45dp" />
+                android:layout_marginTop="-45dp"
+                android:entries="@array/month"/>
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="210dp"
+                android:layout_marginLeft="220dp"
                 android:layout_marginTop="-40dp"
                 android:text="月"
                 android:textSize="20sp" />
+
             <Spinner
                 android:id="@+id/BeginDay"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="240dp"
+                android:layout_marginLeft="250dp"
                 android:layout_marginTop="-45dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="300dp"
+                android:layout_marginLeft="320dp"
                 android:layout_marginTop="-40dp"
                 android:text="日"
                 android:textSize="20sp" />
 
-        
             <Spinner
                 android:id="@+id/BeginHour"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:entries="@array/hour"/>
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="210dp"
+                android:layout_marginLeft="220dp"
                 android:layout_marginTop="-45dp"
                 android:text="时"
                 android:textSize="20sp" />
+
             <Spinner
                 android:id="@+id/BeginMinute"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="240dp"
-                android:layout_marginTop="-40dp" />
-
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="-40dp"
+                android:entries="@array/minute"/>
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="300dp"
+                android:layout_marginLeft="320dp"
                 android:layout_marginTop="-45dp"
                 android:text="分"
                 android:textSize="20sp" />
@@ -227,12 +239,15 @@
                 android:layout_marginTop="0dp"
                 android:text="至"
                 android:textSize="17sp" />
+
+
             <Spinner
                 android:id="@+id/EndYear"
-                android:layout_width="85dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="50dp"
-                android:layout_marginTop="-0dp" />
+                android:layout_marginLeft="35dp"
+                android:layout_marginTop="-0dp"
+                android:entries="@array/year"/>
 
             <TextView
                 android:layout_width="30dp"
@@ -244,59 +259,63 @@
 
             <Spinner
                 android:id="@+id/EndMonth"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="-45dp" />
+                android:layout_marginTop="-45dp"
+                android:entries="@array/month"/>
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="210dp"
+                android:layout_marginLeft="220dp"
                 android:layout_marginTop="-40dp"
                 android:text="月"
                 android:textSize="20sp" />
+
             <Spinner
                 android:id="@+id/EndDay"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="240dp"
+                android:layout_marginLeft="250dp"
                 android:layout_marginTop="-45dp" />
-
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="300dp"
+                android:layout_marginLeft="320dp"
                 android:layout_marginTop="-40dp"
                 android:text="日"
                 android:textSize="20sp" />
+
             <Spinner
                 android:id="@+id/EndHour"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="5dp" />
+                android:layout_marginTop="5dp"
+                android:entries="@array/hour"/>
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="210dp"
+                android:layout_marginLeft="220dp"
                 android:layout_marginTop="-40dp"
                 android:text="时"
                 android:textSize="20sp" />
+
             <Spinner
                 android:id="@+id/EndMinute"
-                android:layout_width="75dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="240dp"
-                android:layout_marginTop="-45dp" />
-
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="-45dp"
+                android:entries="@array/minute"/>
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="300dp"
+                android:layout_marginLeft="320dp"
                 android:layout_marginTop="-40dp"
                 android:text="分"
                 android:textSize="20sp" />
@@ -321,7 +340,6 @@
                 android:id="@+id/recycling"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
-                android:entries="@array/recycle_array"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="80dp"
                 android:layout_marginTop="-35dp" />
@@ -371,7 +389,7 @@
                 android:textSize="20sp" />
 
             <Button
-                android:id="@+id/place"
+                android:id = "@+id/place"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="300dp"
@@ -395,7 +413,7 @@
                 android:textSize="20sp" />
 
             <RadioGroup
-                android:id="@+id/improtance"
+                android:id = "@+id/improtance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="40dp"
@@ -557,7 +575,7 @@
                 app:srcCompat="@android:color/holo_purple" />
 
             <Button
-                android:id="@+id/save"
+                android:id = "@+id/save"
                 android:layout_width="100dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="140dp"

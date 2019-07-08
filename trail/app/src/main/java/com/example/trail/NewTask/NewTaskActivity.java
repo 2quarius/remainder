@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -67,11 +69,222 @@ public class NewTaskActivity extends Activity {
 
     public static MonthTasks monthTasks;
 
+    String theyear;
+    String themonth;
+    String theday;
+    String thehour;
+    String theminute;
+    String thebeginYear;
+    String thebeginMonth;
+    String thebeginDay;
+    String thebeginHour;
+    String thebeginMinute;
+    String theendYear;
+    String theendMonth;
+    String theendDay;
+    String theendHour;
+    String theendMinute;
+    ArrayAdapter<CharSequence> dayadapter28;
+    ArrayAdapter<CharSequence> dayadapter29;
+    ArrayAdapter<CharSequence> dayadapter30;
+    ArrayAdapter<CharSequence> dayadapter31;
+
+    private void changeDay() {
+        switch (themonth) {
+            case "1":
+            case "3":
+            case "5":
+            case "7":
+            case "8":
+            case "10":
+            case "12":
+                day.setAdapter(dayadapter31);
+                break;
+            case "2":
+                int theYear = Integer.parseInt(theyear);
+                if ((theYear%4==0&&theYear%100!=0)||theYear%400==0) {
+                    day.setAdapter(dayadapter29);
+                }
+                else{
+                    day.setAdapter(dayadapter28);
+                }
+                break;
+            default:
+                day.setAdapter(dayadapter30);
+                break;
+        }
+    }
+
+    private void changebeginDay() {
+        switch (thebeginMonth) {
+            case "1":
+            case "3":
+            case "5":
+            case "7":
+            case "8":
+            case "10":
+            case "12":
+                beginDay.setAdapter(dayadapter31);
+                break;
+            case "2":
+                int theYear = Integer.parseInt(thebeginYear);
+                if ((theYear%4==0&&theYear%100!=0)||theYear%400==0) {
+                    beginDay.setAdapter(dayadapter29);
+                }
+                else{
+                    beginDay.setAdapter(dayadapter28);
+                }
+                break;
+            default:
+                beginDay.setAdapter(dayadapter30);
+                break;
+        }
+    }
+
+    private void changeendDay() {
+        switch (theendMonth) {
+            case "1":
+            case "3":
+            case "5":
+            case "7":
+            case "8":
+            case "10":
+            case "12":
+                endDay.setAdapter(dayadapter31);
+                break;
+            case "2":
+                int theYear = Integer.parseInt(theendYear);
+                if ((theYear%4==0&&theYear%100!=0)||theYear%400==0) {
+                    endDay.setAdapter(dayadapter29);
+                }
+                else{
+                    endDay.setAdapter(dayadapter28);
+                }
+                break;
+            default:
+                endDay.setAdapter(dayadapter30);
+                break;
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.newtask);
+        dayadapter28 = ArrayAdapter.createFromResource(this, R.array.day28, android.R.layout.simple_spinner_item);
+        dayadapter28.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        dayadapter29 = ArrayAdapter.createFromResource(this, R.array.day29, android.R.layout.simple_spinner_item);
+        dayadapter29.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        dayadapter30 = ArrayAdapter.createFromResource(this, R.array.day30, android.R.layout.simple_spinner_item);
+        dayadapter30.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        dayadapter31 = ArrayAdapter.createFromResource(this, R.array.day31, android.R.layout.simple_spinner_item);
+        dayadapter31.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        year = findViewById(R.id.Year);
+        month = findViewById(R.id.Month);
+        day = findViewById(R.id.Day);
+        hour = findViewById(R.id.Hour);
+        minute = findViewById(R.id.Minute);
+        theyear = (String) year.getSelectedItem();
+        themonth = (String) month.getSelectedItem();
+        thehour = (String) hour.getSelectedItem();
+        theminute = (String) minute.getSelectedItem();
+        changeDay();
+        theday = (String) day.getSelectedItem();
+        year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                theyear = (String) year.getSelectedItem();
+                changeDay();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        month.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                themonth = (String) month.getSelectedItem();
+                changeDay();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        beginYear = findViewById(R.id.BeginYear);
+        beginMonth = findViewById(R.id.BeginMonth);
+        beginDay = findViewById(R.id.BeginDay);
+        beginHour = findViewById(R.id.BeginHour);
+        beginMinute = findViewById(R.id.BeginMinute);
+        thebeginYear = (String) beginYear.getSelectedItem();
+        thebeginMonth = (String) beginMonth.getSelectedItem();
+        thebeginHour = (String) beginHour.getSelectedItem();
+        thebeginMinute = (String) beginMinute.getSelectedItem();
+        changebeginDay();
+        thebeginDay = (String) beginDay.getSelectedItem();
+        beginYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                thebeginYear = (String) beginYear.getSelectedItem();
+                changebeginDay();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        beginMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                thebeginMonth = (String) beginMonth.getSelectedItem();
+                changebeginDay();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        endYear = findViewById(R.id.EndYear);
+        endMonth = findViewById(R.id.EndMonth);
+        endDay = findViewById(R.id.EndDay);
+        endHour = findViewById(R.id.EndHour);
+        endMinute = findViewById(R.id.EndMinute);
+        theendYear = (String) endYear.getSelectedItem();
+        theendMonth = (String) endMonth.getSelectedItem();
+        theendHour = (String) endHour.getSelectedItem();
+        theendMinute = (String) endMinute.getSelectedItem();
+        changeendDay();
+        theendDay = (String) endDay.getSelectedItem();
+        endYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                theendYear = (String) endYear.getSelectedItem();
+                changeendDay();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        endMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                theendMonth = (String) endMonth.getSelectedItem();
+                changeendDay();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         //初始化
         content=findViewById(R.id.TaskContent);
@@ -86,24 +299,6 @@ public class NewTaskActivity extends Activity {
         recycling=findViewById(R.id.recycling);
         edAdvanceTime=findViewById(R.id.AdvanceTime);
         btnPlace=findViewById(R.id.place);
-
-        year=findViewById(R.id.Year);
-        month=findViewById(R.id.Month);
-        day=findViewById(R.id.Day);
-        hour=findViewById(R.id.Hour);
-        minute=findViewById(R.id.Minute);
-
-        beginYear=findViewById(R.id.BeginYear);
-        beginMonth=findViewById(R.id.BeginMonth);
-        beginDay=findViewById(R.id.BeginDay);
-        beginHour=findViewById(R.id.BeginHour);
-        beginMinute=findViewById(R.id.BeginMinute);
-
-        endYear=findViewById(R.id.EndYear);
-        endMonth=findViewById(R.id.EndMonth);
-        endDay=findViewById(R.id.EndDay);
-        endHour=findViewById(R.id.EndHour);
-        endMinute=findViewById(R.id.EndMinute);
 
         imFirst=findViewById(R.id.first);
         imSecond=findViewById(R.id.second);
