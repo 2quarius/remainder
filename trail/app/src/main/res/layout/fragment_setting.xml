@@ -8,6 +8,7 @@
     android:layout_height="match_parent">
     <Button
         android:id="@+id/btn_accountSetting"
+        android:fontFamily="@font/raleway"
         android:text="账号设置"
         android:background="#ae004c"
         android:textSize="16sp"
@@ -16,6 +17,7 @@
         android:layout_height="50dp" />
     <Button
         android:id="@+id/btn_theme"
+        android:fontFamily="@font/raleway"
         android:text="主题"
         android:background="#ae004c"
         android:textSize="16sp"
@@ -23,6 +25,7 @@
         android:layout_height="50dp" />
     <Button
         android:id="@+id/btn_voice"
+        android:fontFamily="@font/raleway"
         android:text="声音与提醒"
         android:background="#ae004c"
         android:textSize="16sp"
@@ -30,6 +33,7 @@
         android:layout_height="50dp" />
     <Button
         android:id="@+id/btn_information"
+        android:fontFamily="@font/raleway"
         android:text="个人信息"
         android:background="#ae004c"
         android:textSize="16sp"
@@ -37,12 +41,14 @@
         android:layout_height="50dp" />
     <Button
         android:id="@+id/btn_language"
+        android:fontFamily="@font/raleway"
         android:text="语言"
         android:textSize="16sp"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
     <Button
         android:id="@+id/btn_about"
+        android:fontFamily="@font/raleway"
         android:text="关于我们"
         android:textSize="16sp"
         android:layout_width="match_parent"

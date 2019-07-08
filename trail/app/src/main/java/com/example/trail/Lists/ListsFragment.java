@@ -3,10 +3,14 @@ package com.example.trail.Lists;
 
 import android.content.Context;
 import android.content.res.Resources;
-
 import android.icu.util.RangeValueIterator;
+
+import android.graphics.Color;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,8 +18,11 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
 
 
 public class ListsFragment extends Fragment {
@@ -43,6 +51,7 @@ public class ListsFragment extends Fragment {
         setContentView(R.layout.fragment_lists);
         RecyclerView recyclerView=
     }*/
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -61,8 +70,8 @@ public class ListsFragment extends Fragment {
         recyclerViewFinished.setLayoutManager(new LinearLayoutManager(getActivity()));
         return view;
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         public TextView name;
         public TextView description;
         public int position;
@@ -71,6 +80,7 @@ public class ListsFragment extends Fragment {
             super(inflater.inflate(R.layout.fragment_lists, parent, false));
             final CheckBox checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
 //            card=(CardView) itemView.findViewById(R.id.card_view);
+
             name = (TextView) itemView.findViewById(R.id.card_title);
             description = (TextView) itemView.findViewById(R.id.card_text);
             itemView.setOnClickListener(new View.OnClickListener() {

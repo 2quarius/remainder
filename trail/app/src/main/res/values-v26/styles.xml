@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Light.Theme" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="tabStyle">@style/Widget.MaterialComponents.TabLayout.Colored</item>
+        <item name="materialCardViewStyle">@style/Widget.MyApp.MaterialCardView</item>
+        <item name="checkedTextViewStyle">@style/Widget.MyApp.TextField</item>
+        <item name="buttonStyle">@style/Widget.MyApp.Button</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:font">@font/raleway</item>
+        <!--<item name="android:typeface">@font/raleway</item>-->
+    </style>
+</resources>
