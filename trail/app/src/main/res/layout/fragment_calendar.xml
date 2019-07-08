@@ -24,6 +24,7 @@
 
             <TextView
                 android:id="@+id/tv_month_day"
+                android:fontFamily="@font/raleway"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -46,6 +47,7 @@
 
                 <TextView
                     android:id="@+id/tv_year"
+                    android:fontFamily="@font/raleway"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -55,6 +57,7 @@
 
                 <TextView
                     android:id="@+id/tv_lunar"
+                    android:fontFamily="@font/raleway"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -84,6 +87,7 @@
 
                 <TextView
                     android:id="@+id/tv_current_day"
+                    android:fontFamily="@font/raleway"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

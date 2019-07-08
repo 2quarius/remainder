@@ -12,7 +12,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:font">@font/raleway</item>
+        <item name="android:fontFamily" tools:ignore="NewApi">@font/raleway</item>
+        <item name="android:font" tools:ignore="NewApi">@font/raleway</item>
         <!--<item name="android:typeface">@font/raleway</item>-->
     </style>
     <style name="Widget.MyApp.MaterialCardView" parent="Theme.MaterialComponents.Light">

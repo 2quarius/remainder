@@ -3,9 +3,11 @@ package com.example.trail.Calendar;
 import android.content.Context;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.View;
 
+import com.example.trail.R;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.MonthView;
 
@@ -55,24 +57,19 @@ public class ColorfulMonthView extends MonthView {
         int rightBottomx = x + mItemWidth;
         int rightBottomy = y + mItemHeight;
         Rect rect = new Rect(rightBottomx-mMargin-mWidth,rightBottomy-mMargin-mHeight,rightBottomx-mMargin,rightBottomy-mMargin);
-//        int cx = x + mItemWidth / 2;
-//        int cy = y + mItemHeight / 2;
         canvas.drawRect(rect,mSchemePaint);
-//        System.out.println(rect.left);
-//        System.out.println(rect.centerX());
-//        canvas.drawRect(x,y,x+100,y+100,mSchemePaint);
-//        canvas.drawCircle(cx, cy, mRadius, mSchemePaint);
-//        System.out.println(mSchemePaint);
     }
 
     @Override
     protected void onDrawText(Canvas canvas, Calendar calendar, int x, int y, boolean hasScheme, boolean isSelected) {
         int cx = x + mItemWidth / 2;
         int top = y - mItemHeight / 8;
-        canvas.drawLine(x,y,x,y+mItemHeight,mOtherMonthTextPaint);
-        canvas.drawLine(x,y,x+mItemWidth,y,mOtherMonthTextPaint);
-//        canvas.drawLine(x+mItemWidth,y,x+mItemWidth,y+mItemHeight,mOtherMonthTextPaint);
-//        canvas.drawLine(x,y+mItemHeight,x+mItemWidth,y+mItemHeight,mOtherMonthTextPaint);
+        Paint paint = new Paint();
+        paint.setColor(getResources().getColor(R.color.divider));
+        canvas.drawLine(x,y,x,y+mItemHeight,paint);
+        canvas.drawLine(x, y,x+mItemWidth,y,paint);
+        canvas.drawLine(x+mItemWidth,y,x+mItemWidth,y+mItemHeight,paint);
+        canvas.drawLine(x,y+mItemHeight,x+mItemWidth,y+mItemHeight,paint);
         if (isSelected) {
             canvas.drawText(String.valueOf(calendar.getDay()), cx, mTextBaseLine + top,
                     calendar.isCurrentDay() ? mCurDayTextPaint : mSelectTextPaint);
