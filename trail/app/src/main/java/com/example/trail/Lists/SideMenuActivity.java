@@ -1,13 +1,16 @@
 package com.example.trail.Lists;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.trail.MainActivity;
@@ -28,33 +31,55 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (mPreMenuItem != null){
-            return false;
-        }
         switch (item.getItemId()){
             case R.id.nav_item_today:
             {
                 System.out.println("show today's lists");
+                item.setChecked(true);
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             }
             case R.id.nav_item_collection:
             {
                 System.out.println("show collection's lists");
+                item.setChecked(true);
                 startActivity(new Intent(this, MainActivity.class));
                 break;
             }
             case R.id.nav_item_add:
             {
                 System.out.println("add list file");
-                mDrawerLayout.closeDrawers();
+                item.setChecked(true);
+                showDialog();
                 break;
             }
             default:
                 break;
         }
-        item.setChecked(true);
         mPreMenuItem = item;
         return false;
+    }
+    private void showDialog(){
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        final View view = LayoutInflater.from(this).inflate(R.layout.add_list_dialog,null);
+        dialog.setTitle("添加清单");
+        dialog.setView(view);
+        dialog.setPositiveButton("添加", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                EditText text = view.findViewById(R.id.editText);
+                System.out.println(text.getText());
+                mPreMenuItem.setChecked(false);
+
+            }
+        });
+        dialog.setNeutralButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+                mPreMenuItem.setChecked(false);
+            }
+        });
+        dialog.show();
     }
 }

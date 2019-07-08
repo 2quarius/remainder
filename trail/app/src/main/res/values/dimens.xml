@@ -10,4 +10,6 @@
     <dimen name="padding">20dp</dimen>
     <dimen name="avatar">100dp</dimen>
     <dimen name="icon">40dp</dimen>
+    <dimen name="dialog_width">300dp</dimen>
+    <dimen name="dialog_height">420dp</dimen>
 </resources>
