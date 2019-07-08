@@ -101,7 +101,7 @@ public class CalendarFragment extends Fragment{
      */
     public static class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
         // Set numbers of Card in RecyclerView.
-        private final int LENGTH=1;
+        private final int LENGTH=2;
 
         private Calendar getSchemeCalendar(int year, int month, int day, int color, String text) {
             Calendar calendar = new Calendar();
@@ -125,8 +125,6 @@ public class CalendarFragment extends Fragment{
         public void onBindViewHolder(ViewHolder holder, int position) {
             int year = holder.calendar.getCurYear();
             int month = holder.calendar.getCurMonth();
-
-
             Map<String, Calendar> map = new HashMap<>();
             map.put(getSchemeCalendar(year, month, 3, 0xFF40db25, "20").toString(),
                     getSchemeCalendar(year, month, 3, 0xFF40db25, "20"));
@@ -148,10 +146,20 @@ public class CalendarFragment extends Fragment{
                     getSchemeCalendar(year, month, 27, 0xFF13acf0, "95"));
             //此方法在巨大的数据量上不影响遍历性能，推荐使用
             holder.calendar.setSchemeDate(map);
-            holder.year.setText(String.valueOf(holder.calendar.getCurYear()));
-            holder.monthDay.setText(holder.calendar.getCurMonth() + "月" + holder.calendar.getCurDay() + "日");
-            holder.lunar.setText("今日");
-            holder.currentDay.setText(String.valueOf(holder.calendar.getCurDay()));
+            switch (position%2){
+                case 0:
+                    holder.year.setText(String.valueOf(holder.calendar.getCurYear()));
+                    holder.monthDay.setText(holder.calendar.getCurMonth() + "月" + holder.calendar.getCurDay() + "日");
+                    holder.lunar.setText("今日");
+                    holder.currentDay.setText(String.valueOf(holder.calendar.getCurDay()));
+                    break;
+                case 1:
+                    holder.year.setText(String.valueOf(holder.calendar.getCurYear()));
+                    holder.monthDay.setText(holder.calendar.getCurMonth()+1 + "月" );
+                    holder.lunar.setText("");
+                    holder.currentDay.setText(String.valueOf(holder.calendar.getCurDay()));
+            }
+
         }
 
         @Override
@@ -159,4 +167,5 @@ public class CalendarFragment extends Fragment{
             return LENGTH;
         }
     }
+
 }

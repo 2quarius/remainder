@@ -22,6 +22,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Light.Theme">
+        <activity android:name=".NewTask.NewTaskActivity"/>
+        <activity android:name=".Setting.AboutActivity"></activity>
+        <activity android:name=".Setting.InformationActivity" />
+        <activity android:name=".Setting.LanguageActivity" />
+        <activity android:name=".Setting.VoiceActivity" />
+        <activity android:name=".Setting.ThemeActivity" />
+        <activity android:name=".Setting.AccountActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,9 +36,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAiJAh9Vku6yQ0xmH4_ARlVnS-fWspQGQ8"/>

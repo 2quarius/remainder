@@ -10,7 +10,7 @@
     android:outlineSpotShadowColor="@color/colorPrimary"
     android:padding="5dp"
     android:elevation="50dp"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center">
     <LinearLayout
         android:orientation="vertical"

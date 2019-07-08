@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/btn_accountSetting"
+        android:text="账号设置"
+        android:background="#ae004c"
+        android:textSize="16sp"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <Button
+        android:id="@+id/btn_theme"
+        android:text="主题"
+        android:background="#ae004c"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <Button
+        android:id="@+id/btn_voice"
+        android:text="声音与提醒"
+        android:background="#ae004c"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <Button
+        android:id="@+id/btn_information"
+        android:text="个人信息"
+        android:background="#ae004c"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <Button
+        android:id="@+id/btn_language"
+        android:text="语言"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <Button
+        android:id="@+id/btn_about"
+        android:text="关于我们"
+        android:textSize="16sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+</LinearLayout>
