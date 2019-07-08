@@ -7,7 +7,17 @@
         <item>Senso-ji</item>
         <item>Sultan Ahmed Mosque</item>
         <item>Table Mountain</item>
+        <item>china</item>
+        <item>chongqing Mountain</item>
     </string-array>
+    <!--<boolean-array name="finish">-->
+        <!--<item>0</item>-->
+        <!--<item>0</item>-->
+        <!--<item>0</item>-->
+        <!--<item>0</item>-->
+        <!--<item>0</item>-->
+        <!--<item>0</item>-->
+    <!--</boolean-array>-->
     <string-array name="place_desc">
         <item>The Palais Garnier which locates in Paris was built from 1861 for
         the Paris Opera.
@@ -15,6 +25,8 @@
         <item>Piazza del Duomo the cathedral which locates in Florence.</item>
         <item>Manhattan is the district in New York City</item>
         <item>Senso-ji is the Shrine locates in Asakusa Tokyo</item>
+        <item>Sultan Ahmed Mosque is mosque locates in Istabul, Turkey</item>
+        <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
         <item>Sultan Ahmed Mosque is mosque locates in Istabul, Turkey</item>
         <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
     </string-array>
