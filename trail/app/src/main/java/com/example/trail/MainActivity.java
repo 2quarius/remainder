@@ -10,19 +10,24 @@ import androidx.viewpager.widget.ViewPager;
 import android.os.Build;
 import android.os.Bundle;
 
-
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Map.MapFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity {
 
+<<<<<<< Updated upstream
+=======
+    private FloatingActionButton fabAddTask;
+>>>>>>> Stashed changes
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +39,18 @@ public class MainActivity extends AppCompatActivity {
         // Set Tabs inside Toolbar
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        //Set FloatingActonButton action
+        fabAddTask=findViewById(R.id.fab_addTask);
+        fabAddTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(MainActivity.this,NewTaskActivity.class);
+                startActivity(intent);
+            }
+
+        });
+        fabAddTask.setImageDrawable(getResources().getDrawable(R.drawable.add));
+
     }
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
