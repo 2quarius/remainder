@@ -12,54 +12,51 @@
     android:elevation="50dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center">
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <CheckBox
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="5dp"
-            android:id="@+id/checkBox"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:outlineSpotShadowColor="@color/colorPrimaryDark"
-            android:padding="10dp"
-            android:text="CheckBox" />
-
-        <RelativeLayout
-            android:layout_width="370dp"
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <CheckBox
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:id="@+id/checkBox"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:outlineSpotShadowColor="@color/colorPrimaryDark"
+                android:padding="10dp"
+                android:text="CheckBox" />
 
-            <TextView
-                android:id="@+id/card_title"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/card_title_height"
-                android:layout_alignBottom="@+id/card_image"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textColor="@color/colorPrimary"
-                tools:ignore="UnknownId"
-                tools:text="@string/item_title" />
+            <RelativeLayout
+                android:layout_width="370dp"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/card_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/card_title"
-                android:layout_marginLeft="@dimen/md_keylines"
-                android:layout_marginTop="@dimen/md_keylines"
-                android:layout_marginRight="@dimen/md_keylines"
-                android:layout_marginBottom="@dimen/md_keylines"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/article_subheading"
-                tools:ignore="UnknownId"
-                tools:text="@string/item_desc" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/card_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/card_title_height"
+                    android:layout_alignBottom="@+id/card_image"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:textColor="@color/colorPrimary"
+                    tools:ignore="UnknownId"
+                    tools:text="@string/item_title" />
 
-    </LinearLayout>
-
+                <TextView
+                    android:id="@+id/card_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/card_title"
+                    android:layout_marginLeft="@dimen/md_keylines"
+                    android:layout_marginTop="@dimen/md_keylines"
+                    android:layout_marginRight="@dimen/md_keylines"
+                    android:layout_marginBottom="@dimen/md_keylines"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/article_subheading"
+                    tools:ignore="UnknownId"
+                    tools:text="@string/item_desc" />
+            </RelativeLayout>
+        </LinearLayout>
 </androidx.cardview.widget.CardView>
