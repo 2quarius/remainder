@@ -7,10 +7,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.trail.Calendar.CalendarFragment;
+import com.example.trail.EventsObject.Event;
+import com.example.trail.EventsObject.MonthEvent;
+import com.example.trail.NewTask.NewTaskActivity;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Map.MapFragment;
@@ -23,11 +28,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
-
-<<<<<<< Updated upstream
-=======
     private FloatingActionButton fabAddTask;
->>>>>>> Stashed changes
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         fabAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(MainActivity.this,NewTaskActivity.class);
+                Intent intent =new Intent(MainActivity.this, NewTaskActivity.class);
                 startActivity(intent);
             }
 
