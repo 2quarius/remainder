@@ -97,6 +97,7 @@
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
+                android:layout_marginLeft="190dp"
                 android:layout_marginLeft="210dp"
                 android:layout_marginTop="-40dp"
                 android:text="月"
@@ -112,11 +113,11 @@
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
+                android:layout_marginLeft="260dp"
                 android:layout_marginLeft="300dp"
                 android:layout_marginTop="-40dp"
                 android:text="日"
                 android:textSize="20sp" />
-
             <Spinner
                 android:id="@+id/Hour"
                 android:layout_width="75dp"
@@ -127,11 +128,11 @@
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
+                android:layout_marginLeft="190dp"
                 android:layout_marginLeft="210dp"
                 android:layout_marginTop="-40dp"
                 android:text="时"
                 android:textSize="20sp" />
-
             <Spinner
                 android:id="@+id/Minute"
                 android:layout_width="75dp"
@@ -142,11 +143,11 @@
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
+                android:layout_marginLeft="270dp"
                 android:layout_marginLeft="300dp"
                 android:layout_marginTop="-40dp"
                 android:text="分"
                 android:textSize="20sp" />
-
 
             <Spinner
                 android:id="@+id/BeginYear"
@@ -177,7 +178,6 @@
                 android:layout_marginTop="-40dp"
                 android:text="月"
                 android:textSize="20sp" />
-
             <Spinner
                 android:id="@+id/BeginDay"
                 android:layout_width="75dp"
@@ -193,6 +193,7 @@
                 android:text="日"
                 android:textSize="20sp" />
 
+        
             <Spinner
                 android:id="@+id/BeginHour"
                 android:layout_width="75dp"
@@ -207,13 +208,13 @@
                 android:layout_marginTop="-45dp"
                 android:text="时"
                 android:textSize="20sp" />
-
             <Spinner
                 android:id="@+id/BeginMinute"
                 android:layout_width="75dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="240dp"
                 android:layout_marginTop="-40dp" />
+
 
             <TextView
                 android:layout_width="30dp"
@@ -230,8 +231,6 @@
                 android:layout_marginTop="0dp"
                 android:text="至"
                 android:textSize="17sp" />
-
-
             <Spinner
                 android:id="@+id/EndYear"
                 android:layout_width="85dp"
@@ -261,13 +260,13 @@
                 android:layout_marginTop="-40dp"
                 android:text="月"
                 android:textSize="20sp" />
-
             <Spinner
                 android:id="@+id/EndDay"
                 android:layout_width="75dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="240dp"
                 android:layout_marginTop="-45dp" />
+
 
             <TextView
                 android:layout_width="30dp"
@@ -276,7 +275,6 @@
                 android:layout_marginTop="-40dp"
                 android:text="日"
                 android:textSize="20sp" />
-
             <Spinner
                 android:id="@+id/EndHour"
                 android:layout_width="75dp"
@@ -291,13 +289,13 @@
                 android:layout_marginTop="-40dp"
                 android:text="时"
                 android:textSize="20sp" />
-
             <Spinner
                 android:id="@+id/EndMinute"
                 android:layout_width="75dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="240dp"
                 android:layout_marginTop="-45dp" />
+
 
             <TextView
                 android:layout_width="30dp"
