@@ -17,8 +17,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+
+import android.view.LayoutInflater;
+import android.widget.TextView;
 import android.view.View;
 import android.widget.Button;
+
 
 
 import com.example.trail.Calendar.CalendarFragment;
@@ -39,22 +43,35 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
     private boolean misScrolled;
     private ViewPager mViewPager;
+    private TabLayout tabs;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // Setting ViewPager for each Tabs
+
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(this);
         // Set Tabs inside Toolbar
-        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(mViewPager);
+        createTabIcons();
+
     }
+    private void createTabIcons() {
+        tabs.getTabAt(0).setIcon(R.drawable.checklist);
+        tabs.getTabAt(1).setIcon(R.drawable.calendar);
+        tabs.getTabAt(2).setIcon(R.drawable.map);
+        tabs.getTabAt(3).setIcon(R.drawable.settings);
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ListsFragment(), "lists");
@@ -95,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
+
+
         public Adapter(FragmentManager manager) {
             super(manager);
         }
