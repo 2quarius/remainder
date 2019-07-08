@@ -22,8 +22,6 @@ import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.NewTask.NewTaskActivity;
 import com.example.trail.EventsObject.Event;
 import com.example.trail.EventsObject.MonthEvent;
-import com.example.trail.NewTask.NewTaskActivity;
-import com.example.trail.NewTask.task.MonthTasks;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Map.MapFragment;
@@ -38,8 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private FloatingActionButton fabAddTask;
-    private MonthTasks monthTasks;
     private TabLayout tabs;
     private ViewPager viewPager;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -54,19 +50,6 @@ public class MainActivity extends AppCompatActivity {
         // Set Tabs inside Toolbar
         tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-
-        //初始化monthTasks用来存储数据
-        monthTasks=new MonthTasks();
-
-        //Set FloatingActonButton action
-        fabAddTask=findViewById(R.id.fab_addTask);
-        fabAddTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(MainActivity.this, NewTaskActivity.class);
-                NewTaskActivity.monthTasks=monthTasks;
-                startActivity(intent);
-            }
         createTabIcons();
 //        ActionBar supportActionBar = getSupportActionBar();
 //        if (supportActionBar != null) {
@@ -83,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
         tabs.getTabAt(1).setIcon(R.drawable.calendar);
 //        tabs.getTabAt(2).setIcon(R.drawable.map);
 //        tabs.getTabAt(3).setIcon(R.drawable.settings);
-
 
     }
 
