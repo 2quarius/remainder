@@ -20,7 +20,9 @@ import com.example.trail.R;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class CalendarFragment extends Fragment{
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

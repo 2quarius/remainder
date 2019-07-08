@@ -14,6 +14,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.view.LayoutInflater;
+import android.widget.TextView;
 
 
 import com.example.trail.Calendar.CalendarFragment;
@@ -34,29 +36,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private TabLayout tabs;
+    private ViewPager viewPager;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         // Setting ViewPager for each Tabs
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
         // Set Tabs inside Toolbar
-        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        createTabIcons();
+//        ActionBar supportActionBar = getSupportActionBar();
+//        if (supportActionBar != null) {
+//            VectorDrawableCompat indicator
+//                    = VectorDrawableCompat.create(getResources(), R.drawable.checklist, getTheme());
+//            indicator.setTint(ResourcesCompat.getColor(getResources(),R.color.colorAccent,getTheme()));
+//            supportActionBar.setHomeAsUpIndicator(indicator);
+//            supportActionBar.setDisplayHomeAsUpEnabled(true);
+//        }
     }
+    private void createTabIcons() {
+        tabs.getTabAt(0).setIcon(R.drawable.checklist);
+
+        tabs.getTabAt(1).setIcon(R.drawable.calendar);
+//        tabs.getTabAt(2).setIcon(R.drawable.map);
+//        tabs.getTabAt(3).setIcon(R.drawable.settings);
+
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ListsFragment(), "lists");
         adapter.addFragment(new CalendarFragment(),"time");
         adapter.addFragment(new MapFragment(),"space");
         adapter.addFragment(new SettingFragmnet(),"settings");
+        adapter.addFragment(new ListsFragment(), "LISTS");
+        adapter.addFragment(new CalendarFragment(),"TIME");
+//        adapter.addFragment(new MapFragment(),"SPACE");
         viewPager.setAdapter(adapter);
     }
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
+        //private List<Drawable> icons;
 
         public Adapter(FragmentManager manager) {
             super(manager);
