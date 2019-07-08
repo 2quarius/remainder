@@ -72,17 +72,12 @@
                     android:textSize="15sp" />
             </RadioGroup>
 
-            <EditText
+            <Spinner
                 android:id="@+id/Year"
-                android:layout_width="100dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="-370dp"
-                android:background="@null"
-                android:hint="2019"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginTop="-370dp" />
 
             <TextView
                 android:layout_width="30dp"
@@ -92,98 +87,73 @@
                 android:text="年"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/Month"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="-45dp"
-                android:background="@null"
-                android:hint="10"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginTop="-45dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="190dp"
+                android:layout_marginLeft="210dp"
                 android:layout_marginTop="-40dp"
                 android:text="月"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/Day"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="-45dp"
-                android:background="@null"
-                android:hint="30"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="-45dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="260dp"
+                android:layout_marginLeft="300dp"
                 android:layout_marginTop="-40dp"
                 android:text="日"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/Hour"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="5dp"
-                android:background="@null"
-                android:hint="22"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="190dp"
+                android:layout_marginLeft="210dp"
                 android:layout_marginTop="-40dp"
                 android:text="时"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/Minute"
-                android:layout_width="90dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="-45dp"
-                android:background="@null"
-                android:hint="33"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="-45dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="270dp"
+                android:layout_marginLeft="300dp"
                 android:layout_marginTop="-40dp"
                 android:text="分"
                 android:textSize="20sp" />
 
 
-            <EditText
+            <Spinner
                 android:id="@+id/BeginYear"
-                android:layout_width="100dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="30dp"
-                android:background="@null"
-                android:hint="2019"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginTop="30dp" />
 
             <TextView
                 android:layout_width="30dp"
@@ -193,82 +163,62 @@
                 android:text="年"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/BeginMonth"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="-45dp"
-                android:background="@null"
-                android:hint="10"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginTop="-45dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="190dp"
+                android:layout_marginLeft="210dp"
                 android:layout_marginTop="-40dp"
                 android:text="月"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/BeginDay"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="-45dp"
-                android:background="@null"
-                android:hint="30"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="-45dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="260dp"
+                android:layout_marginLeft="300dp"
                 android:layout_marginTop="-40dp"
                 android:text="日"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/BeginHour"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="5dp"
-                android:background="@null"
-                android:hint="22"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="190dp"
+                android:layout_marginLeft="210dp"
                 android:layout_marginTop="-45dp"
                 android:text="时"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/BeginMinute"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="-40dp"
-                android:background="@null"
-                android:hint="33"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="-40dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="260dp"
+                android:layout_marginLeft="300dp"
                 android:layout_marginTop="-45dp"
                 android:text="分"
                 android:textSize="20sp" />
@@ -282,17 +232,12 @@
                 android:textSize="17sp" />
 
 
-            <EditText
+            <Spinner
                 android:id="@+id/EndYear"
-                android:layout_width="100dp"
+                android:layout_width="85dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginTop="-0dp"
-                android:background="@null"
-                android:hint="2019"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginTop="-0dp" />
 
             <TextView
                 android:layout_width="30dp"
@@ -302,82 +247,62 @@
                 android:text="年"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/EndMonth"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="-45dp"
-                android:background="@null"
-                android:hint="10"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginTop="-45dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="190dp"
+                android:layout_marginLeft="210dp"
                 android:layout_marginTop="-40dp"
                 android:text="月"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/EndDay"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="-45dp"
-                android:background="@null"
-                android:hint="30"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="-45dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="260dp"
+                android:layout_marginLeft="300dp"
                 android:layout_marginTop="-40dp"
                 android:text="日"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/EndHour"
-                android:layout_width="70dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="150dp"
-                android:layout_marginTop="5dp"
-                android:background="@null"
-                android:hint="22"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="190dp"
+                android:layout_marginLeft="210dp"
                 android:layout_marginTop="-40dp"
                 android:text="时"
                 android:textSize="20sp" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/EndMinute"
-                android:layout_width="90dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="220dp"
-                android:layout_marginTop="-45dp"
-                android:background="@null"
-                android:hint="33"
-                android:inputType="number"
-                android:paddingLeft="2dp"
-                android:textSize="20sp" />
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="-45dp" />
 
             <TextView
                 android:layout_width="30dp"
                 android:layout_height="35dp"
-                android:layout_marginLeft="270dp"
+                android:layout_marginLeft="300dp"
                 android:layout_marginTop="-40dp"
                 android:text="分"
                 android:textSize="20sp" />
@@ -578,7 +503,33 @@
                 android:layout_marginTop="20dp"
                 app:srcCompat="@android:color/holo_purple" />
 
+            <TextView
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:text="标题："
+                android:textSize="20sp" />
 
+            <EditText
+                android:id="@+id/TaskTital"
+                android:layout_width="270dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="-36dp"
+                android:background="@null"
+                android:hint="请输入事项标题"
+                android:paddingLeft="2dp"
+                android:textSize="20sp"
+                android:gravity="top"/>
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="match_parent"
+                android:layout_height="5px"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                app:srcCompat="@android:color/holo_purple" />
 
             <TextView
                 android:layout_width="70dp"
@@ -601,7 +552,7 @@
                 android:gravity="top"/>
 
             <ImageView
-                android:id="@+id/imageView8"
+                android:id="@+id/imageView9"
                 android:layout_width="match_parent"
                 android:layout_height="5px"
                 android:layout_marginLeft="20dp"
