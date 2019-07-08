@@ -7,6 +7,10 @@
         <item>Senso-ji</item>
         <item>Sultan Ahmed Mosque</item>
         <item>Table Mountain</item>
+        <item>chongqing</item>
+        <item>shanghai</item>
+        <item>sjtu</item>
+        <item>dong 16</item>
     </string-array>
     <string-array name="place_desc">
         <item>The Palais Garnier which locates in Paris was built from 1861 for
@@ -17,6 +21,10 @@
         <item>Senso-ji is the Shrine locates in Asakusa Tokyo</item>
         <item>Sultan Ahmed Mosque is mosque locates in Istabul, Turkey</item>
         <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
+        <item>kai xian</item>
+        <item>min hang</item>
+        <item>dong 16</item>
+        <item>526</item>
     </string-array>
     <string-array name="languange">
         <item>中文</item>
