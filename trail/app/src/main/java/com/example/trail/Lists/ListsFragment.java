@@ -117,12 +117,14 @@ public class ListsFragment extends Fragment {
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public ContentAdapter(Context context) {
+            titles.clear();
             titles.add("Palais Garnie");
             titles.add("Piazza del Duomo");
             titles.add("Manhattan");
             titles.add("Senso");
             titles.add("Sultan");
             titles.add("china");
+            descriptions.clear();
             descriptions.add("The Palais Garnier which locates in Paris was built from 1861 for\n" +
                     "        the Paris Opera");
             descriptions.add("Piazza del Duomo the cathedral which locates in Florence.");
@@ -130,6 +132,7 @@ public class ListsFragment extends Fragment {
             descriptions.add("Senso-ji is the Shrine locates in Asakusa Toky");
             descriptions.add("Sultan Ahmed Mosque is mosque locates in Istabul, Turkey");
             descriptions.add("Senso-ji is the Shrine locates in Asakusa Toky");
+            finished.clear();
             finished.add("false");
             finished.add("false");
             finished.add("false");
