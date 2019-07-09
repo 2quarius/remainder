@@ -28,6 +28,7 @@ import android.widget.Button;
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.NewTask.NewTaskActivity;
 import com.example.trail.Lists.SideMenuActivity;
+import com.example.trail.NewTask.task.MonthTasks;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Map.MapFragment;
@@ -47,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private boolean misScrolled;
     private ViewPager mViewPager;
     private TabLayout tabs;
+    private FloatingActionButton fab;
+    private MonthTasks monthTasks;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,16 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(mViewPager);
         createTabIcons();
+        //跳转button的动作
+        fab=findViewById(R.id.fab_addTask);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,NewTaskActivity.class);
+                NewTaskActivity.monthTasks=monthTasks;
+                startActivity(intent);
+            }
+        });
 
     }
     private void createTabIcons() {

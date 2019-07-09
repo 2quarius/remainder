@@ -1,6 +1,6 @@
 package com.example.trail.NewTask.task;
 
-import com.example.trail.NewTask.Task;
+import com.example.trail.NewTask.task.Task;
 
 import java.util.ArrayList;
 import java.util.List;

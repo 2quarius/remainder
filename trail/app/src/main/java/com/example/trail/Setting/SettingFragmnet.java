@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.trail.MainActivity;
 import com.example.trail.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SettingFragmnet extends Fragment {
     private Button btnAccountSet;
@@ -22,10 +23,13 @@ public class SettingFragmnet extends Fragment {
     private Button btnVoice;
     private Button btnAbout;
     private SettingFragmnet settingFragmnet;
+    private FloatingActionButton fab;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_setting,container,false);
+        fab=getActivity().findViewById(R.id.fab_addTask);
+        fab.setVisibility(View.INVISIBLE);
         return view;
     }
 
@@ -87,5 +91,12 @@ public class SettingFragmnet extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        fab=getActivity().findViewById(R.id.fab_addTask);
+        fab.setVisibility(View.VISIBLE);
     }
 }

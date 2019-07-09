@@ -1,4 +1,4 @@
-package com.example.trail.NewTask;
+package com.example.trail.NewTask.task;
 
 import com.example.trail.NewTask.task.Time;
 
