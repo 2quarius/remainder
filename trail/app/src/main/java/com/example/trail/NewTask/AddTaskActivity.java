@@ -13,9 +13,11 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +39,7 @@ public class AddTaskActivity extends AppCompatActivity implements
     private LinearLayout mRemindDateLayout;
     private EditText mDateEditText;
     private EditText mTimeEditText;
+    private Spinner mRepeatType;
     private TextView mDateTimeReminderTextView;
     private void hideKeyboard(EditText et)
     {
@@ -54,6 +57,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         mRemindDateLayout = (LinearLayout) findViewById(R.id.remind_date_layout);
         mDateEditText = (EditText) findViewById(R.id.remind_date);
         mTimeEditText = (EditText) findViewById(R.id.remind_time);
+        mRepeatType = (Spinner) findViewById(R.id.repeat_type);
         mDateTimeReminderTextView = (TextView) findViewById(R.id.date_time_reminder_tv);
 
         mTitleEditText.requestFocus();
@@ -120,6 +124,7 @@ public class AddTaskActivity extends AppCompatActivity implements
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month, day);
+                datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
                 datePickerDialog.show(getFragmentManager(),"DateFragment");
             }
         });
@@ -136,6 +141,7 @@ public class AddTaskActivity extends AppCompatActivity implements
                 int minute = calendar.get(Calendar.MINUTE);
 
                 TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(AddTaskActivity.this, hour, minute, DateFormat.is24HourFormat(getApplicationContext()));
+                timePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
                 timePickerDialog.show(getFragmentManager(), "TimeFragment");
             }
         });
@@ -185,6 +191,7 @@ public class AddTaskActivity extends AppCompatActivity implements
             }
             cal.set(Calendar.MINUTE, 0);
             task.setRemindTime(cal.getTime());
+            mDateEditText.setText(task.getRemindTime().toString().substring(0,11));
             Log.d("OskarSchindler", "Imagined Date: " + task.getRemindTime());
             String timeString;
             if (time24) {

@@ -21,9 +21,9 @@ public class Task {
     private Date expireTime;
 
     private Date remindTime;
-    private String remindCycle;
+    private RemindCycle remindCycle;
 
-    private Integer priority;
+    private Priority priority;
 
     private Location location;
 

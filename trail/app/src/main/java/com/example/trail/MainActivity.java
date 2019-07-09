@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this, NewTaskActivity.class);
-                NewTaskActivity.monthTasks=monthTasks;
+                Intent intent=new Intent(MainActivity.this, AddTaskActivity.class);
+//                NewTaskActivity.monthTasks=monthTasks;
                 startActivity(intent);
             }
         });
