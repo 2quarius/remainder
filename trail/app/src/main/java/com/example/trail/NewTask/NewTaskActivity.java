@@ -290,7 +290,7 @@ public class NewTaskActivity extends Activity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final com.example.trail.NewTask.Task task=new com.example.trail.NewTask.Task();
+                final Task task=new Task();
                 task.setContent(content.toString());
                 task.setTital(content.toString());
                 task.setDone(0);
