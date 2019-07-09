@@ -2,7 +2,6 @@ package com.example.trail;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -11,21 +10,13 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.View;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-
-import android.view.LayoutInflater;
-import android.widget.TextView;
-import android.view.View;
-import android.widget.Button;
-
 
 
 import com.example.trail.Calendar.CalendarFragment;
+import com.example.trail.NewTask.AddTaskActivity;
+import com.example.trail.Utility.TabConstants;
 import com.example.trail.NewTask.NewTaskActivity;
 import com.example.trail.Lists.SideMenuActivity;
 import com.example.trail.NewTask.task.MonthTasks;
@@ -70,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,NewTaskActivity.class);
+                Intent intent=new Intent(MainActivity.this, NewTaskActivity.class);
                 NewTaskActivity.monthTasks=monthTasks;
                 startActivity(intent);
             }
@@ -78,18 +69,19 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     }
     private void createTabIcons() {
-        tabs.getTabAt(0).setIcon(R.drawable.checklist);
-        tabs.getTabAt(1).setIcon(R.drawable.calendar);
-        tabs.getTabAt(2).setIcon(R.drawable.map);
-        tabs.getTabAt(3).setIcon(R.drawable.settings);
+        tabs.getTabAt(TabConstants.LISTS.getIndex()).setIcon(R.drawable.checklist);
+        tabs.getTabAt(TabConstants.TIME.getIndex()).setIcon(R.drawable.calendar);
+        tabs.getTabAt(TabConstants.SPACE.getIndex()).setIcon(R.drawable.map);
+        tabs.getTabAt(TabConstants.SETTING.getIndex()).setIcon(R.drawable.settings);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ListsFragment(), "lists");
-        adapter.addFragment(new CalendarFragment(),"time");
-        adapter.addFragment(new MapFragment(),"space");
-        adapter.addFragment(new SettingFragmnet(),"settings");
+//        adapter.addFragment(new ListsFragment(), "lists");
+        adapter.addFragment(new ListsFragment(), TabConstants.LISTS.getTitle());
+        adapter.addFragment(new CalendarFragment(),TabConstants.TIME.getTitle());
+        adapter.addFragment(new MapFragment(),TabConstants.SPACE.getTitle());
+        adapter.addFragment(new SettingFragmnet(),TabConstants.SETTING.getTitle());
         viewPager.setAdapter(adapter);
     }
 

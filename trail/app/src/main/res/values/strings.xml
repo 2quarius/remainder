@@ -14,4 +14,11 @@
     <string name="nav_collection">收集箱</string>
     <string name="add_list_file">添加清单夹</string>
     <string name="avatar">avatar</string>
+
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="remind_me">Remind Me</string>
+    <string name="remind_date_and_time">Reminder set for %1$s, %2$s %3$s</string>
+    <string name="date_error_check_again">the remind date is ahead of today</string>
+    <string name="date_reminder_default">today</string>
 </resources>
