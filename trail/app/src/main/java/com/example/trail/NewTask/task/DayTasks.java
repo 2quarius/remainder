@@ -1,5 +1,7 @@
 package com.example.trail.NewTask.task;
 
+import com.example.trail.NewTask.Task;
+
 import java.util.Vector;
 
 import lombok.Data;

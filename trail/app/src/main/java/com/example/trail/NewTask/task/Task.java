@@ -1,4 +1,6 @@
-package com.example.trail.NewTask.task;
+package com.example.trail.NewTask;
+
+import com.example.trail.NewTask.task.Time;
 
 import lombok.Data;
 

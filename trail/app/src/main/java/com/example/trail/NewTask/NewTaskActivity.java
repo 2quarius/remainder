@@ -1,7 +1,6 @@
 package com.example.trail.NewTask;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,9 +14,7 @@ import android.widget.Spinner;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.trail.NewTask.task.DayTasks;
 import com.example.trail.NewTask.task.MonthTasks;
-import com.example.trail.NewTask.task.Task;
 import com.example.trail.NewTask.task.Time;
 import com.example.trail.R;
 
