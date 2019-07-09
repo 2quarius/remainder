@@ -3,6 +3,10 @@ package com.example.trail.NewTask.task;
 import java.util.Vector;
 
 import lombok.Data;
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 @Data
 public class DayTasks {
     public Vector<Task> tasks;

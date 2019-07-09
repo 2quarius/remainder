@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+<<<<<<< Updated upstream
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -21,6 +22,12 @@ import com.example.trail.NewTask.task.DayTasks;
 import com.example.trail.NewTask.task.MonthTasks;
 import com.example.trail.NewTask.task.Task;
 import com.example.trail.NewTask.task.Time;
+=======
+
+import androidx.annotation.RequiresApi;
+
+import com.example.trail.NewTask.task.*;
+>>>>>>> Stashed changes
 import com.example.trail.R;
 
 public class NewTaskActivity extends Activity {
@@ -71,6 +78,7 @@ public class NewTaskActivity extends Activity {
 
     String theyear;
     String themonth;
+<<<<<<< Updated upstream
     String theday;
     String thehour;
     String theminute;
@@ -84,6 +92,12 @@ public class NewTaskActivity extends Activity {
     String theendDay;
     String theendHour;
     String theendMinute;
+=======
+    String thebeginYear;
+    String thebeginMonth;
+    String theendYear;
+    String theendMonth;
+>>>>>>> Stashed changes
     ArrayAdapter<CharSequence> dayadapter28;
     ArrayAdapter<CharSequence> dayadapter29;
     ArrayAdapter<CharSequence> dayadapter30;
@@ -171,7 +185,11 @@ public class NewTaskActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< Updated upstream
         setContentView(R.layout.newtask);
+=======
+        setContentView(R.layout.activity_main);
+>>>>>>> Stashed changes
         dayadapter28 = ArrayAdapter.createFromResource(this, R.array.day28, android.R.layout.simple_spinner_item);
         dayadapter28.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -191,10 +209,14 @@ public class NewTaskActivity extends Activity {
         minute = findViewById(R.id.Minute);
         theyear = (String) year.getSelectedItem();
         themonth = (String) month.getSelectedItem();
+<<<<<<< Updated upstream
         thehour = (String) hour.getSelectedItem();
         theminute = (String) minute.getSelectedItem();
         changeDay();
         theday = (String) day.getSelectedItem();
+=======
+        changeDay();
+>>>>>>> Stashed changes
         year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -225,10 +247,14 @@ public class NewTaskActivity extends Activity {
         beginMinute = findViewById(R.id.BeginMinute);
         thebeginYear = (String) beginYear.getSelectedItem();
         thebeginMonth = (String) beginMonth.getSelectedItem();
+<<<<<<< Updated upstream
         thebeginHour = (String) beginHour.getSelectedItem();
         thebeginMinute = (String) beginMinute.getSelectedItem();
         changebeginDay();
         thebeginDay = (String) beginDay.getSelectedItem();
+=======
+        changebeginDay();
+>>>>>>> Stashed changes
         beginYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -259,10 +285,14 @@ public class NewTaskActivity extends Activity {
         endMinute = findViewById(R.id.EndMinute);
         theendYear = (String) endYear.getSelectedItem();
         theendMonth = (String) endMonth.getSelectedItem();
+<<<<<<< Updated upstream
         theendHour = (String) endHour.getSelectedItem();
         theendMinute = (String) endMinute.getSelectedItem();
         changeendDay();
         theendDay = (String) endDay.getSelectedItem();
+=======
+        changeendDay();
+>>>>>>> Stashed changes
         endYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -361,6 +391,28 @@ public class NewTaskActivity extends Activity {
             }
         });
 
+<<<<<<< Updated upstream
+    }
+
+
+    //格式化时间
+    private Time timeFormat(Spinner year,Spinner month,Spinner day,Spinner hour,Spinner minute){
+        String sYear=year.getSelectedItem().toString();
+        String sMonth=month.getSelectedItem().toString();
+        String sDay=day.getSelectedItem().toString();
+        String sHour=hour.getSelectedItem().toString();
+        String sMinute=minute.getSelectedItem().toString();
+
+        Time time=new Time();
+        time.setYear(sYear);
+        time.setMonth(sMonth);
+        time.setDay(sDay);
+        time.setHour(sHour);
+        time.setMinute(sMinute);
+
+        return time;
+=======
+>>>>>>> Stashed changes
     }
 
 
@@ -381,6 +433,5 @@ public class NewTaskActivity extends Activity {
 
         return time;
     }
-
 
 }
