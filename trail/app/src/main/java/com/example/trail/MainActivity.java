@@ -22,9 +22,11 @@ import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.NewTask.NewTaskActivity;
 import com.example.trail.EventsObject.Event;
 import com.example.trail.EventsObject.MonthEvent;
+import com.example.trail.NewTask.task.MonthTasks;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Map.MapFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 
@@ -38,6 +40,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private TabLayout tabs;
     private ViewPager viewPager;
+    private MonthTasks monthTasks;
+    private FloatingActionButton fab;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,15 @@ public class MainActivity extends AppCompatActivity {
         // Set Tabs inside Toolbar
         tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+        fab=findViewById(R.id.fab_addTask);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,NewTaskActivity.class);
+                NewTaskActivity.monthTasks=monthTasks;
+                startActivity(intent);
+            }
+        });
         createTabIcons();
 //        ActionBar supportActionBar = getSupportActionBar();
 //        if (supportActionBar != null) {
