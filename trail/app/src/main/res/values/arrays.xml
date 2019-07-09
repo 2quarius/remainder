@@ -12,14 +12,7 @@
         <item>chongqing Mountain</item>
 
     </string-array>
-    <!--<boolean-array name="finish">-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-        <!--<item>0</item>-->
-    <!--</boolean-array>-->
+
     <string-array name="place_desc">
         <item>The Palais Garnier which locates in Paris was built from 1861 for
         the Paris Opera.
@@ -47,7 +40,7 @@
         <item>Fri</item>
         <item>Sat</item>
     </string-array>
-<<<<<<< Updated upstream
+
     <string-array name="week_array">
         <item>星期一</item>
         <item>星期二</item>
@@ -63,9 +56,7 @@
         <item>每月</item>
         <item>每年</item>
     </string-array>
-=======
 
->>>>>>> Stashed changes
     <string-array name="year">
         <item>1999</item>
         <item>2000 </item>

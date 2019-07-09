@@ -27,8 +27,6 @@ import android.widget.Button;
 
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.NewTask.NewTaskActivity;
-import com.example.trail.EventsObject.Event;
-import com.example.trail.EventsObject.MonthEvent;
 import com.example.trail.Lists.SideMenuActivity;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
