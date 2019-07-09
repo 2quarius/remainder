@@ -7,8 +7,10 @@
         <item>Senso-ji</item>
         <item>Sultan Ahmed Mosque</item>
         <item>Table Mountain</item>
+
         <item>china</item>
         <item>chongqing Mountain</item>
+
     </string-array>
     <!--<boolean-array name="finish">-->
         <!--<item>0</item>-->
@@ -27,8 +29,10 @@
         <item>Senso-ji is the Shrine locates in Asakusa Tokyo</item>
         <item>Sultan Ahmed Mosque is mosque locates in Istabul, Turkey</item>
         <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
+
         <item>Sultan Ahmed Mosque is mosque locates in Istabul, Turkey</item>
         <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
+
     </string-array>
     <string-array name="languange">
         <item>中文</item>

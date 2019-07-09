@@ -8,22 +8,28 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.DragEvent;
+import android.view.View;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+
 import android.view.LayoutInflater;
 import android.widget.TextView;
+import android.view.View;
+import android.widget.Button;
+
 
 
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.NewTask.NewTaskActivity;
 import com.example.trail.EventsObject.Event;
 import com.example.trail.EventsObject.MonthEvent;
-import com.example.trail.NewTask.NewTaskActivity;
-import com.example.trail.NewTask.task.MonthTasks;
+import com.example.trail.Lists.SideMenuActivity;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Map.MapFragment;
@@ -38,11 +44,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+    private boolean misScrolled;
+    private ViewPager mViewPager;
     private TabLayout tabs;
-    private ViewPager viewPager;
-    private FloatingActionButton fabAddTask;
-    private MonthTasks monthTasks;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,54 +56,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // Setting ViewPager for each Tabs
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(mViewPager);
+        mViewPager.addOnPageChangeListener(this);
         // Set Tabs inside Toolbar
         tabs = (TabLayout) findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
+        tabs.setupWithViewPager(mViewPager);
         createTabIcons();
-//        ActionBar supportActionBar = getSupportActionBar();
-//        if (supportActionBar != null) {
-//            VectorDrawableCompat indicator
-//                    = VectorDrawableCompat.create(getResources(), R.drawable.checklist, getTheme());
-//            indicator.setTint(ResourcesCompat.getColor(getResources(),R.color.colorAccent,getTheme()));
-//            supportActionBar.setHomeAsUpIndicator(indicator);
-//            supportActionBar.setDisplayHomeAsUpEnabled(true);
-//        }
+
     }
     private void createTabIcons() {
         tabs.getTabAt(0).setIcon(R.drawable.checklist);
-
-        //初始化monthTasks用来存储数据
-        monthTasks=new MonthTasks();
-
-        //Set FloatingActonButton action
-        fabAddTask=findViewById(R.id.fab_addTask);
-        fabAddTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(MainActivity.this, NewTaskActivity.class);
-                NewTaskActivity.monthTasks=monthTasks;
-                startActivity(intent);
-            }
-        createTabIcons();
-//        ActionBar supportActionBar = getSupportActionBar();
-//        if (supportActionBar != null) {
-//            VectorDrawableCompat indicator
-//                    = VectorDrawableCompat.create(getResources(), R.drawable.checklist, getTheme());
-//            indicator.setTint(ResourcesCompat.getColor(getResources(),R.color.colorAccent,getTheme()));
-//            supportActionBar.setHomeAsUpIndicator(indicator);
-//            supportActionBar.setDisplayHomeAsUpEnabled(true);
-//        }
-    }
-    private void createTabIcons() {
-        tabs.getTabAt(0).setIcon(R.drawable.checklist);
-
         tabs.getTabAt(1).setIcon(R.drawable.calendar);
-//        tabs.getTabAt(2).setIcon(R.drawable.map);
-//        tabs.getTabAt(3).setIcon(R.drawable.settings);
-
-
+        tabs.getTabAt(2).setIcon(R.drawable.map);
+        tabs.getTabAt(3).setIcon(R.drawable.settings);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -106,15 +79,41 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new CalendarFragment(),"time");
         adapter.addFragment(new MapFragment(),"space");
         adapter.addFragment(new SettingFragmnet(),"settings");
-        adapter.addFragment(new ListsFragment(), "LISTS");
-        adapter.addFragment(new CalendarFragment(),"TIME");
-//        adapter.addFragment(new MapFragment(),"SPACE");
         viewPager.setAdapter(adapter);
     }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        switch (state) {
+            case ViewPager.SCROLL_STATE_DRAGGING:
+                misScrolled = false;
+                break;
+            case ViewPager.SCROLL_STATE_SETTLING:
+                misScrolled = true;
+                break;
+            case ViewPager.SCROLL_STATE_IDLE:
+                if (mViewPager.getCurrentItem() == 0 && !misScrolled) {
+                    startActivity(new Intent(this, SideMenuActivity.class));
+                }
+                misScrolled = true;
+                break;
+        }
+    }
+
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
-        //private List<Drawable> icons;
+
 
         public Adapter(FragmentManager manager) {
             super(manager);
@@ -139,7 +138,6 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-
     }
 
     FileOutputStream outputStream;

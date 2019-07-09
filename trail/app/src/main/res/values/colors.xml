@@ -7,7 +7,8 @@
     <color name="colorSecondary">#e30425</color>
     <color name="warning">#F09B43</color>
     <color name="ok">#80C668</color>
+    <color name="divider">#fcfcca</color>
     <color name="inputLine">#EDE7EC</color>
     <color name="text" opacity="60%">#000000</color>
-    <color name="colorAccent">#ffffff</color>
+    <color name="colorAccent">#fefff7</color>
 </resources>
