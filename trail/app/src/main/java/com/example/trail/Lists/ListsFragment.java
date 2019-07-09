@@ -8,6 +8,7 @@ import android.icu.util.RangeValueIterator;
 import android.graphics.Color;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -37,52 +38,33 @@ import java.util.List;
 
 
 public class ListsFragment extends Fragment {
-    private ContentAdapter adapter;
-    private ContentAdapterF adapterF;
-    private List<String> upT=new ArrayList<String>();
-    private List<String> upDesc=new ArrayList<String>();
-//    private String[] mPlaces;
-//    private String[] mPlaceDesc;
-    private List<String> belowT=new ArrayList<String>();;
-    private List<String> belowDesc=new ArrayList<String>();;
-    /*@Override
-    public void onCreate(Bundle bundle){
-        super.onCreate(bundle);
-        setContentView(R.layout.fragment_lists);
-        RecyclerView recyclerView=
-    }*/
+    private static ContentAdapter adapter;
+    private static List<String> finished = new ArrayList<>();
+    private static List<String> titles=new ArrayList<>();
+    private static List<String> descriptions=new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.recycler2,container,false);
-        RecyclerView recyclerView =view.findViewById(R.id.my_recycler_view_unfinished);
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
+                R.layout.recycler_view, container, false);
         adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         helper.attachToRecyclerView(recyclerView);
-        //finished task on below
-        RecyclerView recyclerViewFinished =view.findViewById(R.id.my_recycler_view_finished);
-        adapterF = new ContentAdapterF(recyclerViewFinished.getContext());
-        recyclerViewFinished.setAdapter(adapterF);
-        recyclerViewFinished.setHasFixedSize(true);
-        recyclerViewFinished.setLayoutManager(new LinearLayoutManager(getActivity()));
-        return view;
+        return recyclerView;
     }
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public CheckBox checkBox;
         public TextView name;
         public TextView description;
-        public int position;
-//        public CardView card;
         public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.fragment_lists, parent, false));
-            final CheckBox checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
-//            card=(CardView) itemView.findViewById(R.id.card_view);
-
+            checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
             name = (TextView) itemView.findViewById(R.id.card_title);
             description = (TextView) itemView.findViewById(R.id.card_text);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -91,59 +73,39 @@ public class ListsFragment extends Fragment {
             });
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-                    if(checkBox.isChecked()){
-                        //分开的已完成和未完成，此处删掉未完成的，移动到已完成的数组
-                        //adapter.removeData(getAdapterPosition());
-                        int fromPosition = getAdapterPosition();
-                        int toPosition=adapter.LENGTH-1;
-                            for (int i = fromPosition; i < toPosition; i++) {
-//                                System.out.println("1");
-                                Collections.swap(upT, i, i + 1);
-                                Collections.swap(upDesc, i, i + 1);
-                            }
-                        adapter.notifyItemMoved(fromPosition, toPosition);
-                        adapter.notifyItemRangeChanged(Math.min(fromPosition, toPosition), Math.abs(fromPosition - toPosition) +1);
-                    }else {int fromPosition = getAdapterPosition();
-                        for (int i = fromPosition; i > 0; i--) {
-//                                System.out.println("1");
-                            Collections.swap(upT, i, i - 1);
-                            Collections.swap(upDesc, i, i - 1);
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    if (compoundButton.isPressed()) {
+                        if (isChecked) {
+                            toBottom(titles, getAdapterPosition());
+                            toBottom(descriptions, getAdapterPosition());
+                            finished.set(getAdapterPosition(), String.valueOf(isChecked));
+                            toBottom(finished, getAdapterPosition());
+                        } else {
+                            toTop(titles, getAdapterPosition());
+                            toTop(descriptions, getAdapterPosition());
+                            finished.set(getAdapterPosition(), String.valueOf(isChecked));
+                            toTop(finished, getAdapterPosition());
                         }
-                        adapter.notifyItemMoved(fromPosition, 0);
-                        adapter.notifyItemRangeChanged(Math.min(fromPosition, 0), Math.abs(fromPosition) +1);
+                        Handler handler = new Handler();
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.notifyDataSetChanged();
+                            }
+                        });
+                    }
+                }
+                private void toBottom(List<String> lists,int position){
+                    if (position<lists.size()){
+                        String tmp = lists.remove(position);
+                        lists.add(tmp);
 
                     }
                 }
-            });
-        }
-
-    }
-    public class ViewHolderF extends RecyclerView.ViewHolder {
-        public TextView name;
-        public TextView description;
-        //        public CardView card;
-        public ViewHolderF(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.fragment_lists, parent, false));
-            final CheckBox checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
-//            card=(CardView) itemView.findViewById(R.id.card_view);
-            name = (TextView) itemView.findViewById(R.id.card_title);
-            description = (TextView) itemView.findViewById(R.id.card_text);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println("click");
-                }
-            });
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-                @Override
-                public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-                    if(!checkBox.isChecked()){
-                        //card.setCardBackgroundColor();
-                        //如果是分开的已完成和未完成，此处删掉未完成的，增加已完成的数组
-                        //removeData(getAdapterPosition());
-                        adapter.removeData(getAdapterPosition());
+                private void toTop(List<String> lists,int position){
+                    if (position<lists.size()){
+                        String tmp = lists.remove(position);
+                        lists.add(0,tmp);
                     }
                 }
             });
@@ -153,32 +115,30 @@ public class ListsFragment extends Fragment {
      * Adapter to display recycler view.
      */
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-        private int LENGTH;
-//  删除数据
-        public void removeData(int position) {
-            upT.remove(position);
-            upDesc.remove(position);
-            //删除动画
-            notifyItemRemoved(position);
-            notifyDataSetChanged();
-        }
 
         public ContentAdapter(Context context) {
-            Resources resources = context.getResources();
-            upT.add("Palais Garnie");
-            upT.add("Piazza del Duomo");
-            upT.add("Manhattan");
-            upT.add("Senso");
-            upT.add("Sultan");
-            upT.add("china");
-            upDesc.add("The Palais Garnier which locates in Paris was built from 1861 for\n" +
+            titles.clear();
+            titles.add("Palais Garnie");
+            titles.add("Piazza del Duomo");
+            titles.add("Manhattan");
+            titles.add("Senso");
+            titles.add("Sultan");
+            titles.add("china");
+            descriptions.clear();
+            descriptions.add("The Palais Garnier which locates in Paris was built from 1861 for\n" +
                     "        the Paris Opera");
-            upDesc.add("Piazza del Duomo the cathedral which locates in Florence.");
-            upDesc.add("Manhattan is the district in New York City");
-            upDesc.add("Senso-ji is the Shrine locates in Asakusa Toky");
-            upDesc.add("Sultan Ahmed Mosque is mosque locates in Istabul, Turkey");
-            upDesc.add("Senso-ji is the Shrine locates in Asakusa Toky");
-            LENGTH=upT.size();
+            descriptions.add("Piazza del Duomo the cathedral which locates in Florence.");
+            descriptions.add("Manhattan is the district in New York City");
+            descriptions.add("Senso-ji is the Shrine locates in Asakusa Toky");
+            descriptions.add("Sultan Ahmed Mosque is mosque locates in Istabul, Turkey");
+            descriptions.add("Senso-ji is the Shrine locates in Asakusa Toky");
+            finished.clear();
+            finished.add("false");
+            finished.add("false");
+            finished.add("false");
+            finished.add("false");
+            finished.add("false");
+            finished.add("false");
             // finish=resources.getStringArray(R.array.)
         }
 
@@ -189,58 +149,18 @@ public class ListsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            //System.out.println(position);
-            holder.name.setText(upT.get(position));
-            holder.description.setText(upDesc.get(position));
+            holder.checkBox.setChecked(Boolean.valueOf(finished.get(position)));
+            holder.name.setText(titles.get(position));
+            holder.description.setText(descriptions.get(position));
 
         }
 
         @Override
         public int getItemCount() {
-            return LENGTH;
+            return titles.size();
         }
     }
-    public class ContentAdapterF extends RecyclerView.Adapter<ViewHolderF> {
-        // Set numbers of Card in RecyclerView.
-        private int LENGTH;
 
-//        private final String[] mPlaces;
-//        private final String[] mPlaceDesc;
-        /*private final String[] finish;
-         */
-        public void removeData(int position) {
-            belowT.remove(position);
-            belowDesc.remove(position);
-            //删除动画
-            notifyItemRemoved(position);
-            notifyDataSetChanged();
-        }
-
-        public ContentAdapterF(Context context) {
-            Resources resources = context.getResources();
-            belowT.add("111");
-            belowDesc.add("111desc");
-            LENGTH=belowDesc.size();
-            // finish=resources.getStringArray(R.array.)
-        }
-
-        @Override
-        public ViewHolderF onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolderF(LayoutInflater.from(parent.getContext()), parent);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolderF holder, int position) {
-            //System.out.println(position);
-            holder.name.setText(belowT.get(position));
-            holder.description.setText(belowDesc.get(position));
-        }
-
-        @Override
-        public int getItemCount() {
-            return LENGTH;
-        }
-    }
     ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
         @Override
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
@@ -266,13 +186,13 @@ public class ListsFragment extends Fragment {
             int toPosition = target.getAdapterPosition();
             if (fromPosition < toPosition) {
                 for (int i = fromPosition; i < toPosition; i++) {
-                    Collections.swap(upT, i, i + 1);
-                    Collections.swap(upDesc, i, i + 1);
+                    Collections.swap(titles, i, i + 1);
+                    Collections.swap(descriptions, i, i + 1);
                 }
             } else {
                 for (int i = fromPosition; i > toPosition; i--) {
-                    Collections.swap(upT, i, i - 1);
-                    Collections.swap(upDesc, i, i - 1);
+                    Collections.swap(titles, i, i - 1);
+                    Collections.swap(descriptions, i, i - 1);
                 }
             }
             adapter.notifyItemMoved(fromPosition, toPosition);
