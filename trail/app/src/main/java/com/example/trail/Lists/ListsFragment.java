@@ -3,6 +3,7 @@ package com.example.trail.Lists;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Canvas;
 import android.icu.util.RangeValueIterator;
 
 import android.graphics.Color;
@@ -159,6 +160,26 @@ public class ListsFragment extends Fragment {
         public int getItemCount() {
             return titles.size();
         }
+
+        public  void delete(int position){
+            System.out.println("delete");
+            if(position < 0 || position > getItemCount()){
+                return;
+            }
+            System.out.println("remove");
+            titles.remove(position);
+            descriptions.remove(position);
+            finished.remove(position);
+            Handler handler = new Handler();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                }
+            });
+//            adapter.notifyItemRemoved(position);
+//            adapter.notifyItemRangeChanged(Math.min(position, this.getItemCount()-1), this.getItemCount()-1 - position +1);
+        }
     }
 
     ItemTouchHelper helper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
@@ -172,7 +193,7 @@ public class ListsFragment extends Fragment {
                 //System.out.println("grid");
                 dragFrlg = ItemTouchHelper.UP|ItemTouchHelper.DOWN;
             }
-            return makeMovementFlags(dragFrlg,0);
+            return makeMovementFlags(dragFrlg,ItemTouchHelper.START);
         }
 
         @Override
@@ -203,6 +224,7 @@ public class ListsFragment extends Fragment {
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
             //侧滑删除可以使用；
+            adapter.delete(viewHolder.getAdapterPosition());
         }
 
         @Override
@@ -218,11 +240,25 @@ public class ListsFragment extends Fragment {
         @Override
         public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
             if (actionState != ItemTouchHelper.ACTION_STATE_IDLE) {
-                viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.divider));
             }
             super.onSelectedChanged(viewHolder, actionState);
         }
 
+        /**
+         * 移动过程中重新绘制Item，随着滑动的距离，设置Item的透明度
+         */
+        @Override
+        public void onChildDraw(Canvas c, RecyclerView recyclerView,
+                                RecyclerView.ViewHolder viewHolder,
+                                float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            float y = Math.abs(dY) + 0.1f;
+            float height = viewHolder.itemView.getHeight();
+            float alpha = 1f - y / height;
+            viewHolder.itemView.setAlpha(alpha);
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState,
+                    isCurrentlyActive);
+        }
         /**
          * 手指松开的时候还原高亮
          * @param recyclerView
@@ -231,8 +267,28 @@ public class ListsFragment extends Fragment {
         @Override
         public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
             super.clearView(recyclerView, viewHolder);
-            viewHolder.itemView.setBackgroundColor(0);
-            adapter.notifyDataSetChanged();  //完成拖动后刷新适配器，这样拖动后删除就不会错乱
+            viewHolder.itemView.setBackgroundColor(getResources().getColor(R.color.inputLine));
+            viewHolder.itemView.setAlpha(1.0f);
+            Handler handler = new Handler();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    adapter.notifyDataSetChanged();
+                }
+            }); //完成拖动后刷新适配器，这样拖动后删除就不会错乱
         }
+
+        /**
+         * Item是否支持滑动
+         *
+         * @return
+         *          true  支持滑动操作
+         *          false 不支持滑动操作
+         */
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
     });
 }

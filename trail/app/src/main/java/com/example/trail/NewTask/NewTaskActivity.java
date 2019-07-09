@@ -14,8 +14,7 @@ import android.widget.Spinner;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.trail.NewTask.task.MonthTasks;
-import com.example.trail.NewTask.task.Time;
+import com.example.trail.NewTask.task.*;
 import com.example.trail.R;
 
 public class NewTaskActivity extends Activity {
