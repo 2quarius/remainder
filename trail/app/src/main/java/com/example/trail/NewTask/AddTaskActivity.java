@@ -115,7 +115,9 @@ public class AddTaskActivity extends AppCompatActivity implements
                 else {
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("task",task);
-                    startActivity(intent);
+                    setResult(RESULT_OK,intent);
+                    AddTaskActivity.this.finish();
+//                    startActivity(intent);
                 }
             }
         });
