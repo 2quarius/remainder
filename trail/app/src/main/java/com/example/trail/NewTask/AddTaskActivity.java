@@ -1,11 +1,14 @@
 package com.example.trail.NewTask;
 
+import com.example.trail.MainActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import android.animation.Animator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -35,6 +38,7 @@ public class AddTaskActivity extends AppCompatActivity implements
     private Task task;
     private EditText mTitleEditText;
     private EditText mDescriptionEditText;
+    private FloatingActionButton mSendTaskFAB;
     private EditText mExpireDateEditText;
     private EditText mExpireTimeEditText;
     private SwitchCompat mRemindMeSwitch;
@@ -55,6 +59,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         task = new Task();
         mTitleEditText = (EditText) findViewById(R.id.title);
         mDescriptionEditText = (EditText) findViewById(R.id.description);
+        mSendTaskFAB = (FloatingActionButton) findViewById(R.id.send_task_fab);
         mExpireDateEditText = (EditText) findViewById(R.id.expire_date_et);
         mExpireTimeEditText = (EditText) findViewById(R.id.expire_time_et);
         mRemindMeSwitch = (SwitchCompat) findViewById(R.id.remind_me_switch);
@@ -101,6 +106,20 @@ public class AddTaskActivity extends AppCompatActivity implements
             public void afterTextChanged(Editable s) {
             }
         });
+        mSendTaskFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mTitleEditText.length()<=0){
+                    mTitleEditText.setError("please enter a todo");
+                }
+                else {
+                    Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
+                    intent.putExtra("task",task);
+                    startActivity(intent);
+                }
+            }
+        });
+
         mExpireDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
