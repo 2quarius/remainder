@@ -78,9 +78,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     protected void onStart(){
         super.onStart();
-        tasks = getLocallyStoredData(storeRetrieveData);
+        tasks.addAll(getLocallyStoredData(storeRetrieveData));
+//        tasks = getLocallyStoredData(storeRetrieveData);
     }
     public List<Task> getTasks(){
+        //System.out.println(tasks.size()+"main");
         return tasks;
     }
     private static ArrayList<Task> getLocallyStoredData(StoreRetrieveData storeRetrieveData) {
