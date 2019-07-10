@@ -39,22 +39,14 @@ public class ListFragmentTest {
     public void init() throws Exception {
 //
     }
-//    /**
-//     * 模拟用户的点击行为
-//     *
-//     * @param id
-//     */
-//    public void testClick(final int id) {
-//        onView(withId(id)).perform(closeSoftKeyboard(), click());
-//    }
-public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
-    return new RecyclerViewMatcher(recyclerViewId);
-}
-public int getRecycler(int recyclerId) {
-    RecyclerView recyclerView = (RecyclerView) rule
-            .getActivity().findViewById(recyclerId);
-    return recyclerView.getAdapter().getItemCount();
-}
+    public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
+        return new RecyclerViewMatcher(recyclerViewId);
+    }
+    public int getRecycler(int recyclerId) {
+        RecyclerView recyclerView = (RecyclerView) rule
+                .getActivity().findViewById(recyclerId);
+        return recyclerView.getAdapter().getItemCount();
+    }
     @Test
     public void clickCheckBox() throws Exception {
         //onView(allOf(withParent(withId(R.layout.recycler_view))qq,withId(R.id.card_view))).perform(scrollToPosition(4));
