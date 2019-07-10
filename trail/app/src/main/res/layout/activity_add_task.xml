@@ -73,6 +73,7 @@
                     android:scrollbars="vertical"
                     android:textColor="@color/colorPrimary" />
             </com.example.trail.Utility.CustomTextInputLayout>
+
             <LinearLayout
                 android:id="@+id/todoReminderAndDateContainerLayout"
                 android:layout_width="match_parent"
@@ -83,7 +84,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginLeft="36dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="36dp"
                     android:layout_weight=".3"
@@ -159,10 +160,12 @@
                     </LinearLayout>
                 </LinearLayout>
 
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginLeft="36dp"
+                    android:layout_marginLeft="30dp"
                     android:layout_marginTop="0dp"
                     android:layout_marginRight="36dp"
                     android:layout_weight=".1"
@@ -218,11 +221,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight=".5"
+                        android:layout_marginLeft="0dp"
+                        android:layout_marginTop="-40dp"
                         android:gravity="top">
 
                         <EditText
                             android:id="@+id/remind_date"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
                             android:focusable="false"
@@ -241,7 +246,7 @@
 
                         <EditText
                             android:id="@+id/remind_time"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:focusable="false"
@@ -251,7 +256,7 @@
 
                         <Spinner
                             android:id="@+id/repeat_type"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1.5"
                             android:contentDescription="@string/app_name"
@@ -264,6 +269,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight=".3"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="-60dp"
                         android:gravity="start"
                         android:text="@string/remind_date_and_time"
                         android:textColor="@color/warning"
@@ -271,6 +278,48 @@
 
                 </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="36dp"
+            android:layout_weight=".3"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".1"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/expire_place_ib"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4"
+                    android:background="@android:color/transparent"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_add_alarm_grey_200_24dp" />
+
+                <TextView
+                    android:id="@+id/expire_place_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="start"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/expire_place"
+                    android:textColor="@color/colorPrimaryTitle"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
