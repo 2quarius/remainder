@@ -42,6 +42,7 @@ import java.util.List;
 
 
 public class ListsFragment extends Fragment {
+    private RecyclerView view;
     private static ContentAdapter adapter;
     private static List<Boolean> finished = new ArrayList<>();
     private static List<String> titles=new ArrayList<>();
@@ -58,7 +59,15 @@ public class ListsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         helper.attachToRecyclerView(recyclerView);
+        view = recyclerView;
         return recyclerView;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        mTasks = ((MainActivity)getActivity()).getTasks();
+        adapter = new ContentAdapter(view.getContext());
+        view.setAdapter(adapter);
     }
     @Override
     public void onAttach(Activity activity){
@@ -140,14 +149,20 @@ public class ListsFragment extends Fragment {
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public ContentAdapter(Context context) {
-//            titles.clear();
-//            descriptions.clear();
-//            finished.clear();
-
-            for (int i=0;i<mTasks.size();i++){
-                titles.add(mTasks.get(i).getTitle());
-                descriptions.add(mTasks.get(i).getDescription());
-                finished.add(mTasks.get(i).getDone());
+            if (mTasks!=null&&mTasks.size()==titles.size()){
+                return;
+            }
+            else if (mTasks.size()>titles.size()&&titles.size()==0){
+                for (int i = 0; i < mTasks.size(); i++) {
+                    titles.add(mTasks.get(i).getTitle());
+                    descriptions.add(mTasks.get(i).getDescription());
+                    finished.add(mTasks.get(i).getDone());
+                }
+            }
+            else if (mTasks.size()>titles.size()&&titles.size()>0){
+                titles.add(mTasks.get(mTasks.size()-1).getTitle());
+                descriptions.add(mTasks.get(mTasks.size()-1).getDescription());
+                finished.add(mTasks.get(mTasks.size()-1).getDone());
             }
         }
 

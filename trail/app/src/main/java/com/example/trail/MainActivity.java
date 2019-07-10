@@ -83,21 +83,24 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (requestCode==ADD_TASK_REQUEST_CODE&&resultCode==RESULT_OK){
             if (data != null){
                 tasks.add((Task) data.getSerializableExtra("task"));
+                try {
+//            System.out.println("save:");
+                    storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
     @Override
     protected void onStart(){
         super.onStart();
-//        System.out.println("start:");
-        tasks.addAll(getLocallyStoredData(storeRetrieveData));
-//        tasks = getLocallyStoredData(storeRetrieveData);
+        tasks = getLocallyStoredData(storeRetrieveData);
     }
     @Override
     public void onPause() {
         super.onPause();
         try {
-//            System.out.println("save:");
             storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
         } catch (JSONException | IOException e) {
             e.printStackTrace();
