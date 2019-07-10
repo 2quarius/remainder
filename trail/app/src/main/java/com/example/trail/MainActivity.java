@@ -35,6 +35,7 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+    private static final int ADD_TASK_REQUEST_CODE = 1;
     private boolean misScrolled;
     private ViewPager mViewPager;
     private TabLayout tabs;
@@ -63,23 +64,44 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(MainActivity.this, AddTaskActivity.class);
+                startActivityForResult(intent,ADD_TASK_REQUEST_CODE);
 //                NewTaskActivity.monthTasks=monthTasks;
-                startActivity(intent);
+//                startActivity(intent);
             }
         });
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
-        Intent intent = getIntent();
-        if (intent.getSerializableExtra("task")!=null){
+//        Intent intent = getIntent();
+//        if (intent.getSerializableExtra("task")!=null){
 //            System.out.println(intent.getSerializableExtra("task"));
-            tasks.add((Task)intent.getSerializableExtra("task"));
+//            tasks.add((Task)intent.getSerializableExtra("task"));
+//        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode==ADD_TASK_REQUEST_CODE&&resultCode==RESULT_OK){
+            if (data != null){
+                tasks.add((Task) data.getSerializableExtra("task"));
+            }
         }
     }
     @Override
     protected void onStart(){
         super.onStart();
+//        System.out.println("start:");
         tasks.addAll(getLocallyStoredData(storeRetrieveData));
 //        tasks = getLocallyStoredData(storeRetrieveData);
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+//            System.out.println("save:");
+            storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
     }
     public List<Task> getTasks(){
         //System.out.println(tasks.size()+"main");
@@ -87,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
     private static ArrayList<Task> getLocallyStoredData(StoreRetrieveData storeRetrieveData) {
         ArrayList<Task> items = null;
-
         try {
             items = storeRetrieveData.loadFromFile();
 
@@ -139,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 break;
             case ViewPager.SCROLL_STATE_IDLE:
                 if (mViewPager.getCurrentItem() == 0 && !misScrolled) {
-                    startActivity(new Intent(this, SideMenuActivity.class));
+                    startActivityForResult(new Intent(this, SideMenuActivity.class),2);
                 }
                 misScrolled = true;
                 break;
