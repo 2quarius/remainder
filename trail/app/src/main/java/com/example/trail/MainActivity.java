@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private FloatingActionButton fab;
     private List<Task> tasks;
     private StoreRetrieveData storeRetrieveData;
+    public static final String FILENAME = "tasks.json";
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 startActivity(intent);
             }
         });
-
+        tasks = new ArrayList<>();
+        storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
+        Intent intent = getIntent();
+        if (intent.getSerializableExtra("task")!=null){
+//            System.out.println(intent.getSerializableExtra("task"));
+            tasks.add((Task)intent.getSerializableExtra("task"));
+        }
     }
     @Override
     protected void onStart(){
