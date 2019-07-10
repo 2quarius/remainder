@@ -37,7 +37,7 @@
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
             android:layout_marginTop="@dimen/padding"
-            android:background="@color/inputLine"
+            android:background="@android:color/transparent"
             app:srcCompat="@android:drawable/ic_menu_always_landscape_portrait" />
 
         <ImageButton
@@ -45,7 +45,7 @@
             android:layout_width="@dimen/icon"
             android:layout_height="@dimen/icon"
             android:layout_marginTop="@dimen/padding"
-            android:background="@color/inputLine"
+            android:background="@android:color/transparent"
             app:srcCompat="@android:drawable/ic_menu_edit" />
     </LinearLayout>
 

@@ -1,13 +1,289 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.google.android.material.textfield.TextInputLayout
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:animateLayoutChanges="true"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    >
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_text">
-        <com.google.android.material.textfield.TextInputEditText
+        android:layout_height="match_parent">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/editTextParentLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".5"
+                android:background="?attr/colorPrimary"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <com.example.trail.Utility.CustomTextInputLayout
+                    android:id="@+id/toDoCustomTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:hintTextAppearance="@style/FloatingLabelTextAppearance">
+
+                    <EditText
+                        android:id="@+id/title"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/input_height"
+                        android:layout_marginLeft="32dp"
+                        android:layout_marginRight="32dp"
+                        android:gravity="start|bottom"
+                        android:hint="@string/title"
+                        android:inputType="textAutoCorrect|textCapSentences"
+                        android:lines="2"
+                        android:maxLength="30"
+                        android:maxLines="3"
+                        android:textColor="@color/colorPrimary" />
+
+                </com.example.trail.Utility.CustomTextInputLayout>
+
+            </LinearLayout>
+            <com.example.trail.Utility.CustomTextInputLayout
+                android:id="@+id/toDoCustomTextInput01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="center"
+                android:paddingTop="20dp"
+                app:hintTextAppearance="@style/FloatingLabelTextAppearance">
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_weight="0"
+                    android:gravity="start|bottom"
+                    android:hint="@string/description"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:lines="2"
+                    android:maxLines="3"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/colorPrimary" />
+            </com.example.trail.Utility.CustomTextInputLayout>
+            <LinearLayout
+                android:id="@+id/todoReminderAndDateContainerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="36dp"
+                    android:layout_weight=".3"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".1"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/expire_time_ib"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".4"
+                            android:background="@android:color/transparent"
+                            android:padding="8dp"
+                            android:src="@drawable/ic_add_alarm_grey_200_24dp" />
+
+                        <TextView
+                            android:id="@+id/expire_time_tv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="start"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="8dp"
+                            android:text="@string/expire_time"
+                            android:textColor="@color/colorPrimaryTitle"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginLeft="36dp"
+                        android:layout_marginRight="36dp"
+                        android:layout_weight=".2"
+                        android:gravity="top">
+
+                        <EditText
+                            android:id="@+id/expire_date_et"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:gravity="center"
+                            android:textIsSelectable="false" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".2"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="\@"
+                            android:textColor="@color/colorPrimaryTitle" />
+
+                        <EditText
+                            android:id="@+id/expire_time_et"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:gravity="center"
+                            android:textIsSelectable="false" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginRight="36dp"
+                    android:layout_weight=".1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageButton
+                        android:id="@+id/reminderImageButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".4"
+                        android:background="@android:color/transparent"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_add_alarm_grey_200_24dp" />
+
+                    <TextView
+                        android:id="@+id/reminderTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="start"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/remind_me"
+                        android:textColor="@color/colorPrimaryTitle"
+                        android:textSize="16sp" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/remind_me_switch"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="8dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/remind_date_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginRight="36dp"
+                    android:layout_weight=".5"
+                    android:animateLayoutChanges="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".5"
+                        android:gravity="top">
+
+                        <EditText
+                            android:id="@+id/remind_date"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:gravity="center"
+                            android:textIsSelectable="false" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".2"
+                            android:gravity="center"
+                            android:padding="4dp"
+                            android:text="\@"
+                            android:textColor="@color/colorPrimaryTitle" />
+
+                        <EditText
+                            android:id="@+id/remind_time"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:focusable="false"
+                            android:focusableInTouchMode="false"
+                            android:gravity="center"
+                            android:textIsSelectable="false" />
+
+                        <Spinner
+                            android:id="@+id/repeat_type"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.5"
+                            android:contentDescription="@string/app_name"
+                            android:entries="@array/recycle_array"
+                            android:textAlignment="center" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/date_time_reminder_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight=".3"
+                        android:gravity="start"
+                        android:text="@string/remind_date_and_time"
+                        android:textColor="@color/warning"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/makeToDoFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/ic_send_white_18dp"
+            app:backgroundTint="@color/ok"
+            app:fabSize="normal"
+            app:layout_anchor="@id/editTextParentLinearLayout"
+            app:layout_anchorGravity="bottom|right" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>

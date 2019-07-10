@@ -1,6 +1,7 @@
 package com.example.trail.Lists;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -29,6 +30,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 
 import java.util.ArrayList;
@@ -43,6 +46,7 @@ public class ListsFragment extends Fragment {
     private static List<String> finished = new ArrayList<>();
     private static List<String> titles=new ArrayList<>();
     private static List<String> descriptions=new ArrayList<>();
+    private List<Task> mTasks;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,6 +59,11 @@ public class ListsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         helper.attachToRecyclerView(recyclerView);
         return recyclerView;
+    }
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        mTasks = ((MainActivity) activity).getTasks();
     }
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public CheckBox checkBox;

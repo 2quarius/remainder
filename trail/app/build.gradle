@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        incremental = false
+    }
 }
 
 dependencies {
@@ -40,4 +43,5 @@ dependencies {
     androidTestImplementation 'com.21buttons:fragment-test-rule:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
+    implementation 'com.wdullaer:materialdatetimepicker:1.5.1'
 }
