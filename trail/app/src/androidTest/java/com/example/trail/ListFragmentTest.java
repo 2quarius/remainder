@@ -1,42 +1,40 @@
 package com.example.trail;
 
-import android.app.Activity;
+import android.view.View;
 
-import androidx.test.filters.LargeTest;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.espresso.ViewAssertion;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.runner.AndroidJUnit4;
 
+import org.hamcrest.Matcher;
 import org.junit.runner.RunWith;
-import androidx.test.InstrumentationRegistry;
-import androidx.test.espresso.action.ViewActions;
-import androidx.test.rule.ActivityTestRule;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.android21buttons.fragmenttestrule.FragmentTestRule;
 import com.example.trail.Lists.ListsFragment;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.longClick;
+import static androidx.test.espresso.action.ViewActions.swipeLeft;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static org.junit.Assert.*;
+import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class ListFragmentTest {
     @Rule
-    public FragmentTestRule<?, ListsFragment> rule =  FragmentTestRule.create(ListsFragment.class);
+    public FragmentTestRule<MainActivity, ListsFragment> rule =  new FragmentTestRule<>(MainActivity.class, ListsFragment.class);
     @Before
-    public void setUp() throws Exception {
-
+    public void init() throws Exception {
+//
     }
 //    /**
 //     * 模拟用户的点击行为
@@ -46,16 +44,40 @@ public class ListFragmentTest {
 //    public void testClick(final int id) {
 //        onView(withId(id)).perform(closeSoftKeyboard(), click());
 //    }
+public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {
+    return new RecyclerViewMatcher(recyclerViewId);
+}
+public int getRecycler(int recyclerId) {
+    RecyclerView recyclerView = (RecyclerView) rule
+            .getActivity().findViewById(recyclerId);
+    return recyclerView.getAdapter().getItemCount();
+}
     @Test
     public void clickCheckBox() throws Exception {
-        onView(withId(R.id.checkBox)).perform(click());
-        onView(withId(R.id.checkBox)).check(matches(isDisplayed()));
+        //onView(allOf(withParent(withId(R.layout.recycler_view))qq,withId(R.id.card_view))).perform(scrollToPosition(4));
+       //onView(allOf(withParent(withId(R.id.list_recycler_view)),withId(R.id.card_view))).perform(longClick());
+        onView(withRecyclerView(R.id.my_recycler_view).atPosition(0)).perform();
+        //        //onView(withId(R.id.checkBox)).check(matches(isDisplayed()));
+       // onView(withId(R.id.my_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(2,));
+
 
     }
     @Test
     public void swipeDelete() throws Exception {
+        onView(withRecyclerView(R.id.my_recycler_view).atPosition(3))
+                .check(matches(isDisplayed()))
+                .perform(swipeLeft());
+        //onView(withRecyclerView(R.id.my_recycler_view).atPosition(3)).perform(swipeLeft());
 
     }
+    @Test
+    public void DragItem() throws Exception {
+        onView(withRecyclerView(R.id.my_recycler_view).atPosition(0)).perform(longClick());
+        RecyclerViewActions.actionOnItemAtPosition(0,longClick());
 
+    }
+    @Test
+    public void onCreateView() {
+    }
 }
 
