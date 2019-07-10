@@ -35,6 +35,8 @@ public class AddTaskActivity extends AppCompatActivity implements
     private Task task;
     private EditText mTitleEditText;
     private EditText mDescriptionEditText;
+    private EditText mExpireDateEditText;
+    private EditText mExpireTimeEditText;
     private SwitchCompat mRemindMeSwitch;
     private LinearLayout mRemindDateLayout;
     private EditText mDateEditText;
@@ -53,6 +55,8 @@ public class AddTaskActivity extends AppCompatActivity implements
         task = new Task();
         mTitleEditText = (EditText) findViewById(R.id.title);
         mDescriptionEditText = (EditText) findViewById(R.id.description);
+        mExpireDateEditText = (EditText) findViewById(R.id.expire_date_et);
+        mExpireTimeEditText = (EditText) findViewById(R.id.expire_time_et);
         mRemindMeSwitch = (SwitchCompat) findViewById(R.id.remind_me_switch);
         mRemindDateLayout = (LinearLayout) findViewById(R.id.remind_date_layout);
         mDateEditText = (EditText) findViewById(R.id.remind_date);
@@ -97,6 +101,55 @@ public class AddTaskActivity extends AppCompatActivity implements
             public void afterTextChanged(Editable s) {
             }
         });
+        mExpireDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
+                hideKeyboard(mTitleEditText);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month, day);
+                datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
+                datePickerDialog.show(getFragmentManager(),"ExpireDate");
+            }
+        });
+
+        mExpireTimeEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
+                hideKeyboard(mTitleEditText);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int minute = calendar.get(Calendar.MINUTE);
+
+                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                            Calendar calendar = Calendar.getInstance();
+                            if (task.getRemindTime() != null) {
+                                calendar.setTime(task.getRemindTime());
+                            }
+                            int year = calendar.get(Calendar.YEAR);
+                            int month = calendar.get(Calendar.MONTH);
+                            int day = calendar.get(Calendar.DAY_OF_MONTH);
+                            Log.d("OskarSchindler", "Time set: " + hourOfDay);
+                            calendar.set(year, month, day, hourOfDay, minute, 0);
+                            task.setExpireTime(calendar.getTime());
+                            setTimeEditText(task.getExpireTime(),mExpireTimeEditText);
+                    }
+                }, hour, minute, DateFormat.is24HourFormat(getApplicationContext()));
+                timePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
+                timePickerDialog.show(getFragmentManager(), "ExpireTime");
+            }
+        });
         setEnterDateLayoutVisible(mRemindMeSwitch.isChecked());
         mRemindMeSwitch.setChecked(task.getRemindTime() != null);
         mRemindMeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -114,7 +167,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         mDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
+                Date date = task.getRemindTime() == null ? new Date():task.getRemindTime();
                 hideKeyboard(mTitleEditText);
 
                 Calendar calendar = Calendar.getInstance();
@@ -132,7 +185,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         mTimeEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
+                Date date = task.getRemindTime() == null ? new Date():task.getRemindTime();
                 hideKeyboard(mTitleEditText);
 
                 Calendar calendar = Calendar.getInstance();
@@ -153,6 +206,28 @@ public class AddTaskActivity extends AppCompatActivity implements
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        if (view.getTag().equals("ExpireDate")){
+            Calendar calendar = Calendar.getInstance();
+            int hour, minute;
+            Calendar reminderCalendar = Calendar.getInstance();
+            reminderCalendar.set(year, monthOfYear, dayOfMonth);
+            if (reminderCalendar.before(calendar)) {
+                return;
+            }
+            if (task.getExpireTime() != null) {
+                calendar.setTime(task.getExpireTime());
+            }
+            if (DateFormat.is24HourFormat(getApplicationContext())) {
+                hour = calendar.get(Calendar.HOUR_OF_DAY);
+            } else {
+                hour = calendar.get(Calendar.HOUR);
+            }
+            minute = calendar.get(Calendar.MINUTE);
+
+            calendar.set(year, monthOfYear, dayOfMonth, hour, minute);
+            task.setExpireTime(calendar.getTime());
+            setDateEditText(task.getExpireTime(),mExpireDateEditText);
+        }
         setDate(year,monthOfYear,dayOfMonth);
     }
     @Override
@@ -274,7 +349,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         calendar.set(year, monthOfYear, dayOfMonth, hour, minute);
         task.setRemindTime(calendar.getTime());
         setReminderTextView();
-        setDateEditText();
+        setDateEditText(task.getRemindTime(),mDateEditText);
     }
     private void setTime(int hour, int minute) {
         Calendar calendar = Calendar.getInstance();
@@ -289,7 +364,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         task.setRemindTime(calendar.getTime());
 
         setReminderTextView();
-        setTimeEditText();
+        setTimeEditText(task.getRemindTime(),mTimeEditText);
     }
     private void setReminderTextView() {
         if (task.getRemindTime() != null) {
@@ -319,18 +394,18 @@ public class AddTaskActivity extends AppCompatActivity implements
 
         }
     }
-    private void setDateEditText() {
+    private void setDateEditText(Date date,EditText editText) {
         String dateFormat = "d MMM, yyyy";
-        mDateEditText.setText(formatDate(dateFormat, task.getRemindTime()));
+        editText.setText(formatDate(dateFormat, date));
     }
-    private void setTimeEditText() {
+    private void setTimeEditText(Date date,EditText editText) {
         String dateFormat;
         if (DateFormat.is24HourFormat(getApplicationContext())) {
             dateFormat = "k:mm";
         } else {
             dateFormat = "h:mm a";
         }
-        mTimeEditText.setText(formatDate(dateFormat, task.getRemindTime()));
+        editText.setText(formatDate(dateFormat, date));
     }
     private static String formatDate(String formatString, Date dateToFormat) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatString);
