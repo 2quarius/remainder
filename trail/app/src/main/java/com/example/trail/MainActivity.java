@@ -11,15 +11,15 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.content.Context;
+
 
 
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.NewTask.AddTaskActivity;
+import com.example.trail.NewTask.SimpleTask.Task;
+import com.example.trail.Utility.StoreRetrieveData;
 import com.example.trail.Utility.TabConstants;
-import com.example.trail.NewTask.NewTaskActivity;
 import com.example.trail.Lists.SideMenuActivity;
-import com.example.trail.NewTask.task.MonthTasks;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Map.MapFragment;
@@ -27,9 +27,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private ViewPager mViewPager;
     private TabLayout tabs;
     private FloatingActionButton fab;
-    private MonthTasks monthTasks;
+    private List<Task> tasks;
+    private StoreRetrieveData storeRetrieveData;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +66,30 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 startActivity(intent);
             }
         });
+
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        tasks = getLocallyStoredData(storeRetrieveData);
+    }
+    public List<Task> getTasks(){
+        return tasks;
+    }
+    private static ArrayList<Task> getLocallyStoredData(StoreRetrieveData storeRetrieveData) {
+        ArrayList<Task> items = null;
+
+        try {
+            items = storeRetrieveData.loadFromFile();
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (items == null) {
+            items = new ArrayList<>();
+        }
+        return items;
 
     }
     private void createTabIcons() {
@@ -143,64 +167,4 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
     }
 
-    FileOutputStream outputStream;
-    FileInputStream inputStream;
-
-
-
-    public void saveinfile(String data) {
-        try {
-            outputStream.write(data.getBytes());
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String ReadFile(String month) {
-        String FILENAME = month;
-        String out = "";
-        byte[] buffer = null;
-        try {
-            inputStream = openFileInput(FILENAME);
-            try {
-                // 获取文件内容长度
-                int fileLen = inputStream.available();
-                // 读取内容到buffer
-                buffer = new byte[fileLen];
-                inputStream.read(buffer);
-                out = new String(buffer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return out;
-    }
-
-    public void Save() {
-        String month = "201907";
-        String data;
-        String FILENAME = month;
-        try {
-            outputStream = openFileOutput(FILENAME, Context.MODE_APPEND);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        data = "一只鸭子";
-        saveinfile(data);
-
-        try {
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String Load() {
-        String filecontent = ReadFile("201907");
-        return filecontent;
-    }
 }
