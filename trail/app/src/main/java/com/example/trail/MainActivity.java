@@ -2,7 +2,6 @@ package com.example.trail;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -11,24 +10,16 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.View;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-
-import android.view.LayoutInflater;
-import android.widget.TextView;
-import android.view.View;
-import android.widget.Button;
 
 
 
 import com.example.trail.Calendar.CalendarFragment;
-import com.example.trail.NewTask.NewTaskActivity;
+import com.example.trail.NewTask.AddTaskActivity;
+import com.example.trail.NewTask.SimpleTask.Task;
+import com.example.trail.Utility.StoreRetrieveData;
+import com.example.trail.Utility.TabConstants;
 import com.example.trail.Lists.SideMenuActivity;
-import com.example.trail.NewTask.task.MonthTasks;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Map.MapFragment;
@@ -36,9 +27,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +39,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private ViewPager mViewPager;
     private TabLayout tabs;
     private FloatingActionButton fab;
-    private MonthTasks monthTasks;
+    private List<Task> tasks;
+    private StoreRetrieveData storeRetrieveData;
+    public static final String FILENAME = "tasks.json";
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,26 +62,57 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,NewTaskActivity.class);
-                NewTaskActivity.monthTasks=monthTasks;
+                Intent intent=new Intent(MainActivity.this, AddTaskActivity.class);
+//                NewTaskActivity.monthTasks=monthTasks;
                 startActivity(intent);
             }
         });
+        tasks = new ArrayList<>();
+        storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
+        Intent intent = getIntent();
+        if (intent.getSerializableExtra("task")!=null){
+//            System.out.println(intent.getSerializableExtra("task"));
+            tasks.add((Task)intent.getSerializableExtra("task"));
+        }
+    }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        tasks = getLocallyStoredData(storeRetrieveData);
+    }
+    public List<Task> getTasks(){
+        return tasks;
+    }
+    private static ArrayList<Task> getLocallyStoredData(StoreRetrieveData storeRetrieveData) {
+        ArrayList<Task> items = null;
+
+        try {
+            items = storeRetrieveData.loadFromFile();
+
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (items == null) {
+            items = new ArrayList<>();
+        }
+        return items;
 
     }
     private void createTabIcons() {
-        tabs.getTabAt(0).setIcon(R.drawable.checklist);
-        tabs.getTabAt(1).setIcon(R.drawable.calendar);
-        tabs.getTabAt(2).setIcon(R.drawable.map);
-        tabs.getTabAt(3).setIcon(R.drawable.settings);
+        tabs.getTabAt(TabConstants.LISTS.getIndex()).setIcon(R.drawable.checklist);
+        tabs.getTabAt(TabConstants.TIME.getIndex()).setIcon(R.drawable.calendar);
+        tabs.getTabAt(TabConstants.SPACE.getIndex()).setIcon(R.drawable.map);
+        tabs.getTabAt(TabConstants.SETTING.getIndex()).setIcon(R.drawable.settings);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new ListsFragment(), "lists");
-        adapter.addFragment(new CalendarFragment(),"time");
-        adapter.addFragment(new MapFragment(),"space");
-        adapter.addFragment(new SettingFragmnet(),"settings");
+//        adapter.addFragment(new ListsFragment(), "lists");
+        adapter.addFragment(new ListsFragment(), TabConstants.LISTS.getTitle());
+        adapter.addFragment(new CalendarFragment(),TabConstants.TIME.getTitle());
+        adapter.addFragment(new MapFragment(),TabConstants.SPACE.getTitle());
+        adapter.addFragment(new SettingFragmnet(),TabConstants.SETTING.getTitle());
         viewPager.setAdapter(adapter);
     }
 
@@ -151,64 +174,4 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
     }
 
-    FileOutputStream outputStream;
-    FileInputStream inputStream;
-
-
-
-    public void saveinfile(String data) {
-        try {
-            outputStream.write(data.getBytes());
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String ReadFile(String month) {
-        String FILENAME = month;
-        String out = "";
-        byte[] buffer = null;
-        try {
-            inputStream = openFileInput(FILENAME);
-            try {
-                // 获取文件内容长度
-                int fileLen = inputStream.available();
-                // 读取内容到buffer
-                buffer = new byte[fileLen];
-                inputStream.read(buffer);
-                out = new String(buffer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return out;
-    }
-
-    public void Save() {
-        String month = "201907";
-        String data;
-        String FILENAME = month;
-        try {
-            outputStream = openFileOutput(FILENAME, Context.MODE_APPEND);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        data = "一只鸭子";
-        saveinfile(data);
-
-        try {
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String Load() {
-        String filecontent = ReadFile("201907");
-        return filecontent;
-    }
 }
