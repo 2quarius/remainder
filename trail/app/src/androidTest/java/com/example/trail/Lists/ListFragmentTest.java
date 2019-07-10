@@ -1,4 +1,4 @@
-package com.example.trail;
+package com.example.trail.Lists;
 
 import android.view.View;
 
@@ -12,6 +12,9 @@ import org.junit.runner.RunWith;
 
 import com.android21buttons.fragmenttestrule.FragmentTestRule;
 import com.example.trail.Lists.ListsFragment;
+import com.example.trail.MainActivity;
+import com.example.trail.R;
+import com.example.trail.RecyclerViewMatcher;
 
 import org.junit.Before;
 import org.junit.Rule;
