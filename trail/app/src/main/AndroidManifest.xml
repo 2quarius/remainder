@@ -16,6 +16,7 @@
         android:protectionLevel="signature"/>
     <uses-permission android:name="com.example.permission.MAPS_RECEIVE"/>
     <application
+
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
