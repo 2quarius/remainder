@@ -1,9 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#2A000000"
     tools:context=".Setting.VoiceActivity">
+    <TextView
+        android:background="@color/colorPrimaryTitle"
+        android:textColor="@color/mdtp_white"
+        android:text="音量设置"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+    <TextView
+        android:id="@+id/tv_voiceSetting1"
+        android:text="媒体声音"
+        android:layout_marginTop="60dp"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:textColor="@color/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="110dp"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <SeekBar
+            android:id="@+id/sb_voice0"
+            android:layout_width="300dp"
+            style="@style/CustomSeekbarStyle"
+            android:layout_height="40dp" />
+    </LinearLayout>
+    <View
+        android:layout_marginTop="155dp"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#ffffff"/>
+    <TextView
+        android:id="@+id/tv_voiceSetting"
+        android:text="提醒声音"
+        android:layout_marginTop="180dp"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:textColor="@color/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:gravity="center"
+        android:layout_marginTop="220dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <SeekBar
+            android:id="@+id/sb_voice1"
+            android:layout_width="300dp"
+            style="@style/CustomSeekbarStyle"
+            android:layout_height="40dp" />
+    </LinearLayout>
+    <View
+        android:layout_marginTop="265dp"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="#ffffff"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="290dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="振动"
+            android:textColor="@color/text"
+            android:textSize="28sp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp" />
+        <Switch
+            android:id="@+id/vibration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:switchMinWidth="20dp"
+            android:layout_marginLeft="100dp"
+            android:thumb="@drawable/thumb"
+            android:track="@drawable/track"/>
+    </LinearLayout>
+
+</RelativeLayout>

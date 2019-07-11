@@ -7,9 +7,9 @@
     tools:context=".Setting.InformationActivity">
     <TextView
         android:id="@+id/tx_informationTitle"
-        android:background="@color/cardview_light_background"
+        android:background="@color/colorPrimaryTitle"
+        android:textColor="@color/mdtp_white"
         android:text="个人信息"
-        android:backgroundTint="@color/colorPrimaryLight"
         android:textSize="30sp"
         android:gravity="center"
         android:layout_width="match_parent"
