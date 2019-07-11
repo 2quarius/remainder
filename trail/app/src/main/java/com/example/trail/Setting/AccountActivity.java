@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.trail.R;
@@ -12,6 +13,8 @@ import com.example.trail.R;
 public class AccountActivity extends AppCompatActivity {
     private Button btnLogin;
     private Button btnRegister;
+    private EditText username;
+    private EditText password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,4 +34,17 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
     }
+
+    public String getUsername(){
+        username=findViewById(R.id.et_username);
+        String un=username.getText().toString();
+        return un;
+    }
+
+    public String getPassword(){
+        password=findViewById(R.id.et_password);
+        String pw=password.getText().toString();
+        return pw;
+    }
+
 }
