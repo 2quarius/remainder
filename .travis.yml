@@ -46,10 +46,7 @@ before_script:
 script:              # 执行:下面的命令
   - ./gradlew assembleRelease       #打包apk脚本
   - ./gradlew test --continue       #执行单元测试
-  - ./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"       #执行功能测试，如果连接到device
-  - ./gradlew connectToSmartphoneTestFarm
-  - ./gradlew build connectedCheck
-#  - ./gradlew connectedCheck        #执行功能测试，如果连接到device
+  - ./gradlew connectedCheck --stacktrace     #执行功能测试
 before_deploy:       # 部署之前
   # 使用 mv 命令进行修改 apk 文件的名字
   - mv app/build/outputs/apk/app-release.apk app/build/outputs/apk/buff.apk
