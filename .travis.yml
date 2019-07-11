@@ -16,9 +16,12 @@ android:            # 配置信息
 before_install:
   - cd trail/app
   - chmod +x gradlew  # 改变 gradlew 的访问权限
+  - gem install fir-cli
 
 script:              # 执行:下面的命令
   - ./gradlew assembleRelease
+  - ./gradlew connectedAndroidTest
+  - adb shell am instrument -w -r   -e debug false -e class 'com.example.trail' com.example.trail.test/androidx.test.runner.AndroidJUnitRunner
 
 before_deploy:       # 部署之前
   # 使用 mv 命令进行修改 apk 文件的名字
@@ -32,3 +35,6 @@ deploy:              # 部署
   skip_cleanup: true     # 设置为 true 以跳过清理,不然 apk 文件就会被清理
   on:     # 发布时机
     tags: true       # tags 设置为 true 表示只有在有 tag 的情况下才部署
+
+after_deploy:
+  - fir p app/build/outputs/apk/app-release.apk -T $FIR_TOKEN -c "`git cat-file tag $TRAVIS_TAG`"
