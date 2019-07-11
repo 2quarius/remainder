@@ -46,8 +46,8 @@ public class AddTaskActivityTest {
 
         onView(withId(R.id.description)).perform(typeText("The Description"), ViewActions.closeSoftKeyboard());
 
-        //onView(withId(R.id.expire_date_et)).perform(click());
-        //onView(ViewMatchers.withText("CANCEL")).perform(click());
+        onView(withId(R.id.expire_date_et)).perform(click());
+        onView(ViewMatchers.withText("CANCEL")).perform(click());
         onView(withId(R.id.expire_date_et))
                 .perform(click());
         onView(ViewMatchers.withText("2019"))
@@ -61,8 +61,8 @@ public class AddTaskActivityTest {
         onView(ViewMatchers.withText("OK"))
                 .perform(click());
 
-        //onView(withId(R.id.expire_time_et)).perform(click());
-        //onView(ViewMatchers.withText("CANCEL")).perform(click());
+        onView(withId(R.id.expire_time_et)).perform(click());
+        onView(ViewMatchers.withText("CANCEL")).perform(click());
         onView(withId(R.id.expire_time_et))
                 .perform(click());
         //onView(ViewMatchers.withText("8")).perform(click());
@@ -74,15 +74,15 @@ public class AddTaskActivityTest {
         onView(withId(R.id.remind_me_switch))
                 .perform(click());
 
-        //onView(withId(R.id.remind_date)).perform(click());
-        //onView(ViewMatchers.withText("CANCEL")).perform(click());
+        onView(withId(R.id.remind_date)).perform(click());
+        onView(ViewMatchers.withText("CANCEL")).perform(click());
         onView(withId(R.id.remind_date))
                 .perform(click());
         onView(ViewMatchers.withText("OK"))
                 .perform(click());
 
-        //onView(withId(R.id.remind_time)).perform(click());
-        //onView(ViewMatchers.withText("CANCEL")).perform(click());
+        onView(withId(R.id.remind_time)).perform(click());
+        onView(ViewMatchers.withText("CANCEL")).perform(click());
         onView(withId(R.id.remind_time))
                 .perform(click());
         onView(ViewMatchers.withText("OK"))
