@@ -8,7 +8,6 @@ sudo: false         # sudo 权限
 
 android:            # 配置信息
   components:
-    - tools
     # The BuildTools version used by your project
     - build-tools-29.0.0
 
