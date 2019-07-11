@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class StoreRetrieveData {
     private Context mContext;
@@ -57,7 +58,6 @@ public class StoreRetrieveData {
             while ((line = bufferedReader.readLine()) != null) {
                 builder.append(line);
             }
-
             JSONArray jsonArray = (JSONArray) new JSONTokener(builder.toString()).nextValue();
             for (int i = 0; i < jsonArray.length(); i++) {
                 Task item = new Task(jsonArray.getJSONObject(i));
