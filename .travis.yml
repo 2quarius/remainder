@@ -1,6 +1,5 @@
 language: android   # 声明构建语言环境
 dist: trusty
-install: ant deps
 
 notifications:      # 每次构建的时候是否通知，如果不想收到通知邮箱（个人感觉邮件贼烦），那就设置 false 吧
   email: false
