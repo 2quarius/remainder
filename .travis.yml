@@ -1,144 +1,67 @@
-sudo: required
+language: android   # 声明构建语言环境
 dist: trusty
-os:
-  - linux
-  - osx
 
-env:
-  - SYS=25 ABI="google_apis;arm64-v8a"
-  - SYS=25 ABI="google_apis;armeabi-v7a"
-  - SYS=24 ABI="google_apis;arm64-v8a"
-  - SYS=24 ABI="google_apis;armeabi-v7a"
-  - SYS=23 ABI="google_apis;armeabi-v7a"
+notifications:      # 每次构建的时候是否通知，如果不想收到通知邮箱（个人感觉邮件贼烦），那就设置 false 吧
+  email: false
 
-  - SYS=22 ABI="default;x86" # demo failure due to no accelerator on travis
-  - SYS=22 ABI="default;x86_64" # demo failure due to no accelerator on travis
-  - SYS=22 ABI="google_apis;armeabi-v7a"
-  - SYS=22 ABI="google_apis;x86" # demo failure due to no accelerator on travis
-  - SYS=22 ABI="google_apis;x86_64" # demo failure due to no accelerator on travis
-  - SYS=22 ABI="default;armeabi-v7a"
+sudo: false         # sudo 权限
 
-  - SYS=21 ABI="default;armeabi-v7a"
-  - SYS=20 ABI="default;armeabi-v7a"
-  - SYS=19 ABI="default;armeabi-v7a"
-  - SYS=18 ABI="default;armeabi-v7a"
-  - SYS=17 ABI="default;armeabi-v7a"
-  - SYS=16 ABI="default;armeabi-v7a"
-  - SYS=15 ABI="default;armeabi-v7a"
-  - SYS=14 ABI="default;armeabi-v7a"
-  - SYS=10 ABI="default;armeabi-v7a"
+android:            # 配置信息
+  components:
+    # The BuildTools version used by your project
+    - build-tools-29.0.0
 
-matrix:
-  allow_failures:
-    - env: SYS=22 ABI="default;x86"
-    - env: SYS=22 ABI="default;x86_64"
-    - env: SYS=22 ABI="google_apis;x86"
-    - env: SYS=22 ABI="google_apis;x86_64"
-    - env: SYS=20 ABI="default;armeabi-v7a"
-    - env: SYS=14 ABI="default;armeabi-v7a"
+    # The SDK version used to compile your project
+    - android-29
+    - android-22
 
-language: generic
+    # Additional components
+    - extra-google-google_play_services
+    - extra-google-m2repository
+    - extra-android-m2repository     # Android Support Repository
+    - extra-android-support          # Support Library
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-x86-android-26
+    - sys-img-armeabi-v7a-android-22
+  licenses:
+    - 'android-sdk-preview-license-52d11cd2'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
+
 before_install:
-  # Install the Android SDK Dependency.
-  - export ANDROID_HOME=~/android-sdk-linux
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then wget -q "https://dl.google.com/android/repository/sdk-tools-darwin-4333796.zip" -O android-sdk-tools.zip; else wget -q "https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip" -O android-sdk-tools.zip; fi
-  #  - wget -q "https://dl.google.com/android/repository/sdk-tools-${OS}-4333796.zip" -O android-sdk-tools.zip
-  - unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}
-  - rm android-sdk-tools.zip
-  - PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools
-  # Silence warning.
-  - mkdir -p ~/.android
-  - touch ~/.android/repositories.cfg
-  - HOMEBREW_NO_AUTO_UPDATE=1
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then brew cask uninstall java; brew tap caskroom/versions; brew cask install java8; fi
-  # Accept licenses before installing components, no need to echo y for each component
-  - yes | sdkmanager --licenses
-  # Platform tools
-  - sdkmanager "emulator" "tools" "platform-tools" > /dev/null
-  - sdkmanager --list | head -15
-  # install older packages (for emulator)
-  - sdkmanager "build-tools;25.0.2" "platforms;android-25" > /dev/null
-  # Create and start emulator.
-  - sdkmanager "system-images;android-$SYS;$ABI" > /dev/null
-  - sdkmanager --list | head -15
-  - echo no | avdmanager create avd --force -n test -k "system-images;android-$SYS;$ABI"
-  # fix timezone warning
-  - if [ $TRAVIS_OS_NAME == "osx" ]; then sudo ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime; fi
-  # use the absolute emulator path in case older version installed (on default path)
-  - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -gpu swiftshader &
+  - cd trail/app
+  - chmod +x gradlew  # 改变 gradlew 的访问权限
+  - gem install fir-cli
 before_script:
-  # Wait for emulator to startup.
-  - ./scripts/android-wait-for-emulator.sh
-  - adb shell input keyevent 82
+  # Emulator Management: Create, Start and Wait
+  - android list targets # list pre-installed targets
+  - android list sdk --no-ui --all --extended | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a -c 100M
+  - emulator -avd test -no-audio -no-window &
+#  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
 
-script:
+script:              # 执行:下面的命令
   - ./gradlew assembleRelease       #打包apk脚本
   - ./gradlew test --continue       #执行单元测试
-  - ./gradlew clean build connectedCheck -PdisablePreDex --stacktrace       #执行功能测试，如果连接到device
-#language: android   # 声明构建语言环境
-#dist: trusty
-#
-#notifications:      # 每次构建的时候是否通知，如果不想收到通知邮箱（个人感觉邮件贼烦），那就设置 false 吧
-#  email: false
-#
-#sudo: false         # sudo 权限
-#
-#android:            # 配置信息
-#  components:
-#    # The BuildTools version used by your project
-#    - build-tools-29.0.0
-#
-#    # The SDK version used to compile your project
-#    - android-29
-#    - android-22
-#
-#    # Additional components
-#    - extra-google-google_play_services
-#    - extra-google-m2repository
-#    - extra-android-m2repository     # Android Support Repository
-#    - extra-android-support          # Support Library
-#
-#    # Specify at least one system image,
-#    # if you need to run emulator(s) during your tests
-#    - sys-img-x86-android-26
-#    - sys-img-armeabi-v7a-android-22
-#  licenses:
-#    - 'android-sdk-preview-license-52d11cd2'
-#    - 'android-sdk-license-.+'
-#    - 'google-gdk-license-.+'
-#
-#before_install:
-#  - cd trail/app
-#  - chmod +x gradlew  # 改变 gradlew 的访问权限
-#  - gem install fir-cli
-#before_script:
-#  # Emulator Management: Create, Start and Wait
-#  - android list targets # list pre-installed targets
-#  - android list sdk --no-ui --all --extended | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
-#  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a -c 100M
-#  - emulator -avd test -no-audio -no-window &
-#  - android-wait-for-emulator
-#  - adb shell input keyevent 82 &
-#
-#script:              # 执行:下面的命令
-#  - ./gradlew assembleRelease       #打包apk脚本
-#  - ./gradlew test --continue       #执行单元测试
-#  - ./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"       #执行功能测试，如果连接到device
-#  - ./gradlew connectToSmartphoneTestFarm
-#  - ./gradlew build connectedCheck
-##  - ./gradlew connectedCheck        #执行功能测试，如果连接到device
-#before_deploy:       # 部署之前
-#  # 使用 mv 命令进行修改 apk 文件的名字
-#  - mv app/build/outputs/apk/app-release.apk app/build/outputs/apk/buff.apk
-#
-#deploy:              # 部署
-#  provider: releases # 部署到 GitHub Release，除此之外，Travis CI 还支持发布到 fir.im、AWS、Google App Engine 等
-#  api_key:           # 填写 GitHub 的 token （Settings -> Personal access tokens -> Generate new token）
-#    secure: 7f4dc45a19f742dce39cbe4d1e5852xxxxxxxxx
-#  file: app/build/outputs/apk/buff.apk   # 部署文件路径
-#  skip_cleanup: true     # 设置为 true 以跳过清理,不然 apk 文件就会被清理
-#  on:     # 发布时机
-#    tags: true       # tags 设置为 true 表示只有在有 tag 的情况下才部署
-#
-#after_deploy:
-#  - fir p app/build/outputs/apk/app-release.apk -T $FIR_TOKEN -c "`git cat-file tag $TRAVIS_TAG`"
+  - ./gradlew clean build connectedCheck -PdisablePreDex --stacktrace"       #执行功能测试，如果连接到device
+  - ./gradlew connectToSmartphoneTestFarm
+  - ./gradlew build connectedCheck
+#  - ./gradlew connectedCheck        #执行功能测试，如果连接到device
+before_deploy:       # 部署之前
+  # 使用 mv 命令进行修改 apk 文件的名字
+  - mv app/build/outputs/apk/app-release.apk app/build/outputs/apk/buff.apk
+
+deploy:              # 部署
+  provider: releases # 部署到 GitHub Release，除此之外，Travis CI 还支持发布到 fir.im、AWS、Google App Engine 等
+  api_key:           # 填写 GitHub 的 token （Settings -> Personal access tokens -> Generate new token）
+    secure: 7f4dc45a19f742dce39cbe4d1e5852xxxxxxxxx
+  file: app/build/outputs/apk/buff.apk   # 部署文件路径
+  skip_cleanup: true     # 设置为 true 以跳过清理,不然 apk 文件就会被清理
+  on:     # 发布时机
+    tags: true       # tags 设置为 true 表示只有在有 tag 的情况下才部署
+
+after_deploy:
+  - fir p app/build/outputs/apk/app-release.apk -T $FIR_TOKEN -c "`git cat-file tag $TRAVIS_TAG`"
