@@ -3,17 +3,11 @@ package com.example.trail.Lists;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.icu.util.RangeValueIterator;
-
-import android.graphics.Color;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,8 +15,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -35,7 +27,6 @@ import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -47,7 +38,10 @@ public class ListsFragment extends Fragment {
     private static List<Boolean> finished = new ArrayList<>();
     private static List<String> titles=new ArrayList<>();
     private static List<String> descriptions=new ArrayList<>();
-    private List<Task> mTasks;
+    private static List<Task> mTasks;
+    public interface callbackClass{
+        public void setTasks(List<Task> mTasks);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,7 +68,10 @@ public class ListsFragment extends Fragment {
         super.onAttach(activity);
         mTasks = ((MainActivity) activity).getTasks();
     }
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    private void notifyFather(){
+        ((callbackClass)getActivity()).setTasks(mTasks);
+    }
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public CheckBox checkBox;
         public TextView name;
         public TextView description;
@@ -98,13 +95,18 @@ public class ListsFragment extends Fragment {
                             toBottom(titles, getAdapterPosition());
                             toBottom(descriptions, getAdapterPosition());
                             finished.set(getAdapterPosition(), isChecked);
-                            toBottomF(finished, getAdapterPosition());
+                            toBottom(finished, getAdapterPosition());
+                            mTasks.get(getAdapterPosition()).setDone(isChecked);
+                            toBottom(mTasks,getAdapterPosition());
                         } else {
                             toTop(titles, getAdapterPosition());
                             toTop(descriptions, getAdapterPosition());
                             finished.set(getAdapterPosition(), isChecked);
-                            toTopF(finished, getAdapterPosition());
+                            toTop(finished, getAdapterPosition());
+                            mTasks.get(getAdapterPosition()).setDone(isChecked);
+                            toTop(mTasks,getAdapterPosition());
                         }
+                        ListsFragment.this.notifyFather();
                         Handler handler = new Handler();
                         handler.post(new Runnable() {
                             @Override
@@ -114,29 +116,16 @@ public class ListsFragment extends Fragment {
                         });
                     }
                 }
-                private void toBottom(List<String> lists,int position){
+                private <E> void toBottom(List<E> lists, int position){
                     if (position<lists.size()){
-                        String tmp = lists.remove(position);
+                        E tmp = lists.remove(position);
                         lists.add(tmp);
 
                     }
                 }
-                private void toBottomF(List<Boolean> lists,int position){
+                private <E> void toTop(List<E> lists,int position){
                     if (position<lists.size()){
-                        boolean tmp = lists.remove(position);
-                        lists.add(tmp);
-
-                    }
-                }
-                private void toTop(List<String> lists,int position){
-                    if (position<lists.size()){
-                        String tmp = lists.remove(position);
-                        lists.add(0,tmp);
-                    }
-                }
-                private void toTopF(List<Boolean> lists,int position){
-                    if (position<lists.size()){
-                        boolean tmp = lists.remove(position);
+                        E tmp = lists.remove(position);
                         lists.add(0,tmp);
                     }
                 }
@@ -232,13 +221,18 @@ public class ListsFragment extends Fragment {
                 for (int i = fromPosition; i < toPosition; i++) {
                     Collections.swap(titles, i, i + 1);
                     Collections.swap(descriptions, i, i + 1);
+                    Collections.swap(finished,i,i+1);
+                    Collections.swap(mTasks,i,i+1);
                 }
             } else {
                 for (int i = fromPosition; i > toPosition; i--) {
                     Collections.swap(titles, i, i - 1);
                     Collections.swap(descriptions, i, i - 1);
+                    Collections.swap(finished,i,i-1);
+                    Collections.swap(mTasks, i, i - 1);
                 }
             }
+            notifyFather();
             adapter.notifyItemMoved(fromPosition, toPosition);
             adapter.notifyItemRangeChanged(Math.min(fromPosition, toPosition), Math.abs(fromPosition - toPosition) +1);
             return true;

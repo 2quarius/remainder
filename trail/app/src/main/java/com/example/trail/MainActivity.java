@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.ListFragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
@@ -34,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
     private boolean misScrolled;
     private ViewPager mViewPager;
@@ -106,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             e.printStackTrace();
         }
     }
+    @Override
+    public void setTasks(List<Task> mTasks) {
+        tasks = mTasks;
+    }
     public List<Task> getTasks(){
         //System.out.println(tasks.size()+"main");
         return tasks;
@@ -169,6 +174,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 break;
         }
     }
+
+
 
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
