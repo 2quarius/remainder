@@ -22,4 +22,5 @@
     <string name="date_error_check_again">the remind date is ahead of today</string>
     <string name="date_reminder_default">today</string>
     <string name="expire_time">Deadline</string>
+    <string name="expire_place">Place</string>
 </resources>
