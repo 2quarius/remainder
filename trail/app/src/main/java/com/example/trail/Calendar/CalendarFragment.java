@@ -33,7 +33,7 @@ public class CalendarFragment extends Fragment implements
     public TextView lunar;
     public TextView currentDay;
     public CalendarLayout calendarLayout;
-    private static String constructMonthDay(int m,int d)
+    public static String constructMonthDay(int m,int d)
     {
         return String.format("%d%s%d%s", m, MONTH, d, DAY);
     }
