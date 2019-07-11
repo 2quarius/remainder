@@ -20,8 +20,10 @@ before_install:
 
 script:              # 执行:下面的命令
   - ./gradlew assembleRelease
-  - ./gradlew connectedAndroidTest
-  - adb shell am instrument -w -r   -e debug false -e class 'com.example.trail' com.example.trail.test/androidx.test.runner.AndroidJUnitRunner
+#  - ./gradlew connectedAndroidTest
+  - adb shell am instrument -w -r  \
+    -e debug false -e class 'com.example.trail.MainActivityTest,com.example.trail.Calendar.CalendarFragmentTest,com.example.trail.Lists.ListsFragmentTest,com.example.trail.Lists.SideMenuActivityTest' \
+    com.example.trail.test/androidx.test.runner.AndroidJUnitRunner
 
 before_deploy:       # 部署之前
   # 使用 mv 命令进行修改 apk 文件的名字
