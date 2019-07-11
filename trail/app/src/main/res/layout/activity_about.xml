@@ -7,12 +7,13 @@
     tools:context=".Setting.AboutActivity">
     <TextView
         android:id="@+id/tx_aboutTitle"
-        android:text="关于我们"
-        android:textSize="28sp"
-        android:textColor="@color/cardview_light_background"
         android:background="@color/colorPrimaryTitle"
+        android:textColor="@color/mdtp_white"
+        android:text="关于我们"
+        android:textSize="24sp"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:layout_height="50dp" />
    <LinearLayout
        android:layout_below="@+id/tx_aboutTitle"
        android:layout_margin="20dp"
