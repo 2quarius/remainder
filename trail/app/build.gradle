@@ -23,6 +23,9 @@ android {
     compileOptions {
         incremental = false
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
