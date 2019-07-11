@@ -42,8 +42,9 @@ import java.util.List;
 
 
 public class ListsFragment extends Fragment {
+    private RecyclerView view;
     private static ContentAdapter adapter;
-    private static List<String> finished = new ArrayList<>();
+    private static List<Boolean> finished = new ArrayList<>();
     private static List<String> titles=new ArrayList<>();
     private static List<String> descriptions=new ArrayList<>();
     private List<Task> mTasks;
@@ -58,7 +59,15 @@ public class ListsFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         helper.attachToRecyclerView(recyclerView);
+        view = recyclerView;
         return recyclerView;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        mTasks = ((MainActivity)getActivity()).getTasks();
+        adapter = new ContentAdapter(view.getContext());
+        view.setAdapter(adapter);
     }
     @Override
     public void onAttach(Activity activity){
@@ -88,13 +97,13 @@ public class ListsFragment extends Fragment {
                         if (isChecked) {
                             toBottom(titles, getAdapterPosition());
                             toBottom(descriptions, getAdapterPosition());
-                            finished.set(getAdapterPosition(), String.valueOf(isChecked));
-                            toBottom(finished, getAdapterPosition());
+                            finished.set(getAdapterPosition(), isChecked);
+                            toBottomF(finished, getAdapterPosition());
                         } else {
                             toTop(titles, getAdapterPosition());
                             toTop(descriptions, getAdapterPosition());
-                            finished.set(getAdapterPosition(), String.valueOf(isChecked));
-                            toTop(finished, getAdapterPosition());
+                            finished.set(getAdapterPosition(), isChecked);
+                            toTopF(finished, getAdapterPosition());
                         }
                         Handler handler = new Handler();
                         handler.post(new Runnable() {
@@ -112,9 +121,22 @@ public class ListsFragment extends Fragment {
 
                     }
                 }
+                private void toBottomF(List<Boolean> lists,int position){
+                    if (position<lists.size()){
+                        boolean tmp = lists.remove(position);
+                        lists.add(tmp);
+
+                    }
+                }
                 private void toTop(List<String> lists,int position){
                     if (position<lists.size()){
                         String tmp = lists.remove(position);
+                        lists.add(0,tmp);
+                    }
+                }
+                private void toTopF(List<Boolean> lists,int position){
+                    if (position<lists.size()){
+                        boolean tmp = lists.remove(position);
                         lists.add(0,tmp);
                     }
                 }
@@ -127,29 +149,21 @@ public class ListsFragment extends Fragment {
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         public ContentAdapter(Context context) {
-            titles.clear();
-            titles.add("Palais Garnie");
-            titles.add("Piazza del Duomo");
-            titles.add("Manhattan");
-            titles.add("Senso");
-            titles.add("Sultan");
-            titles.add("china");
-            descriptions.clear();
-            descriptions.add("The Palais Garnier which locates in Paris was built from 1861 for\n" +
-                    "        the Paris Opera");
-            descriptions.add("Piazza del Duomo the cathedral which locates in Florence.");
-            descriptions.add("Manhattan is the district in New York City");
-            descriptions.add("Senso-ji is the Shrine locates in Asakusa Toky");
-            descriptions.add("Sultan Ahmed Mosque is mosque locates in Istabul, Turkey");
-            descriptions.add("Senso-ji is the Shrine locates in Asakusa Toky");
-            finished.clear();
-            finished.add("false");
-            finished.add("false");
-            finished.add("false");
-            finished.add("false");
-            finished.add("false");
-            finished.add("false");
-            // finish=resources.getStringArray(R.array.)
+            if (mTasks!=null&&mTasks.size()==titles.size()){
+                return;
+            }
+            else if (mTasks.size()>titles.size()&&titles.size()==0){
+                for (int i = 0; i < mTasks.size(); i++) {
+                    titles.add(mTasks.get(i).getTitle());
+                    descriptions.add(mTasks.get(i).getDescription());
+                    finished.add(mTasks.get(i).getDone());
+                }
+            }
+            else if (mTasks.size()>titles.size()&&titles.size()>0){
+                titles.add(mTasks.get(mTasks.size()-1).getTitle());
+                descriptions.add(mTasks.get(mTasks.size()-1).getDescription());
+                finished.add(mTasks.get(mTasks.size()-1).getDone());
+            }
         }
 
         @Override
@@ -159,7 +173,7 @@ public class ListsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.checkBox.setChecked(Boolean.valueOf(finished.get(position)));
+            holder.checkBox.setChecked(finished.get(position));
             holder.name.setText(titles.get(position));
             holder.description.setText(descriptions.get(position));
 

@@ -36,14 +36,16 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
             {
                 System.out.println("show today's lists");
                 item.setChecked(true);
-                startActivity(new Intent(this, MainActivity.class));
+                this.finish();
+//                startActivity(new Intent(this, MainActivity.class));
                 break;
             }
             case R.id.nav_item_collection:
             {
                 System.out.println("show collection's lists");
                 item.setChecked(true);
-                startActivity(new Intent(this, MainActivity.class));
+                this.finish();
+//                startActivity(new Intent(this, MainActivity.class));
                 break;
             }
             case R.id.nav_item_add:
