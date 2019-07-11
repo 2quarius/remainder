@@ -21,6 +21,7 @@ before_install:
 script:              # 执行:下面的命令
   - ./gradlew assembleRelease
 #  - ./gradlew connectedAndroidTest
+  - emulator @Nexus_5X_API_23
   - adb shell am instrument -w -r  \
     -e debug false -e class 'com.example.trail.MainActivityTest,com.example.trail.Calendar.CalendarFragmentTest,com.example.trail.Lists.ListsFragmentTest,com.example.trail.Lists.SideMenuActivityTest' \
     com.example.trail.test/androidx.test.runner.AndroidJUnitRunner
