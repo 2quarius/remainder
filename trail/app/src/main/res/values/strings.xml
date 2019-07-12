@@ -1,15 +1,9 @@
 <resources>
     <string name="app_name">trail</string>
-    <string name="tab_a_label">lists</string>
-    <string name="tab_b_label">time</string>
-    <string name="tab_c_label">space</string>
-    <string name="tab_d_label">mine</string>
-    <string name="hint_text">mingzi</string>
     <string name="item_title">Palais Garnier</string>
     <string name="item_desc">The Palais Garnier which locates in Paris was built from 1861 for the Paris Opera.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="nav_today">今天</string>
     <string name="nav_collection">收集箱</string>
     <string name="add_list_file">添加清单夹</string>
@@ -23,4 +17,7 @@
     <string name="date_reminder_default">today</string>
     <string name="expire_time">Deadline</string>
     <string name="expire_place">Place</string>
+    <string name="image">image_desc</string>
+    <string name="at">\@</string>
+    <string name="select_time">select a time</string>
 </resources>

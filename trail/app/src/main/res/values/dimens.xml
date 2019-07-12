@@ -13,4 +13,5 @@
     <dimen name="dialog_width">300dp</dimen>
     <dimen name="dialog_height">420dp</dimen>
     <dimen name="input_height">60dp</dimen>
+    <dimen name="time">50dp</dimen>
 </resources>

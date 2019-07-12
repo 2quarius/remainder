@@ -1,6 +1,7 @@
 package com.example.trail.NewTask;
 
 import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.RemindCycle;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.trail.R;
@@ -48,6 +50,7 @@ public class AddTaskActivity extends AppCompatActivity implements
     private EditText mTimeEditText;
     private Spinner mRepeatType;
     private TextView mDateTimeReminderTextView;
+    private TextView mExpirePlaceTextView;
     private void hideKeyboard(EditText et)
     {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -71,6 +74,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         mTimeEditText = (EditText) findViewById(R.id.remind_time);
         mRepeatType = (Spinner) findViewById(R.id.repeat_type);
         mDateTimeReminderTextView = (TextView) findViewById(R.id.date_time_reminder_tv);
+        mExpirePlaceTextView = (TextView) findViewById(R.id.expire_place_tv);
 
         mTitleEditText.requestFocus();
         mTitleEditText.setText(task.getTitle());
@@ -183,12 +187,6 @@ public class AddTaskActivity extends AppCompatActivity implements
         });
         setEnterDateLayoutVisible(mRemindMeSwitch.isChecked());
         mRemindMeSwitch.setChecked(task.getRemindTime() != null);
-        if (task.getRemindTime() != null){
-            setDateAndTimeEditText();
-            setEnterDateLayoutVisibleWithAnimations(true);
-            hideKeyboard(mTitleEditText);
-            hideKeyboard(mDescriptionEditText);
-        }
         mRemindMeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -235,9 +233,26 @@ public class AddTaskActivity extends AppCompatActivity implements
                 timePickerDialog.show(getFragmentManager(), "TimeFragment");
             }
         });
+        mRepeatType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                task.setRemindCycle(RemindCycle.match(mRepeatType.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         if (task.getRemindTime() == null) {
             mRemindMeSwitch.setChecked(false);
             mDateTimeReminderTextView.setVisibility(View.INVISIBLE);
+        }
+        else if (task.getRemindTime() != null){
+            setDateAndTimeEditText();
+            setEnterDateLayoutVisibleWithAnimations(true);
+            hideKeyboard(mTitleEditText);
+            hideKeyboard(mDescriptionEditText);
         }
     }
 
