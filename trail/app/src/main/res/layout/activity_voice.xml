@@ -16,7 +16,7 @@
         android:layout_height="50dp" />
     <TextView
         android:id="@+id/tv_voiceSetting1"
-        android:text="媒体声音"
+        android:text="系统声音"
         android:layout_marginTop="60dp"
         android:textSize="24sp"
         android:gravity="center"
@@ -42,7 +42,7 @@
         android:background="#ffffff"/>
     <TextView
         android:id="@+id/tv_voiceSetting"
-        android:text="提醒声音"
+        android:text="媒体声音"
         android:layout_marginTop="180dp"
         android:textSize="24sp"
         android:gravity="center"
