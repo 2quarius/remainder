@@ -61,9 +61,11 @@ public class CalendarFragmentTest {
     }
     @Test
     public void testPerform(){
+        String s= new Date(System.currentTimeMillis()).toString();
         //点击跳转到年视图
         onView(allOf(withId(R.id.tv_month_day),isDisplayed())).perform(click());
         //检查年视图是否显示
+        onView(allOf(withId(R.id.tv_month_day),isDisplayed())).check(matches(withText(s.substring(0,4))));
         onView(allOf(withId(R.id.calendar_view),isDisplayed())).check(matches(isCompletelyDisplayed()));
         //点击返回月视图
         onView(allOf(withId(R.id.calendar_view),isDisplayed())).perform(click());
@@ -74,9 +76,9 @@ public class CalendarFragmentTest {
                 .check(matches(isEnabled()));
         //点击右上角icon，检查是否回到当前月份
         onView(allOf(withId(R.id.tv_current_day),isDisplayed())).perform(click());
-        String s= new Date(System.currentTimeMillis()).toString();
         onView(allOf(withId(R.id.tv_month_day),isDisplayed()))
                 .check(matches(withText(CalendarFragment.constructMonthDay(Integer.valueOf(s.substring(5,7)),Integer.valueOf(s.substring(8,10))))));
+        onView(allOf(withId(R.id.calendar_view),isDisplayed())).check(matches(isCompletelyDisplayed()));
 
     }
     public static ViewAction dragLeft2Right() {

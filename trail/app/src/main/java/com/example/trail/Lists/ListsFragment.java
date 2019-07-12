@@ -3,6 +3,7 @@ package com.example.trail.Lists;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trail.MainActivity;
+import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 
@@ -30,9 +32,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 
 
 public class ListsFragment extends Fragment {
+    private static final int MODIFY_TASK_REQUEST_CODE = 9;
     private RecyclerView view;
     private static ContentAdapter adapter;
     private static List<Boolean> finished = new ArrayList<>();
@@ -84,7 +88,10 @@ public class ListsFragment extends Fragment {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("click");
+                    Intent intent = new Intent(getActivity(), AddTaskActivity.class);
+                    intent.putExtra("position",getAdapterPosition());
+                    intent.putExtra("task",mTasks.get(getAdapterPosition()));
+                    startActivityForResult(intent,MODIFY_TASK_REQUEST_CODE);
                 }
             });
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -139,7 +146,12 @@ public class ListsFragment extends Fragment {
 
         public ContentAdapter(Context context) {
             if (mTasks!=null&&mTasks.size()==titles.size()){
-                return;
+                int i =0;
+                for (Task t: mTasks){
+                    titles.set(i,t.getTitle());
+                    descriptions.set(i,t.getDescription());
+                    finished.set(i++,t.isDone());
+                }
             }
             else if (mTasks.size()>titles.size()&&titles.size()==0){
                 for (int i = 0; i < mTasks.size(); i++) {
@@ -242,6 +254,8 @@ public class ListsFragment extends Fragment {
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
             //侧滑删除可以使用；
             adapter.delete(viewHolder.getAdapterPosition());
+            mTasks.remove(viewHolder.getAdapterPosition());
+            notifyFather();
         }
 
         @Override
