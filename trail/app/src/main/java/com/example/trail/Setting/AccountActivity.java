@@ -3,6 +3,7 @@ package com.example.trail.Setting;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.trail.MainActivity;
 import com.example.trail.R;
 
 import java.io.FileInputStream;
@@ -46,6 +48,8 @@ public class AccountActivity extends AppCompatActivity {
                     }
                     else {
                         Toast.makeText(AccountActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(AccountActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }
                 }
             }
