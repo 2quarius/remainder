@@ -39,8 +39,6 @@ public class SideMenuActivityTest {
         onView(ViewMatchers.withText(R.string.add_list_file)).perform(click());
         onView(ViewMatchers.withText("取消")).perform(click());
         onView(ViewMatchers.withText(R.string.nav_today)).perform(click());
-        onView(isRoot()).perform(swipeRight());
-        onView(ViewMatchers.withText(R.string.nav_collection)).perform(click());
     }
     @Test
     public void testNavMenuDisplay(){
@@ -77,5 +75,6 @@ public class SideMenuActivityTest {
     @Test
     public void testNavHeadDisplay(){
         onView(ViewMatchers.withId(R.id.nav_view)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withText(R.string.nav_collection)).perform(click());
     }
 }

@@ -35,6 +35,7 @@ import java.util.Date;
 
 public class AddTaskActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+    private Integer position;
     private Task task;
     private EditText mTitleEditText;
     private EditText mDescriptionEditText;
@@ -56,7 +57,9 @@ public class AddTaskActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
-        task = new Task();
+        Intent intent = getIntent();
+        position = intent.getIntExtra("position",-1);
+        task = intent.getSerializableExtra("task")!=null? (Task) intent.getSerializableExtra("task") :new Task();
         mTitleEditText = (EditText) findViewById(R.id.title);
         mDescriptionEditText = (EditText) findViewById(R.id.description);
         mSendTaskFAB = (FloatingActionButton) findViewById(R.id.send_task_fab);
@@ -112,12 +115,19 @@ public class AddTaskActivity extends AppCompatActivity implements
                 if (mTitleEditText.length()<=0){
                     mTitleEditText.setError("please enter a todo");
                 }
-                else {
+                else if (position==-1){
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("task",task);
                     setResult(RESULT_OK,intent);
                     AddTaskActivity.this.finish();
 //                    startActivity(intent);
+                }
+                else if (position!=-1){
+                    Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
+                    intent.putExtra("position",position);
+                    intent.putExtra("task",task);
+                    setResult(RESULT_OK,intent);
+                    AddTaskActivity.this.finish();
                 }
             }
         });

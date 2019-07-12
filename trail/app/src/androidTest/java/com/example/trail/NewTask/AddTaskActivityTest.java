@@ -1,5 +1,6 @@
 package com.example.trail.NewTask;
 
+import androidx.test.rule.ActivityTestRule;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.GeneralLocation;
 import androidx.test.espresso.action.GeneralSwipeAction;
@@ -14,7 +15,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-
 import com.example.trail.R;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
