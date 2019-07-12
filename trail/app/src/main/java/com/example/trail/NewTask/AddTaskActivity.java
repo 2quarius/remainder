@@ -183,6 +183,12 @@ public class AddTaskActivity extends AppCompatActivity implements
         });
         setEnterDateLayoutVisible(mRemindMeSwitch.isChecked());
         mRemindMeSwitch.setChecked(task.getRemindTime() != null);
+        if (task.getRemindTime() != null){
+            setDateAndTimeEditText();
+            setEnterDateLayoutVisibleWithAnimations(true);
+            hideKeyboard(mTitleEditText);
+            hideKeyboard(mDescriptionEditText);
+        }
         mRemindMeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
