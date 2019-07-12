@@ -82,19 +82,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode==ADD_TASK_REQUEST_CODE&&resultCode==RESULT_OK){
-            if (data != null){
+        if (resultCode==RESULT_OK&&data!=null){
+            if (requestCode==ADD_TASK_REQUEST_CODE){
                 tasks.add((Task) data.getSerializableExtra("task"));
-                try {
-                    storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
-                } catch (JSONException | IOException e) {
-                    e.printStackTrace();
-                }
             }
-        }
-        else if (resultCode==RESULT_OK)
-        {
-            tasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
+            else {
+                tasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
+            }
             try {
                 storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
             } catch (JSONException | IOException e) {

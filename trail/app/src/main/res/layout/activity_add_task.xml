@@ -1,7 +1,11 @@
-<LinearLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" android:animateLayoutChanges="true"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:animateLayoutChanges="true"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -13,9 +17,9 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/editTextParentLinearLayout"
+            android:id="@+id/title_linear_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/title_height"
             android:background="?attr/colorPrimary"
             android:gravity="center"
             android:orientation="horizontal">
@@ -66,7 +70,8 @@
                 android:lines="2"
                 android:maxLines="3"
                 android:scrollbars="vertical"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:importantForAutofill="no" tools:targetApi="o" />
         </com.example.trail.Utility.CustomTextInputLayout>
     </LinearLayout>
 
@@ -84,8 +89,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="36dp"
                 android:gravity="center|start|fill_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="36dp">
 
                 <ImageButton
                     android:id="@+id/expire_time_ib"
@@ -112,7 +121,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="36dp"
                 android:layout_marginRight="36dp"
                 android:gravity="start|fill_horizontal|top">
@@ -124,6 +133,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:gravity="center"
+                    android:hint="@string/select_time"
                     android:importantForAutofill="no"
                     android:inputType="date"
                     android:textIsSelectable="false"
@@ -145,40 +155,10 @@
                     android:focusableInTouchMode="false"
                     android:gravity="center"
                     android:hint="@string/select_time"
+                    android:importantForAutofill="no"
                     android:inputType="time"
                     android:textIsSelectable="false"
-                    android:importantForAutofill="no" tools:targetApi="o" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginRight="36dp"
-                android:gravity="center|start|fill_horizontal"
-                android:orientation="horizontal">
-
-                <ImageButton
-                    android:id="@+id/expire_place_ib"
-                    android:layout_width="@dimen/icon"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_add_alarm_grey_200_24dp" />
-
-                <TextView
-                    android:id="@+id/expire_place_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="8dp"
-                    android:text="@string/expire_place"
-                    android:textColor="@color/colorPrimaryTitle"
-                    android:textSize="16sp" />
+                    tools:targetApi="o" />
             </LinearLayout>
 
             <LinearLayout
@@ -237,8 +217,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
                     android:layout_marginLeft="0dp"
-                    android:layout_marginTop="-40dp"
+                    android:layout_marginTop="0dp"
                     android:gravity="top">
 
                     <EditText
@@ -248,24 +229,32 @@
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:gravity="center"
-                        android:textIsSelectable="false" />
+                        android:hint="@string/select_time"
+                        android:importantForAutofill="no"
+                        android:inputType="date"
+                        android:textIsSelectable="false"
+                        tools:targetApi="o" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="4dp"
-                        android:text="\@"
+                        android:text="@string/at"
                         android:textColor="@color/colorPrimaryTitle" />
 
                     <EditText
                         android:id="@+id/remind_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:autofillHints=""
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         android:gravity="center"
-                        android:textIsSelectable="false" />
+                        android:hint="@string/select_time"
+                        android:inputType="time"
+                        android:textIsSelectable="false"
+                        tools:targetApi="o" />
 
                     <Spinner
                         android:id="@+id/repeat_type"
@@ -280,25 +269,63 @@
                     android:id="@+id/date_time_reminder_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="-60dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
                     android:gravity="start"
                     android:text="@string/remind_date_and_time"
                     android:textColor="@color/warning"
                     android:textSize="14sp" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginRight="36dp"
+                android:gravity="center|start|fill_horizontal"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/expire_place_ib"
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/item_desc"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_add_alarm_grey_200_24dp" />
+
+                <TextView
+                    android:id="@+id/expire_place_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/expire_place"
+                    android:textColor="@color/colorPrimaryTitle"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
-
+</LinearLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/send_task_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:src="@drawable/ic_send_white_18dp"
-        app:backgroundTint="@color/ok"
+        app:borderWidth="0dp"
+        android:backgroundTint="@color/inputLine"
+        android:src="@drawable/checkmark_complete"
         app:fabSize="normal"
-        app:layout_anchor = "@id/editTextParentLinearLayout"
-        app:layout_anchorGravity="bottom|right" />
-</LinearLayout>
+        app:maxImageSize="@dimen/fab_ok"
+        app:layout_anchor="@id/title_linear_layout"
+        app:layout_anchorGravity="bottom|right"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -3,7 +3,6 @@ package com.example.trail.NewTask.SimpleTask;
 import android.location.Location;
 
 import com.example.trail.Utility.TaskConstants;
-import com.google.android.gms.location.places.PlaceReport;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,29 +41,78 @@ public class Task implements Serializable {
     }
     public Task(JSONObject o) {
         try{
-        title = o.getString(String.valueOf(TaskConstants.TITLE));
-        description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
-        tags = deformTags(o.getString(String.valueOf(TaskConstants.TAGS)));
-//        startTime = (Date) o.get(String.valueOf(TaskConstants.START_TIME));
-//        expireTime = (Date) o.get(String.valueOf(TaskConstants.EXPIRE_TIME));
-//        remindTime = (Date) o.get(String.valueOf(TaskConstants.REMIND_TIME));
-//        remindCycle = (RemindCycle) o.get(String.valueOf(TaskConstants.REMIND_CYCLE));
-//        priority = (Priority) o.get(String.valueOf(TaskConstants.PRIORITY));
-//        location = (Location) o.get(String.valueOf(TaskConstants.LOCATION));
-        done = o.getBoolean(String.valueOf(TaskConstants.DONE));
+            title = o.getString(String.valueOf(TaskConstants.TITLE));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        try{
+            description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        try{
+            tags = deformTags(o.getString(String.valueOf(TaskConstants.TAGS)));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        try{
+            startTime = new Date(o.getInt(String.valueOf(TaskConstants.START_TIME)));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        try{
+            description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        try{
+            description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        init(o, TaskConstants.START_TIME);
+        init(o, TaskConstants.EXPIRE_TIME);
+        init(o, TaskConstants.REMIND_TIME);
+        init(o, TaskConstants.REMIND_CYCLE);
+        init(o, TaskConstants.PRIORITY);
+        init(o, TaskConstants.LOCATION);
+    }
+    private <T> void init(JSONObject o, TaskConstants constant)
+    {
+        try {
+            T element = (T) o.get(String.valueOf(constant));
         } catch (JSONException e) {
             e.printStackTrace();
-            description = null;
-            tags = null;
-            startTime = null;
-            expireTime = null;
-            remindTime = null;
-            remindCycle = RemindCycle.DAILY;
-            priority = Priority.NONE;
-            location = null;
+//            element = null;
+            return;
         }
-
     }
+//        try {
+//            title = o.getString(String.valueOf(TaskConstants.TITLE));
+//        }catch (JSONException e) {
+//
+//        }
+//        description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
+//        tags = deformTags(o.getString(String.valueOf(TaskConstants.TAGS)));
+////        startTime = (Date) o.get(String.valueOf(TaskConstants.START_TIME));
+////        expireTime = (Date) o.get(String.valueOf(TaskConstants.EXPIRE_TIME));
+////        remindTime = (Date) o.get(String.valueOf(TaskConstants.REMIND_TIME));
+////        remindCycle = (RemindCycle) o.get(String.valueOf(TaskConstants.REMIND_CYCLE));
+////        priority = (Priority) o.get(String.valueOf(TaskConstants.PRIORITY));
+////        location = (Location) o.get(String.valueOf(TaskConstants.LOCATION));
+//        done = o.getBoolean(String.valueOf(TaskConstants.DONE));
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//            description = null;
+//            tags = null;
+//            startTime = null;
+//            expireTime = null;
+//            remindTime = null;
+//            remindCycle = RemindCycle.DAILY;
+//            priority = Priority.NONE;
+//            location = null;
+//        }
+
     public JSONObject toJSON() throws JSONException {
         JSONObject object = new JSONObject();
         object.put(String.valueOf(TaskConstants.TITLE), title);
@@ -95,6 +143,9 @@ public class Task implements Serializable {
     }
     private List<String> deformTags(String string)
     {
+        if (string==null){
+            return null;
+        }
         StringBuilder s = new StringBuilder();
         List<String> newTags = new ArrayList<>();
         int i = 0;
