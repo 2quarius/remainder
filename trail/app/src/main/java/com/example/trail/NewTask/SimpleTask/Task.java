@@ -25,10 +25,10 @@ public class Task implements Serializable {
     private String description = null;
     private List<String> tags = new ArrayList<>();
 
-    private Date startTime = new Date();
-    private Date expireTime = new Date();
+    private Date startTime = null;
+    private Date expireTime = null;
 
-    private Date remindTime = new Date();
+    private Date remindTime = null;
     private RemindCycle remindCycle = RemindCycle.DAILY;
 
     private Priority priority = Priority.NONE;
@@ -36,9 +36,13 @@ public class Task implements Serializable {
     private Location location = null;
 
     private Boolean done = false;
+
     public Boolean isDone()
     {
         return done == null ? false : done;
+    }
+    public Task(String title){
+        this.title = title;
     }
     public Task(JSONObject o) {
         try{
@@ -56,6 +60,12 @@ public class Task implements Serializable {
             e.printStackTrace();
             description = null;
             tags = null;
+            startTime = null;
+            expireTime = null;
+            remindTime = null;
+            remindCycle = RemindCycle.DAILY;
+            priority = Priority.NONE;
+            location = null;
         }
 
     }
