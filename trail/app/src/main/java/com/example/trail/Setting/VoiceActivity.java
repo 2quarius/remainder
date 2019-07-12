@@ -36,5 +36,6 @@ public class VoiceActivity extends AppCompatActivity {
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         max = mAudioManager.getStreamMaxVolume( AudioManager.STREAM_SYSTEM );
         current = mAudioManager.getStreamVolume( AudioManager.STREAM_SYSTEM );
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, current, AudioManager.FLAG_PLAY_SOUND);
     }
 }
