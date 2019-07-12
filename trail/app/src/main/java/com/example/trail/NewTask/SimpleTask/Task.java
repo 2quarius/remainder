@@ -40,10 +40,11 @@ public class Task implements Serializable {
     {
         return done == null ? false : done;
     }
-    public Task(JSONObject o) throws JSONException {
+    public Task(JSONObject o) {
+        try{
         title = o.getString(String.valueOf(TaskConstants.TITLE));
-//        description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
-//        tags = deformTags(o.getString(String.valueOf(TaskConstants.TAGS)));
+        description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
+        tags = deformTags(o.getString(String.valueOf(TaskConstants.TAGS)));
 //        startTime = (Date) o.get(String.valueOf(TaskConstants.START_TIME));
 //        expireTime = (Date) o.get(String.valueOf(TaskConstants.EXPIRE_TIME));
 //        remindTime = (Date) o.get(String.valueOf(TaskConstants.REMIND_TIME));
@@ -51,6 +52,18 @@ public class Task implements Serializable {
 //        priority = (Priority) o.get(String.valueOf(TaskConstants.PRIORITY));
 //        location = (Location) o.get(String.valueOf(TaskConstants.LOCATION));
         done = o.getBoolean(String.valueOf(TaskConstants.DONE));
+        } catch (JSONException e) {
+            e.printStackTrace();
+            description = null;
+            tags = null;
+            startTime = null;
+            expireTime = null;
+            remindTime = null;
+            remindCycle = RemindCycle.DAILY;
+            priority = Priority.NONE;
+            location = null;
+        }
+
     }
     public JSONObject toJSON() throws JSONException {
         JSONObject object = new JSONObject();
@@ -97,7 +110,9 @@ public class Task implements Serializable {
             }
             i++;
         }
-        newTags.add(s.toString());
+        if (s.length()>0) {
+            newTags.add(s.toString());
+        }
         return newTags;
     }
 }

@@ -37,6 +37,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
+    private static final int RETURNED_MODIFY_TASK_REQUEST_CODE = 65545;
     private boolean misScrolled;
     private ViewPager mViewPager;
     private TabLayout tabs;
@@ -85,11 +86,19 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             if (data != null){
                 tasks.add((Task) data.getSerializableExtra("task"));
                 try {
-//            System.out.println("save:");
                     storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
                 }
+            }
+        }
+        else if (resultCode==RESULT_OK)
+        {
+            tasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
+            try {
+                storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -112,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tasks = mTasks;
     }
     public List<Task> getTasks(){
-        //System.out.println(tasks.size()+"main");
         return tasks;
     }
     private static ArrayList<Task> getLocallyStoredData(StoreRetrieveData storeRetrieveData) {

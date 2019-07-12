@@ -19,7 +19,7 @@ import com.android21buttons.fragmenttestrule.FragmentTestRule;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.MainActivity;
 import com.example.trail.R;
-import com.example.trail.RecyclerViewMatcher;
+import com.example.trail.Utils.RecyclerViewMatcher;
 
 import org.junit.Before;
 import org.junit.Rule;
