@@ -13,12 +13,17 @@ import org.junit.runner.RunWith;
 import com.android21buttons.fragmenttestrule.FragmentTestRule;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 import com.example.trail.Utils.RecyclerViewMatcher;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -35,10 +40,19 @@ import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class ListsFragmentTest {
+    private int LENGTH = 10;
     @Rule
     public FragmentTestRule<MainActivity, ListsFragment> rule =  new FragmentTestRule<>(MainActivity.class, ListsFragment.class);
     @Before
     public void init() throws Exception {
+        List<Task> ts = new ArrayList<>();
+        Random random = new Random(System.currentTimeMillis());
+        for (int i = 0;i<LENGTH;i++){
+            random.setSeed(random.nextLong());
+            String r = String.valueOf(random.nextInt());
+            ts.add(new Task(r));
+        }
+        rule.getFragment().setTaskForTest(ts);
 //
     }
     public static RecyclerViewMatcher withRecyclerView(final int recyclerViewId) {

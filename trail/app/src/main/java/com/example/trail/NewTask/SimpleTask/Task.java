@@ -36,9 +36,13 @@ public class Task implements Serializable {
     private Location location = null;
 
     private Boolean done = false;
+
     public Boolean isDone()
     {
         return done == null ? false : done;
+    }
+    public Task(String title){
+        this.title = title;
     }
     public Task(JSONObject o) {
         try{
