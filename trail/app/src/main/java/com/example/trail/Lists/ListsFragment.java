@@ -50,15 +50,18 @@ public class ListsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
+//        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
+//                R.layout.recycler_view, container, false);
+        View viewP=inflater.inflate(
                 R.layout.recycler_view, container, false);
+        RecyclerView recyclerView =viewP.findViewById(R.id.my_recycler_view);
         adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         helper.attachToRecyclerView(recyclerView);
         view = recyclerView;
-        return recyclerView;
+        return viewP;
     }
     @Override
     public void onStart() {
