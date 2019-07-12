@@ -2,6 +2,8 @@ package com.example.trail.Setting;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.widget.SeekBar;
 import android.widget.Switch;
@@ -12,6 +14,7 @@ public class VoiceActivity extends AppCompatActivity {
     private SeekBar sbVoice0;
     private SeekBar sbVoice1;
     private Switch vibra;
+    private AudioManager mAudioManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,5 +29,12 @@ public class VoiceActivity extends AppCompatActivity {
         sbVoice1.setProgress(50);
 
         vibra=findViewById(R.id.vibration);
+    }
+
+    private void changeStreamVolume(int i){
+        int max=0,current=0;
+        mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
+        max = mAudioManager.getStreamMaxVolume( AudioManager.STREAM_SYSTEM );
+        current = mAudioManager.getStreamVolume( AudioManager.STREAM_SYSTEM );
     }
 }
