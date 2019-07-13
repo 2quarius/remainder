@@ -44,9 +44,11 @@ public class ListsFragment extends Fragment {
     private static List<String> descriptions=new ArrayList<>();
     private static List<Task> mTasks;
     public interface callbackClass{
-        public void setTasks(List<Task> mTasks);
+        void setTasks(List<Task> mTasks);
     }
-
+    public void setTaskForTest(List<Task> ts){
+        mTasks = ts;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
