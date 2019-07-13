@@ -1,20 +1,15 @@
 package com.example.trail.NewTask;
 
-import com.example.trail.MainActivity;
-import com.example.trail.NewTask.SimpleTask.RemindCycle;
-import com.example.trail.NewTask.SimpleTask.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
 import android.animation.Animator;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -26,10 +21,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.RemindCycle;
+import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,6 +37,7 @@ import java.util.Date;
 
 public class AddTaskActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+    private static final String CHOOSE_A_PLACE = "Place for remind";
     private Integer position;
     private Task task;
     private EditText mTitleEditText;
@@ -51,11 +52,8 @@ public class AddTaskActivity extends AppCompatActivity implements
     private Spinner mRepeatType;
     private TextView mDateTimeReminderTextView;
     private TextView mExpirePlaceTextView;
-    private void hideKeyboard(EditText et)
-    {
-        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
-    }
+    private SwitchCompat mExpirePlaceSwitch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,25 +61,46 @@ public class AddTaskActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         position = intent.getIntExtra("position",-1);
         task = intent.getSerializableExtra("task")!=null? (Task) intent.getSerializableExtra("task") :new Task();
-        mTitleEditText = (EditText) findViewById(R.id.title);
-        mDescriptionEditText = (EditText) findViewById(R.id.description);
-        mSendTaskFAB = (FloatingActionButton) findViewById(R.id.send_task_fab);
-        mExpireDateEditText = (EditText) findViewById(R.id.expire_date_et);
-        mExpireTimeEditText = (EditText) findViewById(R.id.expire_time_et);
-        mRemindMeSwitch = (SwitchCompat) findViewById(R.id.remind_me_switch);
-        mRemindDateLayout = (LinearLayout) findViewById(R.id.remind_date_layout);
-        mDateEditText = (EditText) findViewById(R.id.remind_date);
-        mTimeEditText = (EditText) findViewById(R.id.remind_time);
-        mRepeatType = (Spinner) findViewById(R.id.repeat_type);
-        mDateTimeReminderTextView = (TextView) findViewById(R.id.date_time_reminder_tv);
-        mExpirePlaceTextView = (TextView) findViewById(R.id.expire_place_tv);
+        initLayoutElement();
+        setTextByTask();
+        installListener();
+    }
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        if (view.getTag().equals("ExpireDate")){
+            Calendar calendar = Calendar.getInstance();
+            int hour, minute;
+            Calendar reminderCalendar = Calendar.getInstance();
+            reminderCalendar.set(year, monthOfYear, dayOfMonth);
+            if (reminderCalendar.before(calendar)) {
+                return;
+            }
+            if (task.getExpireTime() != null) {
+                calendar.setTime(task.getExpireTime());
+            }
+            if (DateFormat.is24HourFormat(getApplicationContext())) {
+                hour = calendar.get(Calendar.HOUR_OF_DAY);
+            } else {
+                hour = calendar.get(Calendar.HOUR);
+            }
+            minute = calendar.get(Calendar.MINUTE);
 
-        mTitleEditText.requestFocus();
-        mTitleEditText.setText(task.getTitle());
-        mDescriptionEditText.setText(task.getDescription());
+            calendar.set(year, monthOfYear, dayOfMonth, hour, minute);
+            task.setExpireTime(calendar.getTime());
+            setDateEditText(task.getExpireTime(),mExpireDateEditText);
+        }
+        setDate(year,monthOfYear,dayOfMonth);
+    }
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+        setTime(hourOfDay,minute);
+    }
+    private void hideKeyboard(EditText et)
+    {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        mTitleEditText.setSelection(mTitleEditText.length());
+        imm.hideSoftInputFromWindow(et.getWindowToken(), 0);
+    }
+    private void installListener() {
         mTitleEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -96,8 +115,6 @@ public class AddTaskActivity extends AppCompatActivity implements
             public void afterTextChanged(Editable s) {
             }
         });
-        mDescriptionEditText.setText(task.getDescription());
-        mDescriptionEditText.setSelection(mDescriptionEditText.length());
         mDescriptionEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -124,7 +141,6 @@ public class AddTaskActivity extends AppCompatActivity implements
                     intent.putExtra("task",task);
                     setResult(RESULT_OK,intent);
                     AddTaskActivity.this.finish();
-//                    startActivity(intent);
                 }
                 else if (position!=-1){
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
@@ -168,32 +184,30 @@ public class AddTaskActivity extends AppCompatActivity implements
                 TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-                            Calendar calendar = Calendar.getInstance();
-                            if (task.getRemindTime() != null) {
-                                calendar.setTime(task.getRemindTime());
-                            }
-                            int year = calendar.get(Calendar.YEAR);
-                            int month = calendar.get(Calendar.MONTH);
-                            int day = calendar.get(Calendar.DAY_OF_MONTH);
-                            Log.d("OskarSchindler", "Time set: " + hourOfDay);
-                            calendar.set(year, month, day, hourOfDay, minute, 0);
-                            task.setExpireTime(calendar.getTime());
-                            setTimeEditText(task.getExpireTime(),mExpireTimeEditText);
+                        Calendar calendar = Calendar.getInstance();
+                        if (task.getRemindTime() != null) {
+                            calendar.setTime(task.getRemindTime());
+                        }
+                        int year = calendar.get(Calendar.YEAR);
+                        int month = calendar.get(Calendar.MONTH);
+                        int day = calendar.get(Calendar.DAY_OF_MONTH);
+                        Log.d("OskarSchindler", "Time set: " + hourOfDay);
+                        calendar.set(year, month, day, hourOfDay, minute, 0);
+                        task.setExpireTime(calendar.getTime());
+                        setTimeEditText(task.getExpireTime(),mExpireTimeEditText);
                     }
                 }, hour, minute, DateFormat.is24HourFormat(getApplicationContext()));
                 timePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
                 timePickerDialog.show(getFragmentManager(), "ExpireTime");
             }
         });
-        setEnterDateLayoutVisible(mRemindMeSwitch.isChecked());
-        mRemindMeSwitch.setChecked(task.getRemindTime() != null);
         mRemindMeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (!isChecked) {
                     task.setRemindTime(null);
                 }
-                setDateAndTimeEditText();
+                setDateAndTimeEditText(isChecked);
                 setEnterDateLayoutVisibleWithAnimations(isChecked);
                 hideKeyboard(mTitleEditText);
                 hideKeyboard(mDescriptionEditText);
@@ -244,48 +258,81 @@ public class AddTaskActivity extends AppCompatActivity implements
 
             }
         });
-        if (task.getRemindTime() == null) {
-            mRemindMeSwitch.setChecked(false);
-            mDateTimeReminderTextView.setVisibility(View.INVISIBLE);
-        }
-        else if (task.getRemindTime() != null){
-            setDateAndTimeEditText();
-            setEnterDateLayoutVisibleWithAnimations(true);
-            hideKeyboard(mTitleEditText);
-            hideKeyboard(mDescriptionEditText);
-        }
+        mExpirePlaceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (mExpirePlaceSwitch.isChecked()) {
+                    showDialog();
+                }
+            }
+        });
     }
 
-    @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        if (view.getTag().equals("ExpireDate")){
-            Calendar calendar = Calendar.getInstance();
-            int hour, minute;
-            Calendar reminderCalendar = Calendar.getInstance();
-            reminderCalendar.set(year, monthOfYear, dayOfMonth);
-            if (reminderCalendar.before(calendar)) {
-                return;
-            }
-            if (task.getExpireTime() != null) {
-                calendar.setTime(task.getExpireTime());
-            }
-            if (DateFormat.is24HourFormat(getApplicationContext())) {
-                hour = calendar.get(Calendar.HOUR_OF_DAY);
-            } else {
-                hour = calendar.get(Calendar.HOUR);
-            }
-            minute = calendar.get(Calendar.MINUTE);
+    private void setTextByTask() {
+        //set title text
+        mTitleEditText.requestFocus();
+        mTitleEditText.setText(task.getTitle());
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        mTitleEditText.setSelection(mTitleEditText.length());
+        //set description text
+        mDescriptionEditText.setText(task.getDescription());
+        mDescriptionEditText.setSelection(mDescriptionEditText.length());
+        //set remind me switch and under text
+        mRemindMeSwitch.setChecked(task.getRemindTime() != null);
+        setEnterDateLayoutVisible(mRemindMeSwitch.isChecked());
+        setDateAndTimeEditText(mRemindMeSwitch.isChecked());
+        setEnterDateLayoutVisibleWithAnimations(mRemindMeSwitch.isChecked());
+        //set expire place switch
+        mExpirePlaceSwitch.setChecked(task.getLocation() != null);
+    }
 
-            calendar.set(year, monthOfYear, dayOfMonth, hour, minute);
-            task.setExpireTime(calendar.getTime());
-            setDateEditText(task.getExpireTime(),mExpireDateEditText);
-        }
-        setDate(year,monthOfYear,dayOfMonth);
+    private void initLayoutElement() {
+        mTitleEditText = (EditText) findViewById(R.id.title);
+        mDescriptionEditText = (EditText) findViewById(R.id.description);
+        mSendTaskFAB = (FloatingActionButton) findViewById(R.id.send_task_fab);
+        mExpireDateEditText = (EditText) findViewById(R.id.expire_date_et);
+        mExpireTimeEditText = (EditText) findViewById(R.id.expire_time_et);
+        mRemindMeSwitch = (SwitchCompat) findViewById(R.id.remind_me_switch);
+        mRemindDateLayout = (LinearLayout) findViewById(R.id.remind_date_layout);
+        mDateEditText = (EditText) findViewById(R.id.remind_date);
+        mTimeEditText = (EditText) findViewById(R.id.remind_time);
+        mRepeatType = (Spinner) findViewById(R.id.repeat_type);
+        mDateTimeReminderTextView = (TextView) findViewById(R.id.date_time_reminder_tv);
+        mExpirePlaceTextView = (TextView) findViewById(R.id.expire_place_tv);
+        mExpirePlaceSwitch = (SwitchCompat) findViewById(R.id.remind_place_switch);
     }
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        setTime(hourOfDay,minute);
+
+    protected void showDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog customDialog;
+
+        LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.dialog,null);
+        builder.setTitle(CHOOSE_A_PLACE);
+        builder.setView(layout);
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                setExpirePlaceTextView();
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                setExpirePlaceTextView();
+            }
+        });
+        customDialog = builder.create();
+        //TODO:设置点击事件
+
+        customDialog.show();
     }
+    //TODO:设置mExpirePlaceTextView文字显示
+    private void setExpirePlaceTextView() {
+    }
+
+
     private void setEnterDateLayoutVisible(boolean checked) {
         if (checked) {
             mRemindDateLayout.setVisibility(View.VISIBLE);
@@ -293,8 +340,8 @@ public class AddTaskActivity extends AppCompatActivity implements
             mRemindDateLayout.setVisibility(View.INVISIBLE);
         }
     }
-    private void setDateAndTimeEditText() {
-        if (task.getRemindTime() != null) {
+    private void setDateAndTimeEditText(boolean checked) {
+        if (checked) {
             String userDate = formatDate("d MMM, yyyy", task.getRemindTime());
             String formatToUse;
             if (DateFormat.is24HourFormat(getApplicationContext())) {

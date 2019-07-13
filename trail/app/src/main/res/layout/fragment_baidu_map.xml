@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_card_view"
+    android:layout_width="match_parent"
+    app:cardBackgroundColor="@color/inputLine"
+    android:layout_margin="5dp"
+    android:outlineSpotShadowColor="@color/colorPrimary"
+    android:padding="5dp"
+    android:elevation="50dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="center" tools:targetApi="lollipop">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmap"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
+        </com.baidu.mapapi.map.MapView>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

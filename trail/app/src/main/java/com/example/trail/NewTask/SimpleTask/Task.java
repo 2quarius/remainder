@@ -65,12 +65,12 @@ public class Task implements Serializable {
             e.printStackTrace();
         }
         try{
-            expireTime = (Date) o.get(String.valueOf(TaskConstants.EXPIRE_TIME));
+            expireTime = new Date(o.getString(String.valueOf(TaskConstants.EXPIRE_TIME)));
         }catch (JSONException e){
             e.printStackTrace();
         }
         try{
-            remindTime = (Date) o.get(String.valueOf(TaskConstants.REMIND_TIME));
+            remindTime = new Date(o.getString(String.valueOf(TaskConstants.REMIND_TIME)));
         }catch (JSONException e){
             e.printStackTrace();
         }

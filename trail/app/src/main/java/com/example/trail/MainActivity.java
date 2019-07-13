@@ -1,32 +1,29 @@
 package com.example.trail;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.ListFragment;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
-
+import com.baidu.mapapi.SDKInitializer;
 import com.example.trail.Calendar.CalendarFragment;
+import com.example.trail.Lists.ListsFragment;
+import com.example.trail.Lists.SideMenuActivity;
+import com.example.trail.Map.GoogleMapFragment;
 import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
+import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Utility.StoreRetrieveData;
 import com.example.trail.Utility.TabConstants;
-import com.example.trail.Lists.SideMenuActivity;
-import com.example.trail.Setting.SettingFragmnet;
-import com.example.trail.Lists.ListsFragment;
-import com.example.trail.Map.MapFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-
 
 import org.json.JSONException;
 
@@ -49,10 +46,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //初始化百度地图，必须在 setContentView(...) 前调用！
+        SDKInitializer.initialize(getApplicationContext());
+
         setContentView(R.layout.activity_main);
-
         // Setting ViewPager for each Tabs
-
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(this);
@@ -144,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 //        adapter.addFragment(new ListsFragment(), "lists");
         adapter.addFragment(new ListsFragment(), TabConstants.LISTS.getTitle());
         adapter.addFragment(new CalendarFragment(),TabConstants.TIME.getTitle());
-        adapter.addFragment(new MapFragment(),TabConstants.SPACE.getTitle());
+        adapter.addFragment(new GoogleMapFragment(), TabConstants.SPACE.getTitle());
         adapter.addFragment(new SettingFragmnet(),TabConstants.SETTING.getTitle());
         viewPager.setAdapter(adapter);
     }
