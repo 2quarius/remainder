@@ -56,35 +56,34 @@ public class Task implements Serializable {
             e.printStackTrace();
         }
         try{
-            startTime = new Date(o.getInt(String.valueOf(TaskConstants.START_TIME)));
+            startTime = (Date) o.get(String.valueOf(TaskConstants.START_TIME));
         }catch (JSONException e){
             e.printStackTrace();
         }
         try{
-            description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
+            expireTime = (Date) o.get(String.valueOf(TaskConstants.EXPIRE_TIME));
         }catch (JSONException e){
             e.printStackTrace();
         }
         try{
-            description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
+            remindTime = (Date) o.get(String.valueOf(TaskConstants.REMIND_TIME));
         }catch (JSONException e){
             e.printStackTrace();
         }
-        init(o, TaskConstants.START_TIME);
-        init(o, TaskConstants.EXPIRE_TIME);
-        init(o, TaskConstants.REMIND_TIME);
-        init(o, TaskConstants.REMIND_CYCLE);
-        init(o, TaskConstants.PRIORITY);
-        init(o, TaskConstants.LOCATION);
-    }
-    private <T> void init(JSONObject o, TaskConstants constant)
-    {
-        try {
-            T element = (T) o.get(String.valueOf(constant));
-        } catch (JSONException e) {
+        try{
+            remindCycle = RemindCycle.match(o.getString(String.valueOf(TaskConstants.REMIND_CYCLE)));
+        }catch (JSONException e){
             e.printStackTrace();
-//            element = null;
-            return;
+        }
+        try{
+            priority = Priority.match(o.getString(String.valueOf(TaskConstants.PRIORITY)));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        try{
+            location = (Location) o.get(String.valueOf(TaskConstants.LOCATION));
+        }catch (JSONException e){
+            e.printStackTrace();
         }
     }
 //        try {

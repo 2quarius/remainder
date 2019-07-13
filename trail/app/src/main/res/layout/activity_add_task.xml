@@ -296,7 +296,7 @@
                     android:background="@android:color/transparent"
                     android:contentDescription="@string/item_desc"
                     android:padding="8dp"
-                    android:src="@drawable/ic_add_alarm_grey_200_24dp" />
+                    android:src="@android:drawable/ic_menu_mapmode" />
 
                 <TextView
                     android:id="@+id/expire_place_tv"
@@ -310,6 +310,13 @@
                     android:text="@string/expire_place"
                     android:textColor="@color/colorPrimaryTitle"
                     android:textSize="16sp" />
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/remind_place_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="8dp" />
             </LinearLayout>
 
         </LinearLayout>
