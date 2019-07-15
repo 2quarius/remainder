@@ -56,12 +56,15 @@ public class InformationActivity extends AppCompatActivity {
         age=findViewById(R.id.et_age);
         gender=findViewById(R.id.et_gender);
         phone=findViewById(R.id.et_phone);
-
+//        name.setText("name");
+//        age.setText("age");
+//        gender.setText("gender");
+//        phone.setText("phone");
         String content=readFile();
         if(content.contains("name")) name.setText(findName());
         if(content.contains("age")) age.setText(findAge());
-        if(content.contains("gender")) gender.setText(findAge());
-        if(content.contains("phone")) gender.setText(findPhone());
+        if(content.contains("gender")) gender.setText(findGender());
+        if(content.contains("phone")) phone.setText(findPhone());
     }
     public String getName(){
         name=findViewById(R.id.et_name);
@@ -88,8 +91,8 @@ public class InformationActivity extends AppCompatActivity {
     private String findName(){
         String text=readFile();
         String name="";
-        int beginIndex=text.indexOf("name: ");
-        for(int i=beginIndex;i<(text.length()-beginIndex);){
+        int beginIndex=text.lastIndexOf("name: ");
+        for(int i=beginIndex;i<text.length();){
             if(text.charAt(i)!='\n') i++;
             else {
                 name=text.substring(beginIndex+6,i);
@@ -103,8 +106,8 @@ public class InformationActivity extends AppCompatActivity {
     private String findAge(){
         String text=readFile();
         String age="";
-        int beginIndex=text.indexOf("age: ");
-        for(int i=beginIndex;i<(text.length()-beginIndex);){
+        int beginIndex=text.lastIndexOf("age: ");
+        for(int i=beginIndex;i<text.length();){
             if(text.charAt(i)!='\n') i++;
             else {
                 age=text.substring(beginIndex+5,i);
@@ -118,8 +121,8 @@ public class InformationActivity extends AppCompatActivity {
     private String findGender(){
         String text=readFile();
         String gender="";
-        int beginIndex=text.indexOf("gender: ");
-        for(int i=beginIndex;i<(text.length()-beginIndex);){
+        int beginIndex=text.lastIndexOf("gender: ");
+        for(int i=beginIndex;i<text.length();){
             if(text.charAt(i)!='\n') i++;
             else {
                 gender=text.substring(beginIndex+8,i);
@@ -132,8 +135,8 @@ public class InformationActivity extends AppCompatActivity {
     private String findPhone(){
         String text=readFile();
         String phone="";
-        int beginIndex=text.indexOf("phone: ");
-        for(int i=beginIndex;i<(text.length()-beginIndex);){
+        int beginIndex=text.lastIndexOf("phone: ");
+        for(int i=beginIndex;i<text.length();){
             if(text.charAt(i)!='\n') i++;
             else {
                 phone=text.substring(beginIndex+7,i);
@@ -178,18 +181,18 @@ public class InformationActivity extends AppCompatActivity {
             Log.d("errMsg", e.toString());
         }
     }
-    private void clear(String text) {
-        try {
-            FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_ENABLE_WRITE_AHEAD_LOGGING);
-            fos.write(text.getBytes());
-            fos.write("\n".getBytes());//格式化
-            fos.flush();
-            fos.close();
-
-        } catch (Exception e) {
-            Log.d("errMsg", e.toString());
-        }
-    }
+//    private void clear(String text) {
+//        try {
+//            FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_ENABLE_WRITE_AHEAD_LOGGING);
+//            fos.write(text.getBytes());
+//            fos.write("\n".getBytes());//格式化
+//            fos.flush();
+//            fos.close();
+//
+//        } catch (Exception e) {
+//            Log.d("errMsg", e.toString());
+//        }
+//    }
     private String readFile(){
         String textContent="";
         try {
