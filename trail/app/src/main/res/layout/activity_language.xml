@@ -6,14 +6,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Setting.LanguageActivity">
-    <TextView
-        android:background="@color/colorPrimaryTitle"
-        android:textColor="@color/mdtp_white"
-        android:text="请选择语言（Language）："
-        android:textSize="24sp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+    <RelativeLayout
+        android:background="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btn_lanBack"
+            android:src="@drawable/back"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_back_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:textColor="@color/mdtp_white"
+            android:text="请选择语言（Language）："
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </RelativeLayout>
     <CheckBox
         android:id="@+id/cb_Chinese"
         android:padding="20dp"

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.trail.R;
@@ -21,11 +22,20 @@ public class InformationActivity extends AppCompatActivity {
     private EditText gender;
     private EditText phone;
     private Button btnSave;
+    private ImageButton back;
     final  private String FILE_NAME = "information.txt";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
+        //返回
+        back=findViewById(R.id.btn_infoBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         //保存
         btnSave=findViewById(R.id.btn_saveInfo);
         btnSave.setOnClickListener(new View.OnClickListener() {
