@@ -1,36 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="places">
-        <item>Palais Garnie</item>
-        <item>Piazza del Duomo</item>
-        <item>Manhattan</item>
-        <item>Senso-ji</item>
-        <item>Sultan Ahmed Mosque</item>
-        <item>Table Mountain</item>
 
-        <item>china</item>
-        <item>chongqing Mountain</item>
-
-    </string-array>
-
-    <string-array name="place_desc">
-        <item>The Palais Garnier which locates in Paris was built from 1861 for
-        the Paris Opera.
-        </item>
-        <item>Piazza del Duomo the cathedral which locates in Florence.</item>
-        <item>Manhattan is the district in New York City</item>
-        <item>Senso-ji is the Shrine locates in Asakusa Tokyo</item>
-        <item>Sultan Ahmed Mosque is mosque locates in Istabul, Turkey</item>
-        <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
-
-        <item>Sultan Ahmed Mosque is mosque locates in Istabul, Turkey</item>
-        <item>Table Mountain is mountain and park locates in Cape Town, South Africa.</item>
-
-    </string-array>
-    <string-array name="languange">
-        <item>中文</item>
-        <item>English</item>
-    </string-array>
     <string-array name="english_week_string_array">
         <item>Sun</item>
         <item>Mon</item>
@@ -40,16 +10,13 @@
         <item>Fri</item>
         <item>Sat</item>
     </string-array>
-
-    <string-array name="week_array">
-        <item>星期一</item>
-        <item>星期二</item>
-        <item>星期三</item>
-        <item>星期四</item>
-        <item>星期五</item>
-        <item>星期六</item>
-        <item>星期日</item>
+    <string-array name="priority_array">
+        <item>EUGEN</item>
+        <item>MIDDLE</item>
+        <item>LITTLE</item>
+        <item>NONE</item>
     </string-array>
+
     <string-array name="recycle_array">
         <item>单次</item>
         <item>每天</item>

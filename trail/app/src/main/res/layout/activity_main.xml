@@ -22,6 +22,11 @@
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_addTask"
         android:scaleType="centerInside"
+        android:importantForAutofill="auto"
+        app:borderWidth="0dp"
+        android:backgroundTint="@color/inputLine"
+        app:fabSize="normal"
+        app:maxImageSize="@dimen/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

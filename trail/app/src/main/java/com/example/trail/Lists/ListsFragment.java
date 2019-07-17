@@ -5,23 +5,25 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 
 import com.example.trail.MainActivity;
 import com.example.trail.NewTask.AddTaskActivity;
@@ -36,6 +38,7 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class ListsFragment extends Fragment {
+    private EditText mSearchTagEdit;
     private static final int MODIFY_TASK_REQUEST_CODE = 9;
     private RecyclerView view;
     private static ContentAdapter adapter;
@@ -61,9 +64,31 @@ public class ListsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mSearchTagEdit=viewP.findViewById(R.id.search_input);
+        mSearchTagEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence sequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence sequence, int i, int i1, int i2) {
+                System.out.println("change");
+                adapter.getFilter().filter(sequence.toString());
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
         helper.attachToRecyclerView(recyclerView);
         view = recyclerView;
         return viewP;
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode==MODIFY_TASK_REQUEST_CODE&&resultCode==RESULT_OK){
+            mTasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
+            notifyFather();
+        }
     }
     @Override
     public void onStart() {
@@ -147,29 +172,34 @@ public class ListsFragment extends Fragment {
     /**
      * Adapter to display recycler view.
      */
-    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> {
-
+    public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements Filterable {
+//        private List<String> mFilterTitle = new ArrayList<>();
+//        private List<String> mFilterDesc = new ArrayList<>();
+//        private List<Boolean> mFilterFinish = new ArrayList<>();
+        private List<Task> mFilterTasks = new ArrayList<>();
         public ContentAdapter(Context context) {
-            if (mTasks!=null&&mTasks.size()==titles.size()){
+            mFilterTasks=mTasks;
+            if (mFilterTasks!=null&&mFilterTasks.size()==titles.size()){
                 int i =0;
-                for (Task t: mTasks){
+                for (Task t: mFilterTasks){
                     titles.set(i,t.getTitle());
                     descriptions.set(i,t.getDescription());
                     finished.set(i++,t.isDone());
                 }
             }
-            else if (mTasks.size()>titles.size()&&titles.size()==0){
-                for (int i = 0; i < mTasks.size(); i++) {
-                    titles.add(mTasks.get(i).getTitle());
-                    descriptions.add(mTasks.get(i).getDescription());
-                    finished.add(mTasks.get(i).getDone());
+            else if (mFilterTasks.size()>titles.size()&&titles.size()==0){
+                for (int i = 0; i < mFilterTasks.size(); i++) {
+                    titles.add(mFilterTasks.get(i).getTitle());
+                    descriptions.add(mFilterTasks.get(i).getDescription());
+                    finished.add(mFilterTasks.get(i).getDone());
                 }
             }
-            else if (mTasks.size()>titles.size()&&titles.size()>0){
-                titles.add(mTasks.get(mTasks.size()-1).getTitle());
-                descriptions.add(mTasks.get(mTasks.size()-1).getDescription());
-                finished.add(mTasks.get(mTasks.size()-1).getDone());
+            else if (mFilterTasks.size()>titles.size()&&titles.size()>0){
+                titles.add(mFilterTasks.get(mFilterTasks.size()-1).getTitle());
+                descriptions.add(mFilterTasks.get(mFilterTasks.size()-1).getDescription());
+                finished.add(mFilterTasks.get(mFilterTasks.size()-1).getDone());
             }
+
         }
 
         @Override
@@ -188,6 +218,59 @@ public class ListsFragment extends Fragment {
         @Override
         public int getItemCount() {
             return titles.size();
+        }
+        @Override
+        public Filter getFilter() {
+//            System.out.println("filter in");
+            return new Filter() {
+                //执行过滤操作
+                @Override
+                protected FilterResults performFiltering(CharSequence charSequence) {
+                    String charString = charSequence.toString();
+                    if (charString.isEmpty()) {
+                        //没有过滤的内容，则使用源数据
+                        mFilterTasks=mTasks;
+                    } else {
+                        List<Task> filteredList = new ArrayList<>();
+                        for (int i =0;i<mTasks.size();i++) {
+                            //这里根据需求，添加匹配规则
+                            if (mTasks.get(i).getTitle().contains(charString)) {
+//                                mFilterTitle.add(titles.get(i));
+//                                mFilterFinish.add(finished.get(i));
+//                                mFilterDesc.add(descriptions.get(i));
+                                filteredList.add(mTasks.get(i));
+//                                System.out.println(titles.get(i));
+                                System.out.println(mTasks.get(i).getTitle());
+                            }
+                        }
+                        mFilterTasks=filteredList;
+                    }
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = mFilterTasks;
+                    return filterResults;
+                }
+                //把过滤后的值返回出来
+                @Override
+                protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                    mFilterTasks = (ArrayList<Task>) filterResults.values;
+                    System.out.println(mFilterTasks.size());
+                    titles.clear();
+                    descriptions.clear();
+                    finished.clear();
+                    for (int i=0;i<mFilterTasks.size();i++){
+                        titles.add(mFilterTasks.get(i).getTitle());
+                        descriptions.add(mFilterTasks.get(i).getDescription());
+                        finished.add(mFilterTasks.get(i).getDone());
+                    }
+                    Handler handler = new Handler();
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapter.notifyDataSetChanged();
+                        }
+                    });
+                }
+            };
         }
 
         public  void delete(int position){
