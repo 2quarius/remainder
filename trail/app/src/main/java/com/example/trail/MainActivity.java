@@ -36,6 +36,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -148,22 +149,25 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         Intent intent = new Intent(this, AlarmBroadcast.class);
         intent.setAction("startAlarm");
         pendingIntent = PendingIntent.getBroadcast(this, 110, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
         tasks=getLocallyStoredData(storeRetrieveData);
+
+        Date date=new Date();
+        long differ=date.getTime()-SystemClock.elapsedRealtime();
+        int time=(int)(date.getTime()-differ+5*1000);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,time,pendingIntent);
         for(int i=0;i<tasks.size();i++){
             if(tasks.get(i).getExpireTime()!=null)
             {
                 Date tempDate=tasks.get(i).getExpireTime();
-                Log.d("Time: ",tempDate.getTime()+"@@@");
-                alarmManager.set(AlarmManager.RTC_WAKEUP, tempDate.getTime(), pendingIntent);
+                Calendar cal=Calendar.getInstance();
+                Calendar calendar=Calendar.getInstance();
+                calendar.setTime(tempDate);
+                long timeDiff=cal.getTimeInMillis()-SystemClock.elapsedRealtime();
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-timeDiff+60*1000, pendingIntent);
             }
         }
-        int triggerAtTime1 = (int) (SystemClock.elapsedRealtime() + 5 * 1000);
-        Date date=new Date();
-        Log.d("Date",date.getTime()+"$$$");
-        Log.d("Date",SystemClock.elapsedRealtime()+"&&&");
-        alarmManager.set(AlarmManager.RTC_WAKEUP,date.getTime()+60*1000,pendingIntent);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,triggerAtTime1,pendingIntent);
     }
     private void createTabIcons() {
         tabs.getTabAt(TabConstants.LISTS.getIndex()).setIcon(R.drawable.checklist);
