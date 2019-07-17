@@ -42,6 +42,7 @@ import com.example.trail.NewTask.SimpleTask.Priority;
 import com.example.trail.NewTask.SimpleTask.RemindCycle;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
+import com.example.trail.TimeRemind.TimeRemindService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
@@ -154,12 +155,24 @@ public class AddTaskActivity extends AppCompatActivity implements
                     mTitleEditText.setError("please enter a todo");
                 }
                 else if (position==-1){
+                    if (task.added==false) {
+                        task.added = true;
+                        Intent intent2 = new Intent(AddTaskActivity.this, TimeRemindService.class);
+                        intent2.putExtra("task",task);
+                        startService(intent2);
+                    }
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("task",task);
                     setResult(RESULT_OK,intent);
                     AddTaskActivity.this.finish();
                 }
                 else if (position!=-1){
+                    if (task.added==false) {
+                        task.added = true;
+                        Intent intent2 = new Intent(AddTaskActivity.this, TimeRemindService.class);
+                        intent2.putExtra("task",task);
+                        startService(intent2);
+                    }
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("position",position);
                     intent.putExtra("task",task);
@@ -444,6 +457,7 @@ public class AddTaskActivity extends AppCompatActivity implements
             mRemindDateLayout.setVisibility(View.INVISIBLE);
         }
     }
+
     private void setDateAndTimeEditText(boolean checked) {
         if (checked) {
             String userDate = formatDate("d MMM, yyyy", task.getRemindTime());
@@ -480,6 +494,7 @@ public class AddTaskActivity extends AppCompatActivity implements
             mTimeEditText.setText(timeString);
         }
     }
+
     private void setEnterDateLayoutVisibleWithAnimations(boolean checked) {
         if (checked) {
             setReminderTextView();
@@ -530,6 +545,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         }
 
     }
+
     private void setDate(int year,int monthOfYear, int dayOfMonth){
         Calendar calendar = Calendar.getInstance();
         int hour, minute;
@@ -554,6 +570,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         setReminderTextView();
         setDateEditText(task.getRemindTime(),mDateEditText);
     }
+
     private void setTime(int hour, int minute) {
         Calendar calendar = Calendar.getInstance();
         if (task.getRemindTime() != null) {
@@ -569,6 +586,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         setReminderTextView();
         setTimeEditText(task.getRemindTime(),mTimeEditText);
     }
+
     private void setReminderTextView() {
         if (task.getRemindTime() != null) {
             mDateTimeReminderTextView.setVisibility(View.VISIBLE);

@@ -16,10 +16,12 @@
         <item name="android:font" tools:ignore="NewApi">@font/raleway</item>
         <!--<item name="android:typeface">@font/raleway</item>-->
     </style>
+
     <style name="Widget.MyApp.MaterialCardView" parent="Theme.MaterialComponents.Light">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">16dp</item>
     </style>
+
     <style name="Widget.MyApp.TextField" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">4dp</item>
@@ -29,6 +31,7 @@
         <item name="android:topLeftRadius">4dp</item>
         <item name="android:topRightRadius">4dp</item>
     </style>
+
     <style name="Widget.MyApp.Button" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">rounded</item>
         <item name="android:buttonCornerRadius">50pt</item>
@@ -36,14 +39,25 @@
         <item name="android:textColor">@color/inputLine</item>
         <item name="android:textColorHighlight">@color/colorAccent</item>
     </style>
+
     <style name="FloatingLabelTextAppearance" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@android:color/white</item>
     </style>
-    <style name="CustomSeekbarStyle" >
+
+    <style name="CustomSeekbarStyle">
         <item name="android:maxHeight">10dp</item>
         <item name="android:indeterminateOnly">false</item>
         <item name="android:indeterminateDrawable">@color/colorAccent</item>
         <item name="android:progressDrawable">@drawable/seekbar_custom_drawable</item>
         <item name="android:minHeight">10dp</item>
     </style>
+
+    <style name="Light.Theme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Light.Theme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Light.Theme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

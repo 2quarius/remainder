@@ -20,21 +20,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Task implements Serializable {
-    private String title;
-    private String description = null;
-    private List<String> tags = new ArrayList<>();
+    public String title;
+    public String description = null;
+    public List<String> tags = new ArrayList<>();
 
-    private Date startTime = null;
-    private Date expireTime = null;
+    public Date startTime = null;
+    public Date expireTime = null;
 
-    private Date remindTime = null;
-    private RemindCycle remindCycle = RemindCycle.DAILY;
+    public Date remindTime = null;
+    public RemindCycle remindCycle = RemindCycle.DAILY;
 
-    private Priority priority = Priority.NONE;
+    public Priority priority = Priority.NONE;
 
-    private MyLocation location = null;
+    public MyLocation location = null;
 
-    private Boolean done = false;
+    public Boolean done = false;
+
+    public Boolean added = false;
 
     public Boolean isDone()
     {
