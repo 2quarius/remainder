@@ -5,13 +5,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.Filter;
@@ -20,7 +18,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -84,6 +81,14 @@ public class ListsFragment extends Fragment {
         helper.attachToRecyclerView(recyclerView);
         view = recyclerView;
         return viewP;
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode==MODIFY_TASK_REQUEST_CODE&&resultCode==RESULT_OK){
+            mTasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
+            notifyFather();
+        }
     }
     @Override
     public void onStart() {

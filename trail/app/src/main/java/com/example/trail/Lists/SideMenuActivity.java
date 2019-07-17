@@ -1,7 +1,6 @@
 package com.example.trail.Lists;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,7 +12,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.trail.MainActivity;
 import com.example.trail.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -37,7 +35,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 System.out.println("show today's lists");
                 item.setChecked(true);
                 this.finish();
-//                startActivity(new Intent(this, MainActivity.class));
                 break;
             }
             case R.id.nav_item_collection:
@@ -45,7 +42,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
                 System.out.println("show collection's lists");
                 item.setChecked(true);
                 this.finish();
-//                startActivity(new Intent(this, MainActivity.class));
                 break;
             }
             case R.id.nav_item_add:

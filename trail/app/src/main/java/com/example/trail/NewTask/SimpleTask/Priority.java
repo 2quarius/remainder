@@ -8,4 +8,14 @@ import lombok.Getter;
 public enum Priority {
     EUGEN (3),MIDDLE(2),LITTLE(1),NONE(0);
     private Integer priority;
+    public static Priority match(String name)
+    {
+        for (Priority r:Priority.values())
+        {
+            if (r.name().equals(name)){
+                return r;
+            }
+        }
+        return null;
+    }
 }
