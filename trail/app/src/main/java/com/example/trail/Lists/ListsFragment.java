@@ -214,7 +214,7 @@ public class ListsFragment extends Fragment {
         }
         @Override
         public Filter getFilter() {
-            System.out.println("filter in");
+//            System.out.println("filter in");
             return new Filter() {
                 //执行过滤操作
                 @Override
@@ -225,14 +225,15 @@ public class ListsFragment extends Fragment {
                         mFilterTasks=mTasks;
                     } else {
                         List<Task> filteredList = new ArrayList<>();
-                        for (int i =0;i<titles.size();i++) {
+                        for (int i =0;i<mTasks.size();i++) {
                             //这里根据需求，添加匹配规则
-                            if (titles.get(i).contains(charString)) {
+                            if (mTasks.get(i).getTitle().contains(charString)) {
 //                                mFilterTitle.add(titles.get(i));
 //                                mFilterFinish.add(finished.get(i));
 //                                mFilterDesc.add(descriptions.get(i));
                                 filteredList.add(mTasks.get(i));
-                                System.out.println(titles.get(i));
+//                                System.out.println(titles.get(i));
+                                System.out.println(mTasks.get(i).getTitle());
                             }
                         }
                         mFilterTasks=filteredList;
