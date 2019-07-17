@@ -63,7 +63,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote"></service>
-
+        <receiver android:name=".Utility.AlarmBroadcast" android:process=":remote" />
         <!--<uses-library-->
             <!--android:name="org.apache.http.legacy"-->
             <!--android:required="false"/>-->

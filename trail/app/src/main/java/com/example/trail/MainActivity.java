@@ -1,8 +1,12 @@
 package com.example.trail;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.RequiresApi;
@@ -21,6 +25,7 @@ import com.example.trail.Map.BaiduMapService;
 import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Setting.SettingFragmnet;
+import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.StoreRetrieveData;
 import com.example.trail.Utility.TabConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -30,6 +35,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -42,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private FloatingActionButton fab;
     private List<Task> tasks;
     private StoreRetrieveData storeRetrieveData;
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
     public static final String FILENAME = "tasks.json";
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -69,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         });
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
+        setAlarm();
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
     }
@@ -126,6 +135,30 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
         return items;
 
+    }
+
+    //设置闹钟
+    private void setAlarm(){
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmBroadcast.class);
+        intent.setAction("startAlarm");
+        pendingIntent = PendingIntent.getBroadcast(this, 110, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
+        tasks=getLocallyStoredData(storeRetrieveData);
+        for(int i=0;i<tasks.size();i++){
+            if(tasks.get(i).getExpireTime()!=null)
+            {
+                Date tempDate=tasks.get(i).getExpireTime();
+                Log.d("Time: ",tempDate.getTime()+"@@@");
+                alarmManager.set(AlarmManager.RTC_WAKEUP, tempDate.getTime(), pendingIntent);
+            }
+        }
+        int triggerAtTime1 = (int) (SystemClock.elapsedRealtime() + 5 * 1000);
+        Date date=new Date();
+        Log.d("Date",date.getTime()+"$$$");
+        Log.d("Date",SystemClock.elapsedRealtime()+"&&&");
+        alarmManager.set(AlarmManager.RTC_WAKEUP,date.getTime()+60*1000,pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,triggerAtTime1,pendingIntent);
     }
     private void createTabIcons() {
         tabs.getTabAt(TabConstants.LISTS.getIndex()).setIcon(R.drawable.checklist);
