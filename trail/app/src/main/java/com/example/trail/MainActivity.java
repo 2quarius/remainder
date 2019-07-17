@@ -16,7 +16,8 @@ import com.baidu.mapapi.SDKInitializer;
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Lists.SideMenuActivity;
-import com.example.trail.Map.GoogleMapFragment;
+import com.example.trail.Map.BaiduMapFragment;
+import com.example.trail.Map.BaiduMapService;
 import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Setting.SettingFragmnet;
@@ -48,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         super.onCreate(savedInstanceState);
         //初始化百度地图，必须在 setContentView(...) 前调用！
         SDKInitializer.initialize(getApplicationContext());
-
         setContentView(R.layout.activity_main);
         // Setting ViewPager for each Tabs
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -65,17 +65,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             public void onClick(View view) {
                 Intent intent=new Intent(MainActivity.this, AddTaskActivity.class);
                 startActivityForResult(intent,ADD_TASK_REQUEST_CODE);
-//                NewTaskActivity.monthTasks=monthTasks;
-//                startActivity(intent);
             }
         });
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
-//        Intent intent = getIntent();
-//        if (intent.getSerializableExtra("task")!=null){
-//            System.out.println(intent.getSerializableExtra("task"));
-//            tasks.add((Task)intent.getSerializableExtra("task"));
-//        }
+        Intent intent = new Intent(this, BaiduMapService.class);
+        startService(intent);
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -84,15 +79,17 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             if (requestCode==ADD_TASK_REQUEST_CODE){
                 tasks.add((Task) data.getSerializableExtra("task"));
             }
-            else {
-                tasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
-            }
+//            else {
+//                tasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
+//            }
             try {
                 storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
         }
+        //调用子fragment的 onActivityResult
+        super.onActivityResult(requestCode,resultCode,data);
     }
     @Override
     protected void onStart(){
@@ -139,10 +136,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
-//        adapter.addFragment(new ListsFragment(), "lists");
         adapter.addFragment(new ListsFragment(), TabConstants.LISTS.getTitle());
         adapter.addFragment(new CalendarFragment(),TabConstants.TIME.getTitle());
-        adapter.addFragment(new GoogleMapFragment(), TabConstants.SPACE.getTitle());
+        adapter.addFragment(new BaiduMapFragment(), TabConstants.SPACE.getTitle());
         adapter.addFragment(new SettingFragmnet(),TabConstants.SETTING.getTitle());
         viewPager.setAdapter(adapter);
     }
@@ -174,9 +170,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 break;
         }
     }
-
-
-
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -206,5 +199,4 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             return mFragmentTitleList.get(position);
         }
     }
-
 }

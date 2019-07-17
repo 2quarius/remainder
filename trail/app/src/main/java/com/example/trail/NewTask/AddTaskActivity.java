@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,7 +23,22 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapPoi;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.geocode.GeoCodeResult;
+import com.baidu.mapapi.search.geocode.GeoCoder;
+import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.MyLocation;
+import com.example.trail.NewTask.SimpleTask.Priority;
 import com.example.trail.NewTask.SimpleTask.RemindCycle;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
@@ -43,6 +59,7 @@ public class AddTaskActivity extends AppCompatActivity implements
     private EditText mTitleEditText;
     private EditText mDescriptionEditText;
     private FloatingActionButton mSendTaskFAB;
+    private Spinner mPriority;
     private EditText mExpireDateEditText;
     private EditText mExpireTimeEditText;
     private SwitchCompat mRemindMeSwitch;
@@ -53,7 +70,7 @@ public class AddTaskActivity extends AppCompatActivity implements
     private TextView mDateTimeReminderTextView;
     private TextView mExpirePlaceTextView;
     private SwitchCompat mExpirePlaceSwitch;
-
+    private String address;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,7 +168,18 @@ public class AddTaskActivity extends AppCompatActivity implements
                 }
             }
         });
+        mPriority.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                System.out.println(mPriority.getSelectedItem().toString());
+                task.setPriority(Priority.match(mPriority.getSelectedItem().toString()));
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         mExpireDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -278,6 +306,13 @@ public class AddTaskActivity extends AppCompatActivity implements
         //set description text
         mDescriptionEditText.setText(task.getDescription());
         mDescriptionEditText.setSelection(mDescriptionEditText.length());
+        //set priority
+        mPriority.setSelected(task.getPriority()!=null);
+        if (task.getPriority()!=null) {
+            mPriority.setSelection(Priority.EUGEN.getPriority() - task.getPriority().getPriority());
+        }
+        //set expire time
+        setExpireTime(task.getExpireTime()!=null);
         //set remind me switch and under text
         mRemindMeSwitch.setChecked(task.getRemindTime() != null);
         setEnterDateLayoutVisible(mRemindMeSwitch.isChecked());
@@ -285,12 +320,31 @@ public class AddTaskActivity extends AppCompatActivity implements
         setEnterDateLayoutVisibleWithAnimations(mRemindMeSwitch.isChecked());
         //set expire place switch
         mExpirePlaceSwitch.setChecked(task.getLocation() != null);
+        mExpirePlaceTextView.setText(task.getLocation()!=null?task.getLocation().getLocation().toString():mExpirePlaceTextView.getText());
+    }
+
+    private void setExpireTime(boolean b) {
+        if (b)
+        {
+            String userDate = formatDate("d MMM, yyyy", task.getExpireTime());
+            String formatToUse;
+            if (DateFormat.is24HourFormat(getApplicationContext())) {
+                formatToUse = "k:mm";
+            } else {
+                formatToUse = "h:mm a";
+
+            }
+            String userTime = formatDate(formatToUse, task.getExpireTime());
+            mExpireTimeEditText.setText(userTime);
+            mExpireDateEditText.setText(userDate);
+        }
     }
 
     private void initLayoutElement() {
         mTitleEditText = (EditText) findViewById(R.id.title);
         mDescriptionEditText = (EditText) findViewById(R.id.description);
         mSendTaskFAB = (FloatingActionButton) findViewById(R.id.send_task_fab);
+        mPriority = (Spinner) findViewById(R.id.priority_s);
         mExpireDateEditText = (EditText) findViewById(R.id.expire_date_et);
         mExpireTimeEditText = (EditText) findViewById(R.id.expire_time_et);
         mRemindMeSwitch = (SwitchCompat) findViewById(R.id.remind_me_switch);
@@ -314,22 +368,72 @@ public class AddTaskActivity extends AppCompatActivity implements
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                setExpirePlaceTextView();
+                setExpirePlaceTextView(address);
+                task.setLocation(new MyLocation(new Location(address)));
+                mExpirePlaceSwitch.setChecked(task.getLocation()!=null);
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                setExpirePlaceTextView();
+                setExpirePlaceTextView(mExpirePlaceTextView.getText().toString());
+                mExpirePlaceSwitch.setChecked(task.getLocation()!=null);
             }
         });
         customDialog = builder.create();
         //TODO:设置点击事件
+        MapView mapView = layout.findViewById(R.id.dialog_map);
+        final BaiduMap map = mapView.getMap();
+        final BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.ic_user_location);
+        map.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                //获取经纬度
+                double latitude = latLng.latitude;
+                double longitude = latLng.longitude;
+                System.out.println("latitude=" + latitude + ",longitude=" + longitude);
+                //先清除图层
+                map.clear();
+                // 定义Maker坐标点
+                LatLng point = new LatLng(latitude, longitude);
+                // 构建MarkerOption，用于在地图上添加Marker
+                MarkerOptions options = new MarkerOptions().position(point)
+                        .icon(bitmap);
+                // 在地图上添加Marker，并显示
+                map.addOverlay(options);
+                //设置地图新中心点
+                map.setMapStatus(MapStatusUpdateFactory.newLatLng(point));
+                //实例化一个地理编码查询对象
+                GeoCoder geoCoder = GeoCoder.newInstance();
+                //设置反地理编码位置坐标
+                ReverseGeoCodeOption op = new ReverseGeoCodeOption();
+                op.location(latLng);
+                geoCoder.setOnGetGeoCodeResultListener(new OnGetGeoCoderResultListener() {
+                    @Override
+                    public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
+                        //获取点击的坐标地址
+                        address = arg0.getAddress();
+                        System.out.println("address="+address);
+                    }
 
+                    @Override
+                    public void onGetGeoCodeResult(GeoCodeResult arg0) {
+                    }
+                });
+                //发起反地理编码请求(经纬度->地址信息)
+                geoCoder.reverseGeoCode(op);
+            }
+
+            @Override
+            public boolean onMapPoiClick(MapPoi mapPoi) {
+                return false;
+            }
+        });
         customDialog.show();
     }
     //TODO:设置mExpirePlaceTextView文字显示
-    private void setExpirePlaceTextView() {
+    private void setExpirePlaceTextView(String place) {
+        mExpirePlaceTextView.setText(place);
     }
 
 

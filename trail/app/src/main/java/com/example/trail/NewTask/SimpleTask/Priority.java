@@ -12,7 +12,7 @@ public enum Priority {
     {
         for (Priority r:Priority.values())
         {
-            if (r.priority.equals(name)){
+            if (r.name().equals(name)){
                 return r;
             }
         }

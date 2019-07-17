@@ -23,9 +23,11 @@
         </com.google.android.gms.maps.MapView>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
+            android:backgroundTint="@color/inputLine"
+            app:borderWidth="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
+            android:layout_gravity="top|left"
             android:src="@android:drawable/ic_menu_search"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </com.google.android.material.card.MaterialCardView>

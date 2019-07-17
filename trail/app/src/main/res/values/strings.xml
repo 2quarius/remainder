@@ -20,4 +20,5 @@
     <string name="image">image_desc</string>
     <string name="at">\@</string>
     <string name="select_time">select a time</string>
+    <string name="priority">Priority</string>
 </resources>

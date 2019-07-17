@@ -85,6 +85,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="36dp"
+                android:gravity="center|start|fill_horizontal"
+                android:orientation="horizontal"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="36dp">
+
+                <ImageButton
+                    android:id="@+id/priority_ib"
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="@dimen/icon"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/image"
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_input_get" />
+
+                <TextView
+                    android:id="@+id/priority_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/priority"
+                    android:textColor="@color/colorPrimaryTitle"
+                    android:textSize="16sp" />
+                <Spinner
+                    android:id="@+id/priority_s"
+                    android:layout_marginRight="0dp"
+                    android:entries="@array/priority_array"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="0dp" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

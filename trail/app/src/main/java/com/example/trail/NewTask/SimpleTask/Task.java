@@ -32,7 +32,7 @@ public class Task implements Serializable {
 
     private Priority priority = Priority.NONE;
 
-    private Location location = null;
+    private MyLocation location = null;
 
     private Boolean done = false;
 
@@ -85,7 +85,7 @@ public class Task implements Serializable {
             e.printStackTrace();
         }
         try{
-            location = (Location) o.get(String.valueOf(TaskConstants.LOCATION));
+            location.setLocation((Location) o.get(String.valueOf(TaskConstants.LOCATION)));
         }catch (JSONException e){
             e.printStackTrace();
         }

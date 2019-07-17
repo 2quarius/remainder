@@ -9,6 +9,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.trail.R;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -33,7 +32,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -42,22 +40,29 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
+import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static com.google.android.gms.location.places.ui.PlacePicker.IntentBuilder;
-import static com.google.android.gms.location.places.ui.PlacePicker.getPlace;
+import static com.android.volley.VolleyLog.TAG;
 
 public class GoogleMapFragment extends Fragment implements
         OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        GoogleMap.OnMarkerClickListener, LocationListener {
+        GoogleMap.OnMarkerClickListener, LocationListener{
     private MapView mMapView;
     private GoogleMap mMap;
+    private FloatingActionButton searchFab;
     private GoogleApiClient mGoogleApiClient;
     //用户权限
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -68,15 +73,15 @@ public class GoogleMapFragment extends Fragment implements
     private boolean mLocationUpdateState;
     // REQUEST_CHECK_SETTINGS 是用于传递给 onActivityResult 方法的 request code。
     private static final int REQUEST_CHECK_SETTINGS = 2;
-    private static final int PLACE_PICKER_REQUEST = 3;
+    private static final int AUTOCOMPLETE_REQUEST_CODE = 3;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_google_map, container, false);
 
         // Gets the MapView from the XML layout and creates it
         mMapView = (MapView) v.findViewById(R.id.gmap);
-        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        searchFab = (FloatingActionButton) v.findViewById(R.id.fab);
+        searchFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadPlacePicker();
@@ -110,12 +115,19 @@ public class GoogleMapFragment extends Fragment implements
                 startLocationUpdates();
             }
         }
-        if (requestCode == PLACE_PICKER_REQUEST) {
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Place place = getPlace(getContext(),data);
-                String addressText = place.getName().toString();
-                addressText += "\n" + place.getAddress().toString();
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                String addressText = place.getName();
+                addressText += "\n" + place.getAddress();
                 placeMarkerOnMap(place.getLatLng());
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
             }
         }
     }
@@ -155,9 +167,6 @@ public class GoogleMapFragment extends Fragment implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 12));
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMarkerClickListener(this);
 
@@ -318,12 +327,20 @@ public class GoogleMapFragment extends Fragment implements
         });
     }
     private void loadPlacePicker() {
-        IntentBuilder builder = new IntentBuilder();
-
-        try {
-            startActivityForResult(builder.build(getActivity()), PLACE_PICKER_REQUEST);
-        } catch(GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
-            e.printStackTrace();
+        /**
+         * Initialize Places. For simplicity, the API key is hard-coded. In a production
+         * environment we recommend using a secure mechanism to manage API keys.
+         */
+        if (!Places.isInitialized()) {
+            Places.initialize(getContext(),"AIzaSyAiJAh9Vku6yQ0xmH4_ARlVnS-fWspQGQ8" );
         }
+
+        // Set the fields to specify which types of place data to return.
+        List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME);
+
+        // Start the autocomplete intent.
+        Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+                .build(getContext());
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE);
     }
 }
