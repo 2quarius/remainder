@@ -1,6 +1,13 @@
 package com.example.trail.Lists;
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.ViewAssertion;
+import androidx.test.espresso.action.GeneralClickAction;
+import androidx.test.espresso.action.GeneralLocation;
+import androidx.test.espresso.action.Press;
+import androidx.test.espresso.action.Tap;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.android21buttons.fragmenttestrule.FragmentTestRule;
@@ -19,6 +26,10 @@ import java.util.List;
 import java.util.Random;
 
 import static androidx.test.espresso.Espresso.onView;
+
+import static androidx.test.espresso.action.ViewActions.actionWithAssertions;
+import static androidx.test.espresso.action.ViewActions.addGlobalAssertion;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.longClick;
 import static androidx.test.espresso.action.ViewActions.swipeLeft;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -49,14 +60,18 @@ public class ListsFragmentTest {
                 .getActivity().findViewById(recyclerId);
         return recyclerView.getAdapter().getItemCount();
     }
+//    public static ViewAction click() {
+//        return actionWithAssertions(
+//                new GeneralClickAction(Tap.SINGLE, GeneralLocation.VISIBLE_CENTER, Press.FINGER));
+//    }
     @Test
     public void clickCheckBox() throws Exception {
         //onView(allOf(withParent(withId(R.layout.recycler_view))qq,withId(R.id.card_view))).perform(scrollToPosition(4));
        //onView(allOf(withParent(withId(R.id.list_recycler_view)),withId(R.id.card_view))).perform(longClick());
         onView(withRecyclerView(R.id.my_recycler_view).atPosition(0)).perform(longClick());
-//        onView(withRecyclerView(R.id.my_recycler_view).atPosition(0)).onChildView(withId(R.id.card_view)).onChildView(withId(R.id.checkBox))
-//                .perform(click())
-//                .check(matches(isChecked()));
+        /*onView(withRecyclerView(R.id.my_recycler_view).atPosition(0).onChildView(withId(R.id.card_view)).onChildView(withId(R.id.checkBox)))
+                .perform(click())
+                .check(matches(isChecked()));*/
 
         //        //onView(withId(R.id.checkBox)).check(matches(isDisplayed()));
        // onView(withId(R.id.my_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(2,));
@@ -73,14 +88,13 @@ public class ListsFragmentTest {
         if(getRecycler(R.id.my_recycler_view)!=first-1){
             throw new Exception("delete error");
         }
-        //onView(withRecyclerView(R.id.my_recycler_view).atPosition(3)).perform(swipeLeft());
-        onView(withRecyclerView(R.id.my_recycler_view).atPosition(1))
-                .check(matches(isDisplayed()))
-                .perform(swipeLeft());
+
+
     }
     @Test
     public void DragItem() throws Exception {
-        onView(withRecyclerView(R.id.my_recycler_view).atPosition(0)).perform(longClick());
+        onView(withRecyclerView(R.id.my_recycler_view).atPosition(0))
+                .perform(longClick());
         //RecyclerViewActions.actionOnItemAtPosition(0,longClick());
 
     }
