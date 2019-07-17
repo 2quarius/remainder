@@ -51,7 +51,12 @@ public class TimeRemindService extends Service {
         task =  (Task) intent.getSerializableExtra("Task");
         intent.putExtra("task",task);
         remind = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        addTasktoAlarm();
+        if (task.remindme==true) {
+            addTasktoAlarm();
+        }
+        else {
+            alarm.cancel(remind);
+        }
         return mStartMode;
     }
 }

@@ -27,6 +27,7 @@ public class Task implements Serializable {
     public Date startTime = null;
     public Date expireTime = null;
 
+    public Boolean remindme = false;
     public Date remindTime = null;
     public RemindCycle remindCycle = RemindCycle.DAILY;
 
