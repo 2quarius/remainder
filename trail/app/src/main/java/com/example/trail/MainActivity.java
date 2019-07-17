@@ -153,10 +153,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
         tasks=getLocallyStoredData(storeRetrieveData);
 
-        Date date=new Date();
-        long differ=date.getTime()-SystemClock.elapsedRealtime();
-        int time=(int)(date.getTime()-differ+5*1000);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,time,pendingIntent);
         for(int i=0;i<tasks.size();i++){
             if(tasks.get(i).getExpireTime()!=null)
             {
