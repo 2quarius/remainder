@@ -34,7 +34,8 @@
         android:supportsRtl="false"
         android:theme="@style/Light.Theme"
         tools:ignore="GoogleAppIndexingWarning">
-        <service android:name=".Map.BaiduMapService"/>
+        <service android:name=".Services.BaiduMapService"/>
+        <receiver android:name=".Services.RemindReceiver"/>
         <activity android:name=".Lists.SideMenuActivity"></activity>
         <activity android:name=".NewTask.AddTaskActivity"/>
         <activity android:name=".NewTask.NewTaskActivity"/>

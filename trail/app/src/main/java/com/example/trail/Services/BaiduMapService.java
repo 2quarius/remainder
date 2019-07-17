@@ -1,4 +1,4 @@
-package com.example.trail.Map;
+package com.example.trail.Services;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -22,6 +22,7 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
@@ -60,6 +61,7 @@ public class BaiduMapService extends Service implements SensorEventListener {
     @Override
     public void onCreate() {
         super.onCreate();
+        SDKInitializer.initialize(getApplicationContext());
         mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.setLocOption(setLocationClientOption());
         mLocationClient.registerLocationListener(mMyLocationListener);
