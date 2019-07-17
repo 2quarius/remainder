@@ -1,5 +1,7 @@
 package com.example.trail.NewTask.task;
 
+import com.google.android.gms.location.places.GeoDataClient;
+
 import lombok.Data;
 
 @Data
@@ -48,5 +50,9 @@ public class Time {
 
     public String getYear() {
         return year;
+    }
+
+    public String getTime() {
+        return year+month+day+hour+minute;
     }
 }

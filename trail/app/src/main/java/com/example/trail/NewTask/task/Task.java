@@ -1,24 +1,26 @@
 package com.example.trail.NewTask.task;
 
-import com.example.trail.NewTask.task.Time;
-
 import lombok.Data;
 
 @Data
 public class Task {
+    private Time notifyTime;
     private Time startTime;
     private Time endTime;
     private int recycling; //每日->1 每周->2 每月->3 每年->4
-    private int timeAdvance;
     private int priority;
-    private String type;
-    private String tital;
+    private String title;
     private String content;
-    private int done;
+    private int done = 0;
+    public int added = 0;
 
     public void setTime(Time startTime, Time endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    public void setNotifyTime(Time notifyTime) {
+        this.notifyTime = notifyTime;
     }
 
 //    public void setEndTime(Time endTime) {
@@ -29,13 +31,9 @@ public class Task {
 //        this.startTime = startTime;
 //    }
 //
-//    public void setContent(String content) {
-//        this.content = content;
-//    }
-//
-//    public void setTital(String tital) {
-//        this.tital = tital;
-//    }
+    public void setContent(String content) {
+        this.content = content;
+    }
 //
 //    public void setDone(int done) {
 //        this.done = done;
@@ -49,13 +47,9 @@ public class Task {
 //        this.recycling = recycling;
 //    }
 //
-//    public void setTimeAdvance(int timedvance) {
-//        this.timeAdvance = timedvance;
-//    }
-//
-//    public void setType(String type) {
-//        this.type = type;
-//    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 //
 //    public int getDone() {
 //        return done;
@@ -69,28 +63,24 @@ public class Task {
 //        return recycling;
 //    }
 //
-//    public int getTimeAdvance() {
-//        return timeAdvance;
-//    }
+    public String getContent() {
+        return content;
+    }
 //
-//    public String getContent() {
-//        return content;
-//    }
-//
-//    public String getTital() {
-//        return tital;
-//    }
-//
-//    public String getType() {
-//        return type;
-//    }
+    public String getTitle() {
+        return title;
+    }
 //
 //    public Time getEndTime() {
 //        return endTime;
 //    }
 //
-//    public Time getStartTime() {
-//        return startTime;
-//    }
+   public String getStartTime() {
+       return startTime.getTime();
+    }
+
+    public String getNotifyTime() {
+        return notifyTime.getTime();
+    }
 //
 }
