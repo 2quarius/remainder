@@ -24,7 +24,7 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <com.example.trail.Utility.CustomTextInputLayout
+            <com.example.trail.Utility.UIHelper.CustomTextInputLayout
                 android:id="@+id/toDoCustomTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,10 +46,10 @@
                     android:maxLines="3"
                     android:textColor="@color/colorPrimary"
                     tools:targetApi="o" />
-            </com.example.trail.Utility.CustomTextInputLayout>
+            </com.example.trail.Utility.UIHelper.CustomTextInputLayout>
         </LinearLayout>
 
-        <com.example.trail.Utility.CustomTextInputLayout
+        <com.example.trail.Utility.UIHelper.CustomTextInputLayout
             android:id="@+id/toDoCustomTextInput01"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                 android:scrollbars="vertical"
                 android:textColor="@color/colorPrimary"
                 android:importantForAutofill="no" tools:targetApi="o" />
-        </com.example.trail.Utility.CustomTextInputLayout>
+        </com.example.trail.Utility.UIHelper.CustomTextInputLayout>
     </LinearLayout>
 
     <ScrollView

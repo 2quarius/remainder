@@ -5,7 +5,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.example.trail.MainActivity;
 import com.example.trail.R;
-import com.example.trail.Utility.TabConstants;
+import com.example.trail.Utility.EnumPack.TabConstants;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,7 +18,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.*;
 
 public class SettingFragmnetTest {
     @Rule
