@@ -5,18 +5,18 @@ import androidx.test.espresso.action.GeneralLocation;
 import androidx.test.espresso.action.GeneralSwipeAction;
 import androidx.test.espresso.action.Press;
 import androidx.test.espresso.action.Swipe;
+import androidx.test.runner.AndroidJUnit4;
 
 import com.android21buttons.fragmenttestrule.FragmentTestRule;
 import com.example.trail.MainActivity;
 import com.example.trail.R;
-import com.haibin.calendarview.Calendar;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.sql.Date;
-import java.sql.Time;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -30,6 +30,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.AllOf.allOf;
 
+@RunWith(AndroidJUnit4.class)
 public class CalendarFragmentTest {
     @Rule
     public FragmentTestRule<MainActivity, CalendarFragment> rule = new FragmentTestRule<>(MainActivity.class, CalendarFragment.class);
