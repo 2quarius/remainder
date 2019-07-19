@@ -27,8 +27,8 @@ import com.example.trail.Services.AlarmManageService;
 import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Utility.AlarmBroadcast;
-import com.example.trail.Utility.StoreRetrieveData;
-import com.example.trail.Utility.TabConstants;
+import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
+import com.example.trail.Utility.EnumPack.TabConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -90,9 +90,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             if (requestCode==ADD_TASK_REQUEST_CODE){
                 tasks.add((Task) data.getSerializableExtra("task"));
             }
-//            else {
-//                tasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
-//            }
             try {
                 storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
             } catch (JSONException | IOException e) {

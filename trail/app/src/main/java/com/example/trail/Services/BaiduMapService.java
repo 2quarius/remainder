@@ -10,6 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -57,18 +58,8 @@ public class BaiduMapService extends Service implements SensorEventListener {
     private TimerTask mTimerTask = null;
     private boolean isStop = false;
     private List<Task> tasks = new ArrayList<>();
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        SDKInitializer.initialize(getApplicationContext());
-        mLocationClient = new LocationClient(getApplicationContext());
-        mLocationClient.setLocOption(setLocationClientOption());
-        mLocationClient.registerLocationListener(mMyLocationListener);
-        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);//获取传感器管理服务
-        mLocationClient.start();
-        initTasks();
-    }
+    // Binder given to clients
+    private final IBinder mBinder = new LocalBinder();
 
     private void initTasks() {
         for (int i = 0; i < 10 ;i++)
@@ -84,6 +75,18 @@ public class BaiduMapService extends Service implements SensorEventListener {
             tasks.add(task);
         }
     }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        SDKInitializer.initialize(getApplicationContext());
+        mLocationClient = new LocationClient(getApplicationContext());
+        mLocationClient.setLocOption(setLocationClientOption());
+        mLocationClient.registerLocationListener(mMyLocationListener);
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);//获取传感器管理服务
+        mLocationClient.start();
+        initTasks();
+    }
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -94,6 +97,13 @@ public class BaiduMapService extends Service implements SensorEventListener {
 //        }
         return super.onStartCommand(intent, flags, startId);
     }
+
+    @Override
+    public IBinder onBind(Intent intent) {
+        // TODO Auto-generated method stub
+        return mBinder;
+    }
+
     @Override
     public void onDestroy() {
         // TODO Auto-generated method stub
@@ -115,6 +125,24 @@ public class BaiduMapService extends Service implements SensorEventListener {
         }
         mHandler.removeCallbacks(run);
         super.onDestroy();
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        double x = sensorEvent.values[SensorManager.DATA_X];
+        if (Math.abs(x - lastX) > 1.0) {
+            mCurrentDirection = (int) x;
+            locData = new MyLocationData.Builder()
+                    // 此处设置开发者获取到的方向信息，顺时针0-360
+                    .direction(mCurrentDirection).latitude(mCurrentLat)
+                    .longitude(mCurrentLon).build();
+        }
+        lastX = x;
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
     }
     /**
      * 定时器 每隔一段时间执行一次
@@ -169,13 +197,13 @@ public class BaiduMapService extends Service implements SensorEventListener {
         Log.d("tag", "isStop="+isStop);
 
     }
+    public class LocalBinder extends Binder {
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        // TODO Auto-generated method stub
-        return null;
+        public BaiduMapService getService() {
+            // Return this instance of LocalService so clients can call public methods.
+            return BaiduMapService.this;
+        }
     }
-
     /**
      * 定位客户端参数设定，更多参数设置，查看百度官方文档
      * @return
@@ -196,23 +224,6 @@ public class BaiduMapService extends Service implements SensorEventListener {
         return option;
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        double x = sensorEvent.values[SensorManager.DATA_X];
-        if (Math.abs(x - lastX) > 1.0) {
-            mCurrentDirection = (int) x;
-            locData = new MyLocationData.Builder()
-                    // 此处设置开发者获取到的方向信息，顺时针0-360
-                    .direction(mCurrentDirection).latitude(mCurrentLat)
-                    .longitude(mCurrentLon).build();
-        }
-        lastX = x;
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
-    }
 
     /**
      * 处理连续定位变化的地图ui变化
@@ -226,21 +237,11 @@ public class BaiduMapService extends Service implements SensorEventListener {
             for (int i = 0; i<10;i++){
                 Location l = tasks.get(i).getLocation().getLocation();
                 mDestinationPoint = new LatLng(l.getLatitude(),l.getLongitude());
-                mDistance = DistanceUtil.getDistance(mDestinationPoint,LocationPoint);
+                mDistance = DistanceUtil.getDistance(mDestinationPoint,LocationPoint);//报错
                 if (mDistance <= DISTANCE&&!tasks.get(i).isDone()){
                     sendNotification(tasks.get(i));
                 }
             }
-//            //打卡范围
-//            mDestinationPoint = new LatLng(location.getLatitude() * 1.0001, location.getLongitude() * 1.0001);//假设公司坐标
-//            //计算两点距离,单位：米
-//            mDistance = DistanceUtil.getDistance(mDestinationPoint, LocationPoint);
-//            if (mDistance <= DISTANCE) {
-//                sendNotification();
-//                mLocationClient.stop();
-//            } else {
-//
-//            }
         }
     };
     private Runnable run = new Runnable() {

@@ -1,4 +1,4 @@
-package com.example.trail.Utility;
+package com.example.trail.Utility.DataStorageHelper;
 
 import android.content.Context;
 
@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 public class StoreRetrieveData {
     private Context mContext;

@@ -2,7 +2,7 @@ package com.example.trail.NewTask.SimpleTask;
 
 import android.location.Location;
 
-import com.example.trail.Utility.TaskConstants;
+import com.example.trail.Utility.EnumPack.TaskConstants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
