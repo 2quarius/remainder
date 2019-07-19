@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (resultCode==RESULT_OK&&data!=null){
             if (requestCode==ADD_TASK_REQUEST_CODE){
                 Task task = (Task) data.getSerializableExtra("task");
-                System.out.println(task.title);
                 if (task.added==false&&task.done==false) {
                     task.added = true;
                     Intent intent = new Intent(MainActivity.this, TimeRemindService.class);

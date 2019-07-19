@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.trail.MainActivity;
@@ -29,24 +30,29 @@ public class TimeRemindService extends Service {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(timesetted);
         long timerange = timesetted.getTime() - timenow.getTime();
-        if (timerange>=0) {
-            if (task.remindCycle == RemindCycle.SINGLE) {
-                long diff=cal.getTimeInMillis()- SystemClock.elapsedRealtime();
-                alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-diff, remind);
+
+        Log.d("timerange", ""+timerange);
+        Log.d("timenow", ""+cal.getTimeInMillis());
+        Log.d("timeset", ""+calendar.getTimeInMillis());
+        Log.d("timesystem", ""+SystemClock.elapsedRealtime());
+        if (task.remindCycle == RemindCycle.SINGLE) {
+            long diff=cal.getTimeInMillis()- SystemClock.elapsedRealtime();
+            alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-diff, remind);
+            Toast toast=Toast.makeText(TimeRemindService.this,"Toast提示消息",Toast.LENGTH_SHORT    );
+            toast.show();
+        }
+        else {
+            long cyclingTime = 1000000000;
+            switch (task.remindCycle) {
+                case DAILY:
+                    cyclingTime = 1000 * 60 * 60 * 24;
+                    break;
+                case WEEKLY:
+                    cyclingTime = 1000 * 60 * 60 * 24 * 7;
+                    break;
             }
-            else {
-                long cyclingTime = 1000000000;
-                switch (task.remindCycle) {
-                    case DAILY:
-                        cyclingTime = 1000 * 60 * 60 * 24;
-                        break;
-                    case WEEKLY:
-                        cyclingTime = 1000 * 60 * 60 * 24 * 7;
-                        break;
-                }
-                long diff=cal.getTimeInMillis()- SystemClock.elapsedRealtime();
-                alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-diff, cyclingTime, remind);
-            }
+            long diff=cal.getTimeInMillis()- SystemClock.elapsedRealtime();
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-diff, cyclingTime, remind);
         }
     }
 
@@ -58,15 +64,16 @@ public class TimeRemindService extends Service {
     @Override
     public int onStartCommand(Intent data, int flags, int startId) {
         alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
-        intent = new Intent(this, RemindActivity.class);
-        task =  (Task) data.getSerializableExtra("Task");
+        task =  (Task) data.getSerializableExtra("task");
         if (task==null) {
             //Toast toast=Toast.makeText(TimeRemindService.this,"Toast提示消息",Toast.LENGTH_SHORT    );
             //toast.show();
             return mStartMode;
         }
+        intent = new Intent(this, AlarmBroadcast.class);
         intent.putExtra("task",task);
-        remind = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        intent.setAction("startAlarm");
+        remind = PendingIntent.getActivity(this, 110, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (task.remindme==true) {
             addTasktoAlarm();
         }

@@ -64,7 +64,9 @@
         <service
             android:name=".TimeRemind.TimeRemindService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:process=":remote" />
+
         <service android:name=".Map.BaiduMapService" />
 
         <activity android:name=".Lists.SideMenuActivity" />
@@ -104,6 +106,9 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
+            android:process=":remote" />
+        <receiver
+            android:name=".TimeRemind.AlarmBroadcast"
             android:process=":remote" />
     </application>
 

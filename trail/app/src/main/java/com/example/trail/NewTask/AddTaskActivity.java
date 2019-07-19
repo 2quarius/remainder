@@ -237,6 +237,7 @@ public class AddTaskActivity extends AppCompatActivity implements
                     task.setRemindTime(null);
                 }
                 setDateAndTimeEditText(isChecked);
+                task.remindme = isChecked;
                 setEnterDateLayoutVisibleWithAnimations(isChecked);
                 hideKeyboard(mTitleEditText);
                 hideKeyboard(mDescriptionEditText);
