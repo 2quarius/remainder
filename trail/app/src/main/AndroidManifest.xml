@@ -55,10 +55,11 @@
         android:supportsRtl="false"
         android:theme="@style/Light.Theme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".TimeRemind.AddTasktoServiceActivity"></activity>
         <activity
             android:name=".TimeRemind.RemindActivity"
             android:label="@string/title_activity_remind"
-            android:theme="@style/Light.Theme.NoActionBar"></activity>
+            android:theme="@style/Light.Theme.NoActionBar" />
 
         <service
             android:name=".TimeRemind.TimeRemindService"

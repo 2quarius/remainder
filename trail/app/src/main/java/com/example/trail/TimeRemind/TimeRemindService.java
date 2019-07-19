@@ -6,7 +6,9 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.widget.Toast;
 
+import com.example.trail.MainActivity;
 import com.example.trail.NewTask.SimpleTask.RemindCycle;
 import com.example.trail.NewTask.SimpleTask.Task;
 
@@ -16,8 +18,8 @@ import java.util.Date;
 public class TimeRemindService extends Service {
     int mStartMode;
     Task task;
-    AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
-    Intent intent = new Intent(this, RemindActivity.class);
+    AlarmManager alarm;
+    Intent intent;
     PendingIntent remind;
 
     private void addTasktoAlarm() {
@@ -54,8 +56,15 @@ public class TimeRemindService extends Service {
     }
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        task =  (Task) intent.getSerializableExtra("Task");
+    public int onStartCommand(Intent data, int flags, int startId) {
+        alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+        intent = new Intent(this, RemindActivity.class);
+        task =  (Task) data.getSerializableExtra("Task");
+        if (task==null) {
+            //Toast toast=Toast.makeText(TimeRemindService.this,"Toast提示消息",Toast.LENGTH_SHORT    );
+            //toast.show();
+            return mStartMode;
+        }
         intent.putExtra("task",task);
         remind = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         if (task.remindme==true) {

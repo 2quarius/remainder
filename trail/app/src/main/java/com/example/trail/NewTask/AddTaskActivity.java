@@ -155,24 +155,12 @@ public class AddTaskActivity extends AppCompatActivity implements
                     mTitleEditText.setError("please enter a todo");
                 }
                 else if (position==-1){
-                    if (task.added==false) {
-                        task.added = true;
-                        Intent intent2 = new Intent(AddTaskActivity.this, TimeRemindService.class);
-                        intent2.putExtra("task",task);
-                        startService(intent2);
-                    }
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("task",task);
                     setResult(RESULT_OK,intent);
                     AddTaskActivity.this.finish();
                 }
                 else if (position!=-1){
-                    if (task.added==false) {
-                        task.added = true;
-                        Intent intent2 = new Intent(AddTaskActivity.this, TimeRemindService.class);
-                        intent2.putExtra("task",task);
-                        startService(intent2);
-                    }
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("position",position);
                     intent.putExtra("task",task);

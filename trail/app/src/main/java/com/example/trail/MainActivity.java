@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import com.example.trail.Map.BaiduMapService;
 import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Setting.SettingFragmnet;
+import com.example.trail.TimeRemind.TimeRemindService;
 import com.example.trail.Utility.StoreRetrieveData;
 import com.example.trail.Utility.TabConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -77,7 +79,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     {
         if (resultCode==RESULT_OK&&data!=null){
             if (requestCode==ADD_TASK_REQUEST_CODE){
-                tasks.add((Task) data.getSerializableExtra("task"));
+                Task task = (Task) data.getSerializableExtra("task");
+                System.out.println(task.title);
+                if (task.added==false&&task.done==false) {
+                    task.added = true;
+                    Intent intent = new Intent(MainActivity.this, TimeRemindService.class);
+                    intent.putExtra("task",task);
+                    startService(intent);
+                }
             }
 //            else {
 //                tasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
