@@ -18,13 +18,16 @@ import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Lists.SideMenuActivity;
 import com.example.trail.Map.BaiduMapFragment;
-import com.example.trail.Map.BaiduMapService;
 import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
+import com.example.trail.Services.AlarmManageService;
+import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.TimeRemind.TimeRemindService;
 import com.example.trail.Utility.StoreRetrieveData;
 import com.example.trail.Utility.TabConstants;
+import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
+import com.example.trail.Utility.EnumPack.TabConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -88,9 +91,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     startService(intent);
                 }
             }
-//            else {
-//                tasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
-//            }
             try {
                 storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
             } catch (JSONException | IOException e) {
@@ -104,6 +104,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     protected void onStart(){
         super.onStart();
         tasks = getLocallyStoredData(storeRetrieveData);
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("task",tasks.get(0));
+        AlarmManageService.addAlarm(getApplicationContext(),0,bundle,1);
     }
     @Override
     public void onPause() {

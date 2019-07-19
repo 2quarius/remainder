@@ -1,4 +1,4 @@
-package com.example.trail.Utility;
+package com.example.trail.Utility.UIHelper;
 
 import android.content.Context;
 import android.graphics.Canvas;

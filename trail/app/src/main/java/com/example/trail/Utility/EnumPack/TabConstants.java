@@ -1,4 +1,4 @@
-package com.example.trail.Utility;
+package com.example.trail.Utility.EnumPack;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
