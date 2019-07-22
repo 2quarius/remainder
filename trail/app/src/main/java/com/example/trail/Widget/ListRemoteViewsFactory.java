@@ -39,11 +39,11 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         //  rv.setImageViewResource(R.id.iv_lock, ((Integer) map.get(IMAGE_ITEM)).intValue());
         rv.setTextViewText(R.id.item_title, title);
 
-        // 设置 第position位的“视图”对应的响应事件
-        Intent fillInIntent = new Intent();
-        fillInIntent.putExtra("Type", 0);
-        fillInIntent.putExtra(AppWidget.COLLECTION_VIEW_EXTRA, position);
-        rv.setOnClickFillInIntent(R.id.rl_widget_task, fillInIntent);
+//        // 设置 第position位的“视图”对应的响应事件
+//        Intent fillInIntent = new Intent();
+//        fillInIntent.putExtra("Type", 0);
+//        fillInIntent.putExtra(AppWidget.COLLECTION_VIEW_EXTRA, position);
+//        rv.setOnClickFillInIntent(R.id.rl_widget_task, fillInIntent);
 
 
 //        Intent lockIntent = new Intent();
