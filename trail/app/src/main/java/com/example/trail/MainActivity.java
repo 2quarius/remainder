@@ -16,11 +16,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.baidu.mapapi.SDKInitializer;
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.Lists.ListsFragment;
+
 import com.example.trail.Lists.SideMenuActivity;
 import com.example.trail.Map.BaiduMapFragment;
 import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
-import com.example.trail.Services.AlarmManageService;
 import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.TimeRemind.TimeRemindService;
@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //初始化百度地图，必须在 setContentView(...) 前调用！
-        SDKInitializer.initialize(getApplicationContext());
+        SDKInitializer.initialize(getApplicationContext());//
         setContentView(R.layout.activity_main);
         // Setting ViewPager for each Tabs
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             }
         });
         tasks = new ArrayList<>();
-        storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
+        storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);//
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
     }
@@ -102,9 +102,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         super.onStart();
         tasks = getLocallyStoredData(storeRetrieveData);
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("task",tasks.get(0));
-        AlarmManageService.addAlarm(getApplicationContext(),0,bundle,1);
+        //Bundle bundle = new Bundle();
+        //bundle.putSerializable("task",tasks.get(0));
+        //AlarmManageService.addAlarm(getApplicationContext(),0,bundle,1);//
     }
     @Override
     public void onPause() {

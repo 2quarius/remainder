@@ -30,13 +30,14 @@ public class TimeRemindService extends Service {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(timesetted);
         long timerange = timesetted.getTime() - timenow.getTime();
+        long diff=cal.getTimeInMillis()- SystemClock.elapsedRealtime();
 
         Log.d("timerange", ""+timerange);
         Log.d("timenow", ""+cal.getTimeInMillis());
         Log.d("timeset", ""+calendar.getTimeInMillis());
         Log.d("timesystem", ""+SystemClock.elapsedRealtime());
+        Log.d("timesyinput", ""+(calendar.getTimeInMillis()-diff));
         if (task.remindCycle == RemindCycle.SINGLE) {
-            long diff=cal.getTimeInMillis()- SystemClock.elapsedRealtime();
             alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-diff, remind);
             Toast toast=Toast.makeText(TimeRemindService.this,"Toast提示消息",Toast.LENGTH_SHORT    );
             toast.show();
@@ -51,7 +52,6 @@ public class TimeRemindService extends Service {
                     cyclingTime = 1000 * 60 * 60 * 24 * 7;
                     break;
             }
-            long diff=cal.getTimeInMillis()- SystemClock.elapsedRealtime();
             alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-diff, cyclingTime, remind);
         }
     }
