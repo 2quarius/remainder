@@ -51,6 +51,8 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddTaskActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -146,6 +148,76 @@ public class AddTaskActivity extends AppCompatActivity implements
 
             @Override
             public void afterTextChanged(Editable s) {
+                Matcher m = Pattern.compile("(\\d{1,2})month(\\d{1,2})day").matcher(s.toString());
+                Matcher m2 = Pattern.compile("(\\d{2}):(\\d{2})").matcher(s.toString());
+                Matcher m3 = Pattern.compile("(\\d{1,2})-(\\d{1,2})").matcher(s.toString());
+                if (m.find()&&task.getExpireTime() == null){
+                    System.out.println("find date");
+                    Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
+                    hideKeyboard(mTitleEditText);
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(date);
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = Integer.parseInt(m.group(1));
+                    int day = Integer.parseInt(m.group(2));
+                    //System.out.println(month);
+
+                    DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month-1, day);
+                    datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
+                    datePickerDialog.show(getFragmentManager(),"ExpireDate");
+                }
+                /*else if (m3.find()&&task.getExpireTime() == null){
+                    Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
+                    hideKeyboard(mTitleEditText);
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(date);
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = Integer.parseInt(m3.group(1));
+                    int day = Integer.parseInt(m3.group(2));
+                    //System.out.println(month);
+
+                    DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month-1, day);
+                    datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
+                    datePickerDialog.show(getFragmentManager(),"ExpireDate");
+                }*/
+                else if (m2.find()&&task.getExpireTime() == null){
+                    Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
+                    hideKeyboard(mTitleEditText);
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(date);
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH);
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                    DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month, day);
+                    datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
+                    datePickerDialog.show(getFragmentManager(),"ExpireDate");
+                    //set time
+                    int hour = Integer.parseInt(m2.group(1));
+                    int minute = Integer.parseInt(m2.group(2));
+
+                    TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                            Calendar calendar = Calendar.getInstance();
+                            if (task.getRemindTime() != null) {
+                                calendar.setTime(task.getRemindTime());
+                            }
+                            int year = calendar.get(Calendar.YEAR);
+                            int month = calendar.get(Calendar.MONTH);
+                            int day = calendar.get(Calendar.DAY_OF_MONTH);
+                            Log.d("OskarSchindler", "Time set: " + hourOfDay);
+                            calendar.set(year, month, day, hourOfDay, minute, 0);
+                            task.setExpireTime(calendar.getTime());
+                            setTimeEditText(task.getExpireTime(),mExpireTimeEditText);
+                        }
+                    }, hour, minute, DateFormat.is24HourFormat(getApplicationContext()));
+                    timePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
+                    timePickerDialog.show(getFragmentManager(), "ExpireTime");
+                }
             }
         });
         mSendTaskFAB.setOnClickListener(new View.OnClickListener() {
