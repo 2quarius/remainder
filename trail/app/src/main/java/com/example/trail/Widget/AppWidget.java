@@ -37,11 +37,9 @@ public class AppWidget extends AppWidgetProvider {
         // There may be multiple widgets active, so update all of them
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.app_widget);
         for (int appWidgetId : appWidgetIds) {
-//            views.setTextViewText(R.id.widget_title,"nice?");
-//            views.setTextViewText(R.id.card_title4,"吃饭");
-//            initList();
-//            displayLists(context,lists,times,views);
-//            checkTask(context,views);
+            initList();
+            displayLists(context,lists,times,views);
+            checkTask(context,views);
             appWidgetManager.updateAppWidget(appWidgetId, views);
 
 //            updateAppWidget(context, appWidgetManager, appWidgetId);

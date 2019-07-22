@@ -140,20 +140,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     }
 
-    private void addTaskAlarm(Task task){
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmBroadcast.class);
-        intent.setAction("startAlarm");
-        pendingIntent = PendingIntent.getBroadcast(this, 110, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
-        Date tempDate=task.getExpireTime();
-        Calendar cal=Calendar.getInstance();
-        Calendar calendar=Calendar.getInstance();
-        calendar.setTime(tempDate);
-        long timeDiff=cal.getTimeInMillis()-SystemClock.elapsedRealtime();
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-timeDiff+60*1000, pendingIntent);
-
-    }
     //设置闹钟
     private void setAlarm(){
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
