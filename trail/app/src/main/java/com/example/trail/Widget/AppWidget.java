@@ -39,8 +39,8 @@ public class AppWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
 //            views.setTextViewText(R.id.widget_title,"nice?");
 //            views.setTextViewText(R.id.card_title4,"吃饭");
-            initList();
-            displayLists(context,lists,times,views);
+//            initList();
+//            displayLists(context,lists,times,views);
 //            checkTask(context,views);
             appWidgetManager.updateAppWidget(appWidgetId, views);
 

@@ -61,11 +61,6 @@
             android:layout_toRightOf="@+id/tv_purple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <Button
-            android:layout_below="@+id/tv_black"
-            android:text="test"
-            android:layout_width="200dp"
-            android:layout_height="50dp" />
     </RelativeLayout>
 
 </RelativeLayout>
