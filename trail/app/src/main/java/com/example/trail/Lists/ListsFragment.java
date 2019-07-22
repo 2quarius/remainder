@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -21,9 +24,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
 
 import com.example.trail.MainActivity;
 import com.example.trail.NewTask.AddTaskActivity;
@@ -86,6 +86,7 @@ public class ListsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (requestCode==MODIFY_TASK_REQUEST_CODE&&resultCode==RESULT_OK){
+            Task t = (Task) data.getSerializableExtra("task");
             mTasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
             notifyFather();
         }

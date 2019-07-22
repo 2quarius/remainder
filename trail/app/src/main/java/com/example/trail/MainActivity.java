@@ -19,7 +19,6 @@ import com.example.trail.Lists.SideMenuActivity;
 import com.example.trail.Map.BaiduMapFragment;
 import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
-import com.example.trail.Services.AlarmManageService;
 import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
@@ -79,11 +78,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (resultCode==RESULT_OK&&data!=null){
             if (requestCode==ADD_TASK_REQUEST_CODE){
                 tasks.add((Task) data.getSerializableExtra("task"));
-            }
-            try {
-                storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
-            } catch (JSONException | IOException e) {
-                e.printStackTrace();
+                try {
+                    storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
         //调用子fragment的 onActivityResult
@@ -94,9 +93,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         super.onStart();
         tasks = getLocallyStoredData(storeRetrieveData);
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("task",tasks.get(0));
-        AlarmManageService.addAlarm(getApplicationContext(),0,bundle,1);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("task",tasks.get(0));
+//        AlarmManageService.addAlarm(getApplicationContext(),0,bundle,1);
     }
     @Override
     public void onPause() {

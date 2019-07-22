@@ -126,7 +126,7 @@
                 app:selected_lunar_text_color="@color/inputLine"
                 app:selected_theme_color="@color/colorPrimaryDark"
                 app:week_background="@color/inputLine"
-                app:week_bar_view="com.example.trail.Calendar.EnglishWeekBar"
+                app:week_bar_view="com.example.trail.Calendar.ChineseWeekBar"
                 app:week_start_with="mon"
                 app:week_text_color="#111"
                 app:week_view="com.example.trail.Calendar.ColorfulWeekView" />
