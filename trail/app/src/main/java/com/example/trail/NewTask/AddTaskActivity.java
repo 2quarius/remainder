@@ -37,7 +37,6 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.example.trail.MainActivity;
-import com.example.trail.NewTask.SimpleTask.MyLocation;
 import com.example.trail.NewTask.SimpleTask.Priority;
 import com.example.trail.NewTask.SimpleTask.RemindCycle;
 import com.example.trail.NewTask.SimpleTask.Task;
@@ -74,6 +73,7 @@ public class AddTaskActivity extends AppCompatActivity implements
     private TextView mExpirePlaceTextView;
     private SwitchCompat mExpirePlaceSwitch;
     private String address;
+    private LatLng mLatLng;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -394,7 +394,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         setEnterDateLayoutVisibleWithAnimations(mRemindMeSwitch.isChecked());
         //set expire place switch
         mExpirePlaceSwitch.setChecked(task.getLocation() != null);
-        mExpirePlaceTextView.setText(task.getLocation()!=null?task.getLocation().getLocation().toString():mExpirePlaceTextView.getText());
+        mExpirePlaceTextView.setText(task.getLocation()!=null?task.getLocation().toString():mExpirePlaceTextView.getText());
     }
 
     private void setExpireTime(boolean b) {
@@ -443,7 +443,10 @@ public class AddTaskActivity extends AppCompatActivity implements
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 setExpirePlaceTextView(address);
-                task.setLocation(new MyLocation(new Location(address)));
+                Location location = new Location(address);
+                location.setLatitude(mLatLng.latitude);
+                location.setLongitude(mLatLng.longitude);
+                task.setLocation(location);
                 mExpirePlaceSwitch.setChecked(task.getLocation()!=null);
             }
         });
@@ -461,8 +464,9 @@ public class AddTaskActivity extends AppCompatActivity implements
         final BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.ic_user_location);
         map.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
             @Override
-            public void onMapClick(LatLng latLng) {
+            public void onMapClick(final LatLng latLng) {
                 //获取经纬度
+                mLatLng = latLng;
                 double latitude = latLng.latitude;
                 double longitude = latLng.longitude;
                 System.out.println("latitude=" + latitude + ",longitude=" + longitude);
@@ -487,7 +491,6 @@ public class AddTaskActivity extends AppCompatActivity implements
                     public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
                         //获取点击的坐标地址
                         address = arg0.getAddress();
-                        System.out.println("address="+address);
                     }
 
                     @Override

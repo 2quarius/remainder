@@ -80,18 +80,12 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     {
         if (resultCode==RESULT_OK&&data!=null){
             if (requestCode==ADD_TASK_REQUEST_CODE){
-                Task task = (Task) data.getSerializableExtra("task");
-                if (task.added==false&&task.done==false) {
-                    task.added = true;
-                    Intent intent = new Intent(MainActivity.this, TimeRemindService.class);
-                    intent.putExtra("task",task);
-                    startService(intent);
+                tasks.add((Task) data.getSerializableExtra("task"));
+                try {
+                    storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
                 }
-            }
-            try {
-                storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
-            } catch (JSONException | IOException e) {
-                e.printStackTrace();
             }
         }
         //调用子fragment的 onActivityResult
@@ -101,10 +95,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     protected void onStart(){
         super.onStart();
         tasks = getLocallyStoredData(storeRetrieveData);
-
-        //Bundle bundle = new Bundle();
-        //bundle.putSerializable("task",tasks.get(0));
-        //AlarmManageService.addAlarm(getApplicationContext(),0,bundle,1);//
     }
     @Override
     public void onPause() {

@@ -13,4 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MyLocation implements Serializable {
     private transient Location location;//would not be available when trans in network
+
+    public MyLocation(String string) {
+        location = new Location(string);
+    }
 }

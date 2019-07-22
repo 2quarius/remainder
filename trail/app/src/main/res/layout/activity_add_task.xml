@@ -361,17 +361,18 @@
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/send_task_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        app:borderWidth="0dp"
         android:backgroundTint="@color/inputLine"
         android:src="@drawable/checkmark_complete"
+        app:borderWidth="0dp"
         app:fabSize="normal"
-        app:maxImageSize="@dimen/fab_ok"
         app:layout_anchor="@id/title_linear_layout"
-        app:layout_anchorGravity="bottom|right"/>
+        app:layout_anchorGravity="bottom|right"
+        app:maxImageSize="@dimen/fab_ok" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

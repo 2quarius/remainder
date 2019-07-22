@@ -33,7 +33,7 @@ public class Task implements Serializable {
 
     public Priority priority = Priority.NONE;
 
-    public MyLocation location = null;
+    private transient Location location = null;
 
     public Boolean done = false;
 
@@ -88,36 +88,12 @@ public class Task implements Serializable {
             e.printStackTrace();
         }
         try{
-            location.setLocation((Location) o.get(String.valueOf(TaskConstants.LOCATION)));
+            location = new Location(o.getString(String.valueOf(TaskConstants.LOCATION)));
+//            location = new MyLocation(o.getString(String.valueOf(TaskConstants.LOCATION)));
         }catch (JSONException e){
             e.printStackTrace();
         }
     }
-//        try {
-//            title = o.getString(String.valueOf(TaskConstants.TITLE));
-//        }catch (JSONException e) {
-//
-//        }
-//        description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
-//        tags = deformTags(o.getString(String.valueOf(TaskConstants.TAGS)));
-////        startTime = (Date) o.get(String.valueOf(TaskConstants.START_TIME));
-////        expireTime = (Date) o.get(String.valueOf(TaskConstants.EXPIRE_TIME));
-////        remindTime = (Date) o.get(String.valueOf(TaskConstants.REMIND_TIME));
-////        remindCycle = (RemindCycle) o.get(String.valueOf(TaskConstants.REMIND_CYCLE));
-////        priority = (Priority) o.get(String.valueOf(TaskConstants.PRIORITY));
-////        location = (Location) o.get(String.valueOf(TaskConstants.LOCATION));
-//        done = o.getBoolean(String.valueOf(TaskConstants.DONE));
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            description = null;
-//            tags = null;
-//            startTime = null;
-//            expireTime = null;
-//            remindTime = null;
-//            remindCycle = RemindCycle.DAILY;
-//            priority = Priority.NONE;
-//            location = null;
-//        }
 
     public JSONObject toJSON() throws JSONException {
         JSONObject object = new JSONObject();
