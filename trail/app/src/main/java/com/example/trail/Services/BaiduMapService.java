@@ -27,7 +27,6 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
-import com.example.trail.NewTask.SimpleTask.MyLocation;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 
@@ -71,7 +70,7 @@ public class BaiduMapService extends Service implements SensorEventListener {
             location.setLongitude(r.nextDouble());
             Task task = new Task();
             task.setTitle(title);
-            task.setLocation(new MyLocation(location));
+            task.setLocation(location);
             tasks.add(task);
         }
     }
@@ -235,7 +234,7 @@ public class BaiduMapService extends Service implements SensorEventListener {
             BDLocation location = (BDLocation) msg.obj;
             LatLng LocationPoint = new LatLng(location.getLatitude(), location.getLongitude());
             for (int i = 0; i<10;i++){
-                Location l = tasks.get(i).getLocation().getLocation();
+                Location l = tasks.get(i).getLocation();
                 mDestinationPoint = new LatLng(l.getLatitude(),l.getLongitude());
                 mDistance = DistanceUtil.getDistance(mDestinationPoint,LocationPoint);//报错
                 if (mDistance <= DISTANCE&&!tasks.get(i).isDone()){

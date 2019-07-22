@@ -1,5 +1,6 @@
 package com.example.trail.Map;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,11 @@ import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
+import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
+
+import java.util.List;
 
 public class BaiduMapFragment extends Fragment {
     private MarkerOptions markerOptions;
@@ -30,6 +35,7 @@ public class BaiduMapFragment extends Fragment {
     private MapView mMapView;
     private BaiduMap mBaiduMap;
     private boolean isFirstLoc = true; // 是否首次定位
+    private List<Task> mTasks;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_baidu_map, container, false);
@@ -38,6 +44,14 @@ public class BaiduMapFragment extends Fragment {
         initLocationOption();
         return v;
     }
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        mTasks = ((MainActivity)getActivity()).getTasks();
+        initTaskLocation();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -56,10 +70,31 @@ public class BaiduMapFragment extends Fragment {
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
     }
+
+    private void initTaskLocation() {
+        if (mTasks==null){return;}
+        for (Task t:mTasks)
+        {
+            Location location = t.getLocation();
+            if (location!=null){
+                LatLng position = new LatLng(location.getLatitude(),location.getLongitude());
+                BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.location);
+                MarkerOptions markerOptions = new MarkerOptions().position(position).icon(bitmap);
+                Marker marker = (Marker) mBaiduMap.addOverlay(markerOptions);
+                mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        //TODO:显示具体信息
+                        return false;
+                    }
+                });
+            }
+        }
+    }
+
     /**
      * 初始化定位参数配置
      */
-
     private void initLocationOption() {
         //定位服务的客户端。宿主程序在客户端声明此类，并调用，目前只支持在主线程中启动
         LocationClient locationClient = new LocationClient(getContext());
