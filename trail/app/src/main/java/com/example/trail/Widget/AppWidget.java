@@ -6,6 +6,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.example.trail.MainActivity;
 import com.example.trail.NewTask.AddTaskActivity;
@@ -40,12 +41,35 @@ public class AppWidget extends AppWidgetProvider {
 //            views.setTextViewText(R.id.card_title4,"吃饭");
             initList();
             displayLists(context,lists,times,views);
+//            checkTask(context,views);
             appWidgetManager.updateAppWidget(appWidgetId, views);
+
 //            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+
+        if ("click0".equals(intent.getAction())) {
+            Toast.makeText(context, "cklick0", Toast.LENGTH_SHORT).show();
+        }
+        if ("click1".equals(intent.getAction())) {
+            Toast.makeText(context, "cklick1", Toast.LENGTH_SHORT).show();
+        }
+        if ("click2".equals(intent.getAction())) {
+            Toast.makeText(context, "cklick2", Toast.LENGTH_SHORT).show();
+        }
+        if ("click3".equals(intent.getAction())) {
+            Toast.makeText(context, "cklick3", Toast.LENGTH_SHORT).show();
+        }
+        if ("click4".equals(intent.getAction())) {
+            Toast.makeText(context, "cklick4", Toast.LENGTH_SHORT).show();
+        }
+    }
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
@@ -131,7 +155,30 @@ public class AppWidget extends AppWidgetProvider {
     }
 
     private void checkTask(Context context,RemoteViews views){
+        Intent checkIntent0=new Intent("click0");
+        PendingIntent pendingIntent0 = PendingIntent.getBroadcast(context, R.id.btn_check0, checkIntent0, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.btn_check0,pendingIntent0);
 
+        Intent checkIntent1=new Intent("click1");
+        PendingIntent pendingIntent1 = PendingIntent.getBroadcast(context, R.id.btn_check1, checkIntent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.btn_check1,pendingIntent1);
+
+        Intent checkIntent2=new Intent("click2");
+        PendingIntent pendingIntent2 = PendingIntent.getBroadcast(context, R.id.btn_check2, checkIntent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.btn_check2,pendingIntent2);
+
+        Intent checkIntent3=new Intent("click3");
+        PendingIntent pendingIntent3 = PendingIntent.getBroadcast(context, R.id.btn_check3, checkIntent3, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.btn_check3,pendingIntent3);
+
+        Intent checkIntent4=new Intent("click4");
+        PendingIntent pendingIntent4 = PendingIntent.getBroadcast(context, R.id.btn_check4, checkIntent4, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.btn_check4,pendingIntent4);
+
+    }
+    private void freshTask(int i){
+        lists.remove(i);
+        times.remove(i);
     }
 }
 
