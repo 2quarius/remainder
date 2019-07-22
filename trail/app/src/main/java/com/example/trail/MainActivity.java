@@ -94,9 +94,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         super.onStart();
         tasks = getLocallyStoredData(storeRetrieveData);
 
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("task",tasks.get(0));
-        AlarmManageService.addAlarm(getApplicationContext(),0,bundle,1);
+        //Bundle bundle = new Bundle();
+        //bundle.putSerializable("task",tasks.get(0));
+        //AlarmManageService.addAlarm(getApplicationContext(),0,bundle,1);
     }
     @Override
     public void onPause() {
