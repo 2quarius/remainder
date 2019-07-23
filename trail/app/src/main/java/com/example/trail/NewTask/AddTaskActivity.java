@@ -459,7 +459,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         //TODO:设置点击事件
         MapView mapView = layout.findViewById(R.id.dialog_map);
         final BaiduMap map = mapView.getMap();
-        final BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.ic_user_location);
+        final BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.location);
         map.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
             @Override
             public void onMapClick(final LatLng latLng) {
