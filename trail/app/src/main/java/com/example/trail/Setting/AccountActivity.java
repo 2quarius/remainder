@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.trail.MainActivity;
@@ -22,6 +23,7 @@ public class AccountActivity extends AppCompatActivity {
     private Button btnRegister;
     private EditText username;
     private EditText password;
+    private ImageButton back;
     final  private String FILE_NAME = "information.txt";
 
     @Override
@@ -30,6 +32,14 @@ public class AccountActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account);
         btnLogin=findViewById(R.id.btn_login);
         btnRegister=findViewById(R.id.btn_register);
+
+        back=findViewById(R.id.btn_accountBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         btnLogin.setOnClickListener(new View.OnClickListener() {//登录
             @Override
             public void onClick(View view) {

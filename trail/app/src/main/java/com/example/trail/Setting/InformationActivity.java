@@ -71,10 +71,10 @@ public class InformationActivity extends AppCompatActivity {
 //        gender.setText("gender");
 //        phone.setText("phone");
         String content=readFile();
-        if(content.contains("name")) name.setText(findName());
-        if(content.contains("age")) age.setText(findAge());
-        if(content.contains("gender")) gender.setText(findGender());
-        if(content.contains("phone")) phone.setText(findPhone());
+        if(content.contains("name: ")) name.setText(findName());
+        if(content.contains("age: ")) age.setText(findAge());
+        if(content.contains("gender :")) gender.setText(findGender());
+        if(content.contains("phone: ")) phone.setText(findPhone());
     }
     public String getName(){
         name=findViewById(R.id.et_name);
