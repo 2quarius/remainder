@@ -43,7 +43,7 @@ public class ThemeActivity extends AppCompatActivity {
         black.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setTheme(R.style.Night_Theme);
+                setTheme(R.style.Light_Theme);
                 recreate();
             }
         });

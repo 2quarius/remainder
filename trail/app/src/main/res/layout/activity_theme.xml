@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Setting.ThemeActivity">
     <RelativeLayout
+        android:background="@color/colorPrimary"
         android:id="@+id/rl_themeTitle"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"

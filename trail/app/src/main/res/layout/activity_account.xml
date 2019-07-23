@@ -2,18 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_marginTop="20dp"
-    android:padding="10dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Setting.AccountActivity">
     <RelativeLayout
-        android:id="@+id/rl_themeTitle"
+        android:id="@+id/rl_accountTitle"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageButton
-            android:id="@+id/btn_themeBack"
+            android:id="@+id/btn_accountBack"
             android:src="@drawable/back"
             android:scaleType="centerInside"
             android:background="@drawable/button_back_bg"
@@ -23,7 +21,7 @@
             android:layout_height="40dp" />
         <TextView
             android:textColor="@color/mdtp_white"
-            android:text="请选择主题颜色:"
+            android:text="账号设置："
             android:textSize="24sp"
             android:gravity="center"
             android:layout_width="match_parent"
@@ -33,6 +31,7 @@
         android:id="@+id/et_username"
         android:textSize="16sp"
         android:hint="用户名"
+        android:layout_below="@+id/rl_accountTitle"
         android:layout_width="match_parent"
         android:layout_marginTop="50dp"
         android:paddingLeft="10dp"
