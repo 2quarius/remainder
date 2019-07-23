@@ -10,7 +10,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
@@ -23,10 +25,19 @@ public class VoiceActivity extends AppCompatActivity {
     private SeekBar sbVoice1;
     private Switch vibra;
     private AudioManager mAudioManager;
+    private ImageButton back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_voice);
+
+        back=findViewById(R.id.btn_voiceBack);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
         sbVoice0=findViewById(R.id.sb_voice0);
         sbVoice0.setMax(getMaxSystemVolume());

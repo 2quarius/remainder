@@ -17,4 +17,10 @@
     <dimen name="title_height">150dp</dimen>
     <dimen name="fab">63dp</dimen>
     <dimen name="fab_ok">56dp</dimen>
+
+    <!--
+Refer to App Widget Documentation for margin information
+http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
+    -->
+    <dimen name="widget_margin">8dp</dimen>
 </resources>

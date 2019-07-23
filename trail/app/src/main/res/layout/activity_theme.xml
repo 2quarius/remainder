@@ -5,57 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Setting.ThemeActivity">
-    <TextView
-        android:background="@color/colorPrimaryTitle"
-        android:textColor="@color/mdtp_white"
-        android:text="请选择主题颜色:"
-        android:textSize="24sp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
     <RelativeLayout
-        android:layout_margin="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-        <CheckBox
-            android:id="@+id/cb_purple"
-            android:text="紫色(默认)"
-            android:layout_below="@+id/tx_themeTitle"
-            android:textSize="20sp"
-            android:layout_marginTop="70dp"
+        android:id="@+id/rl_themeTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btn_themeBack"
+            android:src="@drawable/back"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_back_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:textColor="@color/mdtp_white"
+            style="@style/CustomTextView"
+            android:text="请选择主题颜色:"
+            android:textSize="24sp"
+            android:gravity="center"
             android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_below="@+id/rl_themeTitle"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btn_themePurple"
+            android:background="#5d1049"
+            android:layout_width="141dp"
+            android:layout_height="200dp" />
+        <ImageButton
+            android:id="@+id/btn_themeBlack"
+            android:layout_toRightOf="@id/btn_themePurple"
+            android:layout_marginLeft="50dp"
+            android:background="#323232"
+            android:layout_width="141dp"
+            android:layout_height="200dp" />
+        <TextView
+            android:id="@+id/tv_purple"
+            android:text="静谧紫（默认）"
+            android:textSize="20sp"
+            android:layout_below="@+id/btn_themePurple"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        <CheckBox
-            android:id="@+id/cb_black"
-            android:text="黑色"
-            android:layout_below="@+id/cb_purple"
+        <TextView
+            android:id="@+id/tv_black"
+            android:text="暗夜黑"
             android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <CheckBox
-            android:id="@+id/cb_white"
-            android:text="白色"
-            android:layout_below="@+id/cb_black"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <CheckBox
-            android:id="@+id/cb_red"
-            android:text="红色"
-            android:layout_below="@+id/cb_white"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <CheckBox
-            android:id="@+id/cb_blue"
-            android:text="蓝色"
-            android:layout_below="@+id/cb_red"
-            android:textSize="20sp"
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
+            android:layout_below="@+id/btn_themeBlack"
+            android:layout_marginLeft="90dp"
+            android:layout_toRightOf="@+id/tv_purple"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+
 </RelativeLayout>

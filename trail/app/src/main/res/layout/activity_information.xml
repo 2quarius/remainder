@@ -5,15 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Setting.InformationActivity">
-    <TextView
-        android:id="@+id/tx_informationTitle"
-        android:background="@color/colorPrimaryTitle"
-        android:textColor="@color/mdtp_white"
-        android:text="个人信息"
-        android:textSize="30sp"
-        android:gravity="center"
+    <RelativeLayout
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btn_infoBack"
+            android:src="@drawable/back"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_back_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:id="@+id/tx_informationTitle"
+            android:textColor="@color/mdtp_white"
+            android:text="个人信息"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rl_name"
         android:layout_marginTop="80dp"
