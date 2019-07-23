@@ -188,14 +188,14 @@ public class ListsFragment extends Fragment {
                     finished.set(i++,t.isDone());
                 }
             }
-            else if (mFilterTasks.size()>titles.size()&&titles.size()==0){
+            else if (mFilterTasks!=null&&mFilterTasks.size()>titles.size()&&titles.size()==0){
                 for (int i = 0; i < mFilterTasks.size(); i++) {
                     titles.add(mFilterTasks.get(i).getTitle());
                     descriptions.add(mFilterTasks.get(i).getDescription());
                     finished.add(mFilterTasks.get(i).getDone());
                 }
             }
-            else if (mFilterTasks.size()>titles.size()&&titles.size()>0){
+            else if (mFilterTasks!=null&&mFilterTasks.size()>titles.size()&&titles.size()>0){
                 titles.add(mFilterTasks.get(mFilterTasks.size()-1).getTitle());
                 descriptions.add(mFilterTasks.get(mFilterTasks.size()-1).getDescription());
                 finished.add(mFilterTasks.get(mFilterTasks.size()-1).getDone());
