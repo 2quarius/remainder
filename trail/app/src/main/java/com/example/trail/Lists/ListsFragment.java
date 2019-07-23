@@ -30,7 +30,6 @@ import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 import com.example.trail.TimeRemind.AddTasktoServiceActivity;
-import com.example.trail.TimeRemind.TimeRemindService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,7 +87,7 @@ public class ListsFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         if (requestCode==MODIFY_TASK_REQUEST_CODE&&resultCode==RESULT_OK){
-            Task t = (Task) data.getSerializableExtra("task");
+            Task task = (Task) data.getSerializableExtra("task");
             mTasks.set(data.getIntExtra("position",-1), (Task) data.getSerializableExtra("task"));
             notifyFather();
             if (task.added==false&&task.done==false) {

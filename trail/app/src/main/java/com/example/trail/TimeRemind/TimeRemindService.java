@@ -26,19 +26,21 @@ public class TimeRemindService extends Service {
     private void addTasktoAlarm() {
         Date timesetted = task.remindTime;
         Date timenow = new Date(System.currentTimeMillis());
+        long systemtime = SystemClock.elapsedRealtime();
         Calendar cal = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();
+        cal.setTime(timenow);
         calendar.setTime(timesetted);
-        long timerange = timesetted.getTime() - timenow.getTime();
-        long diff=cal.getTimeInMillis()- SystemClock.elapsedRealtime();
+        long timerange = calendar.getTimeInMillis() - cal.getTimeInMillis();
+        long timeinput = timerange + systemtime;
 
-        Log.d("timerange", ""+timerange);
         Log.d("timenow", ""+cal.getTimeInMillis());
         Log.d("timeset", ""+calendar.getTimeInMillis());
-        Log.d("timesystem", ""+SystemClock.elapsedRealtime());
-        Log.d("timesyinput", ""+(calendar.getTimeInMillis()-diff));
+        Log.d("timerange", ""+timerange);
+        Log.d("timesystem", ""+systemtime);
+        Log.d("timesyinput", ""+(timeinput));
         if (task.remindCycle == RemindCycle.SINGLE) {
-            alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-diff, remind);
+            alarm.set(AlarmManager.RTC_WAKEUP, timeinput, remind);
             Toast toast=Toast.makeText(TimeRemindService.this,"Toast提示消息",Toast.LENGTH_SHORT    );
             toast.show();
         }
@@ -52,7 +54,7 @@ public class TimeRemindService extends Service {
                     cyclingTime = 1000 * 60 * 60 * 24 * 7;
                     break;
             }
-            alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-diff, cyclingTime, remind);
+            alarm.setRepeating(AlarmManager.RTC_WAKEUP, timeinput, cyclingTime, remind);
         }
     }
 
@@ -64,13 +66,13 @@ public class TimeRemindService extends Service {
     @Override
     public int onStartCommand(Intent data, int flags, int startId) {
         alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
-        task =  (Task) data.getSerializableExtra("task");
+        task = (Task) data.getSerializableExtra("task");
         if (task==null) {
             //Toast toast=Toast.makeText(TimeRemindService.this,"Toast提示消息",Toast.LENGTH_SHORT    );
             //toast.show();
             return mStartMode;
         }
-        intent = new Intent(this, AlarmBroadcast.class);
+        intent = new Intent(this, RemindActivity.class);
         intent.putExtra("task",task);
         intent.setAction("startAlarm");
         remind = PendingIntent.getActivity(this, 110, intent, PendingIntent.FLAG_UPDATE_CURRENT);

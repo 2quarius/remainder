@@ -80,11 +80,17 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     {
         if (resultCode==RESULT_OK&&data!=null){
             if (requestCode==ADD_TASK_REQUEST_CODE){
-                tasks.add((Task) data.getSerializableExtra("task"));
+                Task thetask = (Task) data.getSerializableExtra("task");
+                tasks.add(thetask);
                 try {
                     storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
                 } catch (JSONException | IOException e) {
                     e.printStackTrace();
+                }
+                if (thetask.remindme == true) {
+                    Intent theintent = new Intent(MainActivity.this, TimeRemindService.class);
+                    theintent.putExtra("task",thetask);
+                    startService(theintent);
                 }
             }
         }
