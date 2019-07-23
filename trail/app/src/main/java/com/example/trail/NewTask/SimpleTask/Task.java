@@ -1,7 +1,5 @@
 package com.example.trail.NewTask.SimpleTask;
 
-import android.location.Location;
-
 import com.example.trail.Utility.EnumPack.TaskConstants;
 
 import org.json.JSONException;
@@ -32,7 +30,7 @@ public class Task implements Serializable {
 
     private Priority priority = Priority.NONE;
 
-    private transient Location location = null;
+    private MyLocation location = null;
 
     private Boolean done = false;
 
@@ -85,7 +83,9 @@ public class Task implements Serializable {
             e.printStackTrace();
         }
         try{
-            location = new Location(o.getString(String.valueOf(TaskConstants.LOCATION)));
+            JSONObject object = o.getJSONObject(String.valueOf(TaskConstants.LOCATION));
+            location = new MyLocation(object);
+//            location = new Location(o.getString(String.valueOf(TaskConstants.LOCATION)));
 //            location = new MyLocation(o.getString(String.valueOf(TaskConstants.LOCATION)));
         }catch (JSONException e){
             e.printStackTrace();
