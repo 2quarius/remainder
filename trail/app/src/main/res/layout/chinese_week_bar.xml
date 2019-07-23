@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Sun"
+        android:text="日"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
         android:textStyle="bold" />
@@ -28,7 +28,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Mon"
+        android:text="一"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
         android:textStyle="bold" />
@@ -38,7 +38,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Tue"
+        android:text="二"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
         android:textStyle="bold" />
@@ -48,7 +48,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Wed"
+        android:text="三"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
         android:textStyle="bold" />
@@ -58,7 +58,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Thu"
+        android:text="四"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
         android:textStyle="bold" />
@@ -68,7 +68,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Fri"
+        android:text="五"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
         android:textStyle="bold" />
@@ -78,7 +78,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="Sat"
+        android:text="六"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
         android:textStyle="bold" />

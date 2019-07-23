@@ -1,7 +1,6 @@
 package com.example.trail.Calendar;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
@@ -9,12 +8,12 @@ import com.example.trail.R;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.WeekBar;
 
-public class EnglishWeekBar extends WeekBar {
+public class ChineseWeekBar extends WeekBar {
     private int mPreSelectedIndex;
 
-    public EnglishWeekBar(Context context) {
+    public ChineseWeekBar(Context context) {
         super(context);
-        LayoutInflater.from(context).inflate(R.layout.english_week_bar, this, true);
+        LayoutInflater.from(context).inflate(R.layout.chinese_week_bar, this, true);
 //        setBackgroundColor(Color.WHITE);
         int padding = dipToPx(context, 10);
         setPadding(padding, 0, padding, 0);
@@ -48,7 +47,7 @@ public class EnglishWeekBar extends WeekBar {
      * @return 或者周文本
      */
     private String getWeekString(int index, int weekStart) {
-        String[] weeks = getContext().getResources().getStringArray(R.array.english_week_string_array);
+        String[] weeks = getContext().getResources().getStringArray(R.array.chinese_week_string_array);
 
         if (weekStart == 1) {
             return weeks[index];
