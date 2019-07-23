@@ -83,7 +83,7 @@ public class Task implements Serializable {
             e.printStackTrace();
         }
         try{
-            JSONObject object = o.getJSONObject(String.valueOf(TaskConstants.LOCATION));
+            JSONObject object = new JSONObject(o.getString(String.valueOf(TaskConstants.LOCATION)));
             location = new MyLocation(object);
 //            location = new Location(o.getString(String.valueOf(TaskConstants.LOCATION)));
 //            location = new MyLocation(o.getString(String.valueOf(TaskConstants.LOCATION)));
@@ -102,9 +102,19 @@ public class Task implements Serializable {
         object.put(String.valueOf(TaskConstants.REMIND_TIME),remindTime);
         object.put(String.valueOf(TaskConstants.REMIND_CYCLE),remindCycle);
         object.put(String.valueOf(TaskConstants.PRIORITY),priority);
-        object.put(String.valueOf(TaskConstants.LOCATION),location);
+        object.put(String.valueOf(TaskConstants.LOCATION),formLocation());
         object.put(String.valueOf(TaskConstants.DONE),done);
         return object;
+    }
+    private String formLocation() throws JSONException {
+        JSONObject object = new JSONObject();
+        if (location==null){return null;}
+        else {
+            object.put("location",location.getPlace());
+            object.put("latitude",location.getLatitude());
+            object.put("longitude",location.getLongitude());
+        }
+        return object.toString();
     }
     private String formTags()
     {

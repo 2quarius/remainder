@@ -392,7 +392,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         setEnterDateLayoutVisibleWithAnimations(mRemindMeSwitch.isChecked());
         //set expire place switch
         mExpirePlaceSwitch.setChecked(task.getLocation() != null);
-        mExpirePlaceTextView.setText(task.getLocation()!=null?task.getLocation().toString():mExpirePlaceTextView.getText());
+        mExpirePlaceTextView.setText(task.getLocation()!=null?task.getLocation().getPlace():mExpirePlaceTextView.getText());
     }
 
     private void setExpireTime(boolean b) {
