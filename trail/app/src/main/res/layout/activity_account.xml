@@ -7,6 +7,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Setting.AccountActivity">
+    <RelativeLayout
+        android:id="@+id/rl_themeTitle"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btn_themeBack"
+            android:src="@drawable/back"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_back_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:textColor="@color/mdtp_white"
+            android:text="请选择主题颜色:"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </RelativeLayout>
     <EditText
         android:id="@+id/et_username"
         android:textSize="16sp"

@@ -7,6 +7,7 @@
     tools:context=".Setting.ThemeActivity">
     <RelativeLayout
         android:id="@+id/rl_themeTitle"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageButton
@@ -20,7 +21,6 @@
             android:layout_height="40dp" />
         <TextView
             android:textColor="@color/mdtp_white"
-            style="@style/CustomTextView"
             android:text="请选择主题颜色:"
             android:textSize="24sp"
             android:gravity="center"

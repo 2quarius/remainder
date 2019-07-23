@@ -125,7 +125,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     //用户名判断
-    private boolean searchAccount(String account){
+    public boolean searchAccount(String account){
         String text=readFile();
         String pattern="Account: "+account+"\n";
         if(text.contains(pattern)) return true;
@@ -133,7 +133,7 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     //密码判断
-    private boolean searchPassword(String account,String password){
+    public boolean searchPassword(String account,String password){
         String textContent=readFile();
         String pattern="Account: "+account+"\nPassword: "+password+"\n";
         if(textContent.contains(pattern))return true;

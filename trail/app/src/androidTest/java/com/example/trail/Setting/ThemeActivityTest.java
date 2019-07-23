@@ -23,10 +23,10 @@ public class ThemeActivityTest {
     public ActivityTestRule<ThemeActivity> rule=new ActivityTestRule<>(ThemeActivity.class);
     @Test
     public void onCreate() {
-        onView(withId(R.id.cb_black)).perform(click());
-        onView(withId(R.id.cb_blue)).perform(click());
-        onView(withId(R.id.cb_purple)).perform(click());
-        onView(withId(R.id.cb_red)).perform(click());
-        onView(withId(R.id.cb_white)).perform(click());
+//        onView(withId(R.id.cb_black)).perform(click());
+//        onView(withId(R.id.cb_blue)).perform(click());
+//        onView(withId(R.id.cb_purple)).perform(click());
+//        onView(withId(R.id.cb_red)).perform(click());
+//        onView(withId(R.id.cb_white)).perform(click());
     }
 }
