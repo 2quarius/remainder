@@ -9,7 +9,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.location.Location;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
@@ -27,6 +26,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
+import com.example.trail.NewTask.SimpleTask.MyLocation;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 
@@ -65,7 +65,7 @@ public class BaiduMapService extends Service implements SensorEventListener {
         {
             Random r = new Random();
             String title = r.toString();
-            Location location = new Location(title);
+            MyLocation location = new MyLocation(title);
             location.setLatitude(r.nextDouble());
             location.setLongitude(r.nextDouble());
             Task task = new Task();
@@ -234,7 +234,7 @@ public class BaiduMapService extends Service implements SensorEventListener {
             BDLocation location = (BDLocation) msg.obj;
             LatLng LocationPoint = new LatLng(location.getLatitude(), location.getLongitude());
             for (int i = 0; i<10;i++){
-                Location l = tasks.get(i).getLocation();
+                MyLocation l = tasks.get(i).getLocation();
                 mDestinationPoint = new LatLng(l.getLatitude(),l.getLongitude());
                 mDistance = DistanceUtil.getDistance(mDestinationPoint,LocationPoint);//报错
                 if (mDistance <= DISTANCE&&!tasks.get(i).isDone()){
