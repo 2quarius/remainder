@@ -2,6 +2,7 @@ package com.example.trail.NewTask.SimpleTask;
 
 import com.example.trail.Utility.EnumPack.TaskConstants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class Task implements Serializable {
     private String title;
     private String description = null;
+    private List<MiniTask> miniTasks = new ArrayList<>();
     private List<String> tags = new ArrayList<>();
 
     private Date startTime = null;
@@ -50,6 +52,12 @@ public class Task implements Serializable {
         try{
             description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
         }catch (JSONException e){
+            e.printStackTrace();
+        }
+        try{
+            JSONArray object = new JSONArray(o.getString(String.valueOf(TaskConstants.MINITASK)));
+            deformMiniTask(object);
+        } catch (JSONException e){
             e.printStackTrace();
         }
         try{
@@ -85,17 +93,17 @@ public class Task implements Serializable {
         try{
             JSONObject object = new JSONObject(o.getString(String.valueOf(TaskConstants.LOCATION)));
             location = new MyLocation(object);
-//            location = new Location(o.getString(String.valueOf(TaskConstants.LOCATION)));
-//            location = new MyLocation(o.getString(String.valueOf(TaskConstants.LOCATION)));
         }catch (JSONException e){
             e.printStackTrace();
         }
     }
 
+
     public JSONObject toJSON() throws JSONException {
         JSONObject object = new JSONObject();
         object.put(String.valueOf(TaskConstants.TITLE), title);
         object.put(String.valueOf(TaskConstants.DESCRIPTION),description);
+        object.put(String.valueOf(TaskConstants.MINITASK),formMiniTask());
         object.put(String.valueOf(TaskConstants.TAGS),formTags());
         object.put(String.valueOf(TaskConstants.START_TIME),startTime);
         object.put(String.valueOf(TaskConstants.EXPIRE_TIME),expireTime);
@@ -105,6 +113,24 @@ public class Task implements Serializable {
         object.put(String.valueOf(TaskConstants.LOCATION),formLocation());
         object.put(String.valueOf(TaskConstants.DONE),done);
         return object;
+    }
+    private void deformMiniTask(JSONArray array) throws JSONException {
+        for (int i = 0; i< array.length();i++)
+        {
+            JSONObject o = array.getJSONObject(i);
+            miniTasks.add(new MiniTask(o.getString("content"),o.getBoolean("done")));
+        }
+    }
+    private String formMiniTask() throws JSONException {
+        JSONArray array = new JSONArray();
+        for(MiniTask miniTask:miniTasks)
+        {
+            JSONObject obj = new JSONObject();
+            obj.put("content",miniTask.getContent());
+            obj.put("done",miniTask.getDone());
+            array.put(obj);
+        }
+        return array.toString();
     }
     private String formLocation() throws JSONException {
         JSONObject object = new JSONObject();

@@ -373,7 +373,6 @@
                 android:gravity="center|start|fill_horizontal"
                 android:orientation="horizontal"
                 >
-
                 <ImageButton
                     android:id="@+id/mini_task_ib"
                     android:layout_width="@dimen/icon"
@@ -405,6 +404,12 @@
                 android:id="@+id/mini_task_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginRight="36dp"
+                android:gravity="center|start|fill_horizontal"
                 android:orientation="vertical">
 
             </LinearLayout>

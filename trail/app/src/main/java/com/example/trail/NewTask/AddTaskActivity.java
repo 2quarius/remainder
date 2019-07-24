@@ -9,12 +9,17 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,6 +41,7 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.MiniTask;
 import com.example.trail.NewTask.SimpleTask.MyLocation;
 import com.example.trail.NewTask.SimpleTask.Priority;
 import com.example.trail.NewTask.SimpleTask.RemindCycle;
@@ -47,8 +53,10 @@ import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,22 +65,34 @@ public class AddTaskActivity extends AppCompatActivity implements
     private static final String CHOOSE_A_PLACE = "Place for remind";
     private Integer position;
     private Task task;
+    private List<MiniTask> miniTasks = new ArrayList<>();
+    //title
     private EditText mTitleEditText;
+    //description
     private EditText mDescriptionEditText;
+    //ok
     private FloatingActionButton mSendTaskFAB;
+    //priority
     private Spinner mPriority;
+    //ddl
     private EditText mExpireDateEditText;
     private EditText mExpireTimeEditText;
+    //remind
     private SwitchCompat mRemindMeSwitch;
     private LinearLayout mRemindDateLayout;
     private EditText mDateEditText;
     private EditText mTimeEditText;
     private Spinner mRepeatType;
     private TextView mDateTimeReminderTextView;
+    //place
     private TextView mExpirePlaceTextView;
     private SwitchCompat mExpirePlaceSwitch;
     private String address;
     private LatLng mLatLng;
+    //mini task
+    private TextView mMiniTaskText;
+    private SwitchCompat mMiniTaskSwitch;
+    private LinearLayout mMiniTaskLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +100,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         position = intent.getIntExtra("position",-1);
         task = intent.getSerializableExtra("task")!=null? (Task) intent.getSerializableExtra("task") :new Task();
+        miniTasks = task.getMiniTasks();
         initLayoutElement();
         setTextByTask();
         installListener();
@@ -166,21 +187,6 @@ public class AddTaskActivity extends AppCompatActivity implements
                     datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
                     datePickerDialog.show(getFragmentManager(),"ExpireDate");
                 }
-                /*else if (m3.find()&&task.getExpireTime() == null){
-                    Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
-                    hideKeyboard(mTitleEditText);
-
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date);
-                    int year = calendar.get(Calendar.YEAR);
-                    int month = Integer.parseInt(m3.group(1));
-                    int day = Integer.parseInt(m3.group(2));
-                    //System.out.println(month);
-
-                    DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month-1, day);
-                    datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
-                    datePickerDialog.show(getFragmentManager(),"ExpireDate");
-                }*/
                 else if (m2.find()&&task.getExpireTime() == null){
                     Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
                     hideKeyboard(mTitleEditText);
@@ -366,6 +372,79 @@ public class AddTaskActivity extends AppCompatActivity implements
                 }
             }
         });
+        mMiniTaskSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (mMiniTaskSwitch.isChecked()) {
+                    mMiniTaskText.setText("mini tasks:");
+                    mMiniTaskSwitch.setVisibility(View.INVISIBLE);
+                    //或许还需要将switch disable掉
+                    ViewGroup parent = (ViewGroup) mMiniTaskSwitch.getParent();
+                    parent.addView(addButton());
+                    addNewLine();
+                }
+            }
+        });
+    }
+
+    private void addNewLine() {
+        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.mini_task_checkbox, null);
+        final CheckBox checkBox = linearLayout.findViewById(R.id.done);
+        final EditText editText = linearLayout.findViewById(R.id.content);
+        final int index = miniTasks.size();
+        final MiniTask miniTask = new MiniTask();
+        miniTask.setDone(false);
+        miniTasks.add(miniTask);
+        checkBox.setChecked(false);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                miniTask.setDone(b);
+                miniTasks.get(index).setDone(b);
+                task.setMiniTasks(miniTasks);
+            }
+        });
+        editText.setHint("回车添加新任务");
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                miniTask.setContent(charSequence.toString());
+                miniTasks.get(index).setContent(charSequence.toString());
+                task.setMiniTasks(miniTasks);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //去掉回车符
+                String s = editable.toString();
+                if (s.indexOf("\n")>=0){
+                    editText.setText(s.replace("\n",""));
+                }
+            }
+        });
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                //回车添加行
+                if (i == EditorInfo.IME_ACTION_SEND
+                        || i == EditorInfo.IME_ACTION_DONE
+                        || (keyEvent != null && KeyEvent.KEYCODE_ENTER == keyEvent.getKeyCode() && KeyEvent.ACTION_DOWN == keyEvent.getAction()))
+                {
+                    if (editText.getText().length()>0) {
+                        addNewLine();
+                    }
+                }
+                //不能删除
+                return false;
+            }
+        });
+        mMiniTaskLayout.addView(linearLayout);
+        editText.requestFocus();
     }
 
     private void setTextByTask() {
@@ -393,8 +472,57 @@ public class AddTaskActivity extends AppCompatActivity implements
         //set expire place switch
         mExpirePlaceSwitch.setChecked(task.getLocation() != null);
         mExpirePlaceTextView.setText(task.getLocation()!=null?task.getLocation().getPlace():mExpirePlaceTextView.getText());
+        //set mini task
+        mMiniTaskSwitch.setChecked(task.getMiniTasks()!=null&&task.getMiniTasks().size()>0);
+        if (mMiniTaskSwitch.isChecked()){
+            mMiniTaskText.setText("mini tasks:");
+            mMiniTaskSwitch.setVisibility(View.INVISIBLE);
+            //或许还需要将switch disable掉
+            ViewGroup parent = (ViewGroup) mMiniTaskSwitch.getParent();
+            parent.addView(addButton());
+            for (final MiniTask miniTask:task.getMiniTasks()){
+                LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.mini_task_checkbox,null);
+                CheckBox checkBox = linearLayout.findViewById(R.id.done);
+                final EditText editText = linearLayout.findViewById(R.id.content);
+                checkBox.setChecked(miniTask.getDone());
+                editText.setText(miniTask.getContent());
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        miniTask.setDone(b);
+                    }
+                });
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        miniTask.setContent(charSequence.toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                    }
+                });
+                editText.setFocusable(false);
+                mMiniTaskLayout.addView(linearLayout);
+            }
+        }
     }
 
+    private View addButton() {
+        ImageButton imgb = (ImageButton) getLayoutInflater().inflate(R.layout.mini_task_add_button,null);
+        imgb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addNewLine();
+            }
+        });
+        return imgb;
+    }
     private void setExpireTime(boolean b) {
         if (b)
         {
@@ -427,6 +555,9 @@ public class AddTaskActivity extends AppCompatActivity implements
         mDateTimeReminderTextView = (TextView) findViewById(R.id.date_time_reminder_tv);
         mExpirePlaceTextView = (TextView) findViewById(R.id.expire_place_tv);
         mExpirePlaceSwitch = (SwitchCompat) findViewById(R.id.remind_place_switch);
+        mMiniTaskText = (TextView) findViewById(R.id.mini_task_tv);
+        mMiniTaskSwitch = (SwitchCompat) findViewById(R.id.mini_task_switch);
+        mMiniTaskLayout = (LinearLayout) findViewById(R.id.mini_task_input_layout);
     }
 
     protected void showDialog(){
