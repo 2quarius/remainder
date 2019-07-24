@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import com.example.trail.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class SettingFragmnet extends Fragment {
+    private ImageButton btnAccountSetHead;
     private Button btnAccountSet;
     private Button btnThemeSet;
     private Button btnInformation;
@@ -37,6 +39,15 @@ public class SettingFragmnet extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //跳转到Account界面
+        btnAccountSetHead=view.findViewById(R.id.btn_headPic);
+        btnAccountSetHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(getActivity(),AccountActivity.class);
+                startActivity(intent);
+            }
+
+        });
         btnAccountSet=view.findViewById(R.id.btn_accountSetting);
         btnAccountSet.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,24 +72,6 @@ public class SettingFragmnet extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(getActivity(),VoiceActivity.class);
-                startActivity(intent);
-            }
-        });
-        //跳转到语言设置界面
-        btnLanguage=view.findViewById(R.id.btn_language);
-        btnLanguage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(getActivity(),LanguageActivity.class);
-                startActivity(intent);
-            }
-        });
-        //跳转到信息设置界面
-        btnInformation=view.findViewById(R.id.btn_information);
-        btnInformation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(getActivity(),InformationActivity.class);
                 startActivity(intent);
             }
         });

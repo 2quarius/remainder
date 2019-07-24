@@ -18,14 +18,11 @@ import com.example.trail.R;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-public class AccountActivity extends AppCompatActivity {
-    private Button btnLogin;
+public class RegistActivity extends AppCompatActivity {
     private Button btnRegist;
-    private ImageButton btnQQ;
-    private ImageButton btnWechat;
-    private ImageButton btnJaccount;
     private EditText username;
     private EditText password;
+    private EditText passwordagain;
     private ImageButton back;
     final  private String FILE_NAME = "account.txt";
     final  private String FILE_NAME2 = "information.txt";
@@ -34,11 +31,7 @@ public class AccountActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
-        btnLogin = findViewById(R.id.btn_login);
-        btnRegist = findViewById(R.id.btn_regist);
-        btnQQ = findViewById(R.id.btn_qq);
-        btnWechat = findViewById(R.id.btn_wechat);
-        btnJaccount=findViewById(R.id.btn_jaccount);
+        btnRegist=findViewById(R.id.btn_regist);
 
         back=findViewById(R.id.btn_accountBack);
         back.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +40,7 @@ public class AccountActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        btnLogin.setOnClickListener(new View.OnClickListener() {//登录
+        btnRegist.setOnClickListener(new View.OnClickListener() {//登录
             @Override
             public void onClick(View view) {
                 username = findViewById(R.id.et_username);
@@ -56,62 +49,48 @@ public class AccountActivity extends AppCompatActivity {
                 password = findViewById(R.id.et_password);
                 String pw = password.getText().toString();
 
-                if(un.length()<=0){ //是否输入用户名
-                    Toast.makeText(AccountActivity.this,"请输入用户名",Toast.LENGTH_SHORT).show();
-                }
-                else if(pw.length()<=0){ //是否输入密码
-                    Toast.makeText(AccountActivity.this,"请输入密码",Toast.LENGTH_SHORT).show();
-                }
-                else {//判断是否符合条件
-                    if(!searchAccount(un)){
-                        Toast.makeText(AccountActivity.this,"不存在此用户，请注册",Toast.LENGTH_SHORT).show();
+                passwordagain = findViewById(R.id.et_passwordAgain);
+                String pwa = passwordagain.getText().toString();
+
+                if(!searchAccount(un)){
+                    if(un.length()<=0){
+                        Toast.makeText(RegistActivity.this,"请输入用户名",Toast.LENGTH_SHORT).show();
                     }
-                    else if(!searchPassword(un,pw)){
-                        Toast.makeText(AccountActivity.this,"密码错误，请重新输入",Toast.LENGTH_SHORT).show();
+                    else if(pw.length()<=0){
+                        Toast.makeText(RegistActivity.this,"请输入密码",Toast.LENGTH_SHORT).show();
                     }
-                    else {
-                        Toast.makeText(AccountActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                        save(un);
-                        Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+                    else if(pwa.length()<=0){
+                        Toast.makeText(RegistActivity.this,"请再次输入密码",Toast.LENGTH_SHORT).show();
+                    }
+                    else if(!pw.equals(pwa)){
+                        Toast.makeText(RegistActivity.this,"两次密码不一致，请重新输入",Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(RegistActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
+                        save(un,pw);
+                        Intent intent = new Intent(RegistActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
                 }
-            }
-        });
-        btnRegist.setOnClickListener(new View.OnClickListener() { //注册
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AccountActivity.this,RegistActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnQQ.setOnClickListener(new View.OnClickListener() { //qq
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        btnWechat.setOnClickListener(new View.OnClickListener() { //微信
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        btnJaccount.setOnClickListener(new View.OnClickListener() { //jaccount
-            @Override
-            public void onClick(View view) {
-
+                else {
+                    Toast.makeText(RegistActivity.this,"用户名已存在",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
 
-    public void save(String text) {
+    public void save(String un, String pw) {
+        String text = "Account: " + un + "\n" + "Password: " + pw + "\n";
         try {
-            FileOutputStream fos = openFileOutput(FILE_NAME2, Context.MODE_PRIVATE);
+            FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_APPEND);
             fos.write(text.getBytes());
             fos.flush();
             fos.close();
 
+            fos = openFileOutput(FILE_NAME2, Context.MODE_PRIVATE);
+            fos.write(un.getBytes());
+            fos.flush();
+            fos.close();
         } catch (Exception e) {
             Log.d("errMsg", e.toString());
         }
@@ -128,7 +107,7 @@ public class AccountActivity extends AppCompatActivity {
                 sb.append(new String(temp, 0, len));
             }
             ios.close();
-            textContent= sb.toString();
+            textContent = sb.toString();
         }catch (Exception e) {
             Log.d("errMsg", e.toString());
         }
@@ -136,15 +115,15 @@ public class AccountActivity extends AppCompatActivity {
     }
     //查询text
     private boolean searchFile(String text){
-        String textContent=readFile();
+        String textContent = readFile();
         if(textContent.contains(text))return true;
         else return false;
     }
 
     //用户名判断
     private boolean searchAccount(String account){
-        String text=readFile();
-        String pattern="Account: "+account+"\n";
+        String text = readFile();
+        String pattern="Account: " + account+"\n";
         if(text.contains(pattern)) return true;
         else return false;
     }
@@ -152,7 +131,7 @@ public class AccountActivity extends AppCompatActivity {
     //密码判断
     private boolean searchPassword(String account,String password){
         String textContent = readFile();
-        String pattern = "Account: " + account + "\nPassword: " + password + "\n";
+        String pattern = "Account: " + account + "\nPassword: " + password+"\n";
         if(textContent.contains(pattern))return true;
         else return false;
     }

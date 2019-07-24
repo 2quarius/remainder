@@ -9,52 +9,136 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:ignore="InvalidId">
-    <Button
-        android:id="@+id/btn_accountSetting"
-        android:fontFamily="@font/raleway"
-        android:text="账号设置"
-        android:background="#ae004c"
-        android:textSize="16sp"
-        android:layout_marginTop="50dp"
+
+    <LinearLayout
+        android:id="@+id/account_layout"
+        android:layout_width="270dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="10dp"
+        android:animateLayoutChanges="true"
+        android:gravity="center|start|fill_horizontal"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id = "@+id/btn_headPic"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/headpic" />
+        <Button
+            android:id="@+id/btn_accountSetting"
+            android:fontFamily="@font/raleway"
+            android:text="账号"
+            android:background="#00000000"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_width="150dp"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView5"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
-    <Button
-        android:id="@+id/btn_theme"
-        android:fontFamily="@font/raleway"
-        android:text="主题"
-        android:background="#ae004c"
-        android:textSize="16sp"
+        android:layout_height="3px"
+        android:layout_marginLeft="-10dp"
+        android:layout_marginTop="10dp"
+        android:background="#5C000000" />
+
+    <LinearLayout
+        android:id="@+id/theme_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
-    <Button
-        android:id="@+id/btn_voice"
-        android:fontFamily="@font/raleway"
-        android:text="声音与提醒"
-        android:background="#ae004c"
-        android:textSize="16sp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:animateLayoutChanges="true"
+        android:gravity="center|start|fill_horizontal"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id = "@+id/btn_themePic"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/home" />
+        <Button
+            android:id="@+id/btn_theme"
+            android:fontFamily="@font/raleway"
+            android:text="主题"
+            android:background="#00000000"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/voice_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
-    <Button
-        android:id="@+id/btn_information"
-        android:fontFamily="@font/raleway"
-        android:text="个人信息"
-        android:background="#ae004c"
-        android:textSize="16sp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:animateLayoutChanges="true"
+        android:gravity="center|start|fill_horizontal"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id = "@+id/btn_voicePic"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/alarm" />
+        <Button
+            android:id="@+id/btn_voice"
+            android:fontFamily="@font/raleway"
+            android:text="声音与提醒"
+            android:background="#00000000"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/about_us_layout"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
-    <Button
-        android:id="@+id/btn_language"
-        android:fontFamily="@font/raleway"
-        android:text="语言"
-        android:textSize="16sp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
-    <Button
-        android:id="@+id/btn_about"
-        android:fontFamily="@font/raleway"
-        android:text="关于我们"
-        android:textSize="16sp"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:animateLayoutChanges="true"
+        android:gravity="center|start|fill_horizontal"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id = "@+id/btn_aboutUsPic"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/about" />
+        <Button
+            android:id="@+id/btn_about"
+            android:fontFamily="@font/raleway"
+            android:text="关于我们"
+            android:background="#00000000"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
 
 </LinearLayout>
