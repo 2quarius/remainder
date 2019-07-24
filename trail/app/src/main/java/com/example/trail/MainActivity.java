@@ -38,7 +38,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
     private static final int RETURNED_MODIFY_TASK_REQUEST_CODE = 65545;
