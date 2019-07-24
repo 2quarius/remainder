@@ -149,7 +149,7 @@ public class AddTaskActivity extends AppCompatActivity implements
             public void afterTextChanged(Editable s) {
                 Matcher m = Pattern.compile("(\\d{1,2})month(\\d{1,2})day").matcher(s.toString());
                 Matcher m2 = Pattern.compile("(\\d{2}):(\\d{2})").matcher(s.toString());
-                Matcher m3 = Pattern.compile("(\\d{1,2})-(\\d{1,2})").matcher(s.toString());
+                Matcher m3 = Pattern.compile("(\\d{1,2})月(\\d{1,2})日").matcher(s.toString());
                 if (m.find()&&task.getExpireTime() == null){
                     System.out.println("find date");
                     Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
@@ -166,7 +166,7 @@ public class AddTaskActivity extends AppCompatActivity implements
                     datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
                     datePickerDialog.show(getFragmentManager(),"ExpireDate");
                 }
-                /*else if (m3.find()&&task.getExpireTime() == null){
+                else if (m3.find()&&task.getExpireTime() == null){
                     Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
                     hideKeyboard(mTitleEditText);
 
@@ -180,7 +180,7 @@ public class AddTaskActivity extends AppCompatActivity implements
                     DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month-1, day);
                     datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
                     datePickerDialog.show(getFragmentManager(),"ExpireDate");
-                }*/
+                }
                 else if (m2.find()&&task.getExpireTime() == null){
                     Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
                     hideKeyboard(mTitleEditText);
