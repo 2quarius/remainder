@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +34,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,12 +54,28 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
     public static final String FILENAME = "tasks.json";
+    final  private String FILE_NAME2 = "information.txt";
+    public String account;
+    Fragment settingfragment;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //初始化百度地图，必须在 setContentView(...) 前调用！
         SDKInitializer.initialize(getApplicationContext());
+        try {
+            FileInputStream ios = openFileInput(FILE_NAME2);
+            byte[] temp = new byte[1024];
+            StringBuilder sb = new StringBuilder("");
+            int len = 0;
+            while ((len = ios.read(temp)) > 0){
+                sb.append(new String(temp, 0, len));
+            }
+            ios.close();
+            account = sb.toString();
+        }catch (Exception e) {
+            //Log.d("errMsg", e.toString());
+        }
         setContentView(R.layout.activity_main);
         // Setting ViewPager for each Tabs
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -145,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         Intent intent = new Intent(this, AlarmBroadcast.class);
         intent.setAction("startAlarm");
         pendingIntent = PendingIntent.getBroadcast(this, 110, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
         tasks=getLocallyStoredData(storeRetrieveData);
 
@@ -173,7 +191,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         adapter.addFragment(new ListsFragment(), TabConstants.LISTS.getTitle());
         adapter.addFragment(new CalendarFragment(),TabConstants.TIME.getTitle());
         adapter.addFragment(new BaiduMapFragment(), TabConstants.SPACE.getTitle());
-        adapter.addFragment(new SettingFragmnet(),TabConstants.SETTING.getTitle());
+        settingfragment = new SettingFragmnet();
+        adapter.addFragment(settingfragment,TabConstants.SETTING.getTitle());
+        Bundle bundle = new Bundle();
+        bundle.putString("account",account);
+        settingfragment.setArguments(bundle);
         viewPager.setAdapter(adapter);
     }
 

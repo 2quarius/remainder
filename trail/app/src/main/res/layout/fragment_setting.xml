@@ -37,7 +37,6 @@
             android:layout_marginTop="15dp"
             android:layout_width="150dp"
             android:layout_height="50dp" />
-
     </LinearLayout>
 
     <ImageView
@@ -47,6 +46,36 @@
         android:layout_marginLeft="-10dp"
         android:layout_marginTop="10dp"
         android:background="#5C000000" />
+
+    <LinearLayout
+        android:id="@+id/table_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:animateLayoutChanges="true"
+        android:gravity="center|start|fill_horizontal"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id = "@+id/btn_tableListPic"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/list" />
+        <Button
+            android:id="@+id/btn_tableList"
+            android:fontFamily="@font/raleway"
+            android:text="桌面清单"
+            android:background="#00000000"
+            android:textSize="16sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/theme_layout"
@@ -76,7 +105,6 @@
             android:layout_marginTop="0dp"
             android:layout_width="match_parent"
             android:layout_height="50dp" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -107,7 +135,6 @@
             android:layout_marginTop="0dp"
             android:layout_width="match_parent"
             android:layout_height="50dp" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -138,7 +165,6 @@
             android:layout_marginTop="0dp"
             android:layout_width="match_parent"
             android:layout_height="50dp" />
-
     </LinearLayout>
 
 </LinearLayout>

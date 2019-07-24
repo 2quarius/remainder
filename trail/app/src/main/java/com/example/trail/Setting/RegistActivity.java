@@ -30,7 +30,7 @@ public class RegistActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
+        setContentView(R.layout.activity_regist);
         btnRegist=findViewById(R.id.btn_regist);
 
         back=findViewById(R.id.btn_accountBack);
@@ -92,7 +92,7 @@ public class RegistActivity extends AppCompatActivity {
             fos.flush();
             fos.close();
         } catch (Exception e) {
-            Log.d("errMsg", e.toString());
+            //Log.d("errMsg", e.toString());
         }
     }
 
@@ -109,7 +109,7 @@ public class RegistActivity extends AppCompatActivity {
             ios.close();
             textContent = sb.toString();
         }catch (Exception e) {
-            Log.d("errMsg", e.toString());
+            //Log.d("errMsg", e.toString());
         }
         return textContent;
     }

@@ -54,7 +54,9 @@
         android:supportsRtl="false"
         android:theme="@style/Light.Theme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Setting.RegistActivity"></activity>
+        <activity android:name=".Setting.ShowAccountActivity"></activity>
+        <activity android:name=".Setting.TableListSetActivity" />
+        <activity android:name=".Setting.RegistActivity" />
 
         <receiver android:name=".Widget.AppWidget">
             <intent-filter>

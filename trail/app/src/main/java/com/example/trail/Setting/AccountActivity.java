@@ -113,7 +113,7 @@ public class AccountActivity extends AppCompatActivity {
             fos.close();
 
         } catch (Exception e) {
-            Log.d("errMsg", e.toString());
+            //Log.d("errMsg", e.toString());
         }
     }
 
@@ -128,9 +128,9 @@ public class AccountActivity extends AppCompatActivity {
                 sb.append(new String(temp, 0, len));
             }
             ios.close();
-            textContent= sb.toString();
+            textContent = sb.toString();
         }catch (Exception e) {
-            Log.d("errMsg", e.toString());
+            //Log.d("errMsg", e.toString());
         }
         return textContent;
     }

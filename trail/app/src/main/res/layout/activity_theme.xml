@@ -21,7 +21,7 @@
             android:layout_height="40dp" />
         <TextView
             android:textColor="@color/mdtp_white"
-            android:text="请选择主题颜色:"
+            android:text="主题"
             android:textSize="24sp"
             android:gravity="center"
             android:layout_width="match_parent"

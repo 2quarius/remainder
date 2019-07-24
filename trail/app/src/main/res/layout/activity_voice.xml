@@ -21,7 +21,7 @@
             android:layout_height="40dp" />
         <TextView
             android:textColor="@color/mdtp_white"
-            android:text="音量设置"
+            android:text="声音与提醒"
             android:textSize="24sp"
             android:gravity="center"
             android:layout_width="match_parent"
