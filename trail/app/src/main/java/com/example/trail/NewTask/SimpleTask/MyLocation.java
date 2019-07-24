@@ -1,6 +1,7 @@
 package com.example.trail.NewTask.SimpleTask;
 
-import android.location.Location;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -12,9 +13,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MyLocation implements Serializable {
-    private transient Location location;//would not be available when trans in network
-
-    public MyLocation(String string) {
-        location = new Location(string);
+    private String place;
+    private double latitude;
+    private double longitude;
+    public MyLocation(JSONObject s) throws JSONException {
+        if (s == null) return;
+        else {
+            place = s.getString("location");
+            latitude = s.getDouble("latitude");
+            longitude = s.getDouble("longitude");
+        }
+    }
+    public MyLocation(String s){
+        place = s;
     }
 }

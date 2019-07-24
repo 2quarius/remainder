@@ -96,6 +96,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
         //调用子fragment的 onActivityResult
         super.onActivityResult(requestCode,resultCode,data);
+        try {
+            storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     protected void onStart(){

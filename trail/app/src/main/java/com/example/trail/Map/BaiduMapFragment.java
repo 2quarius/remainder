@@ -1,13 +1,18 @@
 package com.example.trail.Map;
 
-import android.location.Location;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -24,6 +29,7 @@ import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.MyLocation;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 
@@ -34,14 +40,16 @@ public class BaiduMapFragment extends Fragment {
     private Marker marker;
     private MapView mMapView;
     private BaiduMap mBaiduMap;
+    private LocalBroadcastManager broadcastManager;
     private boolean isFirstLoc = true; // 是否首次定位
-    private List<Task> mTasks;
+    private List<Task> mTasks = null;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_baidu_map, container, false);
         mMapView = v.findViewById(R.id.bmap);
         mBaiduMap = mMapView.getMap();
         initLocationOption();
+        registerReceiver();
         return v;
     }
     @Override
@@ -51,7 +59,6 @@ public class BaiduMapFragment extends Fragment {
         mTasks = ((MainActivity)getActivity()).getTasks();
         initTaskLocation();
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -69,13 +76,37 @@ public class BaiduMapFragment extends Fragment {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
+        broadcastManager.unregisterReceiver(mRefreshReceiver);
     }
+    private void registerReceiver() {
+        broadcastManager = LocalBroadcastManager.getInstance(getActivity());
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("refresh map");
+        broadcastManager.registerReceiver(mRefreshReceiver, intentFilter);
+    }
+
+    private BroadcastReceiver mRefreshReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final int position = intent.getIntExtra("refresh position", -1);
+            final Task t = (Task) intent.getSerializableExtra("refresh task");
+            if (t!=null) {
+                // 在主线程中刷新UI，用Handler来实现
+                new Handler().post(new Runnable() {
+                    public void run() {
+                        //在这里来写你需要刷新的地方
+                        mTasks.set(position,t);
+                    }
+                });
+            }
+        }
+    };
 
     private void initTaskLocation() {
         if (mTasks==null){return;}
         for (Task t:mTasks)
         {
-            Location location = t.getLocation();
+            MyLocation location = t.getLocation();
             if (location!=null){
                 LatLng position = new LatLng(location.getLatitude(),location.getLongitude());
                 BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.location);
