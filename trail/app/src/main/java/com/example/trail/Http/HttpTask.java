@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import okhttp3.*;
 
-public class HttpUtil {
+public class HttpTask {
     public static final MediaType MEDIA_TYPE_MARKDOWN
             = MediaType.parse("text/x-markdown; charset=utf-8");
 
