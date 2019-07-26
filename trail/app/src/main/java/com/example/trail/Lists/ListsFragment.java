@@ -186,26 +186,6 @@ public class ListsFragment extends Fragment {
                 descriptions.add(task.getDescription());
                 finished.add(task.isDone());
             }
-//            if (mFilterTasks!=null&&mFilterTasks.size()==titles.size()){
-//                int i =0;
-//                for (Task t: mFilterTasks){
-//                    titles.set(i,t.getTitle());
-//                    descriptions.set(i,t.getDescription());
-//                    finished.set(i++,t.isDone());
-//                }
-//            }
-//            else if (mFilterTasks!=null&&mFilterTasks.size()>titles.size()&&titles.size()==0){
-//                for (int i = 0; i < mFilterTasks.size(); i++) {
-//                    titles.add(mFilterTasks.get(i).getTitle());
-//                    descriptions.add(mFilterTasks.get(i).getDescription());
-//                    finished.add(mFilterTasks.get(i).getDone());
-//                }
-//            }
-//            else if (mFilterTasks!=null&&mFilterTasks.size()>titles.size()&&titles.size()>0){
-//                titles.add(mFilterTasks.get(mFilterTasks.size()-1).getTitle());
-//                descriptions.add(mFilterTasks.get(mFilterTasks.size()-1).getDescription());
-//                finished.add(mFilterTasks.get(mFilterTasks.size()-1).getDone());
-//            }
 
         }
 

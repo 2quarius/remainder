@@ -95,18 +95,37 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 if (idx<0){
                     return;
                 }
-                else if (idx<taskCollectors.size()){
-                    index = idx;
-                }
                 else {
-                    String name = data.getStringExtra("name");
-                    int previousSize = taskCollectors.size();
-                    for (int i = previousSize;i<idx;i++)
-                    {
-                        taskCollectors.add(new TaskCollector());
+                    if (data.getIntegerArrayListExtra("indexs") != null) {
+                        ArrayList<Integer> indexs = data.getIntegerArrayListExtra("indexs");
+                        for (int i = indexs.size()-1;i>=0;i--)
+                        {
+                            taskCollectors.remove(indexs.get(i)+3);
+                        }
                     }
-                    taskCollectors.add(new TaskCollector(name,new ArrayList<Task>()));
+                    if (data.getStringArrayListExtra("added")!=null){
+                        ArrayList<String> added = data.getStringArrayListExtra("added");
+                        for (String title:added)
+                        {
+                            taskCollectors.add(new TaskCollector(title,new ArrayList<Task>()));
+                        }
+                    }
+                    if (idx<taskCollectors.size()){
+                        index = idx;
+                    }
                 }
+//                else if (idx<taskCollectors.size()){
+//                    index = idx;
+//                }
+//                else {
+//                    String name = data.getStringExtra("name");
+//                    int previousSize = taskCollectors.size();
+//                    for (int i = previousSize;i<idx;i++)
+//                    {
+//                        taskCollectors.add(new TaskCollector());
+//                    }
+//                    taskCollectors.add(new TaskCollector(name,new ArrayList<Task>()));
+//                }
             }
         }
         //调用子fragment的 onActivityResult
