@@ -78,14 +78,14 @@ public class SettingFragmnet extends Fragment {
 
         });
         //跳转到桌面清单设置界面
-        btnTableList=view.findViewById(R.id.btn_tableList);
+        /*btnTableList=view.findViewById(R.id.btn_tableList);
         btnTableList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(),TableListSetActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
         //跳转到主题设置界面
         btnThemeSet=view.findViewById(R.id.btn_theme);
         btnThemeSet.setOnClickListener(new View.OnClickListener() {

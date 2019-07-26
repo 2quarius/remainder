@@ -55,9 +55,34 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private PendingIntent pendingIntent;
     public static final String FILENAME = "tasks.json";
     final  private String FILE_NAME2 = "information.txt";
+    final  private String FILE_NAME3 = "theme.txt";
     public String account;
     Fragment settingfragment;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
+    private void setTheTheme() {
+        String theme = "";
+        try {
+            FileInputStream ios = openFileInput(FILE_NAME3);
+            byte[] temp = new byte[10];
+            StringBuilder sb = new StringBuilder("");
+            int len = 0;
+            while ((len = ios.read(temp)) > 0){
+                sb.append(new String(temp, 0, len));
+            }
+            ios.close();
+            theme = sb.toString();
+        }catch (Exception e) {
+            //Log.d("errMsg", e.toString());
+        }
+        if (theme.equals("purple")) {
+            setTheme(R.style.LightTheme);
+        }
+        else if (theme.equals("black")){
+            setTheme(R.style.NightTheme);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }catch (Exception e) {
             //Log.d("errMsg", e.toString());
         }
+        setTheTheme();
         setContentView(R.layout.activity_main);
         // Setting ViewPager for each Tabs
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -125,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     protected void onStart(){
         super.onStart();
         tasks = getLocallyStoredData(storeRetrieveData);
+        setTheTheme();
     }
     @Override
     public void onPause() {

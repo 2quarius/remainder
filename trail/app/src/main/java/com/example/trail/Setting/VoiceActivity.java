@@ -18,6 +18,8 @@ import android.widget.Switch;
 
 import com.example.trail.R;
 
+import java.io.FileInputStream;
+
 import static java.nio.file.attribute.AclEntryType.ALARM;
 
 public class VoiceActivity extends AppCompatActivity {
@@ -26,9 +28,35 @@ public class VoiceActivity extends AppCompatActivity {
     private Switch vibra;
     private AudioManager mAudioManager;
     private ImageButton back;
+    final  private String FILE_NAME3 = "theme.txt";
+
+    private void setTheTheme() {
+        String theme = "";
+        try {
+            FileInputStream ios = openFileInput(FILE_NAME3);
+            byte[] temp = new byte[10];
+            StringBuilder sb = new StringBuilder("");
+            int len = 0;
+            while ((len = ios.read(temp)) > 0){
+                sb.append(new String(temp, 0, len));
+            }
+            ios.close();
+            theme = sb.toString();
+        }catch (Exception e) {
+            //Log.d("errMsg", e.toString());
+        }
+        if (theme.equals("purple")) {
+            setTheme(R.style.LightTheme);
+        }
+        else if (theme.equals("black")){
+            setTheme(R.style.NightTheme);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheTheme();
         setContentView(R.layout.activity_voice);
 
         back=findViewById(R.id.btn_voiceBack);
@@ -83,7 +111,11 @@ public class VoiceActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    protected void onStart(){
+        super.onStart();
+        setTheTheme();
+    }
 
     //改变系统音量
     private void changeSystemVolume(int voice){

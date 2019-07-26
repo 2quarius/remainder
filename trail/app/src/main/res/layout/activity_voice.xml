@@ -7,6 +7,7 @@
     android:background="#2A000000"
     tools:context=".Setting.VoiceActivity">
     <RelativeLayout
+        android:id="@+id/voice_head"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

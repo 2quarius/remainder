@@ -6,12 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".Setting.AccountActivity">
     <RelativeLayout
-        android:id="@+id/rl_accountTitle"
+        android:id="@+id/show_account_head"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageButton
-            android:id="@+id/btn_Back"
+            android:id="@+id/btn_showAccountBack"
             android:src="@drawable/back"
             android:scaleType="centerInside"
             android:background="@drawable/button_back_bg"

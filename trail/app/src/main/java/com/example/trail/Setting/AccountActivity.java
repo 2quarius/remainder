@@ -29,10 +29,35 @@ public class AccountActivity extends AppCompatActivity {
     private ImageButton back;
     final  private String FILE_NAME = "account.txt";
     final  private String FILE_NAME2 = "information.txt";
+    final  private String FILE_NAME3 = "theme.txt";
+
+    private void setTheTheme() {
+        String theme = "";
+        try {
+            FileInputStream ios = openFileInput(FILE_NAME3);
+            byte[] temp = new byte[10];
+            StringBuilder sb = new StringBuilder("");
+            int len = 0;
+            while ((len = ios.read(temp)) > 0){
+                sb.append(new String(temp, 0, len));
+            }
+            ios.close();
+            theme = sb.toString();
+        }catch (Exception e) {
+            //Log.d("errMsg", e.toString());
+        }
+        if (theme.equals("purple")) {
+            setTheme(R.style.LightTheme);
+        }
+        else if (theme.equals("black")){
+            setTheme(R.style.NightTheme);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheTheme();
         setContentView(R.layout.activity_account);
         btnLogin = findViewById(R.id.btn_login);
         btnRegist = findViewById(R.id.btn_regist);
@@ -88,21 +113,27 @@ public class AccountActivity extends AppCompatActivity {
         btnQQ.setOnClickListener(new View.OnClickListener() { //qq
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(AccountActivity.this,"qq登录功能未实现",Toast.LENGTH_SHORT).show();
             }
         });
         btnWechat.setOnClickListener(new View.OnClickListener() { //微信
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(AccountActivity.this,"微信登录功能未实现",Toast.LENGTH_SHORT).show();
             }
         });
         btnJaccount.setOnClickListener(new View.OnClickListener() { //jaccount
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(AccountActivity.this,"jaccount登录功能未实现",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        setTheTheme();
     }
 
     public void save(String text) {
@@ -111,7 +142,6 @@ public class AccountActivity extends AppCompatActivity {
             fos.write(text.getBytes());
             fos.flush();
             fos.close();
-
         } catch (Exception e) {
             //Log.d("errMsg", e.toString());
         }
