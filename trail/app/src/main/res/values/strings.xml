@@ -6,6 +6,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="nav_today">今天</string>
     <string name="nav_collection">收集箱</string>
+    <string name="nav_courses">课程列</string>
     <string name="add_list_file">添加清单夹</string>
     <string name="avatar">avatar</string>
 
