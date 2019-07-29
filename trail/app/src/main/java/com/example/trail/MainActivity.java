@@ -188,7 +188,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             tasks = taskCollectors.get(index).getTasks();
         }
         super.onStart();
-        tasks = getLocallyStoredData(storeRetrieveData);
         setTheTheme();
     }
     @Override
