@@ -12,7 +12,7 @@ public class Task {
     private int timeAdvance;
     private int priority;
     private String type;
-    private String tital;
+    private String title;
     private String content;
     private int done;
 

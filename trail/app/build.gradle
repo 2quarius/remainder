@@ -13,7 +13,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             //设置支持的SO库架构（开发者可以根据需要，选择一个或多个平台的so）
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86","x86_64"
+            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
     }
     buildTypes {
@@ -81,4 +81,6 @@ dependencies {
     //okhttp
     implementation 'com.squareup.okhttp3:okhttp:3.5.0'
     implementation 'com.squareup.okio:okio:1.5.0'
+    implementation files('libs/sjtu-api-1.0-20190704.050051-61.jar')
+    implementation 'com.zhuangfei:TimetableView:2.0.2'
 }

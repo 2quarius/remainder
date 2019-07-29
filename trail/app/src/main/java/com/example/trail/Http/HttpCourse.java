@@ -24,6 +24,6 @@ public class HttpCourse {
 
         System.out.println(response.body().string());
         //写入course
-        
+
     }
 }
