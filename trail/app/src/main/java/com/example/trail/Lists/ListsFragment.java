@@ -55,8 +55,6 @@ public class ListsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        RecyclerView recyclerView = (RecyclerView) inflater.inflate(
-//                R.layout.recycler_view, container, false);
         View viewP=inflater.inflate(
                 R.layout.recycler_view, container, false);
         RecyclerView recyclerView =viewP.findViewById(R.id.my_recycler_view);
@@ -180,25 +178,13 @@ public class ListsFragment extends Fragment {
         private List<Task> mFilterTasks = new ArrayList<>();
         public ContentAdapter(Context context) {
             mFilterTasks=mTasks;
-            if (mFilterTasks!=null&&mFilterTasks.size()==titles.size()){
-                int i =0;
-                for (Task t: mFilterTasks){
-                    titles.set(i,t.getTitle());
-                    descriptions.set(i,t.getDescription());
-                    finished.set(i++,t.isDone());
-                }
-            }
-            else if (mFilterTasks!=null&&mFilterTasks.size()>titles.size()&&titles.size()==0){
-                for (int i = 0; i < mFilterTasks.size(); i++) {
-                    titles.add(mFilterTasks.get(i).getTitle());
-                    descriptions.add(mFilterTasks.get(i).getDescription());
-                    finished.add(mFilterTasks.get(i).getDone());
-                }
-            }
-            else if (mFilterTasks!=null&&mFilterTasks.size()>titles.size()&&titles.size()>0){
-                titles.add(mFilterTasks.get(mFilterTasks.size()-1).getTitle());
-                descriptions.add(mFilterTasks.get(mFilterTasks.size()-1).getDescription());
-                finished.add(mFilterTasks.get(mFilterTasks.size()-1).getDone());
+            titles.clear();
+            descriptions.clear();
+            finished.clear();
+            for (Task task:mFilterTasks){
+                titles.add(task.getTitle());
+                descriptions.add(task.getDescription());
+                finished.add(task.isDone());
             }
 
         }

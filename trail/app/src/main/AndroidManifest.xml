@@ -73,7 +73,6 @@
 
         <activity android:name=".Lists.SideMenuActivity" />
         <activity android:name=".NewTask.AddTaskActivity" />
-        <activity android:name=".NewTask.NewTaskActivity" />
         <activity android:name=".Setting.AboutActivity" />
         <activity android:name=".Setting.VoiceActivity" />
         <activity android:name=".Setting.ThemeActivity" />
