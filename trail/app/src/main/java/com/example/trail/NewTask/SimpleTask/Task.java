@@ -1,9 +1,8 @@
 package com.example.trail.NewTask.SimpleTask;
 
-import android.location.Location;
-
 import com.example.trail.Utility.EnumPack.TaskConstants;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,6 +21,7 @@ import lombok.NoArgsConstructor;
 public class Task implements Serializable {
     private String title;
     private String description = null;
+    private List<MiniTask> miniTasks = new ArrayList<>();
     private List<String> tags = new ArrayList<>();
 
     private Date startTime = null;
@@ -32,7 +32,7 @@ public class Task implements Serializable {
 
     private Priority priority = Priority.NONE;
 
-    private transient Location location = null;
+    private MyLocation location = null;
 
     private Boolean done = false;
 
@@ -52,6 +52,12 @@ public class Task implements Serializable {
         try{
             description = o.getString(String.valueOf(TaskConstants.DESCRIPTION));
         }catch (JSONException e){
+            e.printStackTrace();
+        }
+        try{
+            JSONArray object = new JSONArray(o.getString(String.valueOf(TaskConstants.MINITASK)));
+            deformMiniTask(object);
+        } catch (JSONException e){
             e.printStackTrace();
         }
         try{
@@ -85,26 +91,56 @@ public class Task implements Serializable {
             e.printStackTrace();
         }
         try{
-            location = new Location(o.getString(String.valueOf(TaskConstants.LOCATION)));
-//            location = new MyLocation(o.getString(String.valueOf(TaskConstants.LOCATION)));
+            JSONObject object = new JSONObject(o.getString(String.valueOf(TaskConstants.LOCATION)));
+            location = new MyLocation(object);
         }catch (JSONException e){
             e.printStackTrace();
         }
     }
 
+
     public JSONObject toJSON() throws JSONException {
         JSONObject object = new JSONObject();
         object.put(String.valueOf(TaskConstants.TITLE), title);
         object.put(String.valueOf(TaskConstants.DESCRIPTION),description);
+        object.put(String.valueOf(TaskConstants.MINITASK),formMiniTask());
         object.put(String.valueOf(TaskConstants.TAGS),formTags());
         object.put(String.valueOf(TaskConstants.START_TIME),startTime);
         object.put(String.valueOf(TaskConstants.EXPIRE_TIME),expireTime);
         object.put(String.valueOf(TaskConstants.REMIND_TIME),remindTime);
         object.put(String.valueOf(TaskConstants.REMIND_CYCLE),remindCycle);
         object.put(String.valueOf(TaskConstants.PRIORITY),priority);
-        object.put(String.valueOf(TaskConstants.LOCATION),location);
+        object.put(String.valueOf(TaskConstants.LOCATION),formLocation());
         object.put(String.valueOf(TaskConstants.DONE),done);
         return object;
+    }
+    private void deformMiniTask(JSONArray array) throws JSONException {
+        for (int i = 0; i< array.length();i++)
+        {
+            JSONObject o = array.getJSONObject(i);
+            miniTasks.add(new MiniTask(o.getString("content"),o.getBoolean("done")));
+        }
+    }
+    private String formMiniTask() throws JSONException {
+        JSONArray array = new JSONArray();
+        for(MiniTask miniTask:miniTasks)
+        {
+            JSONObject obj = new JSONObject();
+            obj.put("content",miniTask.getContent());
+            obj.put("done",miniTask.getDone());
+            array.put(obj);
+        }
+        return array.toString();
+    }
+    private String formLocation() throws JSONException {
+        JSONObject object = new JSONObject();
+        if (location==null){return null;}
+        else {
+            object.put("location",location.getPlace());
+            object.put("latitude",location.getLatitude());
+            object.put("longitude",location.getLongitude());
+        }
+        return object.toString();
     }
     private String formTags()
     {

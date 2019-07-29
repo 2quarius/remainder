@@ -6,14 +6,28 @@
     android:layout_height="match_parent"
     android:background="#2A000000"
     tools:context=".Setting.VoiceActivity">
-    <TextView
-        android:background="@color/colorPrimaryTitle"
-        android:textColor="@color/mdtp_white"
-        android:text="音量设置"
-        android:textSize="24sp"
-        android:gravity="center"
+    <RelativeLayout
+        android:id="@+id/voice_head"
+        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/btn_voiceBack"
+            android:src="@drawable/back"
+            android:scaleType="centerInside"
+            android:background="@drawable/button_back_bg"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+        <TextView
+            android:textColor="@color/mdtp_white"
+            android:text="声音与提醒"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </RelativeLayout>
     <TextView
         android:id="@+id/tv_voiceSetting1"
         android:text="系统声音"

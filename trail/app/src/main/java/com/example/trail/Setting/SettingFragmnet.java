@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,15 +17,19 @@ import com.example.trail.MainActivity;
 import com.example.trail.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.FileInputStream;
+
 public class SettingFragmnet extends Fragment {
+    private ImageButton btnAccountSetHead;
     private Button btnAccountSet;
     private Button btnThemeSet;
-    private Button btnInformation;
-    private Button btnLanguage;
+    private Button btnTableList;
     private Button btnVoice;
     private Button btnAbout;
     private SettingFragmnet settingFragmnet;
     private FloatingActionButton fab;
+    private String account;
+    final  private String FILE_NAME = "information.txt";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -36,22 +42,56 @@ public class SettingFragmnet extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Bundle bundle = getArguments();
+        account = bundle.getString("account");
         //跳转到Account界面
+        btnAccountSetHead=view.findViewById(R.id.btn_headPic);
+        btnAccountSetHead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (account.length()<=0) {
+                    Intent intent = new Intent(getActivity(),AccountActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(),ShowAccountActivity.class);
+                    intent.putExtra("account",account);
+                    startActivity(intent);
+                }
+            }
+
+        });
         btnAccountSet=view.findViewById(R.id.btn_accountSetting);
         btnAccountSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(getActivity(),AccountActivity.class);
-                startActivity(intent);
+                if (account.length()<=0) {
+                    Intent intent = new Intent(getActivity(),AccountActivity.class);
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getActivity(),ShowAccountActivity.class);
+                    intent.putExtra("account",account);
+                    startActivity(intent);
+                }
             }
 
         });
+        //跳转到桌面清单设置界面
+        /*btnTableList=view.findViewById(R.id.btn_tableList);
+        btnTableList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(),TableListSetActivity.class);
+                startActivity(intent);
+            }
+        });*/
         //跳转到主题设置界面
         btnThemeSet=view.findViewById(R.id.btn_theme);
         btnThemeSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(getActivity(),ThemeActivity.class);
+                Intent intent = new Intent(getActivity(),ThemeActivity.class);
                 startActivity(intent);
             }
         });
@@ -60,25 +100,7 @@ public class SettingFragmnet extends Fragment {
         btnVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(getActivity(),VoiceActivity.class);
-                startActivity(intent);
-            }
-        });
-        //跳转到语言设置界面
-        btnLanguage=view.findViewById(R.id.btn_language);
-        btnLanguage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(getActivity(),LanguageActivity.class);
-                startActivity(intent);
-            }
-        });
-        //跳转到信息设置界面
-        btnInformation=view.findViewById(R.id.btn_information);
-        btnInformation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(getActivity(),InformationActivity.class);
+                Intent intent = new Intent(getActivity(),VoiceActivity.class);
                 startActivity(intent);
             }
         });
@@ -87,7 +109,7 @@ public class SettingFragmnet extends Fragment {
         btnAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(getActivity(),AboutActivity.class);
+                Intent intent = new Intent(getActivity(),AboutActivity.class);
                 startActivity(intent);
             }
         });

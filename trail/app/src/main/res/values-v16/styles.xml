@@ -16,4 +16,19 @@
         <item name="android:font" tools:ignore="NewApi">@font/raleway</item>
         <!--<item name="android:typeface">@font/raleway</item>-->
     </style>
+    <style name="Night.Theme" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="tabStyle">@style/Widget.MaterialComponents.TabLayout.Colored</item>
+        <item name="materialCardViewStyle">@style/Widget.MyApp.MaterialCardView</item>
+        <item name="checkedTextViewStyle">@style/Widget.MyApp.TextField</item>
+        <item name="buttonStyle">@style/Widget.MyApp.Button</item>
+        <item name="colorPrimary">@color/colorPrimaryNight</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
+        <item name="colorAccent">@color/colorAccentNight</item>
+        <item name="android:fontFamily">@font/raleway</item>
+        <item name="android:font" tools:ignore="NewApi">@font/raleway</item>
+        <!--<item name="android:typeface">@font/raleway</item>-->
+    </style>
 </resources>

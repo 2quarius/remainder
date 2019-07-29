@@ -1,9 +1,14 @@
 package com.example.trail;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,9 +23,11 @@ import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Lists.SideMenuActivity;
 import com.example.trail.Map.BaiduMapFragment;
 import com.example.trail.NewTask.AddTaskActivity;
+import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.SettingFragmnet;
+import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
 import com.example.trail.Utility.EnumPack.TabConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,27 +35,75 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
-    private static final int RETURNED_MODIFY_TASK_REQUEST_CODE = 65545;
+    private static final int SWITCH_COLLECTION_REQUEST_CODE = 2;
     private boolean misScrolled;
     private ViewPager mViewPager;
     private TabLayout tabs;
     private FloatingActionButton fab;
+    private int index=0;
+    private List<TaskCollector> taskCollectors;
     private List<Task> tasks;
     private StoreRetrieveData storeRetrieveData;
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
     public static final String FILENAME = "tasks.json";
+    final  private String FILE_NAME2 = "information.txt";
+    final  private String FILE_NAME3 = "theme.txt";
+    public String account;
+    Fragment settingfragment;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
+    private void setTheTheme() {
+        String theme = "";
+        try {
+            FileInputStream ios = openFileInput(FILE_NAME3);
+            byte[] temp = new byte[10];
+            StringBuilder sb = new StringBuilder("");
+            int len = 0;
+            while ((len = ios.read(temp)) > 0){
+                sb.append(new String(temp, 0, len));
+            }
+            ios.close();
+            theme = sb.toString();
+        }catch (Exception e) {
+            //Log.d("errMsg", e.toString());
+        }
+        if (theme.equals("purple")) {
+            setTheme(R.style.LightTheme);
+        }
+        else if (theme.equals("black")){
+            setTheme(R.style.NightTheme);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //初始化百度地图，必须在 setContentView(...) 前调用！
         SDKInitializer.initialize(getApplicationContext());
+        try {
+            FileInputStream ios = openFileInput(FILE_NAME2);
+            byte[] temp = new byte[1024];
+            StringBuilder sb = new StringBuilder("");
+            int len = 0;
+            while ((len = ios.read(temp)) > 0){
+                sb.append(new String(temp, 0, len));
+            }
+            ios.close();
+            account = sb.toString();
+        }catch (Exception e) {
+            //Log.d("errMsg", e.toString());
+        }
+        setTheTheme();
         setContentView(R.layout.activity_main);
         // Setting ViewPager for each Tabs
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -69,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         });
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
+        setAlarm();
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
     }
@@ -78,26 +134,67 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (resultCode==RESULT_OK&&data!=null){
             if (requestCode==ADD_TASK_REQUEST_CODE){
                 tasks.add((Task) data.getSerializableExtra("task"));
-                try {
-                    storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
-                } catch (JSONException | IOException e) {
-                    e.printStackTrace();
+            }
+            else if (requestCode==SWITCH_COLLECTION_REQUEST_CODE){
+                int idx = data.getIntExtra("index",-1);
+                if (idx<0){
+                    return;
                 }
+                else {
+                    if (data.getIntegerArrayListExtra("indexs") != null) {
+                        ArrayList<Integer> indexs = data.getIntegerArrayListExtra("indexs");
+                        for (int i = indexs.size()-1;i>=0;i--)
+                        {
+                            taskCollectors.remove(indexs.get(i)+3);
+                        }
+                    }
+                    if (data.getStringArrayListExtra("added")!=null){
+                        ArrayList<String> added = data.getStringArrayListExtra("added");
+                        for (String title:added)
+                        {
+                            taskCollectors.add(new TaskCollector(title,new ArrayList<Task>()));
+                        }
+                    }
+                    if (idx<taskCollectors.size()){
+                        index = idx;
+                    }
+                }
+//                else if (idx<taskCollectors.size()){
+//                    index = idx;
+//                }
+//                else {
+//                    String name = data.getStringExtra("name");
+//                    int previousSize = taskCollectors.size();
+//                    for (int i = previousSize;i<idx;i++)
+//                    {
+//                        taskCollectors.add(new TaskCollector());
+//                    }
+//                    taskCollectors.add(new TaskCollector(name,new ArrayList<Task>()));
+//                }
             }
         }
         //调用子fragment的 onActivityResult
         super.onActivityResult(requestCode,resultCode,data);
+        try {
+            storeRetrieveData.saveToFile((ArrayList<TaskCollector>) taskCollectors);
+        } catch (JSONException | IOException e) {
+            e.printStackTrace();
+        }
     }
     @Override
     protected void onStart(){
+        taskCollectors = getLocallyStoredData(storeRetrieveData);
+        if (taskCollectors.size()>0&&index<taskCollectors.size()){
+            tasks = taskCollectors.get(index).getTasks();
+        }
         super.onStart();
-        tasks = getLocallyStoredData(storeRetrieveData);
+        setTheTheme();
     }
     @Override
     public void onPause() {
         super.onPause();
         try {
-            storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
+            storeRetrieveData.saveToFile((ArrayList<TaskCollector>) taskCollectors);
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
@@ -109,20 +206,44 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public List<Task> getTasks(){
         return tasks;
     }
-    private static ArrayList<Task> getLocallyStoredData(StoreRetrieveData storeRetrieveData) {
-        ArrayList<Task> items = null;
+    private static ArrayList<TaskCollector> getLocallyStoredData(StoreRetrieveData storeRetrieveData) {
+        ArrayList<TaskCollector> collectors = null;
         try {
-            items = storeRetrieveData.loadFromFile();
+            collectors = storeRetrieveData.loadFromFile();
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
-        if (items == null) {
-            items = new ArrayList<>();
+        if (collectors == null) {
+            collectors = new ArrayList<>();
         }
-        return items;
+        return collectors;
 
+    }
+
+    //设置闹钟
+    private void setAlarm(){
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmBroadcast.class);
+        intent.setAction("startAlarm");
+        pendingIntent = PendingIntent.getBroadcast(this, 110, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
+        taskCollectors=getLocallyStoredData(storeRetrieveData);
+        if (taskCollectors.size()>0){
+            tasks = taskCollectors.get(0).getTasks();
+        }
+        for(int i=0;i<tasks.size();i++){
+            if(tasks.get(i).getExpireTime()!=null)
+            {
+                Date tempDate=tasks.get(i).getExpireTime();
+                Calendar cal=Calendar.getInstance();
+                Calendar calendar=Calendar.getInstance();
+                calendar.setTime(tempDate);
+                long timeDiff=cal.getTimeInMillis()-SystemClock.elapsedRealtime();
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-timeDiff+60*1000, pendingIntent);
+            }
+        }
     }
     private void createTabIcons() {
         tabs.getTabAt(TabConstants.LISTS.getIndex()).setIcon(R.drawable.checklist);
@@ -136,7 +257,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         adapter.addFragment(new ListsFragment(), TabConstants.LISTS.getTitle());
         adapter.addFragment(new CalendarFragment(),TabConstants.TIME.getTitle());
         adapter.addFragment(new BaiduMapFragment(), TabConstants.SPACE.getTitle());
-        adapter.addFragment(new SettingFragmnet(),TabConstants.SETTING.getTitle());
+        settingfragment = new SettingFragmnet();
+        adapter.addFragment(settingfragment,TabConstants.SETTING.getTitle());
+        Bundle bundle = new Bundle();
+        bundle.putString("account",account);
+        settingfragment.setArguments(bundle);
         viewPager.setAdapter(adapter);
     }
 
@@ -161,7 +286,18 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 break;
             case ViewPager.SCROLL_STATE_IDLE:
                 if (mViewPager.getCurrentItem() == 0 && !misScrolled) {
-                    startActivityForResult(new Intent(this, SideMenuActivity.class),2);
+                    Intent intent = new Intent(this,SideMenuActivity.class);
+                    int size = taskCollectors.size();
+                    intent.putExtra("collector size",size);
+                    if (size>3){
+                        ArrayList<String> titles = new ArrayList<>();
+                        for (int i = 3;i<size;i++)
+                        {
+                            titles.add(taskCollectors.get(i).getName());
+                        }
+                        intent.putStringArrayListExtra("titles",titles);
+                    }
+                    startActivityForResult(intent,SWITCH_COLLECTION_REQUEST_CODE);
                 }
                 misScrolled = true;
                 break;

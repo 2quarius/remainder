@@ -10,4 +10,7 @@
     <color name="text" opacity="60%">#000000</color>
     <color name="colorAccent">#fefff7</color>
     <color name="gray">#808080</color>
+    <color name="colorPrimaryNight">#323232</color>
+    <color name="colorPrimaryDarkNight">#212121</color>
+    <color name="colorAccentNight">#fefff7</color>
 </resources>

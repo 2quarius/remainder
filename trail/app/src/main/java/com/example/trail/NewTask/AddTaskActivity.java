@@ -4,21 +4,26 @@ import android.animation.Animator;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
@@ -31,24 +36,37 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiDetailSearchResult;
+import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
+import com.baidu.mapapi.search.poi.PoiResult;
+import com.baidu.mapapi.search.poi.PoiSearch;
 import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.MiniTask;
+import com.example.trail.NewTask.SimpleTask.MyLocation;
 import com.example.trail.NewTask.SimpleTask.Priority;
 import com.example.trail.NewTask.SimpleTask.RemindCycle;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
+import com.example.trail.Utility.UIHelper.MyOverlay;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,22 +75,36 @@ public class AddTaskActivity extends AppCompatActivity implements
     private static final String CHOOSE_A_PLACE = "Place for remind";
     private Integer position;
     private Task task;
+    private List<MiniTask> miniTasks = new ArrayList<>();
+    //title
     private EditText mTitleEditText;
+    //description
     private EditText mDescriptionEditText;
+    //ok
     private FloatingActionButton mSendTaskFAB;
+    //priority
     private Spinner mPriority;
+    //ddl
     private EditText mExpireDateEditText;
     private EditText mExpireTimeEditText;
+    //remind
     private SwitchCompat mRemindMeSwitch;
     private LinearLayout mRemindDateLayout;
     private EditText mDateEditText;
     private EditText mTimeEditText;
     private Spinner mRepeatType;
     private TextView mDateTimeReminderTextView;
+    //place
     private TextView mExpirePlaceTextView;
     private SwitchCompat mExpirePlaceSwitch;
     private String address;
     private LatLng mLatLng;
+    private PoiSearch poiSearch;
+    private boolean isSearch = false;
+    //mini task
+    private TextView mMiniTaskText;
+    private SwitchCompat mMiniTaskSwitch;
+    private LinearLayout mMiniTaskLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +112,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         Intent intent = getIntent();
         position = intent.getIntExtra("position",-1);
         task = intent.getSerializableExtra("task")!=null? (Task) intent.getSerializableExtra("task") :new Task();
+        miniTasks = task.getMiniTasks();
         initLayoutElement();
         setTextByTask();
         installListener();
@@ -160,21 +193,6 @@ public class AddTaskActivity extends AppCompatActivity implements
                     int year = calendar.get(Calendar.YEAR);
                     int month = Integer.parseInt(m.group(1));
                     int day = Integer.parseInt(m.group(2));
-                    //System.out.println(month);
-
-                    DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month-1, day);
-                    datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
-                    datePickerDialog.show(getFragmentManager(),"ExpireDate");
-                }
-                else if (m3.find()&&task.getExpireTime() == null){
-                    Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
-                    hideKeyboard(mTitleEditText);
-
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(date);
-                    int year = calendar.get(Calendar.YEAR);
-                    int month = Integer.parseInt(m3.group(1));
-                    int day = Integer.parseInt(m3.group(2));
                     //System.out.println(month);
 
                     DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month-1, day);
@@ -366,6 +384,79 @@ public class AddTaskActivity extends AppCompatActivity implements
                 }
             }
         });
+        mMiniTaskSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (mMiniTaskSwitch.isChecked()) {
+                    mMiniTaskText.setText("mini tasks:");
+                    mMiniTaskSwitch.setVisibility(View.INVISIBLE);
+                    //或许还需要将switch disable掉
+                    ViewGroup parent = (ViewGroup) mMiniTaskSwitch.getParent();
+                    parent.addView(addButton());
+                    addNewLine();
+                }
+            }
+        });
+    }
+
+    private void addNewLine() {
+        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.mini_task_checkbox, null);
+        final CheckBox checkBox = linearLayout.findViewById(R.id.done);
+        final EditText editText = linearLayout.findViewById(R.id.content);
+        final int index = miniTasks.size();
+        final MiniTask miniTask = new MiniTask();
+        miniTask.setDone(false);
+        miniTasks.add(miniTask);
+        checkBox.setChecked(false);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                miniTask.setDone(b);
+                miniTasks.get(index).setDone(b);
+                task.setMiniTasks(miniTasks);
+            }
+        });
+        editText.setHint("回车添加新任务");
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                miniTask.setContent(charSequence.toString());
+                miniTasks.get(index).setContent(charSequence.toString());
+                task.setMiniTasks(miniTasks);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                //去掉回车符
+                String s = editable.toString();
+                if (s.indexOf("\n")>=0){
+                    editText.setText(s.replace("\n",""));
+                }
+            }
+        });
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                //回车添加行
+                if (i == EditorInfo.IME_ACTION_SEND
+                        || i == EditorInfo.IME_ACTION_DONE
+                        || (keyEvent != null && KeyEvent.KEYCODE_ENTER == keyEvent.getKeyCode() && KeyEvent.ACTION_DOWN == keyEvent.getAction()))
+                {
+                    if (editText.getText().length()>0) {
+                        addNewLine();
+                    }
+                }
+                //任务一旦添加不能删除
+                return false;
+            }
+        });
+        mMiniTaskLayout.addView(linearLayout);
+        editText.requestFocus();
     }
 
     private void setTextByTask() {
@@ -392,9 +483,58 @@ public class AddTaskActivity extends AppCompatActivity implements
         setEnterDateLayoutVisibleWithAnimations(mRemindMeSwitch.isChecked());
         //set expire place switch
         mExpirePlaceSwitch.setChecked(task.getLocation() != null);
-        mExpirePlaceTextView.setText(task.getLocation()!=null?task.getLocation().toString():mExpirePlaceTextView.getText());
+        mExpirePlaceTextView.setText(task.getLocation()!=null?task.getLocation().getPlace():mExpirePlaceTextView.getText());
+        //set mini task
+        mMiniTaskSwitch.setChecked(task.getMiniTasks()!=null&&task.getMiniTasks().size()>0);
+        if (mMiniTaskSwitch.isChecked()){
+            mMiniTaskText.setText("mini tasks:");
+            mMiniTaskSwitch.setVisibility(View.INVISIBLE);
+            //或许还需要将switch disable掉
+            ViewGroup parent = (ViewGroup) mMiniTaskSwitch.getParent();
+            parent.addView(addButton());
+            for (final MiniTask miniTask:task.getMiniTasks()){
+                LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.mini_task_checkbox,null);
+                CheckBox checkBox = linearLayout.findViewById(R.id.done);
+                final EditText editText = linearLayout.findViewById(R.id.content);
+                checkBox.setChecked(miniTask.getDone());
+                editText.setText(miniTask.getContent());
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        miniTask.setDone(b);
+                    }
+                });
+                editText.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                        miniTask.setContent(charSequence.toString());
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable editable) {
+                    }
+                });
+                editText.setFocusable(false);
+                mMiniTaskLayout.addView(linearLayout);
+            }
+        }
     }
 
+    private View addButton() {
+        ImageButton imgb = (ImageButton) getLayoutInflater().inflate(R.layout.mini_task_add_button,null);
+        imgb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addNewLine();
+            }
+        });
+        return imgb;
+    }
     private void setExpireTime(boolean b) {
         if (b)
         {
@@ -427,6 +567,9 @@ public class AddTaskActivity extends AppCompatActivity implements
         mDateTimeReminderTextView = (TextView) findViewById(R.id.date_time_reminder_tv);
         mExpirePlaceTextView = (TextView) findViewById(R.id.expire_place_tv);
         mExpirePlaceSwitch = (SwitchCompat) findViewById(R.id.remind_place_switch);
+        mMiniTaskText = (TextView) findViewById(R.id.mini_task_tv);
+        mMiniTaskSwitch = (SwitchCompat) findViewById(R.id.mini_task_switch);
+        mMiniTaskLayout = (LinearLayout) findViewById(R.id.mini_task_input_layout);
     }
 
     protected void showDialog(){
@@ -435,17 +578,23 @@ public class AddTaskActivity extends AppCompatActivity implements
 
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.dialog,null);
+        FloatingActionButton search = layout.findViewById(R.id.search_button);
+        final EditText searchText = layout.findViewById(R.id.search_place);
+        searchText.setVisibility(View.INVISIBLE);
+
+        MapView mapView = layout.findViewById(R.id.dialog_map);
         builder.setTitle(CHOOSE_A_PLACE);
         builder.setView(layout);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 setExpirePlaceTextView(address);
-                Location location = new Location(address);
+                MyLocation location = new MyLocation(address);
                 location.setLatitude(mLatLng.latitude);
                 location.setLongitude(mLatLng.longitude);
                 task.setLocation(location);
                 mExpirePlaceSwitch.setChecked(task.getLocation()!=null);
+                isSearch = false;
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -453,13 +602,13 @@ public class AddTaskActivity extends AppCompatActivity implements
             public void onClick(DialogInterface dialogInterface, int i) {
                 setExpirePlaceTextView(mExpirePlaceTextView.getText().toString());
                 mExpirePlaceSwitch.setChecked(task.getLocation()!=null);
+                isSearch = false;
             }
         });
         customDialog = builder.create();
         //TODO:设置点击事件
-        MapView mapView = layout.findViewById(R.id.dialog_map);
         final BaiduMap map = mapView.getMap();
-        final BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.ic_user_location);
+        final BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.location);
         map.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
             @Override
             public void onMapClick(final LatLng latLng) {
@@ -489,6 +638,7 @@ public class AddTaskActivity extends AppCompatActivity implements
                     public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
                         //获取点击的坐标地址
                         address = arg0.getAddress();
+//                        customDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
                     }
 
                     @Override
@@ -504,13 +654,96 @@ public class AddTaskActivity extends AppCompatActivity implements
                 return false;
             }
         });
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                search(charSequence,map);
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //弹出输入框获取搜索关键词
+                if (!isSearch) {
+                    searchText.setVisibility(View.VISIBLE);
+                    isSearch = true;
+                }
+                //再点一次关闭搜索
+                else {
+                    searchText.setVisibility(View.INVISIBLE);
+                    isSearch = false;
+                    poiSearch.destroy();
+                }
+            }
+        });
         customDialog.show();
     }
-    //TODO:设置mExpirePlaceTextView文字显示
     private void setExpirePlaceTextView(String place) {
         mExpirePlaceTextView.setText(place);
     }
-
+    /**
+     * 周边poi检索示例
+     */
+    private void search(CharSequence charSequence, final BaiduMap map){
+        //创建poi检索实例
+        poiSearch = PoiSearch.newInstance();
+        //创建poi监听者
+        OnGetPoiSearchResultListener poiListener = new OnGetPoiSearchResultListener() {
+            @Override
+            public void onGetPoiResult(PoiResult result) {
+                //获取POI检索结果,地图中心切换
+                //TODO
+                if (result != null && result.error == PoiResult.ERRORNO.NO_ERROR) {
+                    MyOverlay overlay = new MyOverlay(map, poiSearch);//这传入search对象，因为一般搜索到后，点击时方便发出详细搜索
+                    //设置数据,这里只需要一步，
+                    overlay.setData(result);
+                    //添加到地图
+                    overlay.addToMap();
+                    //将显示视图拉倒正好可以看到所有POI兴趣点的缩放等级
+                    overlay.zoomToSpan();//计算工具
+                    //设置标记物的点击监听事件
+                    map.setOnMarkerClickListener(overlay);
+                } else {
+                    Toast.makeText(getApplication(), "搜索不到你需要的信息！", Toast.LENGTH_SHORT).show();
+                }
+            }
+            @Override
+            public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+                if (poiDetailResult.error != SearchResult.ERRORNO.NO_ERROR) {
+                    Toast.makeText(getApplication(), "抱歉，未找到结果",
+                                   Toast.LENGTH_SHORT).show();
+                } else {// 正常返回结果的时候，此处可以获得很多相关信息
+                    Toast.makeText(getApplication(), poiDetailResult.getName() + ": "
+                                           + poiDetailResult.getAddress(),
+                                   Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onGetPoiDetailResult(PoiDetailSearchResult poiDetailSearchResult) {
+            }
+            @Override
+            public void onGetPoiIndoorResult(PoiIndoorResult poiIndoorResult) {
+            }
+        };
+        //设置poi监听者该方法要先于检索方法searchNearby(PoiNearbySearchOption)前调用，否则会在某些场景出现拿不到回调结果的情况
+        poiSearch.setOnGetPoiSearchResultListener(poiListener);
+        //设置请求参数
+        PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption()
+                .keyword(charSequence.toString())//检索关键字
+                .location(new LatLng(31.12,121.38))//检索位置
+                .pageNum(0)//分页编号，默认是0页
+                .pageCapacity(10)//设置每页容量，默认10条
+                .radius(1000);//附近检索半径
+        //发起请求
+        poiSearch.searchNearby(nearbySearchOption);
+    }
 
     private void setEnterDateLayoutVisible(boolean checked) {
         if (checked) {

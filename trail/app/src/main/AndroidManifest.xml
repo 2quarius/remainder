@@ -54,7 +54,18 @@
         android:supportsRtl="false"
         android:theme="@style/Light.Theme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Course.CourseActivity"></activity>
+        <activity android:name=".Setting.ShowAccountActivity"></activity>
+        <activity android:name=".Setting.RegistActivity" />
+
+        <receiver android:name=".Widget.AppWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_info" />
+        </receiver>
 
         <service android:name=".Services.BaiduMapService" />
 
@@ -62,10 +73,9 @@
 
         <activity android:name=".Lists.SideMenuActivity" />
         <activity android:name=".NewTask.AddTaskActivity" />
-        <activity android:name=".NewTask.NewTaskActivity" />
+
         <activity android:name=".Setting.AboutActivity" />
-        <activity android:name=".Setting.InformationActivity" />
-        <activity android:name=".Setting.LanguageActivity" />
+
         <activity android:name=".Setting.VoiceActivity" />
         <activity android:name=".Setting.ThemeActivity" />
         <activity android:name=".Setting.AccountActivity" />
@@ -93,6 +103,10 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
+            android:process=":remote" />
+
+        <receiver
+            android:name=".Utility.AlarmBroadcast"
             android:process=":remote" />
     </application>
 

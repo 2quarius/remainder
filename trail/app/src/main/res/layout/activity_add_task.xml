@@ -86,6 +86,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
+                android:id="@+id/priority_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -126,6 +127,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/select_ddl_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -159,6 +161,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ddl_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="36dp"
@@ -201,6 +204,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/select_remind_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -318,6 +322,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/select_place_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
@@ -357,7 +362,57 @@
                     android:gravity="center"
                     android:padding="8dp" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginRight="36dp"
+                android:gravity="center|start|fill_horizontal"
+                android:orientation="horizontal"
+                >
+                <ImageButton
+                    android:id="@+id/mini_task_ib"
+                    android:layout_width="@dimen/icon"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_add_alarm_grey_200_24dp" />
+                <TextView
+                    android:id="@+id/mini_task_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/add_mini_task"
+                    android:textColor="@color/colorPrimaryTitle"
+                    android:textSize="16sp" />
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/mini_task_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="8dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/mini_task_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginRight="36dp"
+                android:gravity="center|start|fill_horizontal"
+                android:orientation="vertical">
 
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
