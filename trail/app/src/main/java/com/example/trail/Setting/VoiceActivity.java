@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
@@ -27,7 +28,7 @@ public class VoiceActivity extends AppCompatActivity {
     private SeekBar sbVoice1;
     private Switch vibra;
     private AudioManager mAudioManager;
-    private ImageButton back;
+    private Button back;
     final  private String FILE_NAME3 = "theme.txt";
 
     private void setTheTheme() {
@@ -59,7 +60,8 @@ public class VoiceActivity extends AppCompatActivity {
         setTheTheme();
         setContentView(R.layout.activity_voice);
 
-        back=findViewById(R.id.btn_voiceBack);
+        back = findViewById(R.id.btn_voiceBack);
+        back.bringToFront();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
