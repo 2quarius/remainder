@@ -26,6 +26,7 @@ import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
+import com.example.trail.Setting.AccountActivity;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
@@ -102,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             account = sb.toString();
         }catch (Exception e) {
             //Log.d("errMsg", e.toString());
+            account = "failed";
         }
         setTheTheme();
         setContentView(R.layout.activity_main);
