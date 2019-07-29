@@ -21,6 +21,7 @@ import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Lists.SideMenuActivity;
 import com.example.trail.Map.BaiduMapFragment;
 import com.example.trail.NewTask.AddTaskActivity;
+import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.SettingFragmnet;
@@ -38,14 +39,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
-    private static final int RETURNED_MODIFY_TASK_REQUEST_CODE = 65545;
+    private static final int SWITCH_COLLECTION_REQUEST_CODE = 2;
     private boolean misScrolled;
     private ViewPager mViewPager;
     private TabLayout tabs;
     private FloatingActionButton fab;
+    private int index=0;
+    private List<TaskCollector> taskCollectors;
     private List<Task> tasks;
     private StoreRetrieveData storeRetrieveData;
     private AlarmManager alarmManager;
@@ -87,31 +89,66 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (resultCode==RESULT_OK&&data!=null){
             if (requestCode==ADD_TASK_REQUEST_CODE){
                 tasks.add((Task) data.getSerializableExtra("task"));
-                try {
-                    storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
-                } catch (JSONException | IOException e) {
-                    e.printStackTrace();
+            }
+            else if (requestCode==SWITCH_COLLECTION_REQUEST_CODE){
+                int idx = data.getIntExtra("index",-1);
+                if (idx<0){
+                    return;
                 }
+                else {
+                    if (data.getIntegerArrayListExtra("indexs") != null) {
+                        ArrayList<Integer> indexs = data.getIntegerArrayListExtra("indexs");
+                        for (int i = indexs.size()-1;i>=0;i--)
+                        {
+                            taskCollectors.remove(indexs.get(i)+3);
+                        }
+                    }
+                    if (data.getStringArrayListExtra("added")!=null){
+                        ArrayList<String> added = data.getStringArrayListExtra("added");
+                        for (String title:added)
+                        {
+                            taskCollectors.add(new TaskCollector(title,new ArrayList<Task>()));
+                        }
+                    }
+                    if (idx<taskCollectors.size()){
+                        index = idx;
+                    }
+                }
+//                else if (idx<taskCollectors.size()){
+//                    index = idx;
+//                }
+//                else {
+//                    String name = data.getStringExtra("name");
+//                    int previousSize = taskCollectors.size();
+//                    for (int i = previousSize;i<idx;i++)
+//                    {
+//                        taskCollectors.add(new TaskCollector());
+//                    }
+//                    taskCollectors.add(new TaskCollector(name,new ArrayList<Task>()));
+//                }
             }
         }
         //调用子fragment的 onActivityResult
         super.onActivityResult(requestCode,resultCode,data);
         try {
-            storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
+            storeRetrieveData.saveToFile((ArrayList<TaskCollector>) taskCollectors);
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
     }
     @Override
     protected void onStart(){
+        taskCollectors = getLocallyStoredData(storeRetrieveData);
+        if (taskCollectors.size()>0&&index<taskCollectors.size()){
+            tasks = taskCollectors.get(index).getTasks();
+        }
         super.onStart();
-        tasks = getLocallyStoredData(storeRetrieveData);
     }
     @Override
     public void onPause() {
         super.onPause();
         try {
-            storeRetrieveData.saveToFile((ArrayList<Task>) tasks);
+            storeRetrieveData.saveToFile((ArrayList<TaskCollector>) taskCollectors);
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
@@ -123,19 +160,19 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public List<Task> getTasks(){
         return tasks;
     }
-    private static ArrayList<Task> getLocallyStoredData(StoreRetrieveData storeRetrieveData) {
-        ArrayList<Task> items = null;
+    private static ArrayList<TaskCollector> getLocallyStoredData(StoreRetrieveData storeRetrieveData) {
+        ArrayList<TaskCollector> collectors = null;
         try {
-            items = storeRetrieveData.loadFromFile();
+            collectors = storeRetrieveData.loadFromFile();
 
         } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
-        if (items == null) {
-            items = new ArrayList<>();
+        if (collectors == null) {
+            collectors = new ArrayList<>();
         }
-        return items;
+        return collectors;
 
     }
 
@@ -147,8 +184,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         pendingIntent = PendingIntent.getBroadcast(this, 110, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
-        tasks=getLocallyStoredData(storeRetrieveData);
-
+        taskCollectors=getLocallyStoredData(storeRetrieveData);
+        if (taskCollectors.size()>0){
+            tasks = taskCollectors.get(0).getTasks();
+        }
         for(int i=0;i<tasks.size();i++){
             if(tasks.get(i).getExpireTime()!=null)
             {
@@ -198,7 +237,18 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 break;
             case ViewPager.SCROLL_STATE_IDLE:
                 if (mViewPager.getCurrentItem() == 0 && !misScrolled) {
-                    startActivityForResult(new Intent(this, SideMenuActivity.class),2);
+                    Intent intent = new Intent(this,SideMenuActivity.class);
+                    int size = taskCollectors.size();
+                    intent.putExtra("collector size",size);
+                    if (size>3){
+                        ArrayList<String> titles = new ArrayList<>();
+                        for (int i = 3;i<size;i++)
+                        {
+                            titles.add(taskCollectors.get(i).getName());
+                        }
+                        intent.putStringArrayListExtra("titles",titles);
+                    }
+                    startActivityForResult(intent,SWITCH_COLLECTION_REQUEST_CODE);
                 }
                 misScrolled = true;
                 break;
