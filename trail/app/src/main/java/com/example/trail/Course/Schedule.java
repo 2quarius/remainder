@@ -2,6 +2,11 @@ package com.example.trail.Course;
 
 import com.example.trail.NewTask.SimpleTask.Task;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Schedule {
@@ -78,18 +83,81 @@ public class Schedule {
         this.lessons.clear();
 
     }
-    public List<Task> convert(){
-        for (int i=0;i<lessons.size();i++)
-            for (int j=0;j<lessons.get(i).classes.size();j++){
-                Task t=new Task();
-                t.setTitle(lessons.get(i).getName());
-                Time tmp=new Time();
-
-                t.setStartTime(tmp);
-                tmp.setHour();
-                t.setEndTime(tmp);
+    public List<Task> convert(int term){
+        List<Task> tasks=new ArrayList<>();
+        Date before=new Date();
+        if(term==1) {
+            String str="2018-09-10 00:00:00";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                before=sdf.parse(str);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
-        return ;
+        }
+        else {
+            String str="2019-02-25 00:00:00";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                before=sdf.parse(str);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        for (int i=0;i<this.lessons.size();i++) {
+            int size=this.lessons.get(i).getClasses().size();
+            for (int j = 0; j <size; j++) {
+                Task t = new Task();
+                t.setTitle(this.lessons.get(i).getName());
+                int addDay=this.lessons.get(i).getClasses().get(j).getDay()+this.lessons.get(i).getClasses().get(j).getWeek()*7;
+                Date tmp = addDayOfDate(before,addDay);//增加天数
+                tmp=addPeriod(tmp,this.lessons.get(i).getClasses().get(j).getPeriod());
+                t.setStartTime(tmp);
+                //add class length set
+                if (this.lessons.get(i).getClasses().get(j).getPeriod()=="5"&&this.lessons.get(i).getClasses().get(j).getLast()==3){
+                    t.setExpireTime(addMinOfDate(tmp,165));
+                } else if (this.lessons.get(i).getClasses().get(j).getLast() == 2) {
+                    t.setExpireTime(addMinOfDate(tmp,100));
+                }else if (this.lessons.get(i).getClasses().get(j).getLast() == 4){
+                    t.setExpireTime(addMinOfDate(tmp,220));
+                }
+                tasks.add(t);
+            }
+        }
+        return tasks;
     }
 
+    public static Date addDayOfDate(Date date,int i) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, i);
+        Date newDate = c.getTime();
+        return newDate;
+    }
+    public static Date addHourOfDate(Date date,int i) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.HOUR_OF_DAY, i);
+        Date newDate = c.getTime();
+        return newDate;
+    }
+    public static Date addMinOfDate(Date date,int i) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.MINUTE, i);
+        Date newDate = c.getTime();
+        return newDate;
+    }
+    public Date addPeriod(Date date,String p){
+        switch (Integer.parseInt(p)) {
+            case 0:
+            case 2:
+            case 6:
+            case 8:
+            case 10:date = addHourOfDate(date, 8+Integer.parseInt(p));break;
+            case 5:date=addHourOfDate(date,12);date=addMinOfDate(date,55);break;
+            default:
+        }
+        return date;
+    }
 }
