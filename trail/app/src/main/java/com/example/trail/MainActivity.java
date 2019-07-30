@@ -29,6 +29,7 @@ import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.AccountActivity;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Utility.AlarmBroadcast;
+import com.example.trail.Utility.AlarmRemindActivity;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
 import com.example.trail.Utility.EnumPack.TabConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -243,7 +244,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(this, AlarmBroadcast.class);
         intent.setAction("startAlarm");
-        pendingIntent = PendingIntent.getBroadcast(this, 110, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        //intent.putExtra("task",tasks.get(i));
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
         taskCollectors=getLocallyStoredData(storeRetrieveData);
         if (taskCollectors.size()>0){
@@ -258,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     Calendar cal = Calendar.getInstance();
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(tempDate);
-                    long timeDiff = cal.getTimeInMillis()-SystemClock.elapsedRealtime();
+                    //Toast.makeText(MainActivity.this,"success",Toast.LENGTH_SHORT).show();
                     if (cycle==RemindCycle.DAILY) {
                         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),24*60*60*1000, pendingIntent);
                     }
@@ -274,9 +276,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     else {
                         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                     }
-                    String thetext = String.valueOf(calendar.getTimeInMillis());
-                    //-timeDiff+60*1000);
-                    Toast.makeText(MainActivity.this,thetext,Toast.LENGTH_SHORT).show();
                 }
             }
         }

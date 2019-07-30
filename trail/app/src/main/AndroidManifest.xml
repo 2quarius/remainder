@@ -54,7 +54,8 @@
         android:supportsRtl="false"
         android:theme="@style/Light.Theme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Setting.ShowAccountActivity"></activity>
+        <activity android:name=".Utility.AlarmRemindActivity"></activity>
+        <activity android:name=".Setting.ShowAccountActivity" />
         <activity android:name=".Setting.RegistActivity" />
 
         <receiver android:name=".Widget.AppWidget">
@@ -73,9 +74,7 @@
 
         <activity android:name=".Lists.SideMenuActivity" />
         <activity android:name=".NewTask.AddTaskActivity" />
-
         <activity android:name=".Setting.AboutActivity" />
-
         <activity android:name=".Setting.VoiceActivity" />
         <activity android:name=".Setting.ThemeActivity" />
         <activity android:name=".Setting.AccountActivity" />
@@ -105,9 +104,17 @@
             android:enabled="true"
             android:process=":remote" />
 
+
         <receiver
             android:name=".Utility.AlarmBroadcast"
-            android:process=":remote" />
+            android:process=":remote">
+
+            <intent-filter>
+                <action android:name="alarm_remind">
+                </action>
+            </intent-filter>
+
+        </receiver>
     </application>
 
 </manifest>
