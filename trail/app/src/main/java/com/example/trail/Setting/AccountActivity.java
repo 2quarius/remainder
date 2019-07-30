@@ -2,9 +2,11 @@ package com.example.trail.Setting;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -132,30 +134,38 @@ public class AccountActivity extends AppCompatActivity {
         });
         btnJaccount.setOnClickListener(new View.OnClickListener() { //jaccount
             @Override
+
             public void onClick(View view) {
-                OkHttpClient getCode = new OkHttpClient();
-                Request.Builder reqBuild = new Request.Builder();
-                HttpUrl.Builder urlBuilder =HttpUrl.parse(" https://jaccount.sjtu.edu.cn/oauth2/authorize")
-                        .newBuilder();
-                urlBuilder.addQueryParameter("response_type", "code");
-                urlBuilder.addQueryParameter("scope", "openid");
-                urlBuilder.addQueryParameter("client_id", "3q6TNuBfQXWJ8XypOTNx");
-                urlBuilder.addQueryParameter("redirect_uri", "https://www.baidu.com");
-                reqBuild.url(urlBuilder.build());
-                Request request = reqBuild.build();
-                Response response = null;
-                try {
-                    response = getCode.newCall(request).execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                new Thread(){
+                    @Override
+                    public void run()
+                    {
+                        OkHttpClient getCode = new OkHttpClient();
+                        Request.Builder reqBuild = new Request.Builder();
+                        HttpUrl.Builder urlBuilder =HttpUrl.parse(" https://jaccount.sjtu.edu.cn/oauth2/authorize")
+                                .newBuilder();
+                        urlBuilder.addQueryParameter("response_type", "code");
+                        urlBuilder.addQueryParameter("scope", "openid");
+                        urlBuilder.addQueryParameter("client_id", "3q6TNuBfQXWJ8XypOTNx");
+                        urlBuilder.addQueryParameter("redirect_uri", "https://www.baidu.com");//baidu网址改成后端url
+                        reqBuild.url(urlBuilder.build());
+                        Request request = reqBuild.build();
+                        Response response = null;
+                        try {
+                            response = getCode.newCall(request).execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 //                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
-                Headers responseHeaders = response.headers();
-                for (int i = 0; i < responseHeaders.size(); i++) {
-                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-                }
-                System.out.println(response.body());
+                        Headers responseHeaders = response.headers();
+                        for (int i = 0; i < responseHeaders.size(); i++) {
+                            System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                        }
+                        System.out.println(response.body());
+                        System.out.println("getCode");
+                    }
+                }.start();
 
                 Toast.makeText(AccountActivity.this,"jaccount登录功能未实现",Toast.LENGTH_SHORT).show();
             }
