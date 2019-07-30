@@ -42,9 +42,6 @@ import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
@@ -63,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
     public String account;
-//    private String USERNAME;
     Fragment settingfragment;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 
@@ -95,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         super.onCreate(savedInstanceState);
         //初始化百度地图，必须在 setContentView(...) 前调用！
         SDKInitializer.initialize(getApplicationContext());
+        Bmob.initialize(this, "b096ac50b630d5a7db1c69abb7a34caa");
         try {
             FileInputStream ios = openFileInput(FILE_NAME2);
             byte[] temp = new byte[1024];
@@ -110,10 +107,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             account = "failed";
         }
         setTheTheme();
-        //初始化Bmob 存储信息
-        Bmob.initialize(this, "b096ac50b630d5a7db1c69abb7a34caa");
-        //从云端读取tasks
-//        initTasks();
         setContentView(R.layout.activity_main);
         // Setting ViewPager for each Tabs
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -355,40 +348,4 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             return mFragmentTitleList.get(position);
         }
     }
-
-//    private String readUsername(){
-//        String textContent = "";
-//        try {
-//            FileInputStream ios = openFileInput("information.txt");
-//            byte[] temp = new byte[1024];
-//            StringBuilder sb = new StringBuilder("");
-//            int len = 0;
-//            while ((len = ios.read(temp)) > 0){
-//                sb.append(new String(temp, 0, len));
-//            }
-//            ios.close();
-//            textContent = sb.toString();
-//        }catch (Exception e) {
-//            //Log.d("errMsg", e.toString());
-//        }
-//        return textContent;
-//    }
-//
-//    private void initTasks(){
-//        USERNAME=readUsername();
-//        if(USERNAME.length()<=0) return;
-//        else {
-//            BmobQuery<Task> lists=new BmobQuery<>();
-//            lists.findObjects(new FindListener<Task>() {
-//                @Override
-//                public void done(List<Task> list, BmobException e) {
-//                    for(int i=0;i<list.size();i++){
-//                        if(list.get(i).getUsername().equals(USERNAME)){
-//                            tasks.add(list.get(i));
-//                        }
-//                    }
-//                }
-//            });
-//        }
-//    }
 }
