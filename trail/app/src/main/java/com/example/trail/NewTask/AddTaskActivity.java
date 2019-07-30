@@ -62,6 +62,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -69,6 +70,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 public class AddTaskActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -113,6 +118,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         position = intent.getIntExtra("position",-1);
         task = intent.getSerializableExtra("task")!=null? (Task) intent.getSerializableExtra("task") :new Task();
         miniTasks = task.getMiniTasks();
+        task.setUsername(readUsername());
         initLayoutElement();
         setTextByTask();
         installListener();
@@ -247,12 +253,29 @@ public class AddTaskActivity extends AppCompatActivity implements
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("task",task);
                     setResult(RESULT_OK,intent);
+                    task.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                            task.setTaskId(s);
+                        }
+                    });
                     AddTaskActivity.this.finish();
                 }
                 else if (position!=-1){
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("position",position);
                     intent.putExtra("task",task);
+                    task.update(task.getTaskId(),new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+
+                        }
+                    });
+                    task.save(new SaveListener<String>() {
+                        @Override
+                        public void done(String s, BmobException e) {
+                        }
+                    });
                     setResult(RESULT_OK,intent);
                     AddTaskActivity.this.finish();
                 }
@@ -718,11 +741,11 @@ public class AddTaskActivity extends AppCompatActivity implements
             public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
                 if (poiDetailResult.error != SearchResult.ERRORNO.NO_ERROR) {
                     Toast.makeText(getApplication(), "抱歉，未找到结果",
-                                   Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT).show();
                 } else {// 正常返回结果的时候，此处可以获得很多相关信息
                     Toast.makeText(getApplication(), poiDetailResult.getName() + ": "
-                                           + poiDetailResult.getAddress(),
-                                   Toast.LENGTH_LONG).show();
+                                    + poiDetailResult.getAddress(),
+                            Toast.LENGTH_LONG).show();
                 }
             }
             @Override
@@ -922,5 +945,21 @@ public class AddTaskActivity extends AppCompatActivity implements
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatString);
         return simpleDateFormat.format(dateToFormat);
     }
-
+    private String readUsername(){
+        String textContent = "";
+        try {
+            FileInputStream ios = openFileInput("information.txt");
+            byte[] temp = new byte[1024];
+            StringBuilder sb = new StringBuilder("");
+            int len = 0;
+            while ((len = ios.read(temp)) > 0){
+                sb.append(new String(temp, 0, len));
+            }
+            ios.close();
+            textContent = sb.toString();
+        }catch (Exception e) {
+            //Log.d("errMsg", e.toString());
+        }
+        return textContent;
+    }
 }

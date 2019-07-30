@@ -53,7 +53,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Light.Theme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup,android:supportsRtl">
         <activity android:name=".Setting.ShowAccountActivity"></activity>
         <activity android:name=".Setting.RegistActivity" />
 

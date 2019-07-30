@@ -2,6 +2,7 @@ package com.example.trail.Setting;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.accounts.Account;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,11 @@ import com.example.trail.R;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 public class AccountActivity extends AppCompatActivity {
     private Button btnLogin;
@@ -30,6 +36,8 @@ public class AccountActivity extends AppCompatActivity {
     final  private String FILE_NAME = "account.txt";
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
+    private boolean flag1=true;
+    private boolean flag2=true;
 
     private void setTheTheme() {
         String theme = "";
@@ -77,10 +85,10 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 username = findViewById(R.id.et_username);
-                String un = username.getText().toString();
+                final String un = username.getText().toString();
 
                 password = findViewById(R.id.et_password);
-                String pw = password.getText().toString();
+                final String pw = password.getText().toString();
 
                 if(un.length()<=0){ //是否输入用户名
                     Toast.makeText(AccountActivity.this,"请输入用户名",Toast.LENGTH_SHORT).show();
@@ -89,18 +97,26 @@ public class AccountActivity extends AppCompatActivity {
                     Toast.makeText(AccountActivity.this,"请输入密码",Toast.LENGTH_SHORT).show();
                 }
                 else {//判断是否符合条件
-                    if(!searchAccount(un)){
-                        Toast.makeText(AccountActivity.this,"不存在此用户，请注册",Toast.LENGTH_SHORT).show();
-                    }
-                    else if(!searchPassword(un,pw)){
-                        Toast.makeText(AccountActivity.this,"密码错误，请重新输入",Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        Toast.makeText(AccountActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
-                        save(un);
-                        Intent intent = new Intent(AccountActivity.this, MainActivity.class);
-                        startActivity(intent);
-                    }
+                    BmobQuery<User> users=new BmobQuery<>();
+                    users.findObjects(new FindListener<User>() {
+                        @Override
+                        public void done(List<User> list, BmobException e) {
+                            for(int i=0;i<list.size();i++){
+                                if(list.get(i).getUsername().equals(un)){
+                                    if(list.get(i).getPassword().equals(pw)){
+                                        Toast.makeText(AccountActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+                                        save(un);
+                                        Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    flag1=false;
+                                }
+                            }
+                            flag2=false;
+                        }
+                    });
+                    if(!flag1) Toast.makeText(AccountActivity.this,"密码错误，请重新输入",Toast.LENGTH_SHORT).show();
+                    if(!flag2) Toast.makeText(AccountActivity.this,"不存在此用户，请注册",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -165,6 +181,7 @@ public class AccountActivity extends AppCompatActivity {
         }
         return textContent;
     }
+
     //查询text
     private boolean searchFile(String text){
         String textContent=readFile();

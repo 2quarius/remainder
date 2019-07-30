@@ -17,6 +17,13 @@ import com.example.trail.R;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 
 public class RegistActivity extends AppCompatActivity {
     private Button btnRegist;
@@ -27,6 +34,7 @@ public class RegistActivity extends AppCompatActivity {
     final  private String FILE_NAME = "account.txt";
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
+    private boolean flag=true;//判断username是否重复
 
     private void setTheTheme() {
         String theme = "";
@@ -71,15 +79,29 @@ public class RegistActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 username = findViewById(R.id.et_username);
-                String un = username.getText().toString();
+                final String un = username.getText().toString();
 
                 password = findViewById(R.id.et_password);
-                String pw = password.getText().toString();
+                final String pw = password.getText().toString();
 
                 passwordagain = findViewById(R.id.et_passwordAgain);
                 String pwa = passwordagain.getText().toString();
 
-                if(!searchAccount(un)){
+
+                BmobQuery<User> tempList=new BmobQuery<>();
+                tempList.findObjects(new FindListener<User>() {
+                    @Override
+                    public void done(List<User> list, BmobException e) {
+                        for(int i=0;i<list.size();i++){
+                            if(list.get(i).getUsername().equals(un)){
+                                flag=false;
+                            }
+                        }
+                    }
+                });
+
+
+                if(flag){
                     if(un.length()<=0){
                         Toast.makeText(RegistActivity.this,"请输入用户名",Toast.LENGTH_SHORT).show();
                     }
@@ -95,6 +117,7 @@ public class RegistActivity extends AppCompatActivity {
                     else{
                         Toast.makeText(RegistActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                         save(un,pw);
+                        saveToBack(un,pw);
                         Intent intent = new Intent(RegistActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
@@ -111,7 +134,16 @@ public class RegistActivity extends AppCompatActivity {
         super.onStart();
         setTheTheme();
     }
-
+    private void saveToBack(String un,String pw){
+        User user=new User();
+        user.setUsername(un);
+        user.setPassword(pw);
+        user.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+            }
+        });
+    }
     public void save(String un, String pw) {
         String text = "Account: " + un + "\n" + "Password: " + pw + "\n";
         try {
