@@ -7,11 +7,9 @@
     tools:context=".Setting.AboutActivity">
     <RelativeLayout
         android:id="@+id/about_head"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp">
         <ImageButton
-            android:id="@+id/btn_aboutBack"
             android:src="@drawable/back"
             android:scaleType="centerInside"
             android:background="@drawable/button_back_bg"
@@ -19,17 +17,19 @@
             android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp" />
-        <TextView
-            android:id="@+id/tx_aboutTitle"
+        <Button
+            android:id="@+id/btn_aboutBack"
             android:textColor="@color/mdtp_white"
             android:text="关于我们"
             android:textSize="24sp"
             android:gravity="center"
+            android:layout_marginTop="-10dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="match_parent" />
     </RelativeLayout>
    <LinearLayout
-       android:layout_below="@+id/rl_head"
+       android:id="@+id/rl_head"
+       android:layout_below="@+id/about_head"
        android:layout_margin="20dp"
        android:orientation="vertical"
        android:layout_width="match_parent"

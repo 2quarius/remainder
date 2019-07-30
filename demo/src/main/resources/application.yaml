@@ -1,0 +1,15 @@
+jaccount:
+  client:
+    clientId: 3q6TNuBfQXWJ8XypOTNx
+    clientSecret: 3708E0E6D34C0BE0ECFB547C2C89CB1926EA1AE937BA204F
+    accessTokenUri: https://jaccount.sjtu.edu.cn/oauth2/token
+    userAuthorizationUri: https://jaccount.sjtu.edu.cn/oauth2/authorize
+    tokenName: oauth_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://api.sjtu.edu.cn/v1/me/profile
+github:
+  client:
+    clientId: f9a0f0d7aacae09ee5ec
+    clientSecret: 42895259afe8edd5ae8b375a8efafad152d19112

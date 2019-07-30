@@ -21,7 +21,7 @@ public class ShowAccountActivity extends AppCompatActivity {
     final  private String FILE_NAME3 = "theme.txt";
     private TextView showaccount;
     private Button logout;
-    private ImageButton back;
+    private Button back;
 
     private void setTheTheme() {
         String theme = "";
@@ -73,7 +73,8 @@ public class ShowAccountActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        back=findViewById(R.id.btn_showAccountBack);
+        back = findViewById(R.id.btn_showAccountBack);
+        back.bringToFront();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
