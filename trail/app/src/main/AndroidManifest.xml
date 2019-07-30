@@ -54,9 +54,9 @@
         android:supportsRtl="false"
         android:theme="@style/Light.Theme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Utility.AlarmRemindActivity"></activity>
         <activity android:name=".Setting.ShowAccountActivity" />
         <activity android:name=".Setting.RegistActivity" />
+        <activity android:name=".Utility.AlarmRemindActivity" />
 
         <receiver android:name=".Widget.AppWidget">
             <intent-filter>
@@ -107,14 +107,8 @@
 
         <receiver
             android:name=".Utility.AlarmBroadcast"
-            android:process=":remote">
+            android:process=":remote"/>
 
-            <intent-filter>
-                <action android:name="alarm_remind">
-                </action>
-            </intent-filter>
-
-        </receiver>
     </application>
 
 </manifest>

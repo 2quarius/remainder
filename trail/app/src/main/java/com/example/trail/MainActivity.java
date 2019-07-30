@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,7 +25,6 @@ import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.RemindCycle;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
-import com.example.trail.Setting.AccountActivity;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.AlarmRemindActivity;
@@ -242,10 +240,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     //设置闹钟
     private void setAlarm(){
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmBroadcast.class);
-        intent.setAction("startAlarm");
-        //intent.putExtra("task",tasks.get(i));
-        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
         taskCollectors=getLocallyStoredData(storeRetrieveData);
         if (taskCollectors.size()>0){
@@ -261,6 +255,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(tempDate);
                     //Toast.makeText(MainActivity.this,"success",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(this, AlarmBroadcast.class);
+                    intent.setAction("startAlarm");
+                    //intent.putExtra("task",tasks.get(i));
+                    pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
                     if (cycle==RemindCycle.DAILY) {
                         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),24*60*60*1000, pendingIntent);
                     }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,23 +25,22 @@ public class AlarmRemindActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm_remind);
 
-        /*title = findViewById(R.id.show_title);
+        title = findViewById(R.id.show_title);
         description = findViewById(R.id.show_description);
         endRemind = findViewById(R.id.btn_end_remind);
 
         Intent intent = getIntent();
         task = (Task) intent.getSerializableExtra("task");
-        title.setText(task.title);
-        description.setText(task.description);
-        Intent newintent = new Intent();
-        intent.setAction("alarm_remind");
-        sendBroadcast(newintent);
+        title.setText("aaaa");
+        description.setText("aaaa");
+        //title.setText(task.title);
+        //description.setText(task.description);
 
         endRemind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
-        });*/
+        });
     }
 }
