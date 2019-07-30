@@ -262,20 +262,16 @@ public class AddTaskActivity extends AppCompatActivity implements
                     AddTaskActivity.this.finish();
                 }
                 else if (position!=-1){
-                    Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
-                    intent.putExtra("position",position);
-                    intent.putExtra("task",task);
                     task.update(task.getTaskId(),new UpdateListener() {
                         @Override
                         public void done(BmobException e) {
-
+                            Toast.makeText(AddTaskActivity.this,task.getUsername(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddTaskActivity.this,task.getTaskId(),Toast.LENGTH_SHORT).show();
                         }
                     });
-                    task.save(new SaveListener<String>() {
-                        @Override
-                        public void done(String s, BmobException e) {
-                        }
-                    });
+                    Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
+                    intent.putExtra("position",position);
+                    intent.putExtra("task",task);
                     setResult(RESULT_OK,intent);
                     AddTaskActivity.this.finish();
                 }
