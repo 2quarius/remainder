@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import com.example.trail.Lists.SideMenuActivity;
 import com.example.trail.Map.BaiduMapFragment;
 import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.Collection.TaskCollector;
+import com.example.trail.NewTask.SimpleTask.RemindCycle;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.AccountActivity;
@@ -248,16 +250,34 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             tasks = taskCollectors.get(0).getTasks();
         }
         for(int i=0;i<tasks.size();i++){
-            if(tasks.get(i).getExpireTime()!=null)
-            {
-                Date tempDate=tasks.get(i).getExpireTime();
-                Calendar cal=Calendar.getInstance();
-                Calendar calendar=Calendar.getInstance();
-                calendar.setTime(tempDate);
-                long timeDiff=cal.getTimeInMillis()-SystemClock.elapsedRealtime();
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-timeDiff+60*1000, pendingIntent);
-                String toast = String.valueOf(calendar.getTimeInMillis()-timeDiff+60*1000);
-                Toast.makeText(MainActivity.this,toast,Toast.LENGTH_SHORT).show();
+            boolean done = tasks.get(i).getDone();
+            if (done==false) {
+                Date tempDate = tasks.get(i).getRemindTime();
+                if (tempDate!=null) {
+                    RemindCycle cycle = tasks.get(i).getRemindCycle();
+                    Calendar cal = Calendar.getInstance();
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(tempDate);
+                    long timeDiff = cal.getTimeInMillis()-SystemClock.elapsedRealtime();
+                    if (cycle==RemindCycle.DAILY) {
+                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),24*60*60*1000, pendingIntent);
+                    }
+                    else if (cycle==RemindCycle.WEEKLY) {
+                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),7*24*60*60*1000, pendingIntent);
+                    }
+                    else if (cycle==RemindCycle.MONTHLY) {
+                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),30*24*60*60*1000, pendingIntent);
+                    }
+                    else if (cycle==RemindCycle.YEARLY) {
+                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),365*24*60*60*1000, pendingIntent);
+                    }
+                    else {
+                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    }
+                    String thetext = String.valueOf(calendar.getTimeInMillis());
+                    //-timeDiff+60*1000);
+                    Toast.makeText(MainActivity.this,thetext,Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

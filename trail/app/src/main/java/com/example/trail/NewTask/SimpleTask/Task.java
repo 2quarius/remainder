@@ -28,7 +28,7 @@ public class Task implements Serializable {
     private Date expireTime = null;
 
     private Date remindTime = null;
-    private RemindCycle remindCycle = RemindCycle.DAILY;
+    private RemindCycle remindCycle = RemindCycle.SINGLE;
 
     private Priority priority = Priority.NONE;
 
