@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -184,6 +182,19 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     protected void onStart(){
         taskCollectors = getLocallyStoredData(storeRetrieveData);
+        int size = taskCollectors.size();
+        if (size<3){
+            switch (size){
+                case 0:
+                    taskCollectors.add(new TaskCollector("today",new ArrayList<Task>()));
+                case 1:
+                    taskCollectors.add(new TaskCollector("collection",new ArrayList<Task>()));
+                case 2:
+                    taskCollectors.add(new TaskCollector("courses",new ArrayList<Task>()));
+                default:
+                    break;
+            }
+        }
         if (taskCollectors.size()>0&&index<taskCollectors.size()){
             tasks = taskCollectors.get(index).getTasks();
         }
