@@ -189,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (taskCollectors.size()>0&&index<taskCollectors.size()){
             tasks = taskCollectors.get(index).getTasks();
         }
+        setAlarm();
         super.onStart();
         setTheTheme();
     }
@@ -243,7 +244,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 Calendar calendar=Calendar.getInstance();
                 calendar.setTime(tempDate);
                 long timeDiff=cal.getTimeInMillis()-SystemClock.elapsedRealtime();
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-timeDiff+60*1000, pendingIntent);
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-timeDiff+60*1000, pendingIntent);
+                String toast = String.valueOf(calendar.getTimeInMillis()-timeDiff+60*1000);
+                Toast.makeText(MainActivity.this,toast,Toast.LENGTH_SHORT).show();
             }
         }
     }
