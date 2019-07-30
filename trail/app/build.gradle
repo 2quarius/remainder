@@ -80,4 +80,6 @@ dependencies {
     implementation 'com.squareup.okio:okio:1.5.0'
     implementation files('libs/sjtu-api-1.0-20190704.050051-61.jar')
     implementation 'com.zhuangfei:TimetableView:2.0.2'
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.4'
 }
