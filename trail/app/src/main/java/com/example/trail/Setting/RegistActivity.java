@@ -23,7 +23,7 @@ public class RegistActivity extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private EditText passwordagain;
-    private ImageButton back;
+    private Button back;
     final  private String FILE_NAME = "account.txt";
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
@@ -58,13 +58,15 @@ public class RegistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_regist);
         btnRegist=findViewById(R.id.btn_regist);
 
-        back=findViewById(R.id.btn_registBack);
+        back = findViewById(R.id.btn_registBack);
+        back.bringToFront();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
+
         btnRegist.setOnClickListener(new View.OnClickListener() {//登录
             @Override
             public void onClick(View view) {

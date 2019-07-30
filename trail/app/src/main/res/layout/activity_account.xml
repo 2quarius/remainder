@@ -7,11 +7,9 @@
     tools:context=".Setting.AccountActivity">
     <RelativeLayout
         android:id="@+id/account_head"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp">
         <ImageButton
-            android:id="@+id/btn_accountBack"
             android:src="@drawable/back"
             android:scaleType="centerInside"
             android:background="@drawable/button_back_bg"
@@ -19,13 +17,15 @@
             android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp" />
-        <TextView
+        <Button
+            android:id="@+id/btn_accountBack"
             android:textColor="@color/mdtp_white"
             android:text="登录"
             android:textSize="24sp"
             android:gravity="center"
+            android:layout_marginTop="-10dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="match_parent" />
     </RelativeLayout>
     <EditText
         android:id="@+id/et_username"
@@ -33,7 +33,7 @@
         android:hint="用户名"
         android:layout_below="@+id/rl_accountTitle"
         android:layout_width="match_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:layout_height="50dp" />

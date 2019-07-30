@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.trail.MainActivity;
@@ -15,7 +16,7 @@ import com.example.trail.R;
 import java.io.FileInputStream;
 
 public class AboutActivity extends AppCompatActivity {
-    private ImageButton back;
+    private Button back;
     final  private String FILE_NAME3 = "theme.txt";
 
     private void setTheTheme() {
@@ -46,7 +47,8 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheTheme();
         setContentView(R.layout.activity_about);
-        back=findViewById(R.id.btn_aboutBack);
+        back = findViewById(R.id.btn_aboutBack);
+        back.bringToFront();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

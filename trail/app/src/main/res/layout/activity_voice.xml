@@ -8,11 +8,9 @@
     tools:context=".Setting.VoiceActivity">
     <RelativeLayout
         android:id="@+id/voice_head"
-        android:background="@color/colorPrimary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp">
         <ImageButton
-            android:id="@+id/btn_voiceBack"
             android:src="@drawable/back"
             android:scaleType="centerInside"
             android:background="@drawable/button_back_bg"
@@ -20,18 +18,20 @@
             android:layout_marginTop="5dp"
             android:layout_width="40dp"
             android:layout_height="40dp" />
-        <TextView
+        <Button
+            android:id="@+id/btn_voiceBack"
             android:textColor="@color/mdtp_white"
             android:text="声音与提醒"
             android:textSize="24sp"
             android:gravity="center"
+            android:layout_marginTop="-10dp"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="match_parent" />
     </RelativeLayout>
     <TextView
         android:id="@+id/tv_voiceSetting1"
         android:text="系统声音"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="100dp"
         android:textSize="24sp"
         android:gravity="center"
         android:textColor="@color/text"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content" />
     <LinearLayout
         android:gravity="center"
-        android:layout_marginTop="110dp"
+        android:layout_marginTop="140dp"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -50,14 +50,14 @@
             android:layout_height="40dp" />
     </LinearLayout>
     <View
-        android:layout_marginTop="155dp"
+        android:layout_marginTop="185dp"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#ffffff"/>
     <TextView
         android:id="@+id/tv_voiceSetting"
         android:text="媒体声音"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="210dp"
         android:textSize="24sp"
         android:gravity="center"
         android:textColor="@color/text"
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content" />
     <LinearLayout
         android:gravity="center"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="250dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <SeekBar
@@ -75,7 +75,7 @@
             android:layout_height="40dp" />
     </LinearLayout>
     <View
-        android:layout_marginTop="265dp"
+        android:layout_marginTop="295dp"
         android:layout_width="match_parent"
         android:layout_height="5dp"
         android:background="#ffffff"/>
@@ -83,7 +83,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:gravity="center"
-        android:layout_marginTop="290dp"
+        android:layout_marginTop="320dp"
         android:layout_height="wrap_content">
         <TextView
             android:text="振动"

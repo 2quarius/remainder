@@ -26,7 +26,7 @@ public class AccountActivity extends AppCompatActivity {
     private ImageButton btnJaccount;
     private EditText username;
     private EditText password;
-    private ImageButton back;
+    private Button back;
     final  private String FILE_NAME = "account.txt";
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
@@ -65,7 +65,8 @@ public class AccountActivity extends AppCompatActivity {
         btnWechat = findViewById(R.id.btn_wechat);
         btnJaccount=findViewById(R.id.btn_jaccount);
 
-        back=findViewById(R.id.btn_accountBack);
+        back = findViewById(R.id.btn_accountBack);
+        back.bringToFront();
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
