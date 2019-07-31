@@ -1,3 +1,4 @@
+
 jaccount:
   client:
     clientId: 3q6TNuBfQXWJ8XypOTNx
@@ -7,9 +8,18 @@ jaccount:
     tokenName: oauth_token
     authenticationScheme: query
     clientAuthenticationScheme: form
+    grantType: authorization_code
   resource:
     userInfoUri: https://api.sjtu.edu.cn/v1/me/profile
 github:
   client:
     clientId: f9a0f0d7aacae09ee5ec
     clientSecret: 42895259afe8edd5ae8b375a8efafad152d19112
+    accessTokenUri: https://github.com/login/oauth/access_token
+    userAuthorizationUri: https://github.com/login/oauth/authorize
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://api.github.com/user
+server:
+  port: 8080

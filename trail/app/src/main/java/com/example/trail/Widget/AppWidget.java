@@ -95,6 +95,25 @@ public class AppWidget extends AppWidgetProvider {
     private void displayLists(Context context,List<String> tasks,List<String> times,RemoteViews views){
         int size=tasks.size();
         if(size==0) return;
+//        switch (size){
+//            case 5:
+//                views.setTextViewText(R.id.card_title4, tasks.get(4));
+//                views.setTextViewText(R.id.card_time4,times.get(4));
+//            case 4:
+//                views.setTextViewText(R.id.card_title3, tasks.get(3));
+//                views.setTextViewText(R.id.card_time3,times.get(3));
+//            case 3:
+//                views.setTextViewText(R.id.card_title2, tasks.get(2));
+//                views.setTextViewText(R.id.card_time2,times.get(2));
+//            case 2:
+//                views.setTextViewText(R.id.card_title1, tasks.get(1));
+//                views.setTextViewText(R.id.card_time1,times.get(1));
+//            case 1:
+//                views.setTextViewText(R.id.card_title0, tasks.get(0));
+//                views.setTextViewText(R.id.card_time0,times.get(0));
+//            case 0:
+//                break;
+//        }
         else if(size==1){
             views.setTextViewText(R.id.card_title0, tasks.get(0));
             views.setTextViewText(R.id.card_time0,times.get(0));
