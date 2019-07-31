@@ -24,11 +24,12 @@ public class JaccountController {
     RestTemplate restTemplate;
 
     private String tokenUrl = "https://jaccount.sjtu.edu.cn/oauth2/token";
+    private String profileApi = "https://api.sjtu.edu.cn/v1/me/profile";
     private String lessonsApi = "https://api.sjtu.edu.cn/v1/me/lessons";
     private String client_id = "3q6TNuBfQXWJ8XypOTNx";
     private String client_secret = "3708E0E6D34C0BE0ECFB547C2C89CB1926EA1AE937BA204F";
     private String grant_type = "authorization_code";
-    private String base_url = "http://localhost:8080";
+    private String base_url = "http://202.120.40.8:30335";
 
     /**
      * @api {get} /login
@@ -40,7 +41,7 @@ public class JaccountController {
      */
     @ResponseBody
     @RequestMapping(value = "/login/jaccount", method = RequestMethod.GET)
-    public Response login(@RequestParam("code")String code) {
+    public Response login(@RequestParam("code")String code,HttpServletResponse response) {
         ResponseEntity<String> responseEntity;
 
         // post header
@@ -62,12 +63,42 @@ public class JaccountController {
         // use access token to get user profile with http request
         JSONObject responseJson = JSONObject.parseObject(responseEntity.getBody());
         String token = responseJson.getString("access_token");
+        try{
+            String url = base_url+"/jaccount/profile?access_token="+token;
+            response.sendRedirect(url);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         Response res = new Response();
         res.setCode("200");
         JSONObject object = new JSONObject();
         object.put("access_token",token);
         res.setData(object);
         return res;
+    }
+    @ResponseBody
+    @GetMapping(value = "/jaccount/profile")
+    public String getProfile(@RequestParam(value = "access_token")String token){
+        String url = profileApi
+                +"?access_token="+token;
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        JSONObject responseJson = JSONObject.parseObject(responseEntity.getBody());
+        String name = responseJson.getJSONArray("entities").getJSONObject(0).getString("name");
+        StringBuilder result = new StringBuilder();
+        result.append("<!DOCTYPE html>\n" +
+                "<html lang=\"en\">\n" +
+                "<head>\n" +
+                "    <meta charset=\"UTF-8\">\n" +
+                "    <title>login</title>\n" +
+                "</head>\n" +
+                "<body>\n" +
+                "<h1>"+name+"</h1>"+
+                "<h2>欢迎登录👏</h2>"+
+                "\n" +
+                "</body>\n" +
+                "</html>");
+        return result.toString();
     }
     @ResponseBody
     @RequestMapping(value = "/jaccount/lessons", method = RequestMethod.GET)

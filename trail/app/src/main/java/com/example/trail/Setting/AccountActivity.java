@@ -2,10 +2,12 @@ package com.example.trail.Setting;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -19,15 +21,19 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.trail.Http.HttpUtil;
 import com.example.trail.MainActivity;
 import com.example.trail.R;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.Map;
+import java.io.IOException;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
+import okhttp3.Response;
 
 public class AccountActivity extends AppCompatActivity {
     private Button btnLogin;
@@ -41,12 +47,8 @@ public class AccountActivity extends AppCompatActivity {
     final  private String FILE_NAME = "account.txt";
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
-    static class Gist {
-        Map<String, GistFile> files;
-    }
-    static class GistFile {
-        String content;
-    }
+    private String accessToken = null;
+    private String name = null;
 
     private void setTheTheme() {
         String theme = "";
@@ -152,22 +154,25 @@ public class AccountActivity extends AppCompatActivity {
                 urlBuilder.addQueryParameter("client_id", "3q6TNuBfQXWJ8XypOTNx");
                 urlBuilder.addQueryParameter("redirect_uri", "http://202.120.40.8:30335/login/jaccount");//baidu网址改成后端url
                 reqBuild.url(urlBuilder.build());
-                popDialog(reqBuild.build().url().toString());
-                Toast.makeText(AccountActivity.this,"jaccount登录功能未实现",Toast.LENGTH_SHORT).show();
+
+                popDialog(reqBuild.build());
             }
         });
     }
-
-    private void popDialog(String url) {
+    private void popDialog(Request url) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(AccountActivity.this);
         final AlertDialog customDialog;
-
         LayoutInflater inflater = getLayoutInflater();
         View layout = inflater.inflate(R.layout.activity_login_jaccount,null);
-        WebView webView = layout.findViewById(R.id.jaccount);
-        webView.loadUrl(url);
+        builder.setView(layout);
+        customDialog = builder.create();
+        final WebView webView = layout.findViewById(R.id.jaccount);
+        webView.loadUrl(url.url().toString());
         //设置不用系统浏览器打开,直接显示在当前Webview
         webView.setWebViewClient(new WebViewClient() {
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                System.out.println("something error");
+            }
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url == null) return false;
@@ -212,21 +217,70 @@ public class AccountActivity extends AppCompatActivity {
             //设置加载前的函数
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                System.out.println("开始加载了");
             }
             //设置结束加载函数
             @Override
             public void onPageFinished(WebView view, String url) {
-
+                if (url.startsWith("http://202.120.40.8")){
+                    accessToken = getToken(url);
+                    HttpUtil.sendRequestWithOkHttp(url, new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                        }
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            if (response.isSuccessful()){
+                                String body = response.body().string();
+                                int index = body.indexOf("<h1>");
+                                int end = body.indexOf("</h1>");
+                                name = body.substring(index+4,end);
+                            }
+                        }
+                    });
+                }
             }
+            @Override
+            public void onReceivedError(WebView view, int errorCode,
+                                        String description, String failingUrl) {
+                Toast.makeText(AccountActivity.this, "网页加载出错！", Toast.LENGTH_LONG);
+
+                customDialog.setTitle("ERROR");
+                customDialog.setMessage(description);
+                customDialog.setButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO Auto-generated method stub
+                    }
+                });
+                customDialog.show();
+            }
+            @Override
+            public void onLoadResource(WebView view, String url) {
+                Log.e("hao", "WebView3:"+view.getUrl()+"\\n"+"   URL3:"+url);
+                super.onLoadResource(view, url);
+            }
+
         });
         WebSettings webSettings = webView.getSettings();
-        webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         webSettings.setJavaScriptEnabled(true);
         webSettings.setDomStorageEnabled(true);
-        builder.setView(layout);
-        customDialog = builder.create();
+        customDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialogInterface) {
+                if (name!=null){
+                    save(name);
+                    Intent intent = new Intent(AccountActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
         customDialog.show();
+    }
+    private String getToken(String url)
+    {
+        int index = url.indexOf("=");
+        return url.substring(index+1);
     }
 
     @Override

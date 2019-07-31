@@ -22,4 +22,9 @@ github:
   resource:
     userInfoUri: https://api.github.com/user
 server:
-  port: 8080
+  port: 30335
+spring:
+  mvc:
+    view:
+      suffix: .html
+      prefix: /
