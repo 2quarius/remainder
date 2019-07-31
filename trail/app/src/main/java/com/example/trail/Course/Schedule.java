@@ -1,5 +1,6 @@
 package com.example.trail.Course;
 
+import com.example.trail.Http.HttpCourse;
 import com.example.trail.NewTask.SimpleTask.Task;
 
 import java.text.ParseException;
@@ -10,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Schedule {
+    private String code;
     public class classes{
         private int week;// 周次（0-17），如5表示第六周
         private  int day;// 星期（0-6），如0表示星期一
@@ -77,13 +79,27 @@ public class Schedule {
             this.code = code;
         }
     }
-    List<lesson> lessons;
+    public List<lesson> lessons;
 
     public Schedule(){
         this.lessons.clear();
-
     }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+    public String getCode(){
+        return this.code;
+    }
+
     public List<Task> convert(int term){
+        HttpCourse httpcourse=new HttpCourse();
+        try {
+            httpcourse.run_get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.lessons=httpcourse.getGetSchedule().lessons;
         List<Task> tasks=new ArrayList<>();
         Date before=new Date();
         if(term==1) {
