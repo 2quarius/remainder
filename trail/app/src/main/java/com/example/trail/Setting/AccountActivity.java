@@ -147,7 +147,7 @@ public class AccountActivity extends AppCompatActivity {
                         urlBuilder.addQueryParameter("response_type", "code");
                         urlBuilder.addQueryParameter("scope", "openid");
                         urlBuilder.addQueryParameter("client_id", "3q6TNuBfQXWJ8XypOTNx");
-                        urlBuilder.addQueryParameter("redirect_uri", "https://www.baidu.com");//baidu网址改成后端url
+                        urlBuilder.addQueryParameter("redirect_uri", "http://202.120.40.8:30335/login/jaccount");//baidu网址改成后端url
                         reqBuild.url(urlBuilder.build());
                         Request request = reqBuild.build();
                         Response response = null;
@@ -162,7 +162,11 @@ public class AccountActivity extends AppCompatActivity {
                         for (int i = 0; i < responseHeaders.size(); i++) {
                             System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
                         }
-                        System.out.println(response.body());
+                        try {
+                            System.out.println(response.body().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         System.out.println("getCode");
                     }
                 }.start();

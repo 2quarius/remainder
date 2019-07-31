@@ -27,7 +27,6 @@ public class HttpCourse {
         //写入course
         Gson gson=new Gson();
         getSchedule=gson.fromJson(response.body().string(),Schedule.class);
-
     }
     public Schedule getGetSchedule() {
         return getSchedule;
