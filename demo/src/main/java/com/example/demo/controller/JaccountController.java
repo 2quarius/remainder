@@ -77,13 +77,17 @@ public class JaccountController {
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
         JSONObject responseJson = JSONObject.parseObject(responseEntity.getBody());
-        JSONObject code = responseJson.getJSONObject("code");
-        JSONObject course = responseJson.getJSONObject("course");
-        JSONArray classes = responseJson.getJSONArray("classes");
-        JSONObject object = toJSONObject(code,course,classes);
         Response response = new Response();
-        response.setCode("200");
-        response.setData(responseJson);
+        try{
+            JSONObject code = responseJson.getJSONObject("code");
+            JSONObject course = responseJson.getJSONObject("course");
+            JSONArray classes = responseJson.getJSONArray("classes");
+            JSONObject object = toJSONObject(code,course,classes);
+            response.setCode("200");
+            response.setData(object);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         return response;
     }
 
