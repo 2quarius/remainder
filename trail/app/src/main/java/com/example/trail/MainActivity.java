@@ -42,6 +42,9 @@ import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
     public String account;
+    private String USER_NAME;
     Fragment settingfragment;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 
@@ -127,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         });
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
+//        initTasks();
         setAlarm();
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
@@ -347,5 +352,32 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+    }
+    private void readUsername(){
+        String textContent = "";
+        try {
+            FileInputStream ios = openFileInput("information.txt");
+            byte[] temp = new byte[1024];
+            StringBuilder sb = new StringBuilder("");
+            int len = 0;
+            while ((len = ios.read(temp)) > 0){
+                sb.append(new String(temp, 0, len));
+            }
+            ios.close();
+            textContent = sb.toString();
+        }catch (Exception e) {
+        }
+        USER_NAME=textContent;
+    }
+    private void initTasks(){
+        BmobQuery<Task> cloudTaks=new BmobQuery<>();
+        cloudTaks.findObjects(new FindListener<Task>() {
+            @Override
+            public void done(List<Task> list, BmobException e) {
+                for (int i=0;i<list.size();i++){
+//                        tasks.add(list.get(i));
+                }
+            }
+        });
     }
 }
