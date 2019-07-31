@@ -120,7 +120,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //改变系统音量
-    private void changeSystemVolume(int voice){
+    public void changeSystemVolume(int voice){
         int max=0,current=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         max = mAudioManager.getStreamMaxVolume( AudioManager.STREAM_SYSTEM );
@@ -132,7 +132,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取当前系统音量
-    private int getSystemVolume(){
+    public int getSystemVolume(){
         int volume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         volume = mAudioManager.getStreamVolume( AudioManager.STREAM_SYSTEM );
@@ -140,7 +140,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取系统最大音量
-    private int getMaxSystemVolume(){
+    public int getMaxSystemVolume(){
         int maxVolume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         maxVolume = mAudioManager.getStreamMaxVolume( AudioManager.STREAM_SYSTEM );
@@ -148,7 +148,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取当前媒体音量
-    private int getMusicVolume(){
+    public int getMusicVolume(){
         int volume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         volume = mAudioManager.getStreamVolume( AudioManager.STREAM_MUSIC );
@@ -156,7 +156,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取最大媒体音量
-    private int getMaxMusicVolume(){
+    public int getMaxMusicVolume(){
         int maxVolume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         maxVolume=mAudioManager.getStreamMaxVolume( AudioManager.STREAM_MUSIC );

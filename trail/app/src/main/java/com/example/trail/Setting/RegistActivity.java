@@ -64,7 +64,7 @@ public class RegistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheTheme();
         setContentView(R.layout.activity_regist);
-        btnRegist=findViewById(R.id.btn_regist);
+        btnRegist=findViewById(R.id.btn_regist1);
 
         back = findViewById(R.id.btn_registBack);
         back.bringToFront();
@@ -78,10 +78,10 @@ public class RegistActivity extends AppCompatActivity {
         btnRegist.setOnClickListener(new View.OnClickListener() {//登录
             @Override
             public void onClick(View view) {
-                username = findViewById(R.id.et_username);
+                username = findViewById(R.id.et_username1);
                 final String un = username.getText().toString();
 
-                password = findViewById(R.id.et_password);
+                password = findViewById(R.id.et_password1);
                 final String pw = password.getText().toString();
 
                 passwordagain = findViewById(R.id.et_passwordAgain);
@@ -147,7 +147,7 @@ public class RegistActivity extends AppCompatActivity {
             }
         });
     }
-    public void save(String un, String pw) {
+    private void save(String un, String pw) {
         String text = "Account: " + un + "\n" + "Password: " + pw + "\n";
         try {
             FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_APPEND);

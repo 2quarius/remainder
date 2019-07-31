@@ -958,4 +958,5 @@ public class AddTaskActivity extends AppCompatActivity implements
         }
         return textContent;
     }
+
 }

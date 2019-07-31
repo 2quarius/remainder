@@ -193,7 +193,7 @@ public class AccountActivity extends AppCompatActivity {
         setTheTheme();
     }
 
-    public void save(String text) {
+    private void save(String text) {
         try {
             FileOutputStream fos = openFileOutput(FILE_NAME2, Context.MODE_PRIVATE);
             fos.write(text.getBytes());
