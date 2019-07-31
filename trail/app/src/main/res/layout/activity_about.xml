@@ -15,8 +15,8 @@
             android:background="@drawable/button_back_bg"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_width="@dimen/icon"
+            android:layout_height="@dimen/icon" />
         <Button
             android:id="@+id/btn_aboutBack"
             android:textColor="@color/mdtp_white"

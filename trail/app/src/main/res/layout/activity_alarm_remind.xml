@@ -28,10 +28,10 @@
         android:text="关闭"
         android:layout_marginLeft="100dp"
         android:layout_marginRight="100dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="500dp"
         android:layout_below="@+id/btn_login"
         android:textSize="50sp"
         android:layout_width="match_parent"
-        android:layout_height="100dp" />
+        android:layout_height="@dimen/avatar" />
 
 </RelativeLayout>

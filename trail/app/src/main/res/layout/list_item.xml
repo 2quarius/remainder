@@ -10,8 +10,8 @@
         android:layout_centerVertical="true"
         android:background="@drawable/box"
         android:id="@+id/item_check"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:layout_width="@dimen/padding"
+        android:layout_height="@dimen/padding" />
     <TextView
         android:id="@+id/item_title"
         android:text="任务一"

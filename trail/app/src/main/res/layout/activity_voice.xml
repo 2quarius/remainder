@@ -9,15 +9,15 @@
     <RelativeLayout
         android:id="@+id/voice_head"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="@dimen/the70">
         <ImageButton
             android:src="@drawable/back"
             android:scaleType="centerInside"
             android:background="@drawable/button_back_bg"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_width="@dimen/icon"
+            android:layout_height="@dimen/icon" />
         <Button
             android:id="@+id/btn_voiceBack"
             android:textColor="@color/mdtp_white"
@@ -40,19 +40,18 @@
     <LinearLayout
         android:gravity="center"
         android:layout_marginTop="140dp"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <SeekBar
             android:id="@+id/sb_voice0"
-            android:layout_width="300dp"
-            style="@style/CustomSeekbarStyle"
-            android:layout_height="40dp" />
+            android:layout_width="@dimen/dialog_width"
+            android:layout_height="@dimen/icon"
+            style="@style/CustomSeekbarStyle" />
     </LinearLayout>
     <View
         android:layout_marginTop="185dp"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/the5"
         android:background="#ffffff"/>
     <TextView
         android:id="@+id/tv_voiceSetting"
@@ -70,27 +69,27 @@
         android:layout_height="wrap_content">
         <SeekBar
             android:id="@+id/sb_voice1"
-            android:layout_width="300dp"
-            style="@style/CustomSeekbarStyle"
-            android:layout_height="40dp" />
+            android:layout_width="@dimen/dialog_width"
+            android:layout_height="@dimen/icon"
+            style="@style/CustomSeekbarStyle" />
     </LinearLayout>
     <View
         android:layout_marginTop="295dp"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="@dimen/the5"
         android:background="#ffffff"/>
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="match_parent"
         android:gravity="center"
         android:layout_marginTop="320dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
             android:text="振动"
             android:textColor="@color/text"
             android:textSize="28sp"
             android:layout_width="wrap_content"
-            android:layout_height="40dp" />
+            android:layout_height="@dimen/icon" />
         <Switch
             android:id="@+id/vibration"
             android:layout_width="wrap_content"

@@ -20,15 +20,15 @@
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="5dp"
                 android:id="@+id/checkBox"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/the30"
+                android:layout_height="@dimen/the30"
                 android:layout_weight="1"
                 android:outlineSpotShadowColor="@color/colorPrimaryDark"
                 android:padding="10dp"
                 android:text="CheckBox" />
 
             <RelativeLayout
-                android:layout_width="370dp"
+                android:layout_width="@dimen/the370"
                 android:layout_height="wrap_content">
 
                 <TextView

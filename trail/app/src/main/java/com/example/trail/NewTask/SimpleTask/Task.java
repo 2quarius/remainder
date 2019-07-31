@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Task implements Serializable {
-    public String title;
-    public String description = null;
+    private String title;
+    private String description = null;
     private List<MiniTask> miniTasks = new ArrayList<>();
     private List<String> tags = new ArrayList<>();
 

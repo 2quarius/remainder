@@ -15,8 +15,8 @@
             android:background="@drawable/button_back_bg"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_width="@dimen/icon"
+            android:layout_height="@dimen/icon" />
         <Button
             android:id="@+id/btn_themeBack"
             android:textColor="@color/mdtp_white"
@@ -29,22 +29,22 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_below="@+id/theme_head"
-        android:layout_width="match_parent"
         android:gravity="center"
         android:layout_marginTop="80dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageButton
             android:id="@+id/btn_themePurple"
             android:background="#5d1049"
-            android:layout_width="141dp"
-            android:layout_height="200dp" />
+            android:layout_width="@dimen/the141"
+            android:layout_height="@dimen/the200" />
         <ImageButton
             android:id="@+id/btn_themeBlack"
             android:layout_toRightOf="@id/btn_themePurple"
             android:layout_marginLeft="50dp"
             android:background="#323232"
-            android:layout_width="141dp"
-            android:layout_height="200dp" />
+            android:layout_width="@dimen/the141"
+            android:layout_height="@dimen/the200" />
         <TextView
             android:id="@+id/tv_purple"
             android:text="静谧紫（默认）"

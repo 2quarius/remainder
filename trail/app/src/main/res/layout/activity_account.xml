@@ -15,8 +15,8 @@
             android:background="@drawable/button_back_bg"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_width="@dimen/icon"
+            android:layout_height="@dimen/icon" />
         <Button
             android:id="@+id/btn_accountBack"
             android:textColor="@color/mdtp_white"
@@ -36,7 +36,7 @@
         android:layout_marginTop="100dp"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
-        android:layout_height="50dp" />
+        android:layout_height="@dimen/time" />
     <EditText
         android:id="@+id/et_password"
         android:textSize="16sp"
@@ -47,7 +47,7 @@
         android:layout_marginTop="20dp"
         android:layout_below="@+id/et_username"
         android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        android:layout_height="@dimen/time" />
     <Button
         android:id="@+id/btn_login"
         android:text="登录"
@@ -55,8 +55,8 @@
         android:layout_marginTop="40dp"
         android:layout_below="@+id/et_password"
         android:textSize="20sp"
-        android:layout_width="80dp"
-        android:layout_height="60dp" />
+        android:layout_width="@dimen/follower"
+        android:layout_height="@dimen/input_height" />
     <Button
         android:id="@+id/btn_regist"
         android:text="注册"
@@ -64,31 +64,31 @@
         android:layout_marginTop="-60dp"
         android:layout_below="@+id/btn_login"
         android:textSize="20sp"
-        android:layout_width="80dp"
-        android:layout_height="60dp" />
+        android:layout_width="@dimen/follower"
+        android:layout_height="@dimen/input_height" />
     <ImageButton
         android:id="@+id/btn_qq"
         android:scaleType="centerInside"
         android:background="@drawable/qq"
         android:layout_marginLeft="95dp"
         android:layout_marginTop="340dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp" />
+        android:layout_width="@dimen/icon"
+        android:layout_height="@dimen/icon" />
     <ImageButton
         android:id="@+id/btn_wechat"
         android:scaleType="centerInside"
         android:background="@drawable/wechat"
         android:layout_marginLeft="160dp"
         android:layout_marginTop="340dp"
-        android:layout_width="40dp"
-        android:layout_height="40dp" />
+        android:layout_width="@dimen/icon"
+        android:layout_height="@dimen/icon" />
     <ImageButton
         android:id="@+id/btn_jaccount"
         android:scaleType="centerInside"
         android:background="@drawable/jaccount"
         android:layout_marginLeft="225dp"
         android:layout_marginTop="340dp"
-        android:layout_width="66dp"
-        android:layout_height="44dp" />
+        android:layout_width="@dimen/width"
+        android:layout_height="@dimen/height" />
 
 </RelativeLayout>

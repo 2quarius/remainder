@@ -33,8 +33,8 @@ public class AlarmRemindActivity extends AppCompatActivity {
         task = (Task) intent.getSerializableExtra("task");
         title.setText("aaaa");
         description.setText("aaaa");
-        //title.setText(task.title);
-        //description.setText(task.description);
+        //title.setText(task.getTitle());
+        //description.setText(task.getDescription());
 
         endRemind.setOnClickListener(new View.OnClickListener() {
             @Override
