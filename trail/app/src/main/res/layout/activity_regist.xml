@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/regist_head"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="50dp">
         <ImageButton
             android:src="@drawable/back"
             android:scaleType="centerInside"
@@ -40,7 +40,7 @@
     <EditText
         android:id="@+id/et_password"
         android:textSize="16sp"
-        android:hint="密码"
+        android:hint="密码（大于六位）"
         android:inputType="textPassword"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"

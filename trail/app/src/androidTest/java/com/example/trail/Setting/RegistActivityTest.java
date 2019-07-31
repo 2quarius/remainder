@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ThemeActivityTest {
+public class RegistActivityTest {
 
     @Test
     public void onCreate() {
@@ -12,5 +12,9 @@ public class ThemeActivityTest {
 
     @Test
     public void onStart() {
+    }
+
+    @Test
+    public void save() {
     }
 }

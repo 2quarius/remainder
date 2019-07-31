@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ThemeActivityTest {
+public class VoiceActivityTest {
 
     @Test
     public void onCreate() {

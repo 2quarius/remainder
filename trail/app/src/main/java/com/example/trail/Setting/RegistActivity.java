@@ -108,6 +108,9 @@ public class RegistActivity extends AppCompatActivity {
                     else if(pw.length()<=0){
                         Toast.makeText(RegistActivity.this,"请输入密码",Toast.LENGTH_SHORT).show();
                     }
+                    else if(pw.length()<6){
+                        Toast.makeText(RegistActivity.this,"密码长度需大于六位",Toast.LENGTH_SHORT).show();
+                    }
                     else if(pwa.length()<=0){
                         Toast.makeText(RegistActivity.this,"请再次输入密码",Toast.LENGTH_SHORT).show();
                     }
@@ -123,7 +126,7 @@ public class RegistActivity extends AppCompatActivity {
                     }
                 }
                 else {
-                    Toast.makeText(RegistActivity.this,"用户名已存在",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistActivity.this,"当前用户名已存在",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -160,45 +163,4 @@ public class RegistActivity extends AppCompatActivity {
             //Log.d("errMsg", e.toString());
         }
     }
-
-    private String readFile(){
-        String textContent = "";
-        try {
-            FileInputStream ios = openFileInput(FILE_NAME);
-            byte[] temp = new byte[1024];
-            StringBuilder sb = new StringBuilder("");
-            int len = 0;
-            while ((len = ios.read(temp)) > 0){
-                sb.append(new String(temp, 0, len));
-            }
-            ios.close();
-            textContent = sb.toString();
-        }catch (Exception e) {
-            //Log.d("errMsg", e.toString());
-        }
-        return textContent;
-    }
-    //查询text
-    private boolean searchFile(String text){
-        String textContent = readFile();
-        if(textContent.contains(text))return true;
-        else return false;
-    }
-
-    //用户名判断
-    private boolean searchAccount(String account){
-        String text = readFile();
-        String pattern="Account: " + account+"\n";
-        if(text.contains(pattern)) return true;
-        else return false;
-    }
-
-    //密码判断
-    private boolean searchPassword(String account,String password){
-        String textContent = readFile();
-        String pattern = "Account: " + account + "\nPassword: " + password+"\n";
-        if(textContent.contains(pattern))return true;
-        else return false;
-    }
-
 }
