@@ -182,7 +182,7 @@ public class AddTaskActivity extends AppCompatActivity implements
             public void afterTextChanged(Editable s) {
                 Matcher m = Pattern.compile("(\\d{1,2})month(\\d{1,2})day").matcher(s.toString());
                 Matcher m2 = Pattern.compile("(\\d{2}):(\\d{2})").matcher(s.toString());
-                Matcher m3 = Pattern.compile("(\\d{1,2})-(\\d{1,2})").matcher(s.toString());
+                Matcher m3 = Pattern.compile("(\\d{1,2})月(\\d{1,2})日").matcher(s.toString());
                 if (m.find()&&task.getExpireTime() == null){
                     System.out.println("find date");
                     Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();

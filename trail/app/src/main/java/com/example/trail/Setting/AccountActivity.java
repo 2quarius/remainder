@@ -3,6 +3,14 @@ package com.example.trail.Setting;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +24,13 @@ import com.example.trail.R;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+
+import okhttp3.Headers;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class AccountActivity extends AppCompatActivity {
     private Button btnLogin;
@@ -124,7 +139,43 @@ public class AccountActivity extends AppCompatActivity {
         });
         btnJaccount.setOnClickListener(new View.OnClickListener() { //jaccount
             @Override
+
             public void onClick(View view) {
+                new Thread(){
+                    @Override
+                    public void run()
+                    {
+                        OkHttpClient getCode = new OkHttpClient();
+                        Request.Builder reqBuild = new Request.Builder();
+                        HttpUrl.Builder urlBuilder =HttpUrl.parse(" https://jaccount.sjtu.edu.cn/oauth2/authorize")
+                                .newBuilder();
+                        urlBuilder.addQueryParameter("response_type", "code");
+                        urlBuilder.addQueryParameter("scope", "openid");
+                        urlBuilder.addQueryParameter("client_id", "3q6TNuBfQXWJ8XypOTNx");
+                        urlBuilder.addQueryParameter("redirect_uri", "http://202.120.40.8:30335/login/jaccount");//baidu网址改成后端url
+                        reqBuild.url(urlBuilder.build());
+                        Request request = reqBuild.build();
+                        Response response = null;
+                        try {
+                            response = getCode.newCall(request).execute();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+//                if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                        Headers responseHeaders = response.headers();
+                        for (int i = 0; i < responseHeaders.size(); i++) {
+                            System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                        }
+                        try {
+                            System.out.println(response.body().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("getCode");
+                    }
+                }.start();
+
                 Toast.makeText(AccountActivity.this,"jaccount登录功能未实现",Toast.LENGTH_SHORT).show();
             }
         });
