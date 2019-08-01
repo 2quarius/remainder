@@ -9,6 +9,7 @@
     <string name="nav_courses">课程列</string>
     <string name="add_list_file">添加清单夹</string>
     <string name="avatar">avatar</string>
+    <string name="login_success">login successfully!</string>
 
     <string name="title">Title</string>
     <string name="description">Description</string>
