@@ -65,7 +65,7 @@ public class SettingFragmnet extends Fragment {
         btnAccountSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (account.length()<=0) {
+                if (account.length()<=0||account.equals("failed")) {
                     Intent intent = new Intent(getActivity(),AccountActivity.class);
                     startActivity(intent);
                 }

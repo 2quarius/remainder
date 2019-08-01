@@ -254,25 +254,29 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     Calendar cal = Calendar.getInstance();
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(tempDate);
-                    //Toast.makeText(MainActivity.this,"success",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this, AlarmBroadcast.class);
-                    intent.setAction("startAlarm");
-                    //intent.putExtra("task",tasks.get(i));
-                    pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                    if (cycle==RemindCycle.DAILY) {
-                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),24*60*60*1000, pendingIntent);
-                    }
-                    else if (cycle==RemindCycle.WEEKLY) {
-                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),7*24*60*60*1000, pendingIntent);
-                    }
-                    else if (cycle==RemindCycle.MONTHLY) {
-                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),30*24*60*60*1000, pendingIntent);
-                    }
-                    else if (cycle==RemindCycle.YEARLY) {
-                        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),365*24*60*60*1000, pendingIntent);
-                    }
-                    else {
-                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    if (calendar.getTimeInMillis()-cal.getTimeInMillis()>0) {
+                        //Toast.makeText(MainActivity.this,"success",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, AlarmBroadcast.class);
+                        intent.setAction("startAlarm");
+                        intent.putExtra("title",tasks.get(i).getTitle());
+                        intent.putExtra("description",tasks.get(i).getDescription());
+                        //Toast.makeText(MainActivity.this,tasks.get(i).getTitle(),Toast.LENGTH_SHORT).show();
+                        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        if (cycle==RemindCycle.DAILY) {
+                            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),24*60*60*1000, pendingIntent);
+                        }
+                        else if (cycle==RemindCycle.WEEKLY) {
+                            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),7*24*60*60*1000, pendingIntent);
+                        }
+                        else if (cycle==RemindCycle.MONTHLY) {
+                            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),30*24*60*60*1000, pendingIntent);
+                        }
+                        else if (cycle==RemindCycle.YEARLY) {
+                            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),365*24*60*60*1000, pendingIntent);
+                        }
+                        else {
+                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                        }
                     }
                 }
             }

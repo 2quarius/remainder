@@ -9,16 +9,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
-import com.example.trail.Setting.AccountActivity;
-import com.example.trail.Setting.RegistActivity;
 
 public class AlarmRemindActivity extends AppCompatActivity {
     private TextView title;
     private  TextView description;
     private Button endRemind;
-    private Task task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +26,12 @@ public class AlarmRemindActivity extends AppCompatActivity {
         endRemind = findViewById(R.id.btn_end_remind);
 
         Intent intent = getIntent();
-        task = (Task) intent.getSerializableExtra("task");
-        title.setText("aaaa");
-        description.setText("aaaa");
-        //title.setText(task.getTitle());
-        //description.setText(task.getDescription());
+        String thetitle = intent.getStringExtra("title");
+        String thedescription = intent.getStringExtra("description");
+        //title.setText("aaaa");
+        //description.setText("aaaa");
+        title.setText(thetitle);
+        description.setText(thedescription);
 
         endRemind.setOnClickListener(new View.OnClickListener() {
             @Override

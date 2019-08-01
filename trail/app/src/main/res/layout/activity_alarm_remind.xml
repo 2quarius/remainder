@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="100dp"
+        android:gravity="center"
         android:textSize="40sp"/>
 
     <TextView
@@ -19,19 +20,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginTop="200dp"
         android:gravity="center"
         android:textSize="30sp"/>
 
     <Button
         android:id="@+id/btn_end_remind"
         android:text="关闭"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginTop="500dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginRight="120dp"
+        android:layout_marginTop="400dp"
         android:layout_below="@+id/btn_login"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/avatar" />
+        android:layout_height="@dimen/the80" />
 
 </RelativeLayout>
