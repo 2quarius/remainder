@@ -16,10 +16,18 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 
 import java.io.FileInputStream;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 import static java.nio.file.attribute.AclEntryType.ALARM;
 

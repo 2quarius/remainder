@@ -136,5 +136,34 @@
             android:layout_width="match_parent"
             android:layout_height="50dp" />
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/backup_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:animateLayoutChanges="true"
+        android:gravity="center|start|fill_horizontal"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id = "@+id/btn_backup_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/about" />
+        <Button
+            android:id="@+id/btn_backup"
+            android:fontFamily="@font/raleway"
+            android:text="备份"
+            android:background="#00000000"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </LinearLayout>
 
 </LinearLayout>

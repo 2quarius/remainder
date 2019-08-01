@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -47,7 +48,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass ,SettingFragmnet.backClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
     private static final int SWITCH_COLLECTION_REQUEST_CODE = 2;
     private boolean misScrolled;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
     public String account;
-    private String USER_NAME;
+    public String USER_NAME;
     Fragment settingfragment;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 
@@ -132,8 +133,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         });
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
-        initTasks();
         setAlarm();
+        USER_NAME=readUsername();
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
     }
@@ -224,6 +225,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void setTasks(List<Task> mTasks) {
         tasks = mTasks;
+    }
+    @Override
+    public void sTasks(List<Task> bTasks) {
+        tasks.addAll(bTasks);
     }
     public List<Task> getTasks(){
         return tasks;
@@ -354,7 +359,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             return mFragmentTitleList.get(position);
         }
     }
-    private void readUsername(){
+    private String  readUsername(){
         String textContent = "";
         try {
             FileInputStream ios = openFileInput("information.txt");
@@ -368,34 +373,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             textContent = sb.toString();
         }catch (Exception e) {
         }
-        USER_NAME=textContent;
-    }
-    private void initTasks(){
-        BmobQuery<Task> cloudTaks=new BmobQuery<>();
-        cloudTaks.findObjects(new FindListener<Task>() {
-            @Override
-            public void done(List<Task> list, BmobException e) {
-//                for(int i=0;i<list.size();i++){
-//                    tasks.add(list.get(i));
-//                }
-                tasks.addAll(list);
-            }
-        });
-        return;
+        return textContent;
     }
 }
-//    for(int i=0;i<list.size();i++){
-////                    if(list.get(i).getUsername()!=null){
-////                            if(list.get(i).getUsername().equals("999")){
-////                                Task task=new Task();
-////                            task.setUsername(list.get(i).getUsername());
-////                            task.setTaskId(list.get(i).getObjectId());
-////                            task.setTitle(list.get(i).getTitle());
-////                            task.setDescription(list.get(i).getDescription());
-////                            task.setExpireTime(list.get(i).getExpireTime());
-////                            task.setRemindTime(list.get(i).getRemindTime());
-////                            task.setDone(list.get(i).getDone());
-////                                tasks.add(task);
-////                            }
-////                    }
-//        }
+
