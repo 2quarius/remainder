@@ -16,10 +16,12 @@ import android.widget.Toast;
 
 import com.example.trail.MainActivity;
 import com.example.trail.R;
+import com.google.gson.Gson;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
@@ -39,6 +41,15 @@ public class AccountActivity extends AppCompatActivity {
     final  private String FILE_NAME = "account.txt";
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
+
+    Gson gson;
+    static class GistFile {
+        String content;
+    }
+
+    static class Gist {
+        Map<String, GistFile> files;
+    }
 
     private void setTheTheme() {
         String theme = "";
@@ -141,6 +152,7 @@ public class AccountActivity extends AppCompatActivity {
                     public void run()
                     {
                         OkHttpClient getCode = new OkHttpClient();
+                        gson=new Gson();
                         Request.Builder reqBuild = new Request.Builder();
                         HttpUrl.Builder urlBuilder =HttpUrl.parse(" https://jaccount.sjtu.edu.cn/oauth2/authorize")
                                 .newBuilder();
@@ -153,6 +165,13 @@ public class AccountActivity extends AppCompatActivity {
                         Response response = null;
                         try {
                             response = getCode.newCall(request).execute();
+                            System.out.println("getCode");
+//                            if (!response.isSuccessful()) throw new IOException("Unexpected code: " + response);
+//                            Gist gist = gson.fromJson(response.body().charStream(), Gist.class);
+//                            for (Map.Entry<String, GistFile> entry : gist.files.entrySet()) {
+//                                System.out.println(entry.getKey());
+//                                System.out.println(entry.getValue().content);
+//                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
