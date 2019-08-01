@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
     public String account;
-    public String USER_NAME;
+    private String USER_NAME;
     Fragment settingfragment;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 
@@ -134,7 +134,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
         setAlarm();
-        USER_NAME=readUsername();
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
     }
@@ -359,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             return mFragmentTitleList.get(position);
         }
     }
-    private String  readUsername(){
+    public String  getUSER_NAME(){
         String textContent = "";
         try {
             FileInputStream ios = openFileInput("information.txt");

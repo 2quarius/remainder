@@ -64,4 +64,8 @@
     <style name="CustomTextView" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="android:background">@color/colorPrimary</item>
     </style>
+    <style name="Widget.MaterialComponents.CompoundButton.CheckBox.">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:backgroundTint">@color/colorPrimary</item>
+    </style>
 </resources>

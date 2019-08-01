@@ -138,14 +138,18 @@ public class SettingFragmnet extends Fragment {
                     @Override
                     public void done(List<Task> list, BmobException e) {
                         for(int i=0;i<list.size();i++){
-                            if(list.get(i).getUsername().equals("999")){
-                                Log.d(TAG, "done: "+list.get(i).getTitle());
-                                Toast.makeText(getActivity(),list.get(i).getTitle(),Toast.LENGTH_SHORT).show();
-                                Task task=new Task();
-                                task.setTitle(list.get(i).getTitle());
-                                task.setDescription(list.get(i).getDescription());
-                                bTasks.add(task);
+                            if(list.get(i).getUsername()==null) {
+                                Toast.makeText(getActivity(),"Login Firest",Toast.LENGTH_SHORT).show();
                             }
+                            else {
+                                if(list.get(i).getUsername().equals("999")){
+                                    Task task=new Task();
+                                    task.setTitle(list.get(i).getTitle());
+                                    task.setDescription(list.get(i).getDescription());
+                                    bTasks.add(task);
+                                }
+                            }
+
                         }
                         ((SettingFragmnet.backClass)getActivity()).sTasks(bTasks);
                     }

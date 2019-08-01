@@ -925,7 +925,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         }
     }
     private void setDateEditText(Date date,EditText editText) {
-        String dateFormat = "d MMM, yyyy";
+        String dateFormat = "d  MMM  yyyy";
         editText.setText(formatDate(dateFormat, date));
     }
     private void setTimeEditText(Date date,EditText editText) {
