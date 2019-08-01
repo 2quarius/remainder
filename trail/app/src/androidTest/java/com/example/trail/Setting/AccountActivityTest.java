@@ -70,32 +70,35 @@ public class AccountActivityTest {
                 .check(matches(isDisplayed()));
     }
     //虚拟机无法连接bmob，无法测试
-//    @Test
-//    public void loginTest1() {
-//        onView(withId(R.id.et_username)).perform(typeText("username"),closeSoftKeyboard());
-//        onView(withId(R.id.et_password)).perform(typeText("password"),closeSoftKeyboard());
-//        onView(withId(R.id.btn_login)).perform(click());
-//        onView(withText("登录成功"))
-//                .inRoot(withDecorView(not(rule.getActivity().getWindow().getDecorView())))
-//                .check(matches(isDisplayed()));
-//    }
-//    @Test
-//    public void loginTest2() {
-//        onView(withId(R.id.et_username)).perform(typeText("username"),closeSoftKeyboard());
-//        onView(withId(R.id.et_password)).perform(typeText("passwor"),closeSoftKeyboard());
-//        onView(withId(R.id.btn_login)).perform(click());
-//        onView(withText("密码错误，请重新输入"))
-//                .inRoot(withDecorView(not(rule.getActivity().getWindow().getDecorView())))
-//                .check(matches(isDisplayed()));
-//    }
-//    @Test
-//    public void loginTest3() {
-//        onView(withId(R.id.et_username)).perform(typeText("usernam"),closeSoftKeyboard());
-//        onView(withId(R.id.et_password)).perform(typeText("password"),closeSoftKeyboard());
-//        onView(withId(R.id.btn_login)).perform(click());
-//        onView(withText("不存在此用户，请注册"))
-//                .inRoot(withDecorView(not(rule.getActivity().getWindow().getDecorView())))
-//                .check(matches(isDisplayed()));
-//    }
+    @Deprecated
+    @Test
+    public void loginTest1() {
+        onView(withId(R.id.et_username)).perform(typeText("username"),closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("password"),closeSoftKeyboard());
+        onView(withId(R.id.btn_login)).perform(click());
+        onView(withText("登录成功"))
+                .inRoot(withDecorView(not(rule.getActivity().getWindow().getDecorView())))
+                .check(matches(isDisplayed()));
+    }
+    @Deprecated
+    @Test
+    public void loginTest2() {
+        onView(withId(R.id.et_username)).perform(typeText("username"),closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("passwor"),closeSoftKeyboard());
+        onView(withId(R.id.btn_login)).perform(click());
+        onView(withText("密码错误，请重新输入"))
+                .inRoot(withDecorView(not(rule.getActivity().getWindow().getDecorView())))
+                .check(matches(isDisplayed()));
+    }
+    @Deprecated
+    @Test
+    public void loginTest3() {
+        onView(withId(R.id.et_username)).perform(typeText("usernam"),closeSoftKeyboard());
+        onView(withId(R.id.et_password)).perform(typeText("password"),closeSoftKeyboard());
+        onView(withId(R.id.btn_login)).perform(click());
+        onView(withText("不存在此用户，请注册"))
+                .inRoot(withDecorView(not(rule.getActivity().getWindow().getDecorView())))
+                .check(matches(isDisplayed()));
+    }
 
 }

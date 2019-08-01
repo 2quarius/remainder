@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         });
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
-//        initTasks();
+        initTasks();
         setAlarm();
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
@@ -374,10 +375,27 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         cloudTaks.findObjects(new FindListener<Task>() {
             @Override
             public void done(List<Task> list, BmobException e) {
-                for (int i=0;i<list.size();i++){
-//                        tasks.add(list.get(i));
-                }
+//                for(int i=0;i<list.size();i++){
+//                    tasks.add(list.get(i));
+//                }
+                tasks.addAll(list);
             }
         });
+        return;
     }
 }
+//    for(int i=0;i<list.size();i++){
+////                    if(list.get(i).getUsername()!=null){
+////                            if(list.get(i).getUsername().equals("999")){
+////                                Task task=new Task();
+////                            task.setUsername(list.get(i).getUsername());
+////                            task.setTaskId(list.get(i).getObjectId());
+////                            task.setTitle(list.get(i).getTitle());
+////                            task.setDescription(list.get(i).getDescription());
+////                            task.setExpireTime(list.get(i).getExpireTime());
+////                            task.setRemindTime(list.get(i).getRemindTime());
+////                            task.setDone(list.get(i).getDone());
+////                                tasks.add(task);
+////                            }
+////                    }
+//        }
