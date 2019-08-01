@@ -17,6 +17,13 @@ import com.example.trail.R;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 
 public class RegistActivity extends AppCompatActivity {
     private Button btnRegist;
@@ -27,6 +34,7 @@ public class RegistActivity extends AppCompatActivity {
     final  private String FILE_NAME = "account.txt";
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
+    private boolean flag=true;//判断username是否重复
 
     private void setTheTheme() {
         String theme = "";
@@ -56,7 +64,7 @@ public class RegistActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTheTheme();
         setContentView(R.layout.activity_regist);
-        btnRegist=findViewById(R.id.btn_regist);
+        btnRegist=findViewById(R.id.btn_regist1);
 
         back = findViewById(R.id.btn_registBack);
         back.bringToFront();
@@ -70,21 +78,38 @@ public class RegistActivity extends AppCompatActivity {
         btnRegist.setOnClickListener(new View.OnClickListener() {//登录
             @Override
             public void onClick(View view) {
-                username = findViewById(R.id.et_username);
-                String un = username.getText().toString();
+                username = findViewById(R.id.et_username1);
+                final String un = username.getText().toString();
 
-                password = findViewById(R.id.et_password);
-                String pw = password.getText().toString();
+                password = findViewById(R.id.et_password1);
+                final String pw = password.getText().toString();
 
                 passwordagain = findViewById(R.id.et_passwordAgain);
                 String pwa = passwordagain.getText().toString();
 
-                if(!searchAccount(un)){
+
+                BmobQuery<User> tempList=new BmobQuery<>();
+                tempList.findObjects(new FindListener<User>() {
+                    @Override
+                    public void done(List<User> list, BmobException e) {
+                        for(int i=0;i<list.size();i++){
+                            if(list.get(i).getUsername().equals(un)){
+                                flag=false;
+                            }
+                        }
+                    }
+                });
+
+
+                if(flag){
                     if(un.length()<=0){
                         Toast.makeText(RegistActivity.this,"请输入用户名",Toast.LENGTH_SHORT).show();
                     }
                     else if(pw.length()<=0){
                         Toast.makeText(RegistActivity.this,"请输入密码",Toast.LENGTH_SHORT).show();
+                    }
+                    else if(pw.length()<6){
+                        Toast.makeText(RegistActivity.this,"密码长度需大于六位",Toast.LENGTH_SHORT).show();
                     }
                     else if(pwa.length()<=0){
                         Toast.makeText(RegistActivity.this,"请再次输入密码",Toast.LENGTH_SHORT).show();
@@ -95,12 +120,13 @@ public class RegistActivity extends AppCompatActivity {
                     else{
                         Toast.makeText(RegistActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                         save(un,pw);
+                        saveToBack(un,pw);
                         Intent intent = new Intent(RegistActivity.this, MainActivity.class);
                         startActivity(intent);
                     }
                 }
                 else {
-                    Toast.makeText(RegistActivity.this,"用户名已存在",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistActivity.this,"当前用户名已存在",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -111,8 +137,17 @@ public class RegistActivity extends AppCompatActivity {
         super.onStart();
         setTheTheme();
     }
-
-    public void save(String un, String pw) {
+    private void saveToBack(String un,String pw){
+        User user=new User();
+        user.setUsername(un);
+        user.setPassword(pw);
+        user.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+            }
+        });
+    }
+    private void save(String un, String pw) {
         String text = "Account: " + un + "\n" + "Password: " + pw + "\n";
         try {
             FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_APPEND);
@@ -128,45 +163,4 @@ public class RegistActivity extends AppCompatActivity {
             //Log.d("errMsg", e.toString());
         }
     }
-
-    private String readFile(){
-        String textContent = "";
-        try {
-            FileInputStream ios = openFileInput(FILE_NAME);
-            byte[] temp = new byte[1024];
-            StringBuilder sb = new StringBuilder("");
-            int len = 0;
-            while ((len = ios.read(temp)) > 0){
-                sb.append(new String(temp, 0, len));
-            }
-            ios.close();
-            textContent = sb.toString();
-        }catch (Exception e) {
-            //Log.d("errMsg", e.toString());
-        }
-        return textContent;
-    }
-    //查询text
-    private boolean searchFile(String text){
-        String textContent = readFile();
-        if(textContent.contains(text))return true;
-        else return false;
-    }
-
-    //用户名判断
-    private boolean searchAccount(String account){
-        String text = readFile();
-        String pattern="Account: " + account+"\n";
-        if(text.contains(pattern)) return true;
-        else return false;
-    }
-
-    //密码判断
-    private boolean searchPassword(String account,String password){
-        String textContent = readFile();
-        String pattern = "Account: " + account + "\nPassword: " + password+"\n";
-        if(textContent.contains(pattern))return true;
-        else return false;
-    }
-
 }

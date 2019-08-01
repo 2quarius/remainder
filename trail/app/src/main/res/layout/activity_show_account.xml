@@ -29,9 +29,11 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/account_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="用户名："
+        android:text="当前用户："
+        android:textColor="@color/text"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="100dp"
         android:textSize="25sp"/>
@@ -40,7 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/showaccount"
-        android:layout_marginLeft="140dp"
+        android:textColor="@color/text"
+        android:layout_toRightOf="@+id/account_tv"
         android:layout_marginTop="100dp"
         android:textSize="25sp"/>
 

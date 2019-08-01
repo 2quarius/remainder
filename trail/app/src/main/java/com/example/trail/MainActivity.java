@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +43,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass ,SettingFragmnet.backClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
     private static final int SWITCH_COLLECTION_REQUEST_CODE = 2;
     private boolean misScrolled;
@@ -58,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
     public String account;
+    private String USER_NAME;
     Fragment settingfragment;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 
@@ -89,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         super.onCreate(savedInstanceState);
         //初始化百度地图，必须在 setContentView(...) 前调用！
         SDKInitializer.initialize(getApplicationContext());
+        Bmob.initialize(this, "b096ac50b630d5a7db1c69abb7a34caa");
         try {
             FileInputStream ios = openFileInput(FILE_NAME2);
             byte[] temp = new byte[1024];
@@ -215,6 +224,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void setTasks(List<Task> mTasks) {
         tasks = mTasks;
+    }
+    @Override
+    public void sTasks(List<Task> bTasks) {
+        tasks.addAll(bTasks);
     }
     public List<Task> getTasks(){
         return tasks;
@@ -345,4 +358,21 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             return mFragmentTitleList.get(position);
         }
     }
+    public String  getUSER_NAME(){
+        String textContent = "";
+        try {
+            FileInputStream ios = openFileInput("information.txt");
+            byte[] temp = new byte[1024];
+            StringBuilder sb = new StringBuilder("");
+            int len = 0;
+            while ((len = ios.read(temp)) > 0){
+                sb.append(new String(temp, 0, len));
+            }
+            ios.close();
+            textContent = sb.toString();
+        }catch (Exception e) {
+        }
+        return textContent;
+    }
 }
+
