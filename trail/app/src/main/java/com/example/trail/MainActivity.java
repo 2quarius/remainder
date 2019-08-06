@@ -1,14 +1,16 @@
 package com.example.trail;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.andremion.floatingnavigationview.FloatingNavigationView;
 import com.baidu.mapapi.SDKInitializer;
 import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.Lists.ListsFragment;
@@ -26,7 +29,6 @@ import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
-import com.example.trail.Setting.AccountActivity;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
@@ -44,21 +46,27 @@ import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
-import cn.bmob.v3.BmobQuery;
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.FindListener;
 
 public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass ,SettingFragmnet.backClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
     private static final int SWITCH_COLLECTION_REQUEST_CODE = 2;
     private boolean misScrolled;
+    /**
+     * layout elements
+     */
     private ViewPager mViewPager;
-    private TabLayout tabs;
-    private FloatingActionButton fab;
+    private TabLayout mTabs;
+    private FloatingActionButton mFab;
+    private FloatingNavigationView mFloatingNavView;
+    /**
+     * task collector indicators
+     */
     private int index=0;
     private List<TaskCollector> taskCollectors;
     private List<Task> tasks;
     private StoreRetrieveData storeRetrieveData;
+
+
     private AlarmManager alarmManager;
     private PendingIntent pendingIntent;
     public static final String FILENAME = "tasks.json";
@@ -92,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,18 +128,19 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         setupViewPager(mViewPager);
         mViewPager.addOnPageChangeListener(this);
         // Set Tabs inside Toolbar
-        tabs = (TabLayout) findViewById(R.id.tabs);
-        tabs.setupWithViewPager(mViewPager);
+        mTabs = (TabLayout) findViewById(R.id.tabs);
+        mTabs.setupWithViewPager(mViewPager);
         createTabIcons();
         //跳转button的动作
-        fab=findViewById(R.id.fab_addTask);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mFab =findViewById(R.id.fab_addTask);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(MainActivity.this, AddTaskActivity.class);
                 startActivityForResult(intent,ADD_TASK_REQUEST_CODE);
             }
         });
+        mFloatingNavView = findViewById(R.id.floating_view);
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
         setAlarm();
@@ -138,6 +148,21 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
     }
+    @Override
+    public void onBackPressed() {
+        if (mFloatingNavView.isOpened()) {
+            mFloatingNavView.close();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    /**
+     * solve result when startActivityForResult ends
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -169,18 +194,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                         index = idx;
                     }
                 }
-//                else if (idx<taskCollectors.size()){
-//                    index = idx;
-//                }
-//                else {
-//                    String name = data.getStringExtra("name");
-//                    int previousSize = taskCollectors.size();
-//                    for (int i = previousSize;i<idx;i++)
-//                    {
-//                        taskCollectors.add(new TaskCollector());
-//                    }
-//                    taskCollectors.add(new TaskCollector(name,new ArrayList<Task>()));
-//                }
             }
         }
         //调用子fragment的 onActivityResult
@@ -191,6 +204,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             e.printStackTrace();
         }
     }
+
+    /**
+     * after onCreateView, get latest taskCollectors and tasks
+     */
     @Override
     protected void onStart(){
         taskCollectors = getLocallyStoredData(storeRetrieveData);
@@ -209,10 +226,25 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
         if (taskCollectors.size()>0&&index<taskCollectors.size()){
             tasks = taskCollectors.get(index).getTasks();
+            switch (index){
+                case 0:
+                    taskCollectors.get(0).setName("today");
+                case 1:
+                    taskCollectors.get(1).setName("collection");
+                case 2:
+                    taskCollectors.get(2).setName("courses");
+                default:
+                    break;
+            }
+            mFloatingNavView.setImageBitmap(textAsBitmap(taskCollectors.get(index).getName(), 40, getColor(R.color.colorPrimary)));
         }
         super.onStart();
         setTheTheme();
     }
+
+    /**
+     * do store when start another activity
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -273,10 +305,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
     }
     private void createTabIcons() {
-        tabs.getTabAt(TabConstants.LISTS.getIndex()).setIcon(R.drawable.checklist);
-        tabs.getTabAt(TabConstants.TIME.getIndex()).setIcon(R.drawable.calendar);
-        tabs.getTabAt(TabConstants.SPACE.getIndex()).setIcon(R.drawable.map);
-        tabs.getTabAt(TabConstants.SETTING.getIndex()).setIcon(R.drawable.settings);
+        mTabs.getTabAt(TabConstants.LISTS.getIndex()).setIcon(R.drawable.checklist);
+        mTabs.getTabAt(TabConstants.TIME.getIndex()).setIcon(R.drawable.calendar);
+        mTabs.getTabAt(TabConstants.SPACE.getIndex()).setIcon(R.drawable.map);
+        mTabs.getTabAt(TabConstants.SETTING.getIndex()).setIcon(R.drawable.settings);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -330,6 +362,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 break;
         }
     }
+
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -374,6 +407,21 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }catch (Exception e) {
         }
         return textContent;
+    }
+    //method to convert your text to image
+    public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setTextSize(textSize);
+        paint.setColor(textColor);
+        paint.setTextAlign(Paint.Align.LEFT);
+        float baseline = -paint.ascent(); // ascent() is negative
+        int width = (int) (paint.measureText(text) + 0.0f); // round
+        int height = (int) ((baseline + paint.descent() + 0.0f)*1.6);
+        Bitmap image = Bitmap.createBitmap(width*2, height, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(image);
+        canvas.drawText(text, 40, baseline, paint);
+        return image;
     }
 }
 

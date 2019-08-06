@@ -14,11 +14,13 @@ import java.util.List;
 import cn.bmob.v3.BmobObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper=false)
 public class Task extends BmobObject implements Serializable {
     private String username;
     private String taskId;

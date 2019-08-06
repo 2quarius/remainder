@@ -1,22 +1,14 @@
 package com.example.trail.Setting;
 
-<<<<<<< HEAD
-import androidx.appcompat.app.AppCompatActivity;
-
-=======
 import android.app.AlertDialog;
->>>>>>> master
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
 import android.util.Log;
 import android.view.LayoutInflater;
->>>>>>> master
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -35,13 +27,12 @@ import com.example.trail.R;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
-import java.io.IOException;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
@@ -59,13 +50,10 @@ public class AccountActivity extends AppCompatActivity {
     private Button back;
     final  private String FILE_NAME2 = "information.txt";
     final  private String FILE_NAME3 = "theme.txt";
-<<<<<<< HEAD
     private boolean flag1=true;
     private boolean flag2=true;
-=======
     private String accessToken = null;
     private String name = null;
->>>>>>> master
 
     private void setTheTheme() {
         String theme = "";

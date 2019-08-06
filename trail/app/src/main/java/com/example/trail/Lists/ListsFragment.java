@@ -181,12 +181,13 @@ public class ListsFragment extends Fragment {
             titles.clear();
             descriptions.clear();
             finished.clear();
-            for (Task task:mFilterTasks){
-                titles.add(task.getTitle());
-                descriptions.add(task.getDescription());
-                finished.add(task.isDone());
+            if (mFilterTasks!=null) {
+                for (Task task : mFilterTasks) {
+                    titles.add(task.getTitle());
+                    descriptions.add(task.getDescription());
+                    finished.add(task.isDone());
+                }
             }
-
         }
 
         @Override

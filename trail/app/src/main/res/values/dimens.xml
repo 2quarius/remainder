@@ -4,7 +4,7 @@
     <dimen name="md_keylines">10dp</dimen>
     <dimen name="article_subheading">16sp</dimen>
     <dimen name="nav_header">150dp</dimen>
-    <dimen name="followed">240dp</dimen>
+    <dimen name="followed">140dp</dimen>
     <dimen name="side_menu">320dp</dimen>
     <dimen name="follower">80dp</dimen>
     <dimen name="padding">20dp</dimen>
@@ -23,4 +23,5 @@ Refer to App Widget Documentation for margin information
 http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="fab_margin">10dp</dimen>
 </resources>
