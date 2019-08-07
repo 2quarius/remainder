@@ -1,4 +1,4 @@
-package com.example.trail.Utility;
+package com.example.trail.AlarmRemind;
 
 import android.content.Intent;
 import android.os.Bundle;

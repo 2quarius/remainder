@@ -6,7 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum  RemindCycle {
-    SINGLE("单次"),DAILY("每天"),WEEKLY("每周"),MONTHLY("每月"),YEARLY("每年");
+    SINGLE("单次"),DAILY("每天"),WEEKLY("每7天"),MONTHLY("每30天"),YEARLY("每365天");
     private String cycle;
 
     public static RemindCycle match(String name)

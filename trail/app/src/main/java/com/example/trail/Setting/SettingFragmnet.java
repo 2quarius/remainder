@@ -7,17 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.trail.MainActivity;
 import com.example.trail.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.io.FileInputStream;
 
 public class SettingFragmnet extends Fragment {
     private ImageButton btnAccountSetHead;
@@ -26,6 +22,7 @@ public class SettingFragmnet extends Fragment {
     private Button btnTableList;
     private Button btnVoice;
     private Button btnAbout;
+    private Button btnBan;
     private SettingFragmnet settingFragmnet;
     private FloatingActionButton fab;
     private String account;
@@ -45,7 +42,7 @@ public class SettingFragmnet extends Fragment {
         Bundle bundle = getArguments();
         account = bundle.getString("account");
         //跳转到Account界面
-        btnAccountSetHead=view.findViewById(R.id.btn_headPic);
+        btnAccountSetHead = view.findViewById(R.id.btn_headPic);
         btnAccountSetHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,7 +58,7 @@ public class SettingFragmnet extends Fragment {
             }
 
         });
-        btnAccountSet=view.findViewById(R.id.btn_accountSetting);
+        btnAccountSet = view.findViewById(R.id.btn_accountSetting);
         btnAccountSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,7 +84,7 @@ public class SettingFragmnet extends Fragment {
             }
         });*/
         //跳转到主题设置界面
-        btnThemeSet=view.findViewById(R.id.btn_theme);
+        btnThemeSet = view.findViewById(R.id.btn_theme);
         btnThemeSet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,7 +93,7 @@ public class SettingFragmnet extends Fragment {
             }
         });
         //跳转到声音设置界面
-        btnVoice=view.findViewById(R.id.btn_voice);
+        btnVoice = view.findViewById(R.id.btn_voice);
         btnVoice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,11 +102,19 @@ public class SettingFragmnet extends Fragment {
             }
         });
         //跳转到关于我们界面
-        btnAbout=view.findViewById(R.id.btn_about);
+        btnAbout = view.findViewById(R.id.btn_about);
         btnAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(),AboutActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnBan = view.findViewById(R.id.btn_ban);
+        btnBan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), NoInterruptActivity.class);
                 startActivity(intent);
             }
         });

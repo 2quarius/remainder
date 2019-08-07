@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#808080"
-    tools:context=".Utility.AlarmRemindActivity">
+    tools:context=".AlarmRemind.AlarmRemindActivity">
 
     <TextView
         android:id="@+id/show_title"
