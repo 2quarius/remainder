@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/calendar_card_view"
+<RelativeLayout android:id="@+id/root"
     android:layout_width="match_parent"
-    app:cardBackgroundColor="@color/inputLine"
-    android:layout_margin="5dp"
-    android:outlineSpotShadowColor="@color/colorPrimary"
-    android:padding="5dp"
-    android:elevation="50dp"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <LinearLayout
+        android:gravity="center"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
             android:id="@+id/rl_tool"
             android:layout_width="match_parent"
@@ -118,18 +113,51 @@
                 app:month_view="com.example.trail.Calendar.ColorfulMonthView"
                 app:month_view_show_mode="mode_only_current"
                 app:other_month_text_color="@color/colorPrimary"
-                app:scheme_text="假"
                 app:scheme_lunar_text_color="@color/colorPrimaryDark"
+                app:scheme_text="假"
                 app:scheme_text_color="@color/colorPrimaryDark"
                 app:scheme_theme_color="@color/colorPrimaryDark"
-                app:selected_text_color="@color/inputLine"
                 app:selected_lunar_text_color="@color/inputLine"
+                app:selected_text_color="@color/inputLine"
                 app:selected_theme_color="@color/colorPrimaryDark"
                 app:week_background="@color/inputLine"
                 app:week_bar_view="com.example.trail.Calendar.ChineseWeekBar"
                 app:week_start_with="mon"
                 app:week_text_color="#111"
                 app:week_view="com.example.trail.Calendar.ColorfulWeekView" />
+
         </com.haibin.calendarview.CalendarLayout>
+
     </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+
+    <com.yinglan.scrolllayout.ScrollLayout
+        android:id="@+id/scroll_down_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.yinglan.scrolllayout.content.ContentListView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/white"></com.yinglan.scrolllayout.content.ContentListView>
+
+            <TextView
+                android:id="@+id/text_foot"
+                android:layout_above="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/colorPrimaryDark"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="点击或上滑打开" />
+
+        </RelativeLayout>
+
+    </com.yinglan.scrolllayout.ScrollLayout>
+
+</RelativeLayout>
