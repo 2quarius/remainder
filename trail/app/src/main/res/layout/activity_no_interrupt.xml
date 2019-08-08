@@ -6,7 +6,6 @@
 
         <ImageButton
             android:src="@drawable/wood"
-
             android:layout_marginLeft="0dp"
             android:layout_marginTop="0dp"
             android:layout_width="410dp"
@@ -54,9 +53,9 @@
             android:src="@drawable/bbc"
             android:scaleType="centerInside"
             android:background="@android:color/transparent"
-            android:layout_marginLeft="140dp"
+            android:layout_marginLeft="0dp"
             android:layout_marginTop="390dp"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp" />
 
         <TextView

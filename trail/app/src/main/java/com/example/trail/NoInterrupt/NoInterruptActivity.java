@@ -2,6 +2,7 @@ package com.example.trail.NoInterrupt;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.trail.MainActivity;
 import com.example.trail.R;
 
 public class NoInterruptActivity extends AppCompatActivity {
@@ -19,7 +21,10 @@ public class NoInterruptActivity extends AppCompatActivity {
     private ImageButton music_btn;
     private ImageButton end_btn;
     private Boolean musicOn;
-    public float width;
+    private int touchX;
+    private boolean isCompelted = false;
+    private boolean move = false;
+    private MediaPlayer player;
 
     protected void hideBottomUIMenu() {
         /*if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) {
@@ -31,11 +36,11 @@ public class NoInterruptActivity extends AppCompatActivity {
     }
 
     private void startmusic() {
-
+        player.start();
     }
 
     private void endmusic() {
-
+        player.stop();
     }
 
     @Override
@@ -49,8 +54,7 @@ public class NoInterruptActivity extends AppCompatActivity {
         hideBottomUIMenu();
 
         musicOn = false;
-        width =  this.getResources().getDisplayMetrics().widthPixels;
-        Toast.makeText(NoInterruptActivity.this,""+width,Toast.LENGTH_SHORT).show();
+        player = MediaPlayer.create(this, R.raw.music);
 
         music_btn = findViewById(R.id.btn_music);
         music_btn.setOnClickListener(new View.OnClickListener() { //qq
@@ -70,9 +74,51 @@ public class NoInterruptActivity extends AppCompatActivity {
         end_btn = findViewById(R.id.btn_end);
         end_btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Toast.makeText(NoInterruptActivity.this,"控件内部的触摸事件 ACTION",Toast.LENGTH_SHORT).show();
+            public boolean onTouch(View view, MotionEvent event) {
+                //int[] endbtnlocation = new int[2];
+                //end_btn.getLocationOnScreen(endbtnlocation);
+                //Toast.makeText(NoInterruptActivity.this,""+end_btn.getLeft()+" "+end_btn.getTop(),Toast.LENGTH_SHORT).show();
 
+                if (!isCompelted) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            touchX = (int) event.getRawX();
+                            if (touchX>280&&touchX<480) {
+                                move = true;
+                            }
+                        case MotionEvent.ACTION_MOVE:
+                            touchX = (int) event.getRawX();
+                            //Toast.makeText(NoInterruptActivity.this,""+touchX+" "+end_btn.getLeft(),Toast.LENGTH_SHORT).show();
+                            if (move) {
+                                if (end_btn.getLeft()>-280||end_btn.getLeft()<280) {
+                                    end_btn.setLeft(touchX-380);
+                                }
+                            }
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            if (move) {
+                                move = false;
+                                if (end_btn.getLeft()<-200) {
+                                    end_btn.setLeft(-280);
+                                    player.release();
+                                    player = null;
+                                    Intent intent = new Intent(NoInterruptActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                                else if (end_btn.getLeft()>200) {
+                                    end_btn.setLeft(280);
+                                    player.release();
+                                    player = null;
+                                    Intent intent = new Intent(NoInterruptActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                }
+                                else {
+                                    end_btn.setLeft(0);
+                                }
+                            }
+                            break;
+                    }
+                }
                 return true;
             }
         });
