@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.trail.NoInterrupt.NoInterruptActivity;
 import com.example.trail.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -19,14 +20,12 @@ public class SettingFragmnet extends Fragment {
     private ImageButton btnAccountSetHead;
     private Button btnAccountSet;
     private Button btnThemeSet;
-    private Button btnTableList;
     private Button btnVoice;
     private Button btnAbout;
     private Button btnBan;
-    private SettingFragmnet settingFragmnet;
     private FloatingActionButton fab;
     private String account;
-    final  private String FILE_NAME = "information.txt";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

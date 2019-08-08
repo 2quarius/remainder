@@ -92,6 +92,9 @@ public class RegistActivity extends AppCompatActivity {
                     else if(!pw.equals(pwa)){
                         Toast.makeText(RegistActivity.this,"两次密码不一致，请重新输入",Toast.LENGTH_SHORT).show();
                     }
+                    else if(un.equals("failed")){
+                        Toast.makeText(RegistActivity.this,"用户名已存在",Toast.LENGTH_SHORT).show();
+                    }
                     else{
                         Toast.makeText(RegistActivity.this,"注册成功",Toast.LENGTH_SHORT).show();
                         save(un,pw);

@@ -55,6 +55,7 @@
         android:theme="@style/Light.Theme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".NoInterrupt.NoInterruptActivity"></activity>
         <activity android:name=".Setting.ShowAccountActivity" />
         <activity android:name=".Setting.RegistActivity" />
         <activity android:name=".AlarmRemind.AlarmRemindActivity" />
