@@ -1,31 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#448305"
-    tools:context=".NoInterrupt.NoInterruptActivity">
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    android:background="#456B67">
 
         <ImageButton
             android:src="@drawable/wood"
-            android:background="@drawable/button_end_ban_bg"
+
             android:layout_marginLeft="0dp"
             android:layout_marginTop="0dp"
             android:layout_width="410dp"
-            android:layout_height="@dimen/icon" />
+            android:layout_height="40dp" />
 
         <ImageButton
+            android:id="@+id/btn_music"
+            android:src="@drawable/music"
+            android:scaleType="centerInside"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="300dp"
+            android:layout_marginTop="100dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+        <TextView
+            android:text="专心致志"
+            android:textSize="45sp"
+            android:textColor="@color/app_white"
+            android:layout_marginTop="190dp"
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="要加油哦~"
+            android:textSize="45sp"
+            android:textColor="@color/app_white"
+            android:layout_marginTop="270dp"
+            android:layout_marginLeft="120dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:src="@drawable/chock"
+            android:scaleType="centerInside"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="250dp"
+            android:layout_marginTop="230dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+
+        <ImageButton
+            android:id="@+id/btn_end"
             android:src="@drawable/bbc"
             android:scaleType="centerInside"
-            android:background="@drawable/button_end_ban_bg"
-            android:layout_marginLeft="155dp"
-            android:layout_marginTop="450dp"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="390dp"
             android:layout_width="100dp"
             android:layout_height="100dp" />
 
@@ -34,17 +64,16 @@
             android:textSize="25sp"
             android:gravity="center"
             android:textColor="@color/app_white"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="490dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <ImageButton
             android:src="@drawable/wood"
-            android:background="@drawable/button_end_ban_bg"
+
             android:layout_marginLeft="0dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="600dp"
             android:layout_width="410dp"
-            android:layout_height="@dimen/icon" />
-    </LinearLayout>
+            android:layout_height="40dp" />
 
 </RelativeLayout>
