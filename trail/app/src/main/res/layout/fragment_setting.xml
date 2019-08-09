@@ -143,7 +143,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="40dp"
         android:animateLayoutChanges="true"
         android:gravity="center|start|fill_horizontal"
         android:orientation="horizontal">
@@ -154,7 +154,7 @@
             android:layout_height="@dimen/the30"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="0dp"
-            android:background="@drawable/home" />
+            android:background="@drawable/leaf" />
 
         <Button
             android:id="@+id/btn_ban"

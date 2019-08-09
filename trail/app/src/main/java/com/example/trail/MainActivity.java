@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
         for(int i=0;i<tasks.size();i++){
             boolean done = tasks.get(i).getDone();
-            if (done==false) {
+            if (!done) {
                 Date tempDate = tasks.get(i).getRemindTime();
                 if (tempDate!=null) {
                     RemindCycle cycle = tasks.get(i).getRemindCycle();
@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                         intent.putExtra("title",tasks.get(i).getTitle());
                         intent.putExtra("description",tasks.get(i).getDescription());
                         //Toast.makeText(MainActivity.this,tasks.get(i).getTitle(),Toast.LENGTH_SHORT).show();
-                        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        pendingIntent = PendingIntent.getBroadcast(this, (int) calendar.getTimeInMillis(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
                         if (cycle==RemindCycle.DAILY) {
                             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),24*60*60*1000, pendingIntent);
                         }

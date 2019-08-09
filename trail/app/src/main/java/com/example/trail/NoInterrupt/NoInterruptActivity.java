@@ -8,6 +8,9 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ public class NoInterruptActivity extends AppCompatActivity {
     }
 
     private void startmusic() {
+        player = MediaPlayer.create(this, R.raw.qiangu);
         player.start();
     }
 
@@ -54,19 +58,24 @@ public class NoInterruptActivity extends AppCompatActivity {
         hideBottomUIMenu();
 
         musicOn = false;
-        player = MediaPlayer.create(this, R.raw.music);
 
         music_btn = findViewById(R.id.btn_music);
         music_btn.setOnClickListener(new View.OnClickListener() { //qq
             @Override
             public void onClick(View view) {
                 if (musicOn==false) {
+                    Animation animation = AnimationUtils.loadAnimation(NoInterruptActivity.this, R.anim.music_btn_anim);
+                    LinearInterpolator lin = new LinearInterpolator();//设置动画匀速运动
+                    animation.setInterpolator(lin);
                     musicOn = true;
                     startmusic();
+                    music_btn.startAnimation(animation);
                 }
                 else {
+                    Animation animation = AnimationUtils.loadAnimation(NoInterruptActivity.this, R.anim.music_btn_stop);
                     musicOn = false;
                     endmusic();
+                    music_btn.startAnimation(animation);
                 }
             }
         });

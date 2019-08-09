@@ -12,6 +12,15 @@
             android:layout_height="40dp" />
 
         <ImageButton
+            android:src="@drawable/circle"
+            android:scaleType="centerInside"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="290dp"
+            android:layout_marginTop="90dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp" />
+
+        <ImageButton
             android:id="@+id/btn_music"
             android:src="@drawable/music"
             android:scaleType="centerInside"
