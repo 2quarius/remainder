@@ -33,6 +33,7 @@ import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
 import com.example.trail.Utility.EnumPack.TabConstants;
+import com.example.trail.Utility.UIHelper.IOnBackPressed;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -150,9 +151,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     }
     @Override
     public void onBackPressed() {
-        if (mFloatingNavView.isOpened()) {
-            mFloatingNavView.close();
-        } else {
+        @SuppressLint("ResourceType")
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.layout.fragment_calendar);
+        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
             super.onBackPressed();
         }
     }
