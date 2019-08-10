@@ -1,4 +1,4 @@
-package com.example.trail.overlayutil;
+package com.example.trail.Utility.overlayutil;
 
 import android.graphics.Color;
 import android.os.Bundle;

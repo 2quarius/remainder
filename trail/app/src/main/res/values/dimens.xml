@@ -24,4 +24,6 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="fab_margin">10dp</dimen>
+    <dimen name="list_item_height">64dp</dimen>
+    <dimen name="list_group_item_height">96dp</dimen>
 </resources>

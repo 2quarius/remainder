@@ -30,6 +30,8 @@ import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.SettingFragmnet;
+import com.example.trail.Utility.Adapters.AbstractExpandableDataProvider;
+import com.example.trail.Utility.Adapters.ExampleSectionExpandableDataProviderFragment;
 import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
 import com.example.trail.Utility.EnumPack.TabConstants;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private static final int ADD_TASK_REQUEST_CODE = 1;
     private static final int SWITCH_COLLECTION_REQUEST_CODE = 2;
     private boolean misScrolled;
+    private static final String FRAGMENT_TAG_DATA_PROVIDER = "data provider";
+
     /**
      * layout elements
      */
@@ -124,6 +128,11 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
         setTheTheme();
         setContentView(R.layout.activity_main);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(new ExampleSectionExpandableDataProviderFragment(), FRAGMENT_TAG_DATA_PROVIDER)
+                    .commit();
+        }
         // Setting ViewPager for each Tabs
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(mViewPager);
@@ -157,7 +166,10 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             super.onBackPressed();
         }
     }
-
+    public AbstractExpandableDataProvider getDataProvider() {
+        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_DATA_PROVIDER);
+        return ((ExampleSectionExpandableDataProviderFragment) fragment).getDataProvider();
+    }
     /**
      * solve result when startActivityForResult ends
      * @param requestCode

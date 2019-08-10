@@ -1,34 +1,43 @@
 package com.example.trail.Calendar;
 
+import android.graphics.drawable.NinePatchDrawable;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.trail.MainActivity;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
-import com.example.trail.Utility.Adapters.Cheeses;
-import com.example.trail.Utility.Adapters.DynamicGridAdapter;
-import com.example.trail.Utility.TimeUtil;
+import com.example.trail.Utility.Adapters.AbstractExpandableDataProvider;
+import com.example.trail.Utility.Adapters.ExpandableDraggableWithSectionExampleAdapter;
 import com.example.trail.Utility.UIHelper.IOnBackPressed;
+import com.example.trail.Utility.Utils.TimeUtil;
+import com.h6ah4i.android.widget.advrecyclerview.animator.DraggableItemAnimator;
+import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
+import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
+import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
+import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
+import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
+import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 import com.yinglan.scrolllayout.ScrollLayout;
 
-import org.askerov.dynamicgrid.DynamicGridView;
-
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,14 +46,25 @@ import java.util.Map;
 
 public class CalendarFragment extends Fragment implements IOnBackPressed,
             CalendarView.OnCalendarSelectListener,
-        CalendarView.OnYearChangeListener{
+        CalendarView.OnYearChangeListener, RecyclerViewExpandableItemManager.OnGroupCollapseListener,
+        RecyclerViewExpandableItemManager.OnGroupExpandListener {
     private static final String MONTH = "月";
     private static final String DAY = "日";
     private static final String LUNAR = "今日";
     private static final String HAS = "点击或上滑打开";
     private static final String HAS_NOT = "本周暂无任务";
-    private static final String TAG = MainActivity.class.getName();
     private List<Task> mTasks = new ArrayList<>();
+
+    private static final String SAVED_STATE_EXPANDABLE_ITEM_MANAGER = "RecyclerViewExpandableItemManager";
+    private static final boolean ALLOW_ITEMS_MOVE_ACROSS_SECTIONS = false; // Set this flag "true" to change draggable item range
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter mWrappedAdapter;
+    private RecyclerViewExpandableItemManager mRecyclerViewExpandableItemManager;
+    private RecyclerViewDragDropManager mRecyclerViewDragDropManager;
+
     private TextView monthDay;
     private TextView year;
     private TextView lunar;
@@ -52,7 +72,6 @@ public class CalendarFragment extends Fragment implements IOnBackPressed,
     private CalendarLayout calendarLayout;
     public CalendarView calendar;
     private ScrollLayout mScrollLayout;
-    private DynamicGridView gridView;
     private TextView text_foot;
     private ScrollLayout.OnScrollChangedListener mOnScrollChangedListener = new ScrollLayout.OnScrollChangedListener() {
         @Override
@@ -81,6 +100,9 @@ public class CalendarFragment extends Fragment implements IOnBackPressed,
         public void onChildScroll(int top) {
         }
     };
+    public CalendarFragment(){
+        super();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,13 +118,100 @@ public class CalendarFragment extends Fragment implements IOnBackPressed,
     }
 
     @Override
-    public boolean onBackPressed() {
-        if (gridView.isEditMode()) {
-            gridView.stopEditMode();
-            return true;
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //noinspection ConstantConditions
+        mRecyclerView = getView().findViewById(R.id.recycler_view);
+        mLayoutManager = new LinearLayoutManager(requireContext());
+
+        final Parcelable eimSavedState = (savedInstanceState != null) ? savedInstanceState.getParcelable(SAVED_STATE_EXPANDABLE_ITEM_MANAGER) : null;
+        mRecyclerViewExpandableItemManager = new RecyclerViewExpandableItemManager(eimSavedState);
+        mRecyclerViewExpandableItemManager.setOnGroupExpandListener(this);
+        mRecyclerViewExpandableItemManager.setOnGroupCollapseListener(this);
+
+        // drag & drop manager
+        mRecyclerViewDragDropManager = new RecyclerViewDragDropManager();
+        mRecyclerViewDragDropManager.setDraggingItemShadowDrawable(
+                (NinePatchDrawable) ContextCompat.getDrawable(requireContext(), R.drawable.material_shadow_z3));
+
+        //adapter
+        //TODO replace with own logic
+        final ExpandableDraggableWithSectionExampleAdapter myItemAdapter = new ExpandableDraggableWithSectionExampleAdapter(getDataProvider());
+
+        mAdapter = myItemAdapter;
+
+        mWrappedAdapter = mRecyclerViewExpandableItemManager.createWrappedAdapter(myItemAdapter);       // wrap for expanding
+        mWrappedAdapter = mRecyclerViewDragDropManager.createWrappedAdapter(mWrappedAdapter);           // wrap for dragging
+
+        mRecyclerViewDragDropManager.setCheckCanDropEnabled(ALLOW_ITEMS_MOVE_ACROSS_SECTIONS);
+        myItemAdapter.setAllowItemsMoveAcrossSections(ALLOW_ITEMS_MOVE_ACROSS_SECTIONS);
+
+        final GeneralItemAnimator animator = new DraggableItemAnimator();
+
+        // Change animations are enabled by default since support-v7-recyclerview v22.
+        // Need to disable them when using animation indicator.
+        animator.setSupportsChangeAnimations(false);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mWrappedAdapter);  // requires *wrapped* adapter
+        mRecyclerView.setItemAnimator(animator);
+        mRecyclerView.setHasFixedSize(false);
+
+        // additional decorations
+        //noinspection StatementWithEmptyBody
+        if (supportsViewElevation()) {
+            // Lollipop or later has native drop shadow feature. ItemShadowDecorator is not required.
         } else {
-            return false;
+            mRecyclerView.addItemDecoration(new ItemShadowDecorator((NinePatchDrawable) ContextCompat.getDrawable(requireContext(), R.drawable.material_shadow_z1)));
         }
+        mRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.list_divider_h), true));
+
+
+        // NOTE:
+        // The initialization order is very important! This order determines the priority of touch event handling.
+        //
+        // priority: DragAndDrop > ExpandableItem
+        mRecyclerViewDragDropManager.attachRecyclerView(mRecyclerView);
+        mRecyclerViewExpandableItemManager.attachRecyclerView(mRecyclerView);
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (mRecyclerViewDragDropManager != null) {
+            mRecyclerViewDragDropManager.release();
+            mRecyclerViewDragDropManager = null;
+        }
+
+        if (mRecyclerViewExpandableItemManager != null) {
+            mRecyclerViewExpandableItemManager.release();
+            mRecyclerViewExpandableItemManager = null;
+        }
+
+        if (mRecyclerView != null) {
+            mRecyclerView.setItemAnimator(null);
+            mRecyclerView.setAdapter(null);
+            mRecyclerView = null;
+        }
+
+        if (mWrappedAdapter != null) {
+            WrapperAdapterUtils.releaseAll(mWrappedAdapter);
+            mWrappedAdapter = null;
+        }
+        mAdapter = null;
+        mLayoutManager = null;
+
+        super.onDestroyView();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+//        if (gridView.isEditMode()) {
+//            gridView.stopEditMode();
+//            return true;
+//        } else {
+            return false;
+//        }
     }
     @Override
     public void onCalendarOutOfRange(Calendar calendar) {
@@ -222,7 +331,6 @@ public class CalendarFragment extends Fragment implements IOnBackPressed,
                 all.add("null");
             }
         }
-        gridView.setAdapter(new DynamicGridAdapter(getContext(), all, getResources().getInteger(R.integer.column_count)));
         if (i == 0){
             text_foot.setText(HAS_NOT);
         }
@@ -254,10 +362,7 @@ public class CalendarFragment extends Fragment implements IOnBackPressed,
         calendar = (CalendarView) view.findViewById(R.id.calendar_view);
         mScrollLayout = (ScrollLayout) view.findViewById(R.id.scroll_down_layout);
         text_foot = (TextView) view.findViewById(R.id.text_foot);
-        gridView = (DynamicGridView) view.findViewById(R.id.dynamic_grid);
-        gridView.setAdapter(new DynamicGridAdapter(getContext(),
-                                                     new ArrayList<String>(Arrays.asList(Cheeses.sCheeseStrings)),
-                                                     getResources().getInteger(R.integer.column_count)));
+
         monthDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -285,37 +390,8 @@ public class CalendarFragment extends Fragment implements IOnBackPressed,
         mScrollLayout.setExitOffset(480);
         mScrollLayout.setOnScrollChangedListener(mOnScrollChangedListener);
         mScrollLayout.setToExit();
-
         mScrollLayout.getBackground().setAlpha(0);
-        gridView.setOnDragListener(new DynamicGridView.OnDragListener() {
-            @Override
-            public void onDragStarted(int position) {
-                Log.d(TAG, "drag started at position " + position);
-            }
 
-            @Override
-            public void onDragPositionsChanged(int oldPosition, int newPosition) {
-                /**
-                 * TODO:交换任务时间
-                 */
-                Log.d(TAG, String.format("drag item position changed from %d to %d", oldPosition, newPosition));
-            }
-        });
-        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                gridView.startEditMode(position);
-                return true;
-            }
-        });
-
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), parent.getAdapter().getItem(position).toString(),
-                               Toast.LENGTH_SHORT).show();
-            }
-        });
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -430,11 +506,31 @@ public class CalendarFragment extends Fragment implements IOnBackPressed,
         monthDay.setText(constructMonthDay(calendar.getCurMonth(),calendar.getCurDay()));
         lunar.setText(LUNAR);
         currentDay.setText(String.valueOf(calendar.getCurDay()));
-//        try {
-//            loadWeekTask(calendar.getCurrentWeekCalendars().get(0));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
     }
 
+    @Override
+    public void onGroupCollapse(int groupPosition, boolean fromUser, Object payload) {
+    }
+
+    @Override
+    public void onGroupExpand(int groupPosition, boolean fromUser, Object payload) {
+        if (fromUser) {
+            adjustScrollPositionOnGroupExpanded(groupPosition);
+        }
+    }
+    private void adjustScrollPositionOnGroupExpanded(int groupPosition) {
+        int childItemHeight = getActivity().getResources().getDimensionPixelSize(R.dimen.list_item_height);
+        int topMargin = (int) (getActivity().getResources().getDisplayMetrics().density * 16); // top-spacing: 16dp
+        int bottomMargin = topMargin; // bottom-spacing: 16dp
+
+        mRecyclerViewExpandableItemManager.scrollToGroup(groupPosition, childItemHeight, topMargin, bottomMargin);
+    }
+
+    private boolean supportsViewElevation() {
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+    }
+
+    public AbstractExpandableDataProvider getDataProvider() {
+        return ((MainActivity) getActivity()).getDataProvider();
+    }
 }

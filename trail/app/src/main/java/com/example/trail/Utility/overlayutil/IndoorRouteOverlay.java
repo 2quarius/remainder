@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2016 Baidu, Inc. All Rights Reserved.
  */
-package com.example.trail.overlayutil;
+package com.example.trail.Utility.overlayutil;
 
 import android.graphics.Color;
 import android.os.Bundle;

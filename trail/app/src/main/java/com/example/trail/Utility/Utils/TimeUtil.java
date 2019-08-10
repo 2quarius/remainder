@@ -1,4 +1,4 @@
-package com.example.trail.Utility;
+package com.example.trail.Utility.Utils;
 
 import android.annotation.SuppressLint;
 

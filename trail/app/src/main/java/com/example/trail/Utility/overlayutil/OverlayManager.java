@@ -1,4 +1,4 @@
-package com.example.trail.overlayutil;
+package com.example.trail.Utility.overlayutil;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMap.OnPolylineClickListener;

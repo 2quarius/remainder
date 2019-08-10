@@ -137,7 +137,7 @@
         android:layout_height="match_parent"
         app:isSupportExit="true"
         app:allowHorizontalScroll="true"
-        android:background="@color/colorPrimaryDark">
+        android:background="@android:color/white">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -146,26 +146,18 @@
                 android:layout_below="@+id/text_foot"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <org.askerov.dynamicgrid.DynamicGridView
-                    android:id="@+id/dynamic_grid"
-                    android:layout_height="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
-                    android:numColumns="@integer/column_count"/>
+                    android:layout_height="match_parent"
+                    style="@style/myRecyclerViewStyle"/>
             </LinearLayout>
-
-            <!--<com.yinglan.scrolllayout.content.ContentListView-->
-                <!--android:layout_below="@+id/text_foot"-->
-                <!--android:id="@+id/list_view"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:background="@android:color/white"-->
-                <!--tools:ignore="UnknownId"></com.yinglan.scrolllayout.content.ContentListView>-->
 
             <TextView
                 android:id="@+id/text_foot"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="@android:color/transparent"
                 android:clickable="true"
                 android:gravity="center"
                 android:text="点击或上滑打开" />

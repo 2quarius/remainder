@@ -596,7 +596,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         final AlertDialog customDialog;
 
         LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.dialog,null);
+        View layout = inflater.inflate(R.layout.add_task_map_dialog, null);
         FloatingActionButton search = layout.findViewById(R.id.search_button);
         final EditText searchText = layout.findViewById(R.id.search_place);
         searchText.setVisibility(View.INVISIBLE);
