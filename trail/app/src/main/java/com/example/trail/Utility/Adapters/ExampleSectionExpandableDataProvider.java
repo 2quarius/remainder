@@ -2,13 +2,21 @@ package com.example.trail.Utility.Adapters;
 
 import android.util.Pair;
 
+import com.example.trail.NewTask.SimpleTask.MiniTask;
+import com.example.trail.NewTask.SimpleTask.Task;
+import com.example.trail.Utility.Utils.TimeUtil;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class ExampleSectionExpandableDataProvider extends AbstractExpandableDataProvider {
+    private List<Pair<Long,Task>> mTasks = new ArrayList<>();
     private List<Pair<ConcreteGroupData, List<ChildData>>> mData;
 
     // for undo group item
@@ -20,39 +28,59 @@ public class ExampleSectionExpandableDataProvider extends AbstractExpandableData
     private long mLastRemovedChildParentGroupId = -1;
     private int mLastRemovedChildPosition = -1;
 
-    public ExampleSectionExpandableDataProvider() {
+    public ExampleSectionExpandableDataProvider(List<Task> tasks) {
         //按时间划分任务，粒度为一小时
-        final String groupItems = "|ABC|DEF|GHI|JKL|MNO|PQR|STU|VWX|YZ";
-        //miniTask
-        final String childItems = "abc";
+        //  hour   list of   title-miniTaskTitles
+        Map<String,List<Task>> titlesByTime = groupByTime(tasks);
 
         mData = new LinkedList<Pair<ConcreteGroupData, List<ChildData>>>();
 
-        int sectionCount = 1;
-
-        for (int i = 0; i < groupItems.length(); i++) {
-            //noinspection UnnecessaryLocalVariable
-            final long groupId = i;
-            final boolean isSection = (groupItems.charAt(i) == '|');
-            final String groupText = isSection ? ("Section " + sectionCount) : Character.toString(groupItems.charAt(i));
-            final ConcreteGroupData group = new ConcreteGroupData(groupId, isSection, groupText);
-            final List<ChildData> children = new ArrayList<>();
-
-            if (isSection) {
-                sectionCount += 1;
-            } else {
-                // add child items
-                for (int j = 0; j < childItems.length(); j++) {
+        long groupId = -1;
+        for (Map.Entry<String,List<Task>> entry:titlesByTime.entrySet()){
+            //section header (can be took as group with no children)
+            final ConcreteGroupData sectionHeader = new ConcreteGroupData(++groupId,true,entry.getKey());
+            mData.add(new Pair<ConcreteGroupData, List<ChildData>>(sectionHeader,new ArrayList<ChildData>()));
+            mTasks.add(new Pair<>(groupId,new Task()));
+            //group (titles) and children (mini task titles)
+            for (Task groupChildren:entry.getValue()) {
+                final ConcreteGroupData group = new ConcreteGroupData(++groupId, false, groupChildren.getTitle());
+                final List<ChildData> children = new ArrayList<>();
+                for (MiniTask mini:groupChildren.getMiniTasks()){
                     final long childId = group.generateNewChildId();
-                    final String childText = Character.toString(childItems.charAt(j));
-                    children.add(new ConcreteChildData(childId, childText));
+                    children.add(new ConcreteChildData(childId,mini.getContent()));
                 }
+                mData.add(new Pair<>(group,children));
+                mTasks.add(new Pair<>(groupId,groupChildren));
             }
-
-            mData.add(new Pair<>(group, children));
         }
     }
 
+    private Map<String,List<Task>> groupByTime(List<Task> tasks) {
+        Map<String,List<Task>> result = new HashMap<>();
+        for (Task task:tasks){
+            Date expire = task.getExpireTime();
+            int hour = TimeUtil.Date2Cal(expire).get(Calendar.HOUR);
+            String shour = duration(hour);
+            if (result.containsKey(shour)){
+                result.get(shour).add(task);
+            }
+            else {
+                List<Task> sub = new ArrayList<>();
+                sub.add(task);
+                result.put(shour,sub);
+            }
+        }
+        return result;
+    }
+
+    private String duration(int hour){
+        StringBuilder sb = new StringBuilder();
+        sb.append(hour);
+        sb.append(":00-");
+        sb.append(hour+1);
+        sb.append(":00");
+        return sb.toString();
+    }
     @Override
     public int getGroupCount() {
         return mData.size();
@@ -89,18 +117,23 @@ public class ExampleSectionExpandableDataProvider extends AbstractExpandableData
 
     @Override
     public void moveGroupItem(int fromGroupPosition, int toGroupPosition) {
-        //TODO
         if (fromGroupPosition == toGroupPosition) {
             return;
         }
-
+        int position = toGroupPosition;
+        if (toGroupPosition<fromGroupPosition){
+            position-=1;
+        }
+        Date toDate = getGroupItem(position).isSectionHeader()?
+                TimeUtil.String2Date(mTasks.get(Math.toIntExact(getGroupItem(fromGroupPosition).getGroupId())).second.getExpireTime(), getGroupItem(position).getText()):
+                mTasks.get(Math.toIntExact(getGroupItem(position).getGroupId())).second.getExpireTime();
+        mTasks.get(Math.toIntExact(getGroupItem(fromGroupPosition).getGroupId())).second.setExpireTime(toDate);
         final Pair<ConcreteGroupData, List<ChildData>> item = mData.remove(fromGroupPosition);
         mData.add(toGroupPosition, item);
     }
 
     @Override
     public void moveChildItem(int fromGroupPosition, int fromChildPosition, int toGroupPosition, int toChildPosition) {
-        //TODO
         if ((fromGroupPosition == toGroupPosition) && (fromChildPosition == toChildPosition)) {
             return;
         }
@@ -115,6 +148,7 @@ public class ExampleSectionExpandableDataProvider extends AbstractExpandableData
             throw new IllegalStateException("Destination group is a section header!");
         }
 
+        mTasks.get(toGroupPosition).second.getMiniTasks().add(mTasks.get(fromGroupPosition).second.getMiniTasks().remove(fromChildPosition));
         final ConcreteChildData item = (ConcreteChildData) fromGroup.second.remove(fromChildPosition);
 
         if (toGroupPosition != fromGroupPosition) {

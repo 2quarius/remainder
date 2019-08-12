@@ -30,12 +30,9 @@ import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.SettingFragmnet;
-import com.example.trail.Utility.Adapters.AbstractExpandableDataProvider;
-import com.example.trail.Utility.Adapters.ExampleSectionExpandableDataProviderFragment;
 import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
 import com.example.trail.Utility.EnumPack.TabConstants;
-import com.example.trail.Utility.UIHelper.IOnBackPressed;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -63,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private TabLayout mTabs;
     private FloatingActionButton mFab;
     private FloatingNavigationView mFloatingNavView;
+
+    private CalendarFragment calendarFragment;
     /**
      * task collector indicators
      */
@@ -128,11 +127,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         }
         setTheTheme();
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(new ExampleSectionExpandableDataProviderFragment(), FRAGMENT_TAG_DATA_PROVIDER)
-                    .commit();
-        }
         // Setting ViewPager for each Tabs
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(mViewPager);
@@ -158,18 +152,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
     }
-    @Override
-    public void onBackPressed() {
-        @SuppressLint("ResourceType")
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.layout.fragment_calendar);
-        if (!(fragment instanceof IOnBackPressed) || !((IOnBackPressed) fragment).onBackPressed()) {
-            super.onBackPressed();
-        }
-    }
-    public AbstractExpandableDataProvider getDataProvider() {
-        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_DATA_PROVIDER);
-        return ((ExampleSectionExpandableDataProviderFragment) fragment).getDataProvider();
-    }
+
     /**
      * solve result when startActivityForResult ends
      * @param requestCode
@@ -182,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (resultCode==RESULT_OK&&data!=null){
             if (requestCode==ADD_TASK_REQUEST_CODE){
                 tasks.add((Task) data.getSerializableExtra("task"));
+                calendarFragment.refresh(tasks);
             }
             else if (requestCode==SWITCH_COLLECTION_REQUEST_CODE){
                 int idx = data.getIntExtra("index",-1);
@@ -270,6 +254,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     @Override
     public void setTasks(List<Task> mTasks) {
         tasks = mTasks;
+        calendarFragment.refresh(mTasks);
     }
     @Override
     public void sTasks(List<Task> bTasks) {
@@ -327,7 +312,8 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ListsFragment(), TabConstants.LISTS.getTitle());
-        adapter.addFragment(new CalendarFragment(),TabConstants.TIME.getTitle());
+        calendarFragment = new CalendarFragment();
+        adapter.addFragment(calendarFragment,TabConstants.TIME.getTitle());
         adapter.addFragment(new BaiduMapFragment(), TabConstants.SPACE.getTitle());
         settingfragment = new SettingFragmnet();
         adapter.addFragment(settingfragment,TabConstants.SETTING.getTitle());

@@ -336,13 +336,11 @@ public class ExpandableDraggableWithSectionExampleAdapter extends AbstractExpand
 
     @Override
     public void onMoveGroupItem(int fromGroupPosition, int toGroupPosition) {
-        //TODO
         mProvider.moveGroupItem(fromGroupPosition, toGroupPosition);
     }
 
     @Override
     public void onMoveChildItem(int fromGroupPosition, int fromChildPosition, int toGroupPosition, int toChildPosition) {
-        //TODO
         mProvider.moveChildItem(fromGroupPosition, fromChildPosition, toGroupPosition, toChildPosition);
     }
 

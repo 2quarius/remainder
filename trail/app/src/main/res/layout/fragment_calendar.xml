@@ -137,7 +137,7 @@
         android:layout_height="match_parent"
         app:isSupportExit="true"
         app:allowHorizontalScroll="true"
-        android:background="@android:color/white">
+        android:background="@color/colorPrimaryDark">
 
         <RelativeLayout
             android:layout_width="match_parent"

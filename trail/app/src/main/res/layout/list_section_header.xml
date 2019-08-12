@@ -19,4 +19,5 @@
     android:layout_width="match_parent"
     android:layout_height="64dp"
     android:layout_toRightOf="@id/drag_handle"
+    android:textColor="@color/app_white"
     tools:ignore="RtlHardcoded" />

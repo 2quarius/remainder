@@ -55,6 +55,12 @@ public class TimeUtil {
         return cal;
     }
 
+    public static Date tomorrow(Date today) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(today);
+        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) + 1);
+        return calendar.getTime();
+    }
     /**
      * 取得当前日期所在周的第一天
      * @param calendar
@@ -100,5 +106,19 @@ public class TimeUtil {
     private static int getDaysOfMonth(com.haibin.calendarview.Calendar calendar) {
         Calendar cal = Calendar2Cal(calendar);
         return cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
+    public static Date String2Date(Date expireTime, String text) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(expireTime);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0;i<text.length();i++){
+            if (text.charAt(i)==':'){
+                break;
+            }
+            sb.append(text.charAt(i));
+        }
+        calendar.set(Calendar.HOUR,Integer.valueOf(sb.toString()));
+        return calendar.getTime();
     }
 }
