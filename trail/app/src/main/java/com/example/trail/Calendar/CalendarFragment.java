@@ -1,5 +1,6 @@
 package com.example.trail.Calendar;
 
+import android.content.Context;
 import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -45,6 +46,8 @@ public class CalendarFragment extends Fragment implements
             CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener, RecyclerViewExpandableItemManager.OnGroupCollapseListener,
         RecyclerViewExpandableItemManager.OnGroupExpandListener {
+    public static Context mContext;
+
     private static final String MONTH = "月";
     private static final String DAY = "日";
     private static final String LUNAR = "今日";
@@ -112,6 +115,7 @@ public class CalendarFragment extends Fragment implements
         mTasks = ((MainActivity)getActivity()).getTasks();
         initView(view);
         initData();
+        mContext = getContext();
         return view;
     }
 
@@ -306,7 +310,7 @@ public class CalendarFragment extends Fragment implements
                                       calendar.get(java.util.Calendar.MONTH)+1,
                                       calendar.get(java.util.Calendar.DAY_OF_MONTH),color,task.getTitle()).toString(),
                     getSchemeCalendar(calendar.get(java.util.Calendar.YEAR),
-                                      calendar.get(java.util.Calendar.MONTH),
+                                      calendar.get(java.util.Calendar.MONTH)+1,
                                       calendar.get(java.util.Calendar.DAY_OF_MONTH),color,task.getTitle()));
         }
         //此方法在巨大的数据量上不影响遍历性能，推荐使用
@@ -379,5 +383,4 @@ public class CalendarFragment extends Fragment implements
     private boolean supportsViewElevation() {
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
-
 }

@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private static final int ADD_TASK_REQUEST_CODE = 1;
     private static final int SWITCH_COLLECTION_REQUEST_CODE = 2;
     private boolean misScrolled;
-    private static final String FRAGMENT_TAG_DATA_PROVIDER = "data provider";
-
     /**
      * layout elements
      */

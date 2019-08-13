@@ -1,7 +1,9 @@
 package com.example.trail.Utility.Adapters;
 
 import android.util.Pair;
+import android.widget.Toast;
 
+import com.example.trail.Calendar.CalendarFragment;
 import com.example.trail.NewTask.SimpleTask.MiniTask;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Utility.Utils.TimeUtil;
@@ -128,6 +130,9 @@ public class ExampleSectionExpandableDataProvider extends AbstractExpandableData
                 TimeUtil.String2Date(mTasks.get(Math.toIntExact(getGroupItem(fromGroupPosition).getGroupId())).second.getExpireTime(), getGroupItem(position).getText()):
                 mTasks.get(Math.toIntExact(getGroupItem(position).getGroupId())).second.getExpireTime();
         mTasks.get(Math.toIntExact(getGroupItem(fromGroupPosition).getGroupId())).second.setExpireTime(toDate);
+        Toast.makeText(CalendarFragment.mContext,
+                       " "+mTasks.get(Math.toIntExact(getGroupItem(fromGroupPosition).getGroupId())).second.getTitle()+" 的终止时间已被修改为 "+toDate.toString()
+                , Toast.LENGTH_SHORT).show();
         final Pair<ConcreteGroupData, List<ChildData>> item = mData.remove(fromGroupPosition);
         mData.add(toGroupPosition, item);
     }
@@ -148,7 +153,11 @@ public class ExampleSectionExpandableDataProvider extends AbstractExpandableData
             throw new IllegalStateException("Destination group is a section header!");
         }
 
-        mTasks.get(toGroupPosition).second.getMiniTasks().add(mTasks.get(fromGroupPosition).second.getMiniTasks().remove(fromChildPosition));
+        MiniTask from = mTasks.get(fromGroupPosition).second.getMiniTasks().remove(fromChildPosition);
+        mTasks.get(toGroupPosition).second.getMiniTasks().add(from);
+        Toast.makeText(CalendarFragment.mContext,
+                       " "+from.getContent()+" 已被移动到 "+mTasks.get(toGroupPosition).second.getTitle()+" 下"
+                , Toast.LENGTH_SHORT).show();
         final ConcreteChildData item = (ConcreteChildData) fromGroup.second.remove(fromChildPosition);
 
         if (toGroupPosition != fromGroupPosition) {
