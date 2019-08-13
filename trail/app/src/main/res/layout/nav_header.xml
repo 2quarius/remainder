@@ -3,17 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
+    android:backgroundTint="@color/inputLine"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header">
     <com.google.android.material.circularreveal.CircularRevealRelativeLayout
         android:layout_width="@dimen/followed"
         android:paddingLeft="@dimen/padding"
         android:layout_height="match_parent">
+
         <ImageButton
             android:id="@+id/avatar"
-            android:contentDescription="@string/avatar"
             android:layout_width="@dimen/avatar"
             android:layout_height="@dimen/avatar"
+            android:contentDescription="@string/avatar"
             android:paddingTop="@dimen/padding"
             android:paddingBottom="@dimen/padding"
             tools:srcCompat="@tools:sample/avatars" />

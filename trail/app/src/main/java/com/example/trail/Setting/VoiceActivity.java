@@ -16,10 +16,18 @@ import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 
 import java.io.FileInputStream;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 import static java.nio.file.attribute.AclEntryType.ALARM;
 
@@ -120,7 +128,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //改变系统音量
-    private void changeSystemVolume(int voice){
+    public void changeSystemVolume(int voice){
         int max=0,current=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         max = mAudioManager.getStreamMaxVolume( AudioManager.STREAM_SYSTEM );
@@ -132,7 +140,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取当前系统音量
-    private int getSystemVolume(){
+    public int getSystemVolume(){
         int volume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         volume = mAudioManager.getStreamVolume( AudioManager.STREAM_SYSTEM );
@@ -140,7 +148,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取系统最大音量
-    private int getMaxSystemVolume(){
+    public int getMaxSystemVolume(){
         int maxVolume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         maxVolume = mAudioManager.getStreamMaxVolume( AudioManager.STREAM_SYSTEM );
@@ -148,7 +156,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取当前媒体音量
-    private int getMusicVolume(){
+    public int getMusicVolume(){
         int volume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         volume = mAudioManager.getStreamVolume( AudioManager.STREAM_MUSIC );
@@ -156,7 +164,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取最大媒体音量
-    private int getMaxMusicVolume(){
+    public int getMaxMusicVolume(){
         int maxVolume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         maxVolume=mAudioManager.getStreamMaxVolume( AudioManager.STREAM_MUSIC );

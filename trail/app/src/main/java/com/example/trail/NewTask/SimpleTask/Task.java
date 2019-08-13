@@ -11,14 +11,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import cn.bmob.v3.BmobObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Task implements Serializable {
+@EqualsAndHashCode(callSuper=false)
+public class Task extends BmobObject implements Serializable {
+    private String username;
+    private String taskId;
     private String title;
     private String description = null;
     private List<MiniTask> miniTasks = new ArrayList<>();

@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:tools="http://schemas.android.com/tools" android:id="@+id/main_content"
+<androidx.coordinatorlayout.widget.CoordinatorLayout 
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:id="@+id/main"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
@@ -18,8 +25,30 @@
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
+    </LinearLayout>
+    <com.andremion.floatingnavigationview.FloatingNavigationView
+        android:id="@+id/floating_view"
+        android:scaleType="centerInside"
+        android:importantForAutofill="auto"
+        app:borderWidth="0dp"
+        android:backgroundTint="@color/inputLine"
+        app:fabSize="normal"
+        app:maxImageSize="@dimen/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:headerLayout="@layout/nav_header"
+        app:layout_anchor="@id/main"
+        app:layout_anchorGravity="bottom|start"
+        app:menu="@menu/drawer"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        app:layout_anchor="@id/main"
+        app:layout_anchorGravity="bottom|end"
         android:id="@+id/fab_addTask"
         android:scaleType="centerInside"
         android:importantForAutofill="auto"
@@ -36,4 +65,4 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/add" />
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
