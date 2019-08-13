@@ -9,14 +9,17 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import cn.bmob.v3.BmobObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TaskCollector implements Serializable {
+@EqualsAndHashCode(callSuper=false)
+public class TaskCollector extends BmobObject implements Serializable {
     private String name;
     private ArrayList<Task> tasks = new ArrayList<>();
     public TaskCollector(JSONObject o)

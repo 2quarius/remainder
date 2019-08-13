@@ -172,21 +172,19 @@ public class ListsFragment extends Fragment {
      * Adapter to display recycler view.
      */
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements Filterable {
-//        private List<String> mFilterTitle = new ArrayList<>();
-//        private List<String> mFilterDesc = new ArrayList<>();
-//        private List<Boolean> mFilterFinish = new ArrayList<>();
         private List<Task> mFilterTasks = new ArrayList<>();
         public ContentAdapter(Context context) {
             mFilterTasks=mTasks;
             titles.clear();
             descriptions.clear();
             finished.clear();
-            for (Task task:mFilterTasks){
-                titles.add(task.getTitle());
-                descriptions.add(task.getDescription());
-                finished.add(task.isDone());
+            if (mFilterTasks!=null) {
+                for (Task task : mFilterTasks) {
+                    titles.add(task.getTitle());
+                    descriptions.add(task.getDescription());
+                    finished.add(task.isDone());
+                }
             }
-
         }
 
         @Override
@@ -222,11 +220,7 @@ public class ListsFragment extends Fragment {
                         for (int i =0;i<mTasks.size();i++) {
                             //这里根据需求，添加匹配规则
                             if (mTasks.get(i).getTitle().contains(charString)) {
-//                                mFilterTitle.add(titles.get(i));
-//                                mFilterFinish.add(finished.get(i));
-//                                mFilterDesc.add(descriptions.get(i));
                                 filteredList.add(mTasks.get(i));
-//                                System.out.println(titles.get(i));
                                 System.out.println(mTasks.get(i).getTitle());
                             }
                         }
@@ -276,8 +270,6 @@ public class ListsFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 }
             });
-//            adapter.notifyItemRemoved(position);
-//            adapter.notifyItemRangeChanged(Math.min(position, this.getItemCount()-1), this.getItemCount()-1 - position +1);
         }
     }
 

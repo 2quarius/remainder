@@ -53,9 +53,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Light.Theme"
-        android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".NoInterrupt.NoInterruptActivity"></activity>
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup,android:supportsRtl">
         <activity android:name=".Setting.ShowAccountActivity" />
         <activity android:name=".Setting.RegistActivity" />
         <activity android:name=".AlarmRemind.AlarmRemindActivity" />

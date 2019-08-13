@@ -2,6 +2,7 @@ package com.example.trail.Setting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +14,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.trail.NoInterrupt.NoInterruptActivity;
+import com.example.trail.Lists.ListsFragment;
+import com.example.trail.MainActivity;
+import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+
+import static com.android.volley.VolleyLog.TAG;
 
 public class SettingFragmnet extends Fragment {
     private ImageButton btnAccountSetHead;
@@ -23,9 +37,14 @@ public class SettingFragmnet extends Fragment {
     private Button btnVoice;
     private Button btnAbout;
     private Button btnBan;
+    private Button backup;
+    private SettingFragmnet settingFragmnet;
     private FloatingActionButton fab;
     private String account;
-
+    final  private String FILE_NAME = "information.txt";
+    public interface backClass{
+        void sTasks(List<Task> mTasks);
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,7 +64,7 @@ public class SettingFragmnet extends Fragment {
         btnAccountSetHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (account.length()<=0) {
+                if (account.length()<=0||account.equals("failed")) {
                     Intent intent = new Intent(getActivity(),AccountActivity.class);
                     startActivity(intent);
                 }
@@ -117,6 +136,31 @@ public class SettingFragmnet extends Fragment {
                 startActivity(intent);
             }
         });
+        backup=view.findViewById(R.id.btn_backup);
+        backup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final List<Task> bTasks=new ArrayList<>();
+                BmobQuery<Task> cloudList=new BmobQuery<>();
+                cloudList.findObjects(new FindListener<Task>() {
+                    @Override
+                    public void done(List<Task> list, BmobException e) {
+                        for(int i=0;i<list.size();i++){
+                            if(list.get(i).getUsername().equals("999")){
+                                Log.d(TAG, "done: "+list.get(i).getTitle());
+                                Toast.makeText(getActivity(),list.get(i).getTitle(),Toast.LENGTH_SHORT).show();
+                                Task task=new Task();
+                                task.setTitle(list.get(i).getTitle());
+                                task.setDescription(list.get(i).getDescription());
+                                bTasks.add(task);
+                            }
+                        }
+                        ((SettingFragmnet.backClass)getActivity()).sTasks(bTasks);
+                    }
+                });
+
+            }
+        });
     }
 
     @Override
@@ -125,4 +169,5 @@ public class SettingFragmnet extends Fragment {
         fab=getActivity().findViewById(R.id.fab_addTask);
         fab.setVisibility(View.VISIBLE);
     }
+
 }
