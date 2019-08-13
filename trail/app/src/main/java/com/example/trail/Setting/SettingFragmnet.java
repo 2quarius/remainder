@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -132,7 +133,9 @@ public class SettingFragmnet extends Fragment {
         btnBan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Toast.makeText(getActivity(),"success",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), NoInterruptActivity.class);
+                //Toast.makeText(getActivity(),"success1",Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
