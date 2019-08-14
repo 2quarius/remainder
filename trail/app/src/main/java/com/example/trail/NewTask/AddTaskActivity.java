@@ -31,6 +31,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -62,7 +63,6 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,10 +70,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
-import cn.bmob.v3.listener.UpdateListener;
 
 public class AddTaskActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -118,7 +114,6 @@ public class AddTaskActivity extends AppCompatActivity implements
         position = intent.getIntExtra("position",-1);
         task = intent.getSerializableExtra("task")!=null? (Task) intent.getSerializableExtra("task") :new Task();
         miniTasks = task.getMiniTasks();
-        task.setUsername(readUsername());
         initLayoutElement();
         setTextByTask();
         installListener();
@@ -253,22 +248,9 @@ public class AddTaskActivity extends AppCompatActivity implements
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("task",task);
                     setResult(RESULT_OK,intent);
-                    task.save(new SaveListener<String>() {
-                        @Override
-                        public void done(String s, BmobException e) {
-                            task.setTaskId(s);
-                        }
-                    });
                     AddTaskActivity.this.finish();
                 }
                 else if (position!=-1){
-                    task.update(task.getTaskId(),new UpdateListener() {
-                        @Override
-                        public void done(BmobException e) {
-                            Toast.makeText(AddTaskActivity.this,task.getUsername(),Toast.LENGTH_SHORT).show();
-                            Toast.makeText(AddTaskActivity.this,task.getTaskId(),Toast.LENGTH_SHORT).show();
-                        }
-                    });
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("position",position);
                     intent.putExtra("task",task);
@@ -419,7 +401,7 @@ public class AddTaskActivity extends AppCompatActivity implements
     }
 
     private void addNewLine() {
-        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.mini_task_checkbox, null);
+        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.add_task_mini_task_checkbox, null);
         final CheckBox checkBox = linearLayout.findViewById(R.id.done);
         final EditText editText = linearLayout.findViewById(R.id.content);
         final int index = miniTasks.size();
@@ -512,7 +494,7 @@ public class AddTaskActivity extends AppCompatActivity implements
             ViewGroup parent = (ViewGroup) mMiniTaskSwitch.getParent();
             parent.addView(addButton());
             for (final MiniTask miniTask:task.getMiniTasks()){
-                LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.mini_task_checkbox,null);
+                LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.add_task_mini_task_checkbox, null);
                 CheckBox checkBox = linearLayout.findViewById(R.id.done);
                 final EditText editText = linearLayout.findViewById(R.id.content);
                 checkBox.setChecked(miniTask.getDone());
@@ -545,7 +527,7 @@ public class AddTaskActivity extends AppCompatActivity implements
     }
 
     private View addButton() {
-        ImageButton imgb = (ImageButton) getLayoutInflater().inflate(R.layout.mini_task_add_button,null);
+        ImageButton imgb = (ImageButton) getLayoutInflater().inflate(R.layout.add_task_mini_task_add_button, null);
         imgb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -625,7 +607,6 @@ public class AddTaskActivity extends AppCompatActivity implements
             }
         });
         customDialog = builder.create();
-        //TODO:设置点击事件
         final BaiduMap map = mapView.getMap();
         final BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.location);
         map.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
@@ -656,10 +637,28 @@ public class AddTaskActivity extends AppCompatActivity implements
                     @Override
                     public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
                         //获取点击的坐标地址
+                        //TODO 添加info window
+                        View infoWindowView = getLayoutInflater().inflate(R.layout.add_task_info_window, null);
+                        TextView addr = (TextView) infoWindowView.findViewById(R.id.address);
+                        addr.setText(arg0.getAddress());
+                        BitmapDescriptor infoWindowBitmap = BitmapDescriptorFactory.fromView(infoWindowView);
+                        InfoWindow.OnInfoWindowClickListener onInfoWindowClickListener = new InfoWindow.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick() {
+                                map.hideInfoWindow();
+                            }
+                        };
+                        //定义信息窗
+                        InfoWindow infoWindow = new InfoWindow(infoWindowBitmap,//信息窗布局
+                                                               mLatLng, //信息窗的点
+                                                               -47, //信息窗与点的位置关系
+                                                               //infoWindow监听器
+                                                               onInfoWindowClickListener
+                        );
+                        //显示信息窗
+                        map.showInfoWindow(infoWindow);
                         address = arg0.getAddress();
-//                        customDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
                     }
-
                     @Override
                     public void onGetGeoCodeResult(GeoCodeResult arg0) {
                     }
@@ -941,22 +940,4 @@ public class AddTaskActivity extends AppCompatActivity implements
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatString);
         return simpleDateFormat.format(dateToFormat);
     }
-    private String readUsername(){
-        String textContent = "";
-        try {
-            FileInputStream ios = openFileInput("information.txt");
-            byte[] temp = new byte[1024];
-            StringBuilder sb = new StringBuilder("");
-            int len = 0;
-            while ((len = ios.read(temp)) > 0){
-                sb.append(new String(temp, 0, len));
-            }
-            ios.close();
-            textContent = sb.toString();
-        }catch (Exception e) {
-            //Log.d("errMsg", e.toString());
-        }
-        return textContent;
-    }
-
 }

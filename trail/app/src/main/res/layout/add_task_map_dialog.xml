@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 app:borderWidth="0dp"
-                android:backgroundTint="@color/inputLine"
+                android:backgroundTint="@android:color/transparent"
                 app:srcCompat="@drawable/places_ic_search" />
             <EditText
                 android:gravity="center_vertical"

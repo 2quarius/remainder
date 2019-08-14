@@ -12,7 +12,7 @@
         android:background="@color/inputLine"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:headerLayout="@layout/nav_header"
+        app:headerLayout="@layout/side_menu_nav_header"
         app:menu="@menu/drawer"
         />
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -20,8 +20,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class TaskCollector extends BmobObject implements Serializable {
+    private String username = null;
     private String name;
     private ArrayList<Task> tasks = new ArrayList<>();
+    public TaskCollector(String name, ArrayList<Task> tasks){
+        this.name = name;
+        this.tasks = tasks;
+    }
     public TaskCollector(JSONObject o)
     {
         try {

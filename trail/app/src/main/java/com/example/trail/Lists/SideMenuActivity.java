@@ -212,7 +212,7 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
     }
     private void showDialog(){
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-        final View view = LayoutInflater.from(this).inflate(R.layout.add_list_dialog,null);
+        final View view = LayoutInflater.from(this).inflate(R.layout.side_menu_add_list_dialog, null);
         dialog.setTitle("添加清单");
         dialog.setView(view);
         dialog.setPositiveButton("添加", new DialogInterface.OnClickListener() {

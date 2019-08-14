@@ -11,18 +11,18 @@
     <string name="avatar">avatar</string>
     <string name="login_success">login successfully!</string>
 
-    <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="remind_me">Remind Me</string>
-    <string name="remind_date_and_time">Reminder set for %1$s, %2$s %3$s</string>
-    <string name="date_error_check_again">the remind date is ahead of today</string>
-    <string name="date_reminder_default">today</string>
-    <string name="expire_time">Deadline</string>
-    <string name="expire_place">Place</string>
+    <string name="title">标题</string>
+    <string name="description">内容/描述</string>
+    <string name="remind_me">提醒时间</string>
+    <string name="remind_date_and_time">提醒时间设为 %1$s, %2$s %3$s</string>
+    <string name="date_error_check_again">提醒日期早于今天</string>
+    <string name="date_reminder_default">今天</string>
+    <string name="expire_time">终止时间</string>
+    <string name="expire_place">地点</string>
     <string name="image">image_desc</string>
     <string name="at">\@</string>
-    <string name="select_time">select a time</string>
-    <string name="priority">Priority</string>
+    <string name="select_time">选择时间</string>
+    <string name="priority">优先级</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
 

@@ -46,6 +46,7 @@ public class CalendarFragment extends Fragment implements
             CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener, RecyclerViewExpandableItemManager.OnGroupCollapseListener,
         RecyclerViewExpandableItemManager.OnGroupExpandListener {
+    //used in data provider, to show toast
     public static Context mContext;
 
     private static final String MONTH = "月";

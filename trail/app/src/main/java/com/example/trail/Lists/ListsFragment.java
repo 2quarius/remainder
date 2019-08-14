@@ -56,7 +56,7 @@ public class ListsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View viewP=inflater.inflate(
-                R.layout.recycler_view, container, false);
+                R.layout.lists_recycler_view, container, false);
         RecyclerView recyclerView =viewP.findViewById(R.id.my_recycler_view);
         adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);

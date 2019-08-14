@@ -36,7 +36,7 @@
         app:maxImageSize="@dimen/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:headerLayout="@layout/nav_header"
+        app:headerLayout="@layout/side_menu_nav_header"
         app:layout_anchor="@id/main"
         app:layout_anchorGravity="bottom|start"
         app:menu="@menu/drawer"

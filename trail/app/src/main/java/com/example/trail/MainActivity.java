@@ -32,6 +32,7 @@ import com.example.trail.Services.BaiduMapService;
 import com.example.trail.Setting.SettingFragmnet;
 import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
+import com.example.trail.Utility.EnumPack.KeyConstants;
 import com.example.trail.Utility.EnumPack.TabConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         super.onCreate(savedInstanceState);
         //初始化百度地图，必须在 setContentView(...) 前调用！
         SDKInitializer.initialize(getApplicationContext());
-        Bmob.initialize(this, "b096ac50b630d5a7db1c69abb7a34caa");
+        Bmob.initialize(this, KeyConstants.BMOB_SIXPLUS.getKey());
         try {
             FileInputStream ios = openFileInput(FILE_NAME2);
             byte[] temp = new byte[1024];
