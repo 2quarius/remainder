@@ -1,91 +1,54 @@
 package com.example.trail.Setting;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.trail.MainActivity;
 import com.example.trail.R;
+import com.example.trail.Utility.UIHelper.AccountView.AccountView;
+import com.example.trail.Utility.Utils.BmobUtils;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import cn.bmob.v3.BmobUser;
 
 public class ShowAccountActivity extends AppCompatActivity {
-    private String account;
-    final  private String FILE_NAME = "information.txt";
-    final  private String FILE_NAME3 = "theme.txt";
-    private TextView showaccount;
-    private Button logout;
-    private Button back;
-
-    private void setTheTheme() {
-        String theme = "";
-        try {
-            FileInputStream ios = openFileInput(FILE_NAME3);
-            byte[] temp = new byte[10];
-            StringBuilder sb = new StringBuilder("");
-            int len = 0;
-            while ((len = ios.read(temp)) > 0){
-                sb.append(new String(temp, 0, len));
-            }
-            ios.close();
-            theme = sb.toString();
-        }catch (Exception e) {
-            //Log.d("errMsg", e.toString());
-        }
-        if (theme.equals("purple")) {
-            setTheme(R.style.LightTheme);
-        }
-        else if (theme.equals("black")){
-            setTheme(R.style.NightTheme);
-        }
-    }
-
+    private AccountView mAvatar;
+    private TextView mUsername;
+    private LinearLayout mBtnBack;
+    private LinearLayout mBtnLogout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheTheme();
         setContentView(R.layout.activity_show_account);
-        Intent intent = getIntent();
-        account = intent.getStringExtra("account");
-        showaccount = findViewById(R.id.showaccount);
-        showaccount.setText(account);
-        logout = findViewById(R.id.btn_logout);
-        logout.setOnClickListener(new View.OnClickListener() {//注销
+        mAvatar = findViewById(R.id.account_view);
+        mUsername = findViewById(R.id.account_username);
+        User user = BmobUser.getCurrentUser(User.class);
+        if (user!=null){
+            //TODO avatar
+            mAvatar.setImageSource(R.drawable.dummy_image);
+            mUsername.setText(user.getUsername());
+        }
+        mBtnBack = findViewById(R.id.btn_back);
+        mBtnLogout = findViewById(R.id.btn_logout);
+        mBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String text = "";
-                try {
-                    FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                    fos.write(text.getBytes());
-                    fos.flush();
-                    fos.close();
-
-                } catch (Exception e) {
-                    //Log.d("errMsg", e.toString());
+                ShowAccountActivity.this.finish();
+            }
+        });
+        mBtnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (BmobUser.isLogin()){
+                    BmobUtils.updateTaskCollector(MainActivity.taskCollectors);
+                    BmobUser.logOut();
+                    setResult(RESULT_CANCELED);
+                    ShowAccountActivity.this.finish();
                 }
-                Intent intent = new Intent(ShowAccountActivity.this, MainActivity.class);
-                startActivity(intent);
             }
         });
-        back = findViewById(R.id.btn_showAccountBack);
-        back.bringToFront();
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        setTheTheme();
     }
 }

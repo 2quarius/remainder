@@ -29,11 +29,12 @@ import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
-import com.example.trail.Setting.SettingFragmnet;
+import com.example.trail.Setting.SettingsFragment;
 import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
 import com.example.trail.Utility.EnumPack.KeyConstants;
 import com.example.trail.Utility.EnumPack.TabConstants;
+import com.example.trail.Utility.Utils.BmobUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -48,7 +49,7 @@ import java.util.List;
 
 import cn.bmob.v3.Bmob;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass ,SettingFragmnet.backClass {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
     private static final int SWITCH_COLLECTION_REQUEST_CODE = 2;
     private boolean misScrolled;
@@ -65,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
      * task collector indicators
      */
     private int index=0;
-    private List<TaskCollector> taskCollectors;
+    public static List<TaskCollector> taskCollectors;
     private List<Task> tasks;
     private StoreRetrieveData storeRetrieveData;
 
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         //初始化百度地图，必须在 setContentView(...) 前调用！
         SDKInitializer.initialize(getApplicationContext());
         Bmob.initialize(this, KeyConstants.BMOB_SIXPLUS.getKey());
+
         try {
             FileInputStream ios = openFileInput(FILE_NAME2);
             byte[] temp = new byte[1024];
@@ -255,10 +257,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         tasks = mTasks;
         calendarFragment.refresh(mTasks);
     }
-    @Override
-    public void sTasks(List<Task> bTasks) {
-        tasks.addAll(bTasks);
-    }
     public List<Task> getTasks(){
         return tasks;
     }
@@ -314,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         calendarFragment = new CalendarFragment();
         adapter.addFragment(calendarFragment,TabConstants.TIME.getTitle());
         adapter.addFragment(new BaiduMapFragment(), TabConstants.SPACE.getTitle());
-        settingfragment = new SettingFragmnet();
+        settingfragment = new SettingsFragment();
         adapter.addFragment(settingfragment,TabConstants.SETTING.getTitle());
         Bundle bundle = new Bundle();
         bundle.putString("account",account);

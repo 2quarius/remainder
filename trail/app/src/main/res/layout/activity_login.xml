@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/tv_top"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_alignParentTop="true"
         android:background="#ffe85628"
         android:gravity="center"
-        android:text="登陆"
+        android:text="登录"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_top"
         android:layout_margin="10dp"
         android:orientation="vertical" >
 
@@ -89,24 +85,23 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
+    <ImageView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/login_divider" />
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_margin="10dp"
         android:gravity="center"
         android:orientation="horizontal" >
 
-        <!--<com.sina.weibo.sdk.widget.LoginButton-->
-            <!--android:id="@+id/btn_weibo"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="10dp" />-->
-
         <Button
             android:id="@+id/btn_qq"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/account_avatar"
+            android:layout_height="@dimen/account_avatar"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:background="@drawable/qq"
@@ -117,8 +112,9 @@
 
         <Button
             android:id="@+id/btn_weixin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/btn_qq"
+            android:layout_width="@dimen/account_avatar"
+            android:layout_height="@dimen/account_avatar"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
             android:background="@drawable/wechat"
@@ -126,6 +122,18 @@
             android:gravity="center"
             android:paddingLeft="10dp"
             android:textSize="16sp" />
-    </LinearLayout>
+        <!--<Button-->
+            <!--android:id="@+id/btn_jaccount"-->
+            <!--android:layout_toRightOf="@+id/btn_weixin"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="@dimen/account_avatar"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:background="@drawable/jaccount"-->
+            <!--android:clickable="true"-->
+            <!--android:gravity="center"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:textSize="16sp" />-->
+    </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

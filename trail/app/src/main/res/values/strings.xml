@@ -31,4 +31,11 @@
     <string name="add_mini_task">Add mini task</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
+    <string name="theme">主题</string>
+    <string name="voice">声音与提醒</string>
+    <string name="about">关于</string>
+    <string name="copy_right" translatable="false">Copyrights © %1$d</string>
+    <string name="back">返回</string>
+    <string name="logout">退出登录</string>
+    <string name="divider">--------------</string>
 </resources>

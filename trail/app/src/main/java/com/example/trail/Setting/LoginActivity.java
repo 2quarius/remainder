@@ -1,7 +1,6 @@
 package com.example.trail.Setting;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,9 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.trail.MainActivity;
 import com.example.trail.R;
 import com.example.trail.Utility.EnumPack.KeyConstants;
+import com.example.trail.Utility.Utils.BmobUtils;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
@@ -20,7 +19,6 @@ import com.tencent.tauth.UiError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
@@ -34,21 +32,15 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     private Button btnLogin, btnRegister;
     private String account,pwd;
     public static Tencent mTencent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        toast("请自行初始化Bmob的ApplicationId");
-        //初始化BmobSDK
-        Bmob.initialize(this, KeyConstants.BMOB_SIXPLUS.getKey());
         initView();
-        BmobUser user = BmobUser.getCurrentUser(BmobUser.class);
+        User user = BmobUser.getCurrentUser(User.class);
         if(user!=null){
             //TODO 备份
-
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
+            this.finish();
         }
     }
     private void initView(){
@@ -78,7 +70,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                     toast("填写你的密码");
                     return;
                 }
-                final BmobUser user = new BmobUser();
+                final User user = new User();
                 user.setUsername(account);
                 user.setPassword(pwd);
                 user.login(new SaveListener<BmobUser>() {
@@ -86,13 +78,13 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                     public void done(BmobUser user, BmobException e) {
                         if (e==null){
                             toast("登录成功："+user.getUsername());
+                            LoginActivity.this.finish();
                         } else {
                             toast("登录失败：" + e.getMessage());
                         }
                     }
                 });
                 break;
-
             case R.id.btn_register://注册
                 account= etAccount.getText().toString().trim();
                 pwd = etPwd.getText().toString().trim();
@@ -104,7 +96,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                     toast("填写你的密码");
                     return;
                 }
-                BmobUser u = new BmobUser();
+                User u = new User();
                 u.setUsername(account);
                 u.setPassword(pwd);
                 u.signUp(new SaveListener<BmobUser>() {
@@ -113,7 +105,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
                         if (e==null){
                             toast("注册成功");
                         } else {
-                            toast("尚未失败：" + e.getMessage());
+                            toast("注册失败：" + e.getMessage());
                         }
                     }
                 });
@@ -121,7 +113,6 @@ public class LoginActivity extends Activity implements View.OnClickListener{
             case R.id.btn_qq://QQ授权登录
                 qqAuthorize();
                 break;
-
             case R.id.btn_weixin:
                 //微信登陆，文档可查看：https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&lang=zh_CN&token=0ba3e6d1a13e26f864ead7c8d3e90b15a3c6c34c
                 //发起微信登陆授权的请求
@@ -140,11 +131,14 @@ public class LoginActivity extends Activity implements View.OnClickListener{
             @Override
             public void done(JSONObject jsonObject, BmobException e) {
                 if (e==null){
+                    //TODO qq登录成功，返回上一级
                     Log.i("smile",authInfo.getSnsType()+"登陆成功返回:"+jsonObject);
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("json", jsonObject.toString());
-                    intent.putExtra("from", authInfo.getSnsType());
-                    startActivity(intent);
+                    BmobUtils.queryTaskCollectors();
+                    LoginActivity.this.finish();
+//                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                    intent.putExtra("json", jsonObject.toString());
+//                    intent.putExtra("from", authInfo.getSnsType());
+//                    startActivity(intent);
                 } else {
                     Log.e("BMOB", e.toString());
                     toast("第三方登陆失败："+e.getMessage());
@@ -160,7 +154,6 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         mTencent.login(this, "all", new IUiListener() {
             @Override
             public void onComplete(Object arg0) {
-                // TODO Auto-generated method stub
                 if(arg0!=null){
                     JSONObject jsonObject = (JSONObject) arg0;
                     try {
@@ -176,13 +169,11 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 
             @Override
             public void onError(UiError arg0) {
-                // TODO Auto-generated method stub
                 toast("QQ授权出错："+arg0.errorCode+"--"+arg0.errorDetail);
             }
 
             @Override
             public void onCancel() {
-                // TODO Auto-generated method stub
                 toast("取消qq授权");
             }
         });
@@ -190,4 +181,5 @@ public class LoginActivity extends Activity implements View.OnClickListener{
     private void toast(String msg){
         Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
+
 }

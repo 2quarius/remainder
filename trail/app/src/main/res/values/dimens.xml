@@ -30,4 +30,7 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     <dimen name="info_window_titles">100dp</dimen>
     <dimen name="info_window_contents">220dp</dimen>
     <dimen name="info_window_text">20dp</dimen>
+    <dimen name="account_avatar">50dp</dimen>
+    <dimen name="right_arrow">30dp</dimen>
+    <dimen name="setting_pic">40dp</dimen>
 </resources>

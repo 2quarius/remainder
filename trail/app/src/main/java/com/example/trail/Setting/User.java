@@ -1,24 +1,17 @@
 package com.example.trail.Setting;
 
+import com.example.trail.NewTask.Collection.TaskCollector;
+
+import java.util.List;
+
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobFile;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class User extends BmobUser {
-    private String username;
-    private String password;
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
+    private BmobFile avatar;
+    private List<TaskCollector> taskCollectors;
 }

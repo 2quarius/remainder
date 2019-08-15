@@ -58,7 +58,6 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:allowBackup,android:supportsRtl">
         <activity android:name=".Setting.ShowAccountActivity" />
-        <activity android:name=".Setting.RegistActivity" />
 
         <receiver android:name=".Widget.AppWidget">
             <intent-filter>
@@ -77,10 +76,9 @@
         <activity android:name=".Lists.SideMenuActivity" />
         <activity android:name=".NewTask.AddTaskActivity" />
         <activity android:name=".Setting.LoginActivity"/>
-        <activity android:name=".Setting.AboutActivity" />
+        <activity android:name=".Setting.AboutActivity"/>
         <activity android:name=".Setting.VoiceActivity" />
         <activity android:name=".Setting.ThemeActivity" />
-        <activity android:name=".Setting.AccountActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
