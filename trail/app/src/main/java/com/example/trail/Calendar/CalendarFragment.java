@@ -37,6 +37,7 @@ import com.haibin.calendarview.CalendarView;
 import com.yinglan.scrolllayout.ScrollLayout;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -108,14 +109,13 @@ public class CalendarFragment extends Fragment implements
     public void refresh(List<Task> tasks) {
         mTasks = tasks;
         initData();
+        flashAdapter(TimeUtil.Date2Calendar(new Date()));
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_calendar,container,false);
-        mTasks = ((MainActivity)getActivity()).getTasks();
         initView(view);
-        initData();
         mContext = getContext();
         return view;
     }
@@ -128,9 +128,16 @@ public class CalendarFragment extends Fragment implements
         mLayoutManager = new LinearLayoutManager(requireContext());
 
         eimSavedState = (savedInstanceState != null) ? savedInstanceState.getParcelable(SAVED_STATE_EXPANDABLE_ITEM_MANAGER) : null;
-        setAdapters(mTasks);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mTasks = ((MainActivity)getActivity()).getTasks();
+        initData();
+        Calendar cal = TimeUtil.Date2Calendar(new Date());
+        flashAdapter(cal);
+    }
 
     @Override
     public void onDestroyView() {
@@ -180,6 +187,10 @@ public class CalendarFragment extends Fragment implements
         }
         year.setText(String.valueOf(calendar.getYear()));
         //advanced recyclerview in scroll layout change
+        flashAdapter(calendar);
+    }
+
+    private void flashAdapter(Calendar calendar) {
         List<Task> tasks = new ArrayList<>();
         for (Task task:mTasks){
             try {

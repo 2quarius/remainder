@@ -34,7 +34,6 @@ import com.example.trail.Utility.AlarmBroadcast;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
 import com.example.trail.Utility.EnumPack.KeyConstants;
 import com.example.trail.Utility.EnumPack.TabConstants;
-import com.example.trail.Utility.Utils.BmobUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
@@ -166,7 +165,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (resultCode==RESULT_OK&&data!=null){
             if (requestCode==ADD_TASK_REQUEST_CODE){
                 tasks.add((Task) data.getSerializableExtra("task"));
-                calendarFragment.refresh(tasks);
             }
             else if (requestCode==SWITCH_COLLECTION_REQUEST_CODE){
                 int idx = data.getIntExtra("index",-1);
