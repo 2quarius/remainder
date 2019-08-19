@@ -150,7 +150,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
         if(mTencent==null){
             mTencent = Tencent.createInstance(KeyConstants.QQ_APP_ID, getApplicationContext());
         }
-        mTencent.logout(this);
+//        mTencent.logout(this);
         mTencent.login(this, "all", new IUiListener() {
             @Override
             public void onComplete(Object arg0) {

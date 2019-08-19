@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#ffe85628"
+        android:background="#4CAF50"
         android:gravity="center"
         android:text="登录"
         android:textColor="@android:color/white"

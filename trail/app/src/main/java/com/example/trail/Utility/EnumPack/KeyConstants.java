@@ -16,18 +16,18 @@ public enum  KeyConstants {
     /**
      * 此为腾讯官方提供给开发者用于测试的APP_ID，个人开发者需要去QQ互联官网为自己的应用申请对应的AppId
      */
-    public static final String QQ_APP_ID ="1109781472";
+    public static final String QQ_APP_ID ="101769768";
 
     /**
      *  微信平台的APPID,请自行前往微信开放平台注册申请应用
      */
-    public static final String WEIXIN_APP_ID ="wx4f49df1c2cfc15eb";
-
+    public static final String WEIXIN_APP_ID ="wxd49c53f6dd22fc32";
+    //wxd49c53f6dd22fc32
     /**
      * 微信平台的AppSecret
      */
-    public static final String WEIXIN_APP_SECRET ="03eec97e8be49cd84f67bbe12469f19e";
-
+    public static final String WEIXIN_APP_SECRET ="3cf6719db0ff7b18c9c6632b12ecb69f";
+    //3cf6719db0ff7b18c9c6632b12ecb69f
     /**
      *  微信平台的grant type，固定值：authorization_code
      */

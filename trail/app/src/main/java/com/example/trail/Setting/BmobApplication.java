@@ -1,12 +1,13 @@
 package com.example.trail.Setting;
 
-import android.app.Application;
-
 import com.example.trail.Utility.EnumPack.KeyConstants;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-public class BmobApplication extends Application {
+import solid.ren.skinlibrary.SkinConfig;
+import solid.ren.skinlibrary.base.SkinBaseApplication;
+
+public class BmobApplication extends SkinBaseApplication {
 
     // IWXAPI 是第三方app和微信通信的openapi接口
     public static IWXAPI api;
@@ -15,6 +16,11 @@ public class BmobApplication extends Application {
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
+        SkinConfig.setCanChangeStatusColor(true);
+        SkinConfig.setCanChangeFont(true);
+        SkinConfig.setDebug(true);
+        SkinConfig.saveSkinPath(getApplicationContext(),"/Users/sixplus/AndroidStudioProjects/remainder/trail/app/src/main/assets");
+        SkinConfig.enableGlobalSkinApply();
         register2WX();
     }
 
