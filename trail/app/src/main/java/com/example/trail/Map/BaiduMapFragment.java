@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -38,7 +37,9 @@ import com.example.trail.R;
 
 import java.util.List;
 
-public class BaiduMapFragment extends Fragment {
+import solid.ren.skinlibrary.base.SkinBaseFragment;
+
+public class BaiduMapFragment extends SkinBaseFragment {
     private MarkerOptions markerOptions;
     private Marker marker;
     private MapView mMapView;

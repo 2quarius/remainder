@@ -25,7 +25,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.baidu.mapapi.map.BaiduMap;
@@ -71,7 +70,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddTaskActivity extends AppCompatActivity implements
+import solid.ren.skinlibrary.base.SkinBaseActivity;
+
+public class AddTaskActivity extends SkinBaseActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private static final String CHOOSE_A_PLACE = "Place for remind";
     private Integer position;

@@ -11,16 +11,16 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.example.trail.R;
 
 import cn.bmob.v3.BmobUser;
+import solid.ren.skinlibrary.base.SkinBaseFragment;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends SkinBaseFragment {
     private static final int REQUEST_LOGIN = 11;
     private static final int REQUEST_SHOW_ACCOUNT = 12;
     private static final int REQUEST_THEME = 13;

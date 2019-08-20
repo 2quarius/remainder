@@ -19,7 +19,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,10 +33,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import solid.ren.skinlibrary.base.SkinBaseFragment;
+
 import static android.app.Activity.RESULT_OK;
 
 
-public class ListsFragment extends Fragment {
+public class ListsFragment extends SkinBaseFragment {
     private EditText mSearchTagEdit;
     private static final int MODIFY_TASK_REQUEST_CODE = 9;
     private RecyclerView view;

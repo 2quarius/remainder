@@ -38,4 +38,7 @@
     <string name="back">返回</string>
     <string name="logout">退出登录</string>
     <string name="divider">--------------</string>
+    <string name="default_theme">默认</string>
+    <string name="orange_theme">橙色</string>
+    <string name="blue_theme">蓝色</string>
 </resources>

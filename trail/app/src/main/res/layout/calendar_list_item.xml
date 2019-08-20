@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    skin:enable="true"
     android:gravity="center"
     android:id="@+id/rl_widget_task"
     android:layout_width="250dp"

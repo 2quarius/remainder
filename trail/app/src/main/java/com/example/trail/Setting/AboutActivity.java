@@ -6,7 +6,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.trail.R;
@@ -15,8 +14,9 @@ import java.util.Calendar;
 
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends SkinBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,14 +1,13 @@
 package com.example.trail;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -39,8 +38,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
+public class MainActivity extends SkinBaseActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
     private static final int SWITCH_COLLECTION_REQUEST_CODE = 2;
     private boolean misScrolled;
@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     private StoreRetrieveData storeRetrieveData;
     private static final String FILENAME = "tasks.json";
 
-    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -174,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 default:
                     break;
             }
-            mFloatingNavView.setImageBitmap(textAsBitmap(taskCollectors.get(index).getName(), 40, getColor(R.color.colorPrimary)));
+            mFloatingNavView.setImageBitmap(textAsBitmap(taskCollectors.get(index).getName(), 40, Color.parseColor("#515151")));
         }
         super.onStart();
     }

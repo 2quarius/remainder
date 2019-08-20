@@ -1,6 +1,10 @@
 package com.example.trail.Setting;
 
 import com.example.trail.Utility.EnumPack.KeyConstants;
+import com.example.trail.Utility.UIHelper.SkinChange.CalendarSchemeColor;
+import com.example.trail.Utility.UIHelper.SkinChange.CalendarSelectedThemeColor;
+import com.example.trail.Utility.UIHelper.SkinChange.CardBackgroundColor;
+import com.example.trail.Utility.UIHelper.SkinChange.EditTextTextColorHint;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -19,6 +23,10 @@ public class BmobApplication extends SkinBaseApplication {
         SkinConfig.setCanChangeStatusColor(true);
         SkinConfig.setCanChangeFont(true);
         SkinConfig.setDebug(true);
+        SkinConfig.addSupportAttr("cardBackgroundColor",new CardBackgroundColor());
+        SkinConfig.addSupportAttr("scheme_text_color",new CalendarSchemeColor());
+        SkinConfig.addSupportAttr("selected_theme_color",new CalendarSelectedThemeColor());
+        SkinConfig.addSupportAttr("hintTextColor",new EditTextTextColorHint());
         SkinConfig.saveSkinPath(getApplicationContext(),"/Users/sixplus/AndroidStudioProjects/remainder/trail/app/src/main/assets");
         SkinConfig.enableGlobalSkinApply();
         register2WX();

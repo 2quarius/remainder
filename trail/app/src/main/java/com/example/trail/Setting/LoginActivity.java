@@ -1,6 +1,5 @@
 package com.example.trail.Setting;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,8 +22,9 @@ import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.LogInListener;
 import cn.bmob.v3.listener.SaveListener;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
 
-public class LoginActivity extends Activity implements View.OnClickListener{
+public class LoginActivity extends SkinBaseActivity implements View.OnClickListener{
     private EditText etAccount, etPwd;
 
     private Button btnQq, btnWeixin;

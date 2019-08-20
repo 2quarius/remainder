@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,8 +41,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import solid.ren.skinlibrary.base.SkinBaseFragment;
 
-public class CalendarFragment extends Fragment implements
+
+public class CalendarFragment extends SkinBaseFragment implements
             CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener, RecyclerViewExpandableItemManager.OnGroupCollapseListener,
         RecyclerViewExpandableItemManager.OnGroupExpandListener {

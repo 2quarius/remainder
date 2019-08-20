@@ -5,16 +5,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.trail.MainActivity;
 import com.example.trail.R;
 import com.example.trail.Utility.UIHelper.AccountView.AccountView;
 import com.example.trail.Utility.Utils.BmobUtils;
 
 import cn.bmob.v3.BmobUser;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
 
-public class ShowAccountActivity extends AppCompatActivity {
+public class ShowAccountActivity extends SkinBaseActivity {
     private AccountView mAvatar;
     private TextView mUsername;
     private LinearLayout mBtnBack;

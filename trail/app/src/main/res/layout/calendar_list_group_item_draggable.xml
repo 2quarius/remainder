@@ -16,6 +16,8 @@
     style="@style/commonListItemStyle"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    skin:enable="true"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_group_item_height"
     android:layout_marginTop="8dp"

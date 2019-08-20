@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout 
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:skin="http://schemas.android.com/android/skin"
+    skin:enable="true"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,6 +18,7 @@
         android:layout_height="wrap_content">
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
+            android:background="@color/colorPrimary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </com.google.android.material.appbar.AppBarLayout>
@@ -31,7 +33,7 @@
         android:scaleType="centerInside"
         android:importantForAutofill="auto"
         app:borderWidth="0dp"
-        android:backgroundTint="@color/inputLine"
+        android:backgroundTint="#e6e6e6"
         app:fabSize="normal"
         app:maxImageSize="@dimen/fab"
         android:layout_width="wrap_content"
@@ -47,13 +49,14 @@
         android:layout_marginBottom="16dp"
         />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        skin:enable="true"
         app:layout_anchor="@id/main"
         app:layout_anchorGravity="bottom|end"
         android:id="@+id/fab_addTask"
         android:scaleType="centerInside"
         android:importantForAutofill="auto"
+        android:backgroundTint="#e6e6e6"
         app:borderWidth="0dp"
-        android:backgroundTint="@color/inputLine"
         app:fabSize="normal"
         app:maxImageSize="@dimen/fab"
         android:layout_width="wrap_content"

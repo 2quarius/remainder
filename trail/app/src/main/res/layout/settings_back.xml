@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/app_white">
 
-    <ImageView
-        android:layout_width="@dimen/right_arrow"
-        android:layout_height="@dimen/right_arrow"
-        android:layout_gravity="center_vertical"
-        app:srcCompat="@drawable/left_arrow" />
+    <LinearLayout
+        android:id="@+id/back"
+        android:orientation="horizontal"
+        android:background="@color/app_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:scaleType="matrix"
+            android:layout_gravity="center_vertical"
+            app:srcCompat="@drawable/left_arrow" />
+        <TextView
+            android:gravity="center_vertical"
+            android:text="@string/back"
+            android:padding="8dp"
+            android:textColor="@color/app_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
     <TextView
-        android:text="@string/back"
-        android:padding="8dp"
-        android:textColor="@color/app_white"
-        android:layout_centerVertical="true"
+        android:id="@+id/title"
+        android:textColor="@color/app_black"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:text="@string/theme"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-</LinearLayout>
+</RelativeLayout>

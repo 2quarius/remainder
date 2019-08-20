@@ -15,7 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.trail.MainActivity;
@@ -24,7 +23,9 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class SideMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import solid.ren.skinlibrary.base.SkinBaseActivity;
+
+public class SideMenuActivity extends SkinBaseActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private MenuItem mPreMenuItem;
@@ -42,7 +43,6 @@ public class SideMenuActivity extends AppCompatActivity implements NavigationVie
         setContentView(R.layout.activity_side_menu);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
-
         Intent intent = getIntent();
         size = intent.getIntExtra("collector size",-1)+1;
         if (size>4){
