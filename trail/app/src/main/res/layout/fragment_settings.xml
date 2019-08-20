@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    skin:enable="true"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/account"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:clickable="true">
+        <ImageView
+            android:id="@+id/account_pic"
+            android:padding="8dp"
+            android:layout_alignParentLeft="true"
+            android:layout_width="@dimen/account_avatar"
+            android:layout_height="@dimen/account_avatar" />
+        <TextView
+            android:id="@+id/account_name"
+            android:layout_toRightOf="@+id/account_pic"
+            android:padding="8dp"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="@dimen/right_arrow"
+            android:layout_height="@dimen/right_arrow"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="matrix"
+            app:srcCompat="@drawable/right_arrow" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/theme"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/theme_pic"
+            android:layout_width="@dimen/setting_pic"
+            android:layout_height="@dimen/setting_pic"
+            android:layout_alignParentLeft="true"
+            android:padding="8dp"
+            app:srcCompat="@drawable/theme" />
+        <TextView
+            android:layout_toRightOf="@+id/theme_pic"
+            android:text="@string/theme"
+            android:padding="8dp"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="@dimen/right_arrow"
+            android:layout_height="@dimen/right_arrow"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="matrix"
+            app:srcCompat="@drawable/right_arrow" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/voice"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/voice_pic"
+            android:layout_width="@dimen/setting_pic"
+            android:layout_height="@dimen/setting_pic"
+            android:layout_alignParentLeft="true"
+            android:padding="8dp"
+            app:srcCompat="@drawable/voice" />
+    <TextView
+        android:layout_toRightOf="@+id/voice_pic"
+        android:text="@string/voice"
+        android:padding="8dp"
+        android:textSize="16sp"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="@dimen/right_arrow"
+        android:layout_height="@dimen/right_arrow"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:scaleType="matrix"
+        app:srcCompat="@drawable/right_arrow" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/about"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/about_pic"
+            android:layout_width="@dimen/setting_pic"
+            android:layout_height="@dimen/setting_pic"
+            android:layout_alignParentLeft="true"
+            android:padding="8dp"
+            app:srcCompat="@drawable/about" />
+        <TextView
+            android:layout_toRightOf="@+id/about_pic"
+            android:text="@string/about"
+            android:padding="8dp"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="@dimen/right_arrow"
+            android:layout_height="@dimen/right_arrow"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="matrix"
+            app:srcCompat="@drawable/right_arrow" />
+    </RelativeLayout>
+</LinearLayout>

@@ -11,7 +11,9 @@
     android:padding="5dp"
     android:elevation="50dp"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    skin:enable="true">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"

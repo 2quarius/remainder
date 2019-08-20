@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Image Resource-->
+    <attr name="src" format="reference" />
+
+    <!--Scale Type of Image-->
+    <attr name="scaleType">
+        <enum name="centerCrop" value="0" />
+        <enum name="fitXY" value="1" />
+    </attr>
+
+    <!--Tint Color-->
+    <attr name="tintColor" format="color" />
+
+    <!--No. of waves to be drawn-->
+    <attr name="tideCount" format="integer" />
+
+    <!--Pick automatic tint color-->
+    <attr name="autoTint" format="boolean" />
+
+    <!--Maximum height for waves-->
+    <attr name="tideHeight" format="dimension" />
+
+    <!--Transparency between 0 - 255 -->
+    <attr name="alphaValue" format="integer" />
+
+    <!-- Gradient Type-->
+    <attr name="gradientType">
+        <enum name="linear" value="0" />
+        <enum name="radial" value="1" />
+    </attr>
+
+    <!--Gradient Start Color-->
+    <attr name="gradient_startColor" format="color" />
+
+    <!--Gradient End Color-->
+    <attr name="gradient_endColor" format="color" />
+
+    <!--Gradient Angle-->
+    <attr name="gradientAngle" format="integer" />
+
+    <declare-styleable name="AccountView">
+        <attr name="scaleType" />
+        <attr name="src" />
+        <attr name="tintColor" />
+        <attr name="tideCount" />
+        <attr name="autoTint" />
+        <attr name="tideHeight" />
+        <attr name="alphaValue" />
+        <attr name="gradientType" />
+        <attr name="gradientAngle"/>
+        <attr name="gradient_startColor" />
+        <attr name="gradient_endColor" />
+    </declare-styleable>
+
+</resources>

@@ -131,10 +131,10 @@ public class ExpandableDraggableWithSectionExampleAdapter extends AbstractExpand
         final View v;
         switch (viewType) {
             case GROUP_ITEM_VIEW_TYPE_SECTION_HEADER:
-                v = inflater.inflate(R.layout.list_section_header, parent, false);
+                v = inflater.inflate(R.layout.calendar_list_section_header, parent, false);
                 break;
             case GROUP_ITEM_VIEW_TYPE_SECTION_ITEM:
-                v = inflater.inflate(R.layout.list_group_item_draggable, parent, false);
+                v = inflater.inflate(R.layout.calendar_list_group_item_draggable, parent, false);
                 break;
             default:
                 throw new IllegalStateException("Unexpected viewType (= " + viewType + ")");
@@ -147,7 +147,7 @@ public class ExpandableDraggableWithSectionExampleAdapter extends AbstractExpand
     @NonNull
     public MyChildViewHolder onCreateChildViewHolder(@NonNull ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        final View v = inflater.inflate(R.layout.list_item_draggable, parent, false);
+        final View v = inflater.inflate(R.layout.calendar_list_item_draggable, parent, false);
         return new MyChildViewHolder(v);
     }
 

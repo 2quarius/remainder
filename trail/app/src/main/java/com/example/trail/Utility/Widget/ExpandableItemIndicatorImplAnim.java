@@ -19,7 +19,7 @@ public class ExpandableItemIndicatorImplAnim extends ExpandableItemIndicator.Imp
 
     @Override
     public void onInit(Context context, AttributeSet attrs, int defStyleAttr, ExpandableItemIndicator thiz) {
-        View v = LayoutInflater.from(context).inflate(R.layout.widget_expandable_item_indicator, thiz, true);
+        View v = LayoutInflater.from(context).inflate(R.layout.calendar_widget_expandable_item_indicator, thiz, true);
         mImageView = v.findViewById(R.id.image_view);
     }
 

@@ -22,8 +22,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper=false)
 public class Task extends BmobObject implements Serializable {
-    private String username;
-    private String taskId;
     private String title;
     private String description = null;
     private List<MiniTask> miniTasks = new ArrayList<>();

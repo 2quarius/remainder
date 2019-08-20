@@ -2,60 +2,70 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    skin:enable="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Setting.AccountActivity">
+    android:layout_height="match_parent">
+    <com.example.trail.Utility.UIHelper.AccountView.AccountView
+        android:id="@+id/account_view"
+        app:scaleType="centerCrop"
+        app:tintColor="@color/inputLine"
+        app:gradientType="radial"
+        app:gradient_endColor="@color/colorPrimaryDark"
+        app:gradient_startColor="@android:color/transparent"
+        app:tideCount="3"
+        app:tideHeight="40dp"
+        app:alphaValue="50"
+        app:src="@drawable/dummy_image"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"/>
+    <TextView
+        android:id="@+id/account_username"
+        android:layout_below="@+id/account_view"
+        android:gravity="center"
+        android:textSize="50sp"
+        android:text="nmm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <RelativeLayout
-        android:id="@+id/show_account_head"
+        android:layout_below="@+id/account_username"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
-        <ImageButton
-            android:src="@drawable/back"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_back_bg"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
-        <Button
-            android:id="@+id/btn_showAccountBack"
-            android:textColor="@color/mdtp_white"
-            android:text="用户"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:layout_marginTop="-10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/btn_back"
+            android:padding="8dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="@dimen/right_arrow"
+                android:layout_height="@dimen/right_arrow"
+                app:srcCompat="@drawable/show_account_back" />
+            <TextView
+                android:text="@string/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/btn_logout"
+            android:layout_toRightOf="@+id/btn_back"
+            android:padding="8dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="@dimen/right_arrow"
+                android:layout_height="@dimen/right_arrow"
+                app:srcCompat="@drawable/show_account_log_out" />
+            <TextView
+                android:text="@string/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/account_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="当前用户："
-        android:textColor="@color/text"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="100dp"
-        android:textSize="25sp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/showaccount"
-        android:textColor="@color/text"
-        android:layout_toRightOf="@+id/account_tv"
-        android:layout_marginTop="100dp"
-        android:textSize="25sp"/>
-
-    <Button
-        android:id="@+id/btn_logout"
-        android:text="注销"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="200dp"
-        android:layout_below="@+id/btn_login"
-        android:textSize="20sp"
-        android:layout_width="match_parent"
-        android:layout_height="70dp" />
-
 </RelativeLayout>

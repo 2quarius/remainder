@@ -1,19 +1,13 @@
 package com.example.trail;
 
-import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -29,9 +23,9 @@ import com.example.trail.NewTask.AddTaskActivity;
 import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
-import com.example.trail.Setting.SettingFragmnet;
-import com.example.trail.Utility.AlarmBroadcast;
+import com.example.trail.Setting.SettingsFragment;
 import com.example.trail.Utility.DataStorageHelper.StoreRetrieveData;
+import com.example.trail.Utility.EnumPack.KeyConstants;
 import com.example.trail.Utility.EnumPack.TabConstants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -41,13 +35,12 @@ import org.json.JSONException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
 
-public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass ,SettingFragmnet.backClass {
+public class MainActivity extends SkinBaseActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
     private static final int SWITCH_COLLECTION_REQUEST_CODE = 2;
     private boolean misScrolled;
@@ -64,66 +57,18 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
      * task collector indicators
      */
     private int index=0;
-    private List<TaskCollector> taskCollectors;
+    public static List<TaskCollector> taskCollectors;
     private List<Task> tasks;
     private StoreRetrieveData storeRetrieveData;
+    private static final String FILENAME = "tasks.json";
 
-
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
-    public static final String FILENAME = "tasks.json";
-    final  private String FILE_NAME2 = "information.txt";
-    final  private String FILE_NAME3 = "theme.txt";
-    public String account;
-    public String USER_NAME;
-    Fragment settingfragment;
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-
-    private void setTheTheme() {
-        String theme = "";
-        try {
-            FileInputStream ios = openFileInput(FILE_NAME3);
-            byte[] temp = new byte[10];
-            StringBuilder sb = new StringBuilder("");
-            int len = 0;
-            while ((len = ios.read(temp)) > 0){
-                sb.append(new String(temp, 0, len));
-            }
-            ios.close();
-            theme = sb.toString();
-        }catch (Exception e) {
-            //Log.d("errMsg", e.toString());
-        }
-        if (theme.equals("purple")) {
-            setTheme(R.style.LightTheme);
-        }
-        else if (theme.equals("black")){
-            setTheme(R.style.NightTheme);
-        }
-    }
-
-    @SuppressLint("ResourceAsColor")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //初始化百度地图，必须在 setContentView(...) 前调用！
         SDKInitializer.initialize(getApplicationContext());
-        Bmob.initialize(this, "b096ac50b630d5a7db1c69abb7a34caa");
-        try {
-            FileInputStream ios = openFileInput(FILE_NAME2);
-            byte[] temp = new byte[1024];
-            StringBuilder sb = new StringBuilder("");
-            int len = 0;
-            while ((len = ios.read(temp)) > 0){
-                sb.append(new String(temp, 0, len));
-            }
-            ios.close();
-            account = sb.toString();
-        }catch (Exception e) {
-            //Log.d("errMsg", e.toString());
-            account = "failed";
-        }
-        setTheTheme();
+        Bmob.initialize(this, KeyConstants.BMOB_SIXPLUS.getKey());
+
         setContentView(R.layout.activity_main);
         // Setting ViewPager for each Tabs
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -145,8 +90,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         mFloatingNavView = findViewById(R.id.floating_view);
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
-        setAlarm();
-        USER_NAME=readUsername();
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
     }
@@ -163,7 +106,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         if (resultCode==RESULT_OK&&data!=null){
             if (requestCode==ADD_TASK_REQUEST_CODE){
                 tasks.add((Task) data.getSerializableExtra("task"));
-                calendarFragment.refresh(tasks);
             }
             else if (requestCode==SWITCH_COLLECTION_REQUEST_CODE){
                 int idx = data.getIntExtra("index",-1);
@@ -231,10 +173,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 default:
                     break;
             }
-            mFloatingNavView.setImageBitmap(textAsBitmap(taskCollectors.get(index).getName(), 40, getColor(R.color.colorPrimary)));
+            mFloatingNavView.setImageBitmap(textAsBitmap(taskCollectors.get(index).getName(), 40, Color.parseColor("#515151")));
         }
         super.onStart();
-        setTheTheme();
     }
 
     /**
@@ -253,10 +194,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     public void setTasks(List<Task> mTasks) {
         tasks = mTasks;
         calendarFragment.refresh(mTasks);
-    }
-    @Override
-    public void sTasks(List<Task> bTasks) {
-        tasks.addAll(bTasks);
     }
     public List<Task> getTasks(){
         return tasks;
@@ -277,29 +214,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     }
 
-    //设置闹钟
-    private void setAlarm(){
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmBroadcast.class);
-        intent.setAction("startAlarm");
-        pendingIntent = PendingIntent.getBroadcast(this, 110, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-        storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
-        taskCollectors=getLocallyStoredData(storeRetrieveData);
-        if (taskCollectors.size()>0){
-            tasks = taskCollectors.get(0).getTasks();
-        }
-        for(int i=0;i<tasks.size();i++){
-            if(tasks.get(i).getExpireTime()!=null)
-            {
-                Date tempDate=tasks.get(i).getExpireTime();
-                Calendar cal=Calendar.getInstance();
-                Calendar calendar=Calendar.getInstance();
-                calendar.setTime(tempDate);
-                long timeDiff=cal.getTimeInMillis()-SystemClock.elapsedRealtime();
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis()-timeDiff+60*1000, pendingIntent);
-            }
-        }
-    }
     private void createTabIcons() {
         mTabs.getTabAt(TabConstants.LISTS.getIndex()).setIcon(R.drawable.checklist);
         mTabs.getTabAt(TabConstants.TIME.getIndex()).setIcon(R.drawable.calendar);
@@ -313,11 +227,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
         calendarFragment = new CalendarFragment();
         adapter.addFragment(calendarFragment,TabConstants.TIME.getTitle());
         adapter.addFragment(new BaiduMapFragment(), TabConstants.SPACE.getTitle());
-        settingfragment = new SettingFragmnet();
-        adapter.addFragment(settingfragment,TabConstants.SETTING.getTitle());
-        Bundle bundle = new Bundle();
-        bundle.putString("account",account);
-        settingfragment.setArguments(bundle);
+        adapter.addFragment(new SettingsFragment(), TabConstants.SETTING.getTitle());
         viewPager.setAdapter(adapter);
     }
 
