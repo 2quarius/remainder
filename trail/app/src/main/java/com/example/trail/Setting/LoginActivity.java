@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.trail.R;
@@ -27,7 +28,7 @@ import solid.ren.skinlibrary.base.SkinBaseActivity;
 public class LoginActivity extends SkinBaseActivity implements View.OnClickListener{
     private EditText etAccount, etPwd;
 
-    private Button btnQq, btnWeixin;
+    private ImageButton btnQq, btnWeixin;
 
     private Button btnLogin, btnRegister;
     private String account,pwd;
@@ -47,8 +48,8 @@ public class LoginActivity extends SkinBaseActivity implements View.OnClickListe
         etAccount = (EditText)findViewById(R.id.et_account);
         etPwd = (EditText)findViewById(R.id.et_pwd);
 
-        btnQq = (Button)findViewById(R.id.btn_qq);
-        btnWeixin = (Button)findViewById(R.id.btn_weixin);
+        btnQq = (ImageButton) findViewById(R.id.btn_qq);
+        btnWeixin = (ImageButton) findViewById(R.id.btn_weixin);
         btnLogin = (Button)findViewById(R.id.btn_login);
         btnRegister = (Button)findViewById(R.id.btn_register);
         btnLogin.setOnClickListener(this);
