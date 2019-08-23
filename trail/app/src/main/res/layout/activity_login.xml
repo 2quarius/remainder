@@ -128,18 +128,19 @@
             android:background="@android:color/transparent"
             android:src="@drawable/wechat"
             android:textSize="16sp" />
-        <!--<Button-->
-            <!--android:id="@+id/btn_jaccount"-->
-            <!--android:layout_toRightOf="@+id/btn_weixin"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="@dimen/account_avatar"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:background="@drawable/jaccount"-->
-            <!--android:clickable="true"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:textSize="16sp" />-->
+        <ImageButton
+            android:id="@+id/btn_jaccount"
+            android:layout_toRightOf="@+id/btn_weixin"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/account_avatar"
+            android:scaleType="centerInside"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/jaccount"
+            android:clickable="true"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:textSize="16sp" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.trail.Setting;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +12,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.example.trail.R;
+import com.example.trail.Utility.Utils.DESUtils;
 
 import cn.bmob.v3.BmobUser;
 import solid.ren.skinlibrary.base.SkinBaseFragment;
@@ -35,6 +38,7 @@ public class SettingsFragment extends SkinBaseFragment {
     private TextView mAccountName;
     private User user;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
@@ -42,6 +46,7 @@ public class SettingsFragment extends SkinBaseFragment {
         addListener();
         return view;
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (requestCode==REQUEST_LOGIN&&resultCode==RESULT_OK){
@@ -63,12 +68,24 @@ public class SettingsFragment extends SkinBaseFragment {
         super.onDestroyView();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setUser(){
         user = BmobUser.getCurrentUser(User.class);
         if (user!=null){
+            String username = null;
+            if (user.getAccessToken()==null){
+                try {
+                    username = DESUtils.decrypt(user.getUsername());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                username = user.getUsername();
+            }
             //TODO 更新头像
             mAccountPic.setImageDrawable(getResources().getDrawable(R.drawable.checklist));
-            mAccountName.setText(user.getUsername());
+            mAccountName.setText(username);
         }
         else {
             mAccountPic.setVisibility(View.INVISIBLE);
@@ -108,6 +125,7 @@ public class SettingsFragment extends SkinBaseFragment {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initView(View view) {
         mAccount = view.findViewById(R.id.account);
         mTheme = view.findViewById(R.id.theme);

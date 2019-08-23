@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,10 +21,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.trail.MainActivity;
 import com.example.trail.R;
+import com.example.trail.Setting.User;
+import com.example.trail.Utility.Utils.DESUtils;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
+import cn.bmob.v3.BmobUser;
 import solid.ren.skinlibrary.base.SkinBaseActivity;
 
 public class SideMenuActivity extends SkinBaseActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -43,6 +48,8 @@ public class SideMenuActivity extends SkinBaseActivity implements NavigationView
         setContentView(R.layout.activity_side_menu);
         mDrawerLayout = findViewById(R.id.drawer_layout);
         mNavigationView = findViewById(R.id.nav_view);
+        initHeader();
+
         Intent intent = getIntent();
         size = intent.getIntExtra("collector size",-1)+1;
         if (size>4){
@@ -57,6 +64,36 @@ public class SideMenuActivity extends SkinBaseActivity implements NavigationView
             size = mNavigationView.getMenu().size();
         }
         mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void initHeader() {
+        View headerLayout = mNavigationView.getHeaderView(0);
+        ImageButton avatar = headerLayout.findViewById(R.id.avatar);
+        TextView username = headerLayout.findViewById(R.id.username);
+        ImageButton remind = headerLayout.findViewById(R.id.remand);
+        ImageButton setting = headerLayout.findViewById(R.id.setting);
+
+        User user = BmobUser.getCurrentUser(User.class);
+        if (user!=null){
+            String usrname = null;
+            if (user.getAccessToken()==null){
+                try {
+                    usrname = DESUtils.decrypt(user.getUsername());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                usrname = user.getUsername();
+            }
+            username.setText(usrname);
+            //TODO set avatar
+            avatar.setImageResource(R.drawable.dummy_image);
+        }
+        else {
+            username.setText("暂未登录");
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
