@@ -73,7 +73,7 @@ public class SettingsFragment extends SkinBaseFragment {
         user = BmobUser.getCurrentUser(User.class);
         if (user!=null){
             String username = null;
-            if (user.getAccessToken()==null){
+            if (user.getAccessToken()!=null){
                 try {
                     username = DESUtils.decrypt(user.getUsername());
                 } catch (Exception e) {

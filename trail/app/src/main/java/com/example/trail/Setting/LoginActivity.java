@@ -101,6 +101,8 @@ public class LoginActivity extends SkinBaseActivity implements View.OnClickListe
                     public void done(User user, BmobException e) {
                         if (e==null){
                             toast("登录成功："+user.getUsername());
+                            BmobUtils.queryTaskCollectors();
+                            setResult(RESULT_OK);
                             LoginActivity.this.finish();
                         } else {
                             toast("登录失败：" + e.getMessage());
@@ -289,7 +291,7 @@ public class LoginActivity extends SkinBaseActivity implements View.OnClickListe
                                 String body = response.body().string();
                                 int index = body.indexOf("<h1>");
                                 int end = body.indexOf("</h1>");
-                                String name = body.substring(index+4,end);
+                                final String name = body.substring(index+4, end);
                                 User user = new User();
                                 try {
                                     user.setUsername(DESUtils.encrypt(name));
@@ -298,26 +300,36 @@ public class LoginActivity extends SkinBaseActivity implements View.OnClickListe
                                     e.printStackTrace();
                                 }
                                 user.setAccessToken(accessToken);
+                                final boolean[] signed = {false};
+                                final boolean[] finished = {false};
                                 user.signUp(new SaveListener<User>() {
                                     @Override
                                     public void done(User user, BmobException e) {
-                                        //TODO always return timeout exception
-                                        user.login(new SaveListener<User>() {
-                                            @Override
-                                            public void done(User user, BmobException e) {
-                                                if (e==null){
-                                                    toast("登录成功！");
-                                                    BmobUtils.queryTaskCollectors();
-                                                    setResult(RESULT_OK);
-                                                    LoginActivity.this.finish();
-                                                }
-                                                else {
-                                                    toast("登录失败："+e.getMessage());
-                                                }
-                                            }
-                                        });
+                                        if (e.getMessage().contains("already taken")){
+                                            signed[0] = true;
+                                        }
+                                        finished[0] = true;
                                     }
                                 });
+                                while (!finished[0]){
+                                }
+                                if (signed[0]) {
+                                    user.login(new SaveListener<User>() {
+                                        @Override
+                                        public void done(User user, BmobException e) {
+                                            if (e==null){
+                                                toast("登录成功！");
+                                                customDialog.dismiss();
+                                                BmobUtils.queryTaskCollectors();
+                                                setResult(RESULT_OK);
+                                                LoginActivity.this.finish();
+                                            }
+                                            else {
+                                                toast("登录失败："+e.getMessage());
+                                            }
+                                        }
+                                    });
+                                }
                             }
                         }
                     });
