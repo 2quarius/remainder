@@ -20,9 +20,6 @@ public class AlarmUtils {
     private static Map<Integer, PendingIntent> alarms = new HashMap<>();
     public static void installAlarms(Context context,List<TaskCollector> taskCollectors){
         alarmManager = (AlarmManager) context.getSystemService(Activity.ALARM_SERVICE);
-        installAll(context,taskCollectors);
-    }
-    private static void installAll(Context context, List<TaskCollector> taskCollectors){
         //install current alarm
         for (TaskCollector taskCollector:taskCollectors){
             for (Task task:taskCollector.getTasks()){
