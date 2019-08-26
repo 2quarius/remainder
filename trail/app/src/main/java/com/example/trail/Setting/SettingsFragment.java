@@ -29,10 +29,12 @@ public class SettingsFragment extends SkinBaseFragment {
     private static final int REQUEST_THEME = 13;
     private static final int REQUEST_VOICE = 14;
     private static final int REQUEST_ABOUT = 15;
+    private static final int REQUEST_GUARD = 16;
     private static final String HAVE_NOT_LOGIN = "暂未登录";
     private RelativeLayout mAccount;
     private RelativeLayout mTheme;
     private RelativeLayout mVoice;
+    private RelativeLayout mGuard;
     private RelativeLayout mAbout;
     private ImageView mAccountPic;
     private TextView mAccountName;
@@ -117,6 +119,12 @@ public class SettingsFragment extends SkinBaseFragment {
                 startActivityForResult(new Intent(getActivity(),VoiceActivity.class),REQUEST_VOICE);
             }
         });
+        mGuard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(getActivity(),GuardActivity.class),REQUEST_GUARD);
+            }
+        });
         mAbout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,6 +138,7 @@ public class SettingsFragment extends SkinBaseFragment {
         mAccount = view.findViewById(R.id.account);
         mTheme = view.findViewById(R.id.theme);
         mVoice = view.findViewById(R.id.voice);
+        mGuard = view.findViewById(R.id.guard);
         mAbout = view.findViewById(R.id.about);
         mAccountPic = view.findViewById(R.id.account_pic);
         mAccountName = view.findViewById(R.id.account_name);

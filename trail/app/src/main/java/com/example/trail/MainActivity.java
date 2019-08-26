@@ -32,13 +32,14 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONException;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
 import solid.ren.skinlibrary.base.SkinBaseActivity;
+
+import static com.example.trail.Utility.Utils.AlarmUtils.installAlarms;
 
 public class MainActivity extends SkinBaseActivity implements ViewPager.OnPageChangeListener , ListsFragment.callbackClass {
     private static final int ADD_TASK_REQUEST_CODE = 1;
@@ -88,11 +89,14 @@ public class MainActivity extends SkinBaseActivity implements ViewPager.OnPageCh
             }
         });
         mFloatingNavView = findViewById(R.id.floating_view);
+        taskCollectors = new ArrayList<>();
         tasks = new ArrayList<>();
         storeRetrieveData = new StoreRetrieveData(getApplicationContext(), FILENAME);
+        //注册地点提醒
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
     }
+
 
     /**
      * solve result when startActivityForResult ends
@@ -175,6 +179,8 @@ public class MainActivity extends SkinBaseActivity implements ViewPager.OnPageCh
             }
             mFloatingNavView.setImageBitmap(textAsBitmap(taskCollectors.get(index).getName(), 40, Color.parseColor("#515151")));
         }
+        //闹钟操作
+        installAlarms(getApplicationContext(),taskCollectors);
         super.onStart();
     }
 
@@ -299,22 +305,7 @@ public class MainActivity extends SkinBaseActivity implements ViewPager.OnPageCh
             return mFragmentTitleList.get(position);
         }
     }
-    private String  readUsername(){
-        String textContent = "";
-        try {
-            FileInputStream ios = openFileInput("information.txt");
-            byte[] temp = new byte[1024];
-            StringBuilder sb = new StringBuilder("");
-            int len = 0;
-            while ((len = ios.read(temp)) > 0){
-                sb.append(new String(temp, 0, len));
-            }
-            ios.close();
-            textContent = sb.toString();
-        }catch (Exception e) {
-        }
-        return textContent;
-    }
+
     //method to convert your text to image
     public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);

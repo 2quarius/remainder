@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:skin="http://schemas.android.com/android/skin"
+    xmlns:tools="http://schemas.android.com/tools"
     skin:enable="true"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -99,6 +100,38 @@
         android:layout_centerVertical="true"
         android:scaleType="matrix"
         app:srcCompat="@drawable/right_arrow" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/guard"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/guard_pic"
+            android:layout_width="@dimen/setting_pic"
+            android:layout_height="@dimen/setting_pic"
+            android:layout_alignParentLeft="true"
+            android:padding="8dp"
+            app:srcCompat="@drawable/guard"/>
+        <TextView
+            android:layout_toRightOf="@+id/guard_pic"
+            android:text="@string/guard"
+            android:padding="8dp"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="@dimen/right_arrow"
+            android:layout_height="@dimen/right_arrow"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="matrix"
+            app:srcCompat="@drawable/right_arrow" />
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/about"
