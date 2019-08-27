@@ -14,8 +14,8 @@
             android:id="@+id/add_widget"
             android:background="@drawable/add_widget"
             android:layout_marginLeft="20dp"
-            android:layout_width="23dp"
-            android:layout_height="23dp" />
+            android:layout_width="@dimen/the23"
+            android:layout_height="@dimen/the23" />
         <TextView
             android:id="@+id/widget_title"
             android:text="今日任务"
@@ -33,27 +33,27 @@
             android:background="@drawable/setting_widget"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
-            android:layout_width="23dp"
-            android:layout_height="23dp" />
+            android:layout_width="@dimen/the23"
+            android:layout_height="@dimen/the23" />
     </RelativeLayout>
     <LinearLayout
     android:id="@+id/ll1"
     android:gravity="center"
     android:layout_below="@+id/head"
     android:orientation="horizontal"
-    android:layout_width="250dp"
+    android:layout_width="@dimen/the250"
     android:layout_height="wrap_content">
         <RelativeLayout
         android:gravity="center"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/the250"
         android:layout_height="wrap_content">
         <ImageButton
         android:layout_marginLeft="5dp"
         android:layout_centerVertical="true"
         android:background="@drawable/box"
         android:id="@+id/btn_check0"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:layout_width="@dimen/padding"
+        android:layout_height="@dimen/padding" />
         <TextView
         android:id="@+id/card_title0"
         android:text="任务一"
@@ -80,19 +80,19 @@
     android:gravity="center"
     android:layout_below="@+id/ll1"
     android:orientation="horizontal"
-    android:layout_width="250dp"
+    android:layout_width="@dimen/the250"
     android:layout_height="wrap_content">
         <RelativeLayout
         android:gravity="center"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/the250"
         android:layout_height="wrap_content">
         <ImageButton
         android:layout_marginLeft="5dp"
         android:layout_centerVertical="true"
         android:background="@drawable/box"
         android:id="@+id/btn_check1"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:layout_width="@dimen/padding"
+        android:layout_height="@dimen/padding" />
         <TextView
         android:id="@+id/card_title1"
         android:text="任务二"
@@ -119,19 +119,19 @@
     android:gravity="center"
     android:layout_below="@+id/ll2"
     android:orientation="horizontal"
-    android:layout_width="250dp"
+    android:layout_width="@dimen/the250"
     android:layout_height="wrap_content">
         <RelativeLayout
         android:gravity="center"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/the250"
         android:layout_height="wrap_content">
         <ImageButton
         android:layout_marginLeft="5dp"
         android:layout_centerVertical="true"
         android:background="@drawable/box"
         android:id="@+id/btn_check2"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:layout_width="@dimen/padding"
+        android:layout_height="@dimen/padding" />
         <TextView
         android:id="@+id/card_title2"
         android:text="任务三"
@@ -158,19 +158,19 @@
     android:gravity="center"
     android:layout_below="@+id/ll3"
     android:orientation="horizontal"
-    android:layout_width="250dp"
+    android:layout_width="@dimen/the250"
     android:layout_height="wrap_content">
         <RelativeLayout
         android:gravity="center"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/the250"
         android:layout_height="wrap_content">
         <ImageButton
         android:layout_marginLeft="5dp"
         android:layout_centerVertical="true"
         android:background="@drawable/box"
         android:id="@+id/btn_check3"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:layout_width="@dimen/padding"
+        android:layout_height="@dimen/padding" />
         <TextView
         android:id="@+id/card_title3"
         android:text="任务四"
@@ -197,19 +197,19 @@
     android:gravity="center"
     android:layout_below="@+id/ll4"
     android:orientation="horizontal"
-    android:layout_width="250dp"
+    android:layout_width="@dimen/the250"
     android:layout_height="wrap_content">
         <RelativeLayout
         android:gravity="center"
-        android:layout_width="250dp"
+        android:layout_width="@dimen/the250"
         android:layout_height="wrap_content">
         <ImageButton
         android:layout_marginLeft="5dp"
         android:layout_centerVertical="true"
         android:background="@drawable/box"
         android:id="@+id/btn_check4"
-        android:layout_width="20dp"
-        android:layout_height="20dp" />
+        android:layout_width="@dimen/padding"
+        android:layout_height="@dimen/padding" />
         <TextView
         android:id="@+id/card_title4"
         android:text="任务五"
@@ -241,8 +241,8 @@
             android:id="@+id/left_widget"
             android:background="@drawable/left_arrow"
             android:layout_marginLeft="10dp"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+            android:layout_width="@dimen/padding"
+            android:layout_height="@dimen/padding" />
         <TextView
             android:id="@+id/pages"
             android:text="1/1"
@@ -260,8 +260,8 @@
             android:background="@drawable/right_arrow"
             android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
+            android:layout_width="@dimen/padding"
+            android:layout_height="@dimen/padding" />
     </RelativeLayout>
 </RelativeLayout>
 
