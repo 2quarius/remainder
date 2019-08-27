@@ -46,4 +46,5 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     <dimen name="account_avatar">50dp</dimen>
     <dimen name="right_arrow">30dp</dimen>
     <dimen name="setting_pic">40dp</dimen>
+    <dimen name="grid_expected_size">100dp</dimen>
 </resources>

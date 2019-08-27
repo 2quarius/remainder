@@ -12,6 +12,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper=false)
 public class User extends BmobUser {
+    //仅jaccount账号登录才有此字段
+    private String accessToken;
     private BmobFile avatar;
     private List<TaskCollector> taskCollectors;
 }

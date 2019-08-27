@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "com.example.trail"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -100,6 +100,10 @@ dependencies {
     implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
     implementation 'com.github.medyo:android-about-page:1.2.5'
     implementation 'com.solid.skin:skinlibrary:2.0.0'
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
+    implementation 'com.zhihu.android:matisse:0.5.2'
+
+
 
     //tencent and wx
     implementation files('libs/open_sdk_r6137_lite.jar')

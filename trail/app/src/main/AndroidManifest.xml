@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.trail">
+    <!--换肤读取皮肤包所需-->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--上传图片-->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- google map permission -->
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -57,7 +61,7 @@
         android:supportsRtl="false"
         android:theme="@style/Light.Theme"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:replace="android:allowBackup,android:supportsRtl">
+        tools:replace="android:allowBackup,android:supportsRtl,android:theme">
         <activity android:name=".Setting.ShowAccountActivity" />
         <activity android:name=".AlarmRemind.AlarmRemindActivity" />
 
@@ -73,8 +77,6 @@
 
         <service android:name=".Services.BaiduMapService" />
 
-        <receiver android:name=".Services.RemindReceiver" />
-
         <activity android:name=".Lists.SideMenuActivity" />
         <activity android:name=".NewTask.AddTaskActivity" />
         <activity android:name=".Setting.LoginActivity"/>
@@ -89,6 +91,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--qq登录-->
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:noHistory="true"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent101769768" />
+            </intent-filter>
+        </activity>
+        <!--微信登录-->
         <activity android:name=".Utility.wxapi.WXEntryActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
