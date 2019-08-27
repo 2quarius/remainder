@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    skin:enable="true"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true">
+    <EditText
+        android:id="@+id/search_input"
+        android:layout_width="match_parent"
+        android:enabled="true"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/cardview_light_background"
+        android:layout_margin="8dp"
+        android:hint="请输入"
+        android:drawablePadding="3dp"
+        android:padding="8dp"
+        android:maxLength="20"
+        android:inputType="text"
+        android:maxLines="1"
+        android:textSize="12sp" />
+    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/my_recycler_view"
+        android:scrollbars="vertical"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:layout_below="@id/search_input"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </androidx.recyclerview.widget.RecyclerView>
+</RelativeLayout>

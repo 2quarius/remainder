@@ -1,7 +1,6 @@
 package com.example.trail.Widget;
 
 import android.appwidget.AppWidgetManager;
-import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -33,7 +32,7 @@ class ListRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         //  HashMap<String, Object> map;
 
         // 获取 item_widget_device.xml 对应的RemoteViews
-        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.list_item);
+        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.calendar_list_item);
         String title=lists.get(position);
         // 设置 第position位的“视图”的数据
         //  rv.setImageViewResource(R.id.iv_lock, ((Integer) map.get(IMAGE_ITEM)).intValue());

@@ -1,109 +1,92 @@
 package com.example.trail.Setting;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.trail.MainActivity;
 import com.example.trail.R;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import solid.ren.skinlibrary.SkinLoaderListener;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
+import solid.ren.skinlibrary.loader.SkinManager;
 
-public class ThemeActivity extends AppCompatActivity {
-    private Button back;
-    private ImageButton purple;
-    private ImageButton black;
-    private String text;
-    final  private String FILE_NAME = "theme.txt";
-    final  private String FILE_NAME3 = "theme.txt";
-
-    private void setTheTheme() {
-        String theme = "";
-        try {
-            FileInputStream ios = openFileInput(FILE_NAME3);
-            byte[] temp = new byte[10];
-            StringBuilder sb = new StringBuilder("");
-            int len = 0;
-            while ((len = ios.read(temp)) > 0){
-                sb.append(new String(temp, 0, len));
-            }
-            ios.close();
-            theme = sb.toString();
-        }catch (Exception e) {
-            //Log.d("errMsg", e.toString());
-        }
-        if (theme.equals("purple")) {
-            setTheme(R.style.LightTheme);
-        }
-        else if (theme.equals("black")){
-            setTheme(R.style.NightTheme);
-        }
-    }
-
+public class ThemeActivity extends SkinBaseActivity {
+    private ImageButton defaultTheme,blueTheme;
+    private LinearLayout back;
+    private TextView title;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheTheme();
         setContentView(R.layout.activity_theme);
-        back = findViewById(R.id.btn_themeBack);
-        back.bringToFront();
+        initView();
+    }
+
+    private void initView() {
+        back = findViewById(R.id.back);
+        title = findViewById(R.id.title);
+        defaultTheme = findViewById(R.id.default_theme);
+        blueTheme = findViewById(R.id.blue_theme);
+
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                ThemeActivity.this.finish();
             }
         });
-
-        purple = findViewById(R.id.btn_themePurple);
-        black = findViewById(R.id.btn_themeBlack);
-
-        purple.setOnClickListener(new View.OnClickListener() {
+        title.setText(getResources().getString(R.string.theme));
+        defaultTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                text = "purple";
-                try {
-                    FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                    fos.write(text.getBytes());
-                    fos.flush();
-                    fos.close();
-                } catch (Exception e) {
-                    //Log.d("errMsg", e.toString());
-                }
-                setTheme(R.style.LightTheme);
-                startActivity(new Intent(ThemeActivity.this, MainActivity.class));
+                SkinManager.getInstance().loadSkin("default.skin", new SkinLoaderListener() {
+                    @Override
+                    public void onStart() {
+                        Log.i("SkinLoaderListener", "正在切换中");
+                    }
+                    @Override
+                    public void onSuccess() {
+                        Log.i("SkinLoaderListener", "切换成功");
+                        Toast.makeText(getApplicationContext(),"切换成功",Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onFailed(String errMsg) {
+                        Log.i("SkinLoaderListener", "切换失败:" + errMsg);
+                        Toast.makeText(getApplicationContext(),"切换失败:" + errMsg,Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onProgress(int progress) {
+                        Log.i("SkinLoaderListener", "皮肤文件下载中:" + progress);
+                    }
+                });
             }
         });
-
-        black.setOnClickListener(new View.OnClickListener() {
+        blueTheme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                text = "black";
-                try {
-                    FileOutputStream fos = openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
-                    fos.write(text.getBytes());
-                    fos.flush();
-                    fos.close();
-                } catch (Exception e) {
-                    //Log.d("errMsg", e.toString());
-                }
-                setTheme(R.style.NightTheme);
-                startActivity(new Intent(ThemeActivity.this, MainActivity.class));
+                SkinManager.getInstance().loadSkin("blue.skin", new SkinLoaderListener() {
+                    @Override
+                    public void onStart() {
+                        Log.i("SkinLoaderListener", "正在切换中");
+                    }
+                    @Override
+                    public void onSuccess() {
+                        Log.i("SkinLoaderListener", "切换成功");
+                        Toast.makeText(getApplicationContext(),"切换成功",Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onFailed(String errMsg) {
+                        Log.i("SkinLoaderListener", "切换失败:" + errMsg);
+                        Toast.makeText(getApplicationContext(),"切换失败:" + errMsg,Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onProgress(int progress) {
+                        Log.i("SkinLoaderListener", "皮肤文件下载中:" + progress);
+                    }
+                });
             }
         });
-    }
-
-    @Override
-    protected void onStart(){
-        super.onStart();
-        setTheTheme();
     }
 }

@@ -1,66 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    skin:enable="true"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Setting.ThemeActivity">
-    <RelativeLayout
-        android:id="@+id/theme_head"
+    android:layout_height="match_parent">
+    <include
+        android:id="@+id/header_back"
+        layout="@layout/settings_back"/>
+    <TextView
+        android:layout_margin="10dp"
+        android:text="@string/theme"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
-        <ImageButton
-            android:src="@drawable/back"
-            android:scaleType="centerInside"
-            android:background="@drawable/button_back_bg"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_width="@dimen/icon"
-            android:layout_height="@dimen/icon" />
-        <Button
-            android:id="@+id/btn_themeBack"
-            android:textColor="@color/mdtp_white"
-            android:text="主题"
-            android:textSize="24sp"
-            android:gravity="center"
-            android:layout_marginTop="-10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+        android:layout_height="wrap_content" />
     <RelativeLayout
-        android:layout_below="@+id/theme_head"
-        android:gravity="center"
-        android:layout_marginTop="80dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <ImageButton
-            android:id="@+id/btn_themePurple"
-            android:background="#5d1049"
-            android:layout_width="@dimen/the141"
-            android:layout_height="@dimen/the200" />
-        <ImageButton
-            android:id="@+id/btn_themeBlack"
-            android:layout_toRightOf="@id/btn_themePurple"
-            android:layout_marginLeft="50dp"
-            android:background="#323232"
-            android:layout_width="@dimen/the141"
-            android:layout_height="@dimen/the200" />
-        <TextView
-            android:id="@+id/tv_purple"
-            android:text="静谧紫（默认）"
-            android:textSize="20sp"
-            android:layout_below="@+id/btn_themePurple"
+        <RelativeLayout
+            android:id="@+id/theme_default"
+            android:padding="10dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/tv_black"
-            android:text="暗夜黑"
-            android:textSize="20sp"
-            android:layout_below="@+id/btn_themeBlack"
-            android:layout_marginLeft="90dp"
-            android:layout_toRightOf="@+id/tv_purple"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </RelativeLayout>
+            android:layout_height="wrap_content">
 
-</RelativeLayout>
+            <ImageButton
+                android:id="@+id/default_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/default_theme" />
+            <TextView
+                android:layout_below="@+id/default_theme"
+                android:padding="4dp"
+                android:layout_centerVertical="true"
+                android:text="@string/default_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_toRightOf="@+id/theme_default"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/blue_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/blue_theme" />
+            <TextView
+                android:layout_below="@+id/blue_theme"
+                android:padding="4dp"
+                android:layout_centerVertical="true"
+                android:text="@string/blue_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

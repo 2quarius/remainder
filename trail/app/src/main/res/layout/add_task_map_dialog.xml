@@ -2,6 +2,8 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:skin="http://schemas.android.com/android/skin"
+    skin:enable="true"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -19,7 +21,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 app:borderWidth="0dp"
-                android:backgroundTint="@color/inputLine"
+                android:backgroundTint="@android:color/transparent"
                 app:srcCompat="@drawable/places_ic_search" />
             <EditText
                 android:gravity="center_vertical"

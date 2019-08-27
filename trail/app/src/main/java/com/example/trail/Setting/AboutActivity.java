@@ -1,65 +1,95 @@
 package com.example.trail.Setting;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-
-import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.Toast;
 
-import com.example.trail.MainActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
 import com.example.trail.R;
 
-import java.io.FileInputStream;
+import java.util.Calendar;
 
-public class AboutActivity extends AppCompatActivity {
-    private Button back;
-    final  private String FILE_NAME3 = "theme.txt";
+import mehdi.sakout.aboutpage.AboutPage;
+import mehdi.sakout.aboutpage.Element;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
 
-    private void setTheTheme() {
-        String theme = "";
-        try {
-            FileInputStream ios = openFileInput(FILE_NAME3);
-            byte[] temp = new byte[10];
-            StringBuilder sb = new StringBuilder("");
-            int len = 0;
-            while ((len = ios.read(temp)) > 0){
-                sb.append(new String(temp, 0, len));
-            }
-            ios.close();
-            theme = sb.toString();
-        }catch (Exception e) {
-            //Log.d("errMsg", e.toString());
-        }
-        if (theme.equals("purple")) {
-            setTheme(R.style.LightTheme);
-        }
-        else if (theme.equals("black")){
-            setTheme(R.style.NightTheme);
-        }
-    }
-
+public class AboutActivity extends SkinBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheTheme();
-        setContentView(R.layout.activity_about);
-        back = findViewById(R.id.btn_aboutBack);
-        back.bringToFront();
+        simulateDayNight(/* DAY */ 0);
+        Element adsElement = new Element();
+        adsElement.setTitle("赞助");
+        View aboutPage = new AboutPage(this)
+                .isRTL(false)//not right to left
+                .setImage(R.drawable.dummy_image)
+                .setDescription("有我在——ddl终结者")
+                .addItem(new Element().setTitle("Version 6.2"))
+                .addItem(adsElement)
+                .addGroup("联系我们")
+                .addEmail("863115889@qq.com","联系我们")
+                .addWebsite("https://github.com/2quarius/reminder/","访问网站")
+                .addTwitter("medyo80","前往Twitter关注我们")
+                .addYoutube("UCdPQtdWIsg7_pi4mrRu46vA","前往YouTube观看")
+                .addPlayStore("com.ideashower.readitlater.pro","评分")
+                .addInstagram("medyo80","前往Instagram关注我们")
+                .addGitHub("2quarius/reminder","前往GitHub Fork项目")
+                .addItem(getCopyRightsElement())
+                .addItem(getBack())
+                .create();
+        setContentView(aboutPage);
+    }
+
+    private Element getBack() {
+        Element back = new Element();
+        back.setTitle("返回");
+        back.setGravity(Gravity.CENTER);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onBackPressed();
+                AboutActivity.this.finish();
             }
         });
+        return back;
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        setTheTheme();
+
+    Element getCopyRightsElement() {
+        Element copyRightsElement = new Element();
+        final String copyrights = String.format(getString(R.string.copy_right), Calendar.getInstance().get(Calendar.YEAR));
+        copyRightsElement.setTitle(copyrights);
+        copyRightsElement.setIconDrawable(R.drawable.about_icon_copy_right);
+        copyRightsElement.setIconTint(mehdi.sakout.aboutpage.R.color.about_item_icon_color);
+        copyRightsElement.setIconNightTint(android.R.color.white);
+        copyRightsElement.setGravity(Gravity.CENTER);
+        copyRightsElement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AboutActivity.this, copyrights, Toast.LENGTH_SHORT).show();
+            }
+        });
+        return copyRightsElement;
+    }
+
+    void simulateDayNight(int currentSetting) {
+        final int DAY = 0;
+        final int NIGHT = 1;
+        final int FOLLOW_SYSTEM = 3;
+
+        int currentNightMode = getResources().getConfiguration().uiMode
+                & Configuration.UI_MODE_NIGHT_MASK;
+        if (currentSetting == DAY && currentNightMode != Configuration.UI_MODE_NIGHT_NO) {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO);
+        } else if (currentSetting == NIGHT && currentNightMode != Configuration.UI_MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES);
+        } else if (currentSetting == FOLLOW_SYSTEM) {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+        }
     }
 }

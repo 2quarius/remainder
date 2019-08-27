@@ -16,6 +16,15 @@ import java.util.Date;
  * TODO 最好全部转为Calendar
  */
 public class TimeUtil {
+    public static com.haibin.calendarview.Calendar Date2Calendar(Date date){
+        java.util.Calendar calendar = java.util.Calendar.getInstance();
+        calendar.setTime(date);
+        com.haibin.calendarview.Calendar cal = new com.haibin.calendarview.Calendar();
+        cal.setDay(calendar.get(java.util.Calendar.DAY_OF_MONTH));
+        cal.setMonth(calendar.get(java.util.Calendar.MONTH));
+        cal.setYear(calendar.get(java.util.Calendar.YEAR));
+        return cal;
+    }
     /**
      * date to calendar
      * @param date
