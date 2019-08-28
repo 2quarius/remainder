@@ -6,7 +6,7 @@ import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.search.core.PoiInfo;
 import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiSearch;
-import com.example.trail.overlayutil.PoiOverlay;
+import com.example.trail.Utility.overlayutil.PoiOverlay;
 
 public class MyOverlay extends PoiOverlay {
     /**

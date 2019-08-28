@@ -13,7 +13,7 @@ public class ChineseWeekBar extends WeekBar {
 
     public ChineseWeekBar(Context context) {
         super(context);
-        LayoutInflater.from(context).inflate(R.layout.chinese_week_bar, this, true);
+        LayoutInflater.from(context).inflate(R.layout.calendar_chinese_week_bar, this, true);
 //        setBackgroundColor(Color.WHITE);
         int padding = dipToPx(context, 10);
         setPadding(padding, 0, padding, 0);

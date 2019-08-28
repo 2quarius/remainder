@@ -19,7 +19,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,10 +33,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import solid.ren.skinlibrary.base.SkinBaseFragment;
+
 import static android.app.Activity.RESULT_OK;
 
 
-public class ListsFragment extends Fragment {
+public class ListsFragment extends SkinBaseFragment {
     private EditText mSearchTagEdit;
     private static final int MODIFY_TASK_REQUEST_CODE = 9;
     private RecyclerView view;
@@ -56,7 +57,7 @@ public class ListsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View viewP=inflater.inflate(
-                R.layout.recycler_view, container, false);
+                R.layout.lists_recycler_view, container, false);
         RecyclerView recyclerView =viewP.findViewById(R.id.my_recycler_view);
         adapter = new ContentAdapter(recyclerView.getContext());
         recyclerView.setAdapter(adapter);
@@ -172,21 +173,19 @@ public class ListsFragment extends Fragment {
      * Adapter to display recycler view.
      */
     public class ContentAdapter extends RecyclerView.Adapter<ViewHolder> implements Filterable {
-//        private List<String> mFilterTitle = new ArrayList<>();
-//        private List<String> mFilterDesc = new ArrayList<>();
-//        private List<Boolean> mFilterFinish = new ArrayList<>();
         private List<Task> mFilterTasks = new ArrayList<>();
         public ContentAdapter(Context context) {
             mFilterTasks=mTasks;
             titles.clear();
             descriptions.clear();
             finished.clear();
-            for (Task task:mFilterTasks){
-                titles.add(task.getTitle());
-                descriptions.add(task.getDescription());
-                finished.add(task.isDone());
+            if (mFilterTasks!=null) {
+                for (Task task : mFilterTasks) {
+                    titles.add(task.getTitle());
+                    descriptions.add(task.getDescription());
+                    finished.add(task.isDone());
+                }
             }
-
         }
 
         @Override
@@ -222,11 +221,7 @@ public class ListsFragment extends Fragment {
                         for (int i =0;i<mTasks.size();i++) {
                             //这里根据需求，添加匹配规则
                             if (mTasks.get(i).getTitle().contains(charString)) {
-//                                mFilterTitle.add(titles.get(i));
-//                                mFilterFinish.add(finished.get(i));
-//                                mFilterDesc.add(descriptions.get(i));
                                 filteredList.add(mTasks.get(i));
-//                                System.out.println(titles.get(i));
                                 System.out.println(mTasks.get(i).getTitle());
                             }
                         }
@@ -276,8 +271,6 @@ public class ListsFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                 }
             });
-//            adapter.notifyItemRemoved(position);
-//            adapter.notifyItemRangeChanged(Math.min(position, this.getItemCount()-1), this.getItemCount()-1 - position +1);
         }
     }
 

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.trail">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <!-- google map permission -->
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -51,12 +53,13 @@
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name=".Setting.BmobApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Light.Theme"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Setting.ShowAccountActivity"></activity>
-        <activity android:name=".Setting.RegistActivity" />
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup,android:supportsRtl">
+        <activity android:name=".Setting.ShowAccountActivity" />
 
         <receiver android:name=".Widget.AppWidget">
             <intent-filter>
@@ -74,12 +77,10 @@
 
         <activity android:name=".Lists.SideMenuActivity" />
         <activity android:name=".NewTask.AddTaskActivity" />
-
-        <activity android:name=".Setting.AboutActivity" />
-
+        <activity android:name=".Setting.LoginActivity"/>
+        <activity android:name=".Setting.AboutActivity"/>
         <activity android:name=".Setting.VoiceActivity" />
         <activity android:name=".Setting.ThemeActivity" />
-        <activity android:name=".Setting.AccountActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -87,7 +88,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".Utility.wxapi.WXEntryActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true"
+            android:taskAffinity="net.sourceforge.simcpux"
+            android:launchMode="singleTask">
+        </activity>
+        <provider
+            android:authorities="com.example.trail.BmobContentProvider"
+            android:name="cn.bmob.v3.util.BmobContentProvider"/>
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="5e0218c7d41921f91dd61a07d63880ce" />

@@ -1,19 +1,14 @@
 package com.example.trail.Setting;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-
 import android.app.Service;
 import android.content.Context;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Switch;
 
@@ -21,9 +16,9 @@ import com.example.trail.R;
 
 import java.io.FileInputStream;
 
-import static java.nio.file.attribute.AclEntryType.ALARM;
+import solid.ren.skinlibrary.base.SkinBaseActivity;
 
-public class VoiceActivity extends AppCompatActivity {
+public class VoiceActivity extends SkinBaseActivity {
     private SeekBar sbVoice0;
     private SeekBar sbVoice1;
     private Switch vibra;
@@ -120,7 +115,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //改变系统音量
-    private void changeSystemVolume(int voice){
+    public void changeSystemVolume(int voice){
         int max=0,current=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         max = mAudioManager.getStreamMaxVolume( AudioManager.STREAM_SYSTEM );
@@ -132,7 +127,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取当前系统音量
-    private int getSystemVolume(){
+    public int getSystemVolume(){
         int volume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         volume = mAudioManager.getStreamVolume( AudioManager.STREAM_SYSTEM );
@@ -140,7 +135,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取系统最大音量
-    private int getMaxSystemVolume(){
+    public int getMaxSystemVolume(){
         int maxVolume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         maxVolume = mAudioManager.getStreamMaxVolume( AudioManager.STREAM_SYSTEM );
@@ -148,7 +143,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取当前媒体音量
-    private int getMusicVolume(){
+    public int getMusicVolume(){
         int volume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         volume = mAudioManager.getStreamVolume( AudioManager.STREAM_MUSIC );
@@ -156,7 +151,7 @@ public class VoiceActivity extends AppCompatActivity {
     }
 
     //获取最大媒体音量
-    private int getMaxMusicVolume(){
+    public int getMaxMusicVolume(){
         int maxVolume=0;
         mAudioManager=(AudioManager)getSystemService(Context.AUDIO_SERVICE);
         maxVolume=mAudioManager.getStreamMaxVolume( AudioManager.STREAM_MUSIC );

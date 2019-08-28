@@ -25,12 +25,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -70,7 +70,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddTaskActivity extends AppCompatActivity implements
+import javax.crypto.Mac;
+
+import solid.ren.skinlibrary.base.SkinBaseActivity;
+
+public class AddTaskActivity extends SkinBaseActivity implements
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private static final String CHOOSE_A_PLACE = "Place for remind";
     private Integer position;
@@ -180,19 +184,19 @@ public class AddTaskActivity extends AppCompatActivity implements
 
             @Override
             public void afterTextChanged(Editable s) {
-                Matcher m = Pattern.compile("(\\d{1,2})month(\\d{1,2})day").matcher(s.toString());
+                Matcher m = Pattern.compile("(\\d{1,2})月(\\d{1,2})号").matcher(s.toString());
                 Matcher m2 = Pattern.compile("(\\d{2}):(\\d{2})").matcher(s.toString());
                 Matcher m3 = Pattern.compile("(\\d{1,2})月(\\d{1,2})日").matcher(s.toString());
-                if (m.find()&&task.getExpireTime() == null){
+                if ((m.find()||m3.find())&&task.getExpireTime() == null){
                     System.out.println("find date");
                     Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
                     hideKeyboard(mTitleEditText);
-
+                    Matcher act=m.find()?m:m3;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(date);
                     int year = calendar.get(Calendar.YEAR);
-                    int month = Integer.parseInt(m.group(1));
-                    int day = Integer.parseInt(m.group(2));
+                    int month = Integer.parseInt(act.group(1));
+                    int day = Integer.parseInt(act.group(2));
                     //System.out.println(month);
 
                     DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month-1, day);
@@ -400,7 +404,7 @@ public class AddTaskActivity extends AppCompatActivity implements
     }
 
     private void addNewLine() {
-        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.mini_task_checkbox, null);
+        final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.add_task_mini_task_checkbox, null);
         final CheckBox checkBox = linearLayout.findViewById(R.id.done);
         final EditText editText = linearLayout.findViewById(R.id.content);
         final int index = miniTasks.size();
@@ -493,7 +497,7 @@ public class AddTaskActivity extends AppCompatActivity implements
             ViewGroup parent = (ViewGroup) mMiniTaskSwitch.getParent();
             parent.addView(addButton());
             for (final MiniTask miniTask:task.getMiniTasks()){
-                LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.mini_task_checkbox,null);
+                LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.add_task_mini_task_checkbox, null);
                 CheckBox checkBox = linearLayout.findViewById(R.id.done);
                 final EditText editText = linearLayout.findViewById(R.id.content);
                 checkBox.setChecked(miniTask.getDone());
@@ -526,7 +530,7 @@ public class AddTaskActivity extends AppCompatActivity implements
     }
 
     private View addButton() {
-        ImageButton imgb = (ImageButton) getLayoutInflater().inflate(R.layout.mini_task_add_button,null);
+        ImageButton imgb = (ImageButton) getLayoutInflater().inflate(R.layout.add_task_mini_task_add_button, null);
         imgb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -577,7 +581,7 @@ public class AddTaskActivity extends AppCompatActivity implements
         final AlertDialog customDialog;
 
         LayoutInflater inflater = getLayoutInflater();
-        View layout = inflater.inflate(R.layout.dialog,null);
+        View layout = inflater.inflate(R.layout.add_task_map_dialog, null);
         FloatingActionButton search = layout.findViewById(R.id.search_button);
         final EditText searchText = layout.findViewById(R.id.search_place);
         searchText.setVisibility(View.INVISIBLE);
@@ -606,7 +610,6 @@ public class AddTaskActivity extends AppCompatActivity implements
             }
         });
         customDialog = builder.create();
-        //TODO:设置点击事件
         final BaiduMap map = mapView.getMap();
         final BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.location);
         map.setOnMapClickListener(new BaiduMap.OnMapClickListener() {
@@ -637,10 +640,28 @@ public class AddTaskActivity extends AppCompatActivity implements
                     @Override
                     public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
                         //获取点击的坐标地址
+                        //TODO 添加info window
+                        View infoWindowView = getLayoutInflater().inflate(R.layout.add_task_info_window, null);
+                        TextView addr = (TextView) infoWindowView.findViewById(R.id.address);
+                        addr.setText(arg0.getAddress());
+                        BitmapDescriptor infoWindowBitmap = BitmapDescriptorFactory.fromView(infoWindowView);
+                        InfoWindow.OnInfoWindowClickListener onInfoWindowClickListener = new InfoWindow.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick() {
+                                map.hideInfoWindow();
+                            }
+                        };
+                        //定义信息窗
+                        InfoWindow infoWindow = new InfoWindow(infoWindowBitmap,//信息窗布局
+                                                               mLatLng, //信息窗的点
+                                                               -47, //信息窗与点的位置关系
+                                                               //infoWindow监听器
+                                                               onInfoWindowClickListener
+                        );
+                        //显示信息窗
+                        map.showInfoWindow(infoWindow);
                         address = arg0.getAddress();
-//                        customDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
                     }
-
                     @Override
                     public void onGetGeoCodeResult(GeoCodeResult arg0) {
                     }
@@ -718,11 +739,11 @@ public class AddTaskActivity extends AppCompatActivity implements
             public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
                 if (poiDetailResult.error != SearchResult.ERRORNO.NO_ERROR) {
                     Toast.makeText(getApplication(), "抱歉，未找到结果",
-                                   Toast.LENGTH_SHORT).show();
+                            Toast.LENGTH_SHORT).show();
                 } else {// 正常返回结果的时候，此处可以获得很多相关信息
                     Toast.makeText(getApplication(), poiDetailResult.getName() + ": "
-                                           + poiDetailResult.getAddress(),
-                                   Toast.LENGTH_LONG).show();
+                                    + poiDetailResult.getAddress(),
+                            Toast.LENGTH_LONG).show();
                 }
             }
             @Override
@@ -922,5 +943,4 @@ public class AddTaskActivity extends AppCompatActivity implements
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatString);
         return simpleDateFormat.format(dateToFormat);
     }
-
 }

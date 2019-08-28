@@ -1,7 +1,9 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:skin="http://schemas.android.com/android/skin"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    skin:enable="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 <LinearLayout
@@ -20,7 +22,7 @@
             android:id="@+id/title_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/title_height"
-            android:background="?attr/colorPrimary"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -29,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                app:hintTextColor="@color/colorPrimaryDark"
                 app:hintTextAppearance="@style/FloatingLabelTextAppearance">
 
                 <EditText
@@ -55,6 +58,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="20dp"
+            app:hintTextColor="@color/colorPrimaryDark"
             app:hintTextAppearance="@style/FloatingLabelTextAppearance">
 
             <EditText
@@ -66,6 +70,7 @@
                 android:layout_weight="0"
                 android:gravity="start|bottom"
                 android:hint="@string/description"
+                android:textColorHint="@color/colorPrimary"
                 android:inputType="textMultiLine|textCapSentences"
                 android:lines="2"
                 android:maxLines="3"
@@ -423,7 +428,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:backgroundTint="@color/inputLine"
+        android:backgroundTint="#e6e6e6"
         android:src="@drawable/checkmark_complete"
         app:borderWidth="0dp"
         app:fabSize="normal"

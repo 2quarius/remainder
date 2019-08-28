@@ -6,12 +6,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.baidu.location.BDAbstractLocationListener;
@@ -21,6 +22,7 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
@@ -35,7 +37,9 @@ import com.example.trail.R;
 
 import java.util.List;
 
-public class BaiduMapFragment extends Fragment {
+import solid.ren.skinlibrary.base.SkinBaseFragment;
+
+public class BaiduMapFragment extends SkinBaseFragment {
     private MarkerOptions markerOptions;
     private Marker marker;
     private MapView mMapView;
@@ -112,11 +116,42 @@ public class BaiduMapFragment extends Fragment {
                 BitmapDescriptor bitmap = BitmapDescriptorFactory.fromResource(R.mipmap.location);
                 MarkerOptions markerOptions = new MarkerOptions().position(position).icon(bitmap);
                 Marker marker = (Marker) mBaiduMap.addOverlay(markerOptions);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("task",t);
+                marker.setExtraInfo(bundle);
                 mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
-                        //TODO:显示具体信息
-                        return false;
+                        //在显示新信息窗之前，先关闭已经在显示的信息窗
+                        mBaiduMap.hideInfoWindow();
+                        //显示信息窗
+                        View infoWindowView = getLayoutInflater().inflate(R.layout.map_info_window, null);
+                        TextView title = (TextView) infoWindowView.findViewById(R.id.info_window_title);
+                        TextView description = (TextView) infoWindowView.findViewById(R.id.info_window_description);
+                        //如果显示窗是要用自定义的view，则最外层可直接用UI控件或者layout，如果外层用layout来布局，那么布局中一定要有UI控件，否则BitmapDescriptorFactory.fromView(view);会报空指针
+                        Task task = (Task) marker.getExtraInfo().get("task");
+                        title.setText(task.getTitle());
+                        description.setText(task.getDescription());
+                        BitmapDescriptor infoWindowBitmap = BitmapDescriptorFactory.fromView(infoWindowView);
+                        //信息窗点击处理事件
+                        Log.d("tag", "infoWindow_view="+infoWindowView);
+                        Log.d("tag", "infoWindow_bitmap="+infoWindowBitmap);
+                        InfoWindow.OnInfoWindowClickListener onInfoWindowClickListener = new InfoWindow.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick() {
+                                mBaiduMap.hideInfoWindow();
+                            }
+                        };
+                        //定义信息窗
+                        InfoWindow infoWindow = new InfoWindow(infoWindowBitmap,//信息窗布局
+                                                               marker.getPosition(), //信息窗的点
+                                                               -47, //信息窗与点的位置关系
+                                                               //infoWindow监听器
+                                                               onInfoWindowClickListener
+                        );
+                        //显示信息窗
+                        mBaiduMap.showInfoWindow(infoWindow);
+                        return true;
                     }
                 });
             }
