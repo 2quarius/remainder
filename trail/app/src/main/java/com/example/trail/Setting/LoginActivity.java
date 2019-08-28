@@ -187,7 +187,6 @@ public class LoginActivity extends SkinBaseActivity implements View.OnClickListe
         if(mTencent==null){
             mTencent = Tencent.createInstance(KeyConstants.QQ_APP_ID, getApplicationContext());
         }
-//        mTencent.logout(this);
         mTencent.login(this, "all", new IUiListener() {
             @Override
             public void onComplete(Object arg0) {

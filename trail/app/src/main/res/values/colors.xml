@@ -13,6 +13,7 @@
     <color name="colorPrimaryNight">#323232</color>
     <color name="colorPrimaryDarkNight">#212121</color>
     <color name="colorAccentNight">#fefff7</color>
+
     <color name="bg_item_normal_state">#fff0f0f0</color>
     <color name="bg_swipe_item_neutral">@android:color/transparent</color>
     <color name="bg_group_item_dragging_active_state">#ffee99ff</color>
@@ -25,4 +26,8 @@
     <color name="bg_item_dragging_active_state">#ffff9999</color>
     <color name="bg_item_dragging_state">#ffffdddd</color>
 
+    <color name="event_color_01">#59dbe0</color>
+    <color name="event_color_02">#f57f68</color>
+    <color name="event_color_03">#87d288</color>
+    <color name="event_color_04">#f8b552</color>
 </resources>

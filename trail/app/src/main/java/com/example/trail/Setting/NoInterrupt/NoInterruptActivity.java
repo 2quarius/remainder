@@ -1,22 +1,17 @@
-package com.example.trail.NoInterrupt;
+package com.example.trail.Setting.NoInterrupt;
 
-import android.content.Context;
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.trail.MainActivity;
 import com.example.trail.R;
 
 public class NoInterruptActivity extends AppCompatActivity {
@@ -47,6 +42,7 @@ public class NoInterruptActivity extends AppCompatActivity {
         player.stop();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,15 +107,13 @@ public class NoInterruptActivity extends AppCompatActivity {
                                     end_btn.setLeft(-280);
                                     player.release();
                                     player = null;
-                                    Intent intent = new Intent(NoInterruptActivity.this, MainActivity.class);
-                                    startActivity(intent);
+                                    NoInterruptActivity.this.finish();
                                 }
                                 else if (end_btn.getLeft()>200) {
                                     end_btn.setLeft(280);
                                     player.release();
                                     player = null;
-                                    Intent intent = new Intent(NoInterruptActivity.this, MainActivity.class);
-                                    startActivity(intent);
+                                    NoInterruptActivity.this.finish();
                                 }
                                 else {
                                     end_btn.setLeft(0);
