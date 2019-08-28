@@ -28,7 +28,7 @@ public class StoreRetrieveData {
         mFileName = filename;
     }
 
-    public static JSONArray listOfTask2JSONArray(ArrayList<Task> items) throws JSONException {
+    private static JSONArray listOfTask2JSONArray(ArrayList<Task> items) throws JSONException {
         JSONArray jsonArray = new JSONArray();
         for (Task item : items) {
             JSONObject jsonObject = item.toJSON();
@@ -36,7 +36,7 @@ public class StoreRetrieveData {
         }
         return jsonArray;
     }
-    public static JSONArray toJSONArray(ArrayList<TaskCollector> collectors) throws JSONException{
+    private static JSONArray toJSONArray(ArrayList<TaskCollector> collectors) throws JSONException{
         JSONArray jsonArray = new JSONArray();
         for (TaskCollector collector:collectors){
             JSONArray tasks = listOfTask2JSONArray(collector.getTasks());
@@ -56,7 +56,6 @@ public class StoreRetrieveData {
     }
 
     public ArrayList<TaskCollector> loadFromFile() throws IOException, JSONException {
-//        ArrayList<Task> items = new ArrayList<>();
         ArrayList<TaskCollector> collectors = new ArrayList<>();
         BufferedReader bufferedReader = null;
         FileInputStream fileInputStream = null;
@@ -69,10 +68,6 @@ public class StoreRetrieveData {
                 builder.append(line);
             }
             JSONArray jsonArray = (JSONArray) new JSONTokener(builder.toString()).nextValue();
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                Task item = new Task(jsonArray.getJSONObject(i));
-//                items.add(item);
-//            }
             for (int i=0;i<jsonArray.length();i++){
                 TaskCollector collector = new TaskCollector(jsonArray.getJSONObject(i));
                 collectors.add(collector);

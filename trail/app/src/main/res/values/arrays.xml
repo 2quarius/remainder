@@ -29,9 +29,9 @@
     <string-array name="recycle_array">
         <item>单次</item>
         <item>每天</item>
-        <item>每周</item>
-        <item>每月</item>
-        <item>每年</item>
+        <item>每7天</item>
+        <item>每30天</item>
+        <item>每365天</item>
     </string-array>
 
     <string-array name="year">
