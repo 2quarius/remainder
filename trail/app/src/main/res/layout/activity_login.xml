@@ -10,10 +10,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="#4CAF50"
+        android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="登录"
-        android:textColor="@android:color/white"
+        android:textColor="@color/app_white"
         android:textSize="20sp" />
 
     <RelativeLayout
@@ -69,8 +69,8 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1.0"
-                android:background="@drawable/selector_logout"
-                android:text="登陆"
+                android:background="@color/colorPrimary"
+                android:text="登录"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
@@ -80,7 +80,7 @@
                 android:layout_height="48dp"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1.0"
-                android:background="@drawable/selector_logout"
+                android:background="@color/colorPrimary"
                 android:text="注册"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp" />
@@ -100,42 +100,47 @@
         android:gravity="center"
         android:orientation="horizontal" >
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_qq"
             android:layout_width="@dimen/account_avatar"
             android:layout_height="@dimen/account_avatar"
+            android:scaleType="centerInside"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/qq"
             android:clickable="true"
             android:gravity="center"
             android:paddingLeft="10dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/qq"
             android:textSize="16sp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_weixin"
-            android:layout_toRightOf="@+id/btn_qq"
             android:layout_width="@dimen/account_avatar"
             android:layout_height="@dimen/account_avatar"
+            android:scaleType="centerInside"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/wechat"
+            android:layout_toRightOf="@+id/btn_qq"
+            android:clickable="true"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/wechat"
+            android:textSize="16sp" />
+        <ImageButton
+            android:id="@+id/btn_jaccount"
+            android:layout_toRightOf="@+id/btn_weixin"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/account_avatar"
+            android:scaleType="centerInside"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/jaccount"
             android:clickable="true"
             android:gravity="center"
             android:paddingLeft="10dp"
             android:textSize="16sp" />
-        <!--<Button-->
-            <!--android:id="@+id/btn_jaccount"-->
-            <!--android:layout_toRightOf="@+id/btn_weixin"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="@dimen/account_avatar"-->
-            <!--android:layout_gravity="center_vertical"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:background="@drawable/jaccount"-->
-            <!--android:clickable="true"-->
-            <!--android:gravity="center"-->
-            <!--android:paddingLeft="10dp"-->
-            <!--android:textSize="16sp" />-->
     </RelativeLayout>
 
 </LinearLayout>
