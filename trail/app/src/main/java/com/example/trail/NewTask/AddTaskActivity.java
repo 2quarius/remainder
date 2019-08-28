@@ -70,6 +70,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.crypto.Mac;
+
 import solid.ren.skinlibrary.base.SkinBaseActivity;
 
 public class AddTaskActivity extends SkinBaseActivity implements
@@ -182,19 +184,19 @@ public class AddTaskActivity extends SkinBaseActivity implements
 
             @Override
             public void afterTextChanged(Editable s) {
-                Matcher m = Pattern.compile("(\\d{1,2})month(\\d{1,2})day").matcher(s.toString());
+                Matcher m = Pattern.compile("(\\d{1,2})月(\\d{1,2})号").matcher(s.toString());
                 Matcher m2 = Pattern.compile("(\\d{2}):(\\d{2})").matcher(s.toString());
                 Matcher m3 = Pattern.compile("(\\d{1,2})月(\\d{1,2})日").matcher(s.toString());
-                if (m.find()&&task.getExpireTime() == null){
+                if ((m.find()||m3.find())&&task.getExpireTime() == null){
                     System.out.println("find date");
                     Date date = task.getExpireTime() == null ? new Date():task.getExpireTime();
                     hideKeyboard(mTitleEditText);
-
+                    Matcher act=m.find()?m:m3;
                     Calendar calendar = Calendar.getInstance();
                     calendar.setTime(date);
                     int year = calendar.get(Calendar.YEAR);
-                    int month = Integer.parseInt(m.group(1));
-                    int day = Integer.parseInt(m.group(2));
+                    int month = Integer.parseInt(act.group(1));
+                    int day = Integer.parseInt(act.group(2));
                     //System.out.println(month);
 
                     DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month-1, day);
