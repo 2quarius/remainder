@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.example.trail.Setting.AssignWithML.AssignActivity;
 import com.example.trail.Setting.NoInterrupt.NoInterruptActivity;
 import com.example.trail.R;
 import com.example.trail.Utility.Utils.DESUtils;
@@ -131,7 +132,7 @@ public class SettingsFragment extends SkinBaseFragment {
         mAssign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(getActivity(),AssignActivity.class),REQUEST_ASSIGN);
+                startActivityForResult(new Intent(getActivity(), AssignActivity.class), REQUEST_ASSIGN);
             }
         });
         mAbout.setOnClickListener(new View.OnClickListener() {

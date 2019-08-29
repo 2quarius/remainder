@@ -80,7 +80,7 @@
         <activity android:name=".NewTask.AddTaskActivity" />
         <activity android:name=".Setting.ShowAccountActivity" />
         <activity
-            android:name=".Setting.AssignActivity"/>
+            android:name=".Setting.AssignWithML.AssignActivity"/>
         <activity android:name=".Setting.LoginActivity"/>
         <activity android:name=".Setting.AboutActivity"/>
         <activity android:name=".Setting.VoiceActivity" />
