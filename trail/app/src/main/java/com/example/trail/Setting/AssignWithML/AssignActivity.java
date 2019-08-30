@@ -88,9 +88,9 @@ public class AssignActivity extends SkinBaseActivity implements WeekView.EventCl
                 if (helper.getPredictTime()!=null) {
                     String time = helper.getPredictTime();
                     Task task = helper.getMTask();
-                    if (time.length() != 10) {
+                    if (time.length() == 13) {
                         Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(Long.valueOf(time.substring(0, time.length() - 3)));
+                        calendar.setTimeInMillis(Long.valueOf(time));
                         WeekViewEvent event = new WeekViewEvent(++id, task.getTitle(), calendar, TimeUtil.Date2Cal(task.getExpireTime()));
                         switch (task.getPriority()) {
                             case EUGEN:

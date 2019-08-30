@@ -11,6 +11,7 @@ import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.Task;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +24,8 @@ public class AlarmUtils {
         //install current alarm
         for (TaskCollector taskCollector:taskCollectors){
             for (Task task:taskCollector.getTasks()){
-                if (!task.isDone()&&task.getRemindTime()!=null&&task.getRemindCycle()!=null){
+                Date date = new Date();
+                if (!task.isDone()&&task.getRemindTime()!=null&&task.getRemindCycle()!=null&&task.getRemindTime().after(date)){
                     switch (task.getRemindCycle()){
                         case SINGLE:
                             addNoneRepeatAlarm(context,task.getTitle(),task.getDescription(),TimeUtil.Date2Cal(task.getRemindTime()).getTimeInMillis(),task.hashCode());
@@ -58,7 +60,7 @@ public class AlarmUtils {
         intent.putExtra("title",title);
         intent.putExtra("description",description);
         intent.setAction("startAlarm");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         if (alarms.get(id)==null) {
             alarms.put(id, pendingIntent);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,time,interval,pendingIntent);
@@ -75,7 +77,7 @@ public class AlarmUtils {
         intent.putExtra("title",title);
         intent.putExtra("description",description);
         intent.setAction("startAlarm");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, id, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         if (alarms.get(id)==null) {
             alarms.put(id, pendingIntent);
             alarmManager.set(AlarmManager.RTC_WAKEUP,time, pendingIntent);
