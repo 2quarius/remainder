@@ -7,14 +7,8 @@
     android:background="@android:color/white"
     android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:text="登录"
-        android:textColor="@color/app_white"
-        android:textSize="20sp" />
+    <include android:id="@+id/header_back"
+        layout="@layout/settings_back"/>
 
     <RelativeLayout
         android:layout_width="fill_parent"

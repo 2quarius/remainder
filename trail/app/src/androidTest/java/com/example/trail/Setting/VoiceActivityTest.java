@@ -1,8 +1,5 @@
 package com.example.trail.Setting;
 
-import android.app.Service;
-import android.content.Context;
-import android.os.Vibrator;
 import android.view.View;
 import android.widget.SeekBar;
 
@@ -17,14 +14,12 @@ import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static androidx.core.content.ContextCompat.getSystemService;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class VoiceActivityTest {
     @Rule

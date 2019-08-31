@@ -228,7 +228,7 @@ public class CalendarFragment extends SkinBaseFragment implements
             adjustScrollPositionOnGroupExpanded(groupPosition);
         }
     }
-    private static String constructMonthDay(int m,int d)
+    protected static String constructMonthDay(int m, int d)
     {
         return String.format("%d%s%d%s", m, MONTH, d, DAY);
     }

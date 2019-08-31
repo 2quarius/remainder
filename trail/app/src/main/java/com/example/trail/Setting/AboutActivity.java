@@ -57,7 +57,7 @@ public class AboutActivity extends SkinBaseActivity {
     }
 
 
-    Element getCopyRightsElement() {
+    private Element getCopyRightsElement() {
         Element copyRightsElement = new Element();
         final String copyrights = String.format(getString(R.string.copy_right), Calendar.getInstance().get(Calendar.YEAR));
         copyRightsElement.setTitle(copyrights);
