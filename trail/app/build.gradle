@@ -102,7 +102,7 @@ dependencies {
     implementation 'com.solid.skin:skinlibrary:2.0.0'
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
     implementation 'com.zhihu.android:matisse:0.5.2'
-    implementation 'com.github.2quarius:android-week-view:v1.2-alpha2'
+    implementation 'com.github.tibolte:agendacalendarview:1.0.4'
 
     //tencent and wx
     implementation files('libs/open_sdk_r6137_lite.jar')
