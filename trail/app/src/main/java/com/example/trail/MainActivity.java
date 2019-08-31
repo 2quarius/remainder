@@ -1,11 +1,15 @@
 package com.example.trail;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
@@ -20,6 +24,7 @@ import com.example.trail.Lists.ListsFragment;
 import com.example.trail.Lists.SideMenuActivity;
 import com.example.trail.Map.BaiduMapFragment;
 import com.example.trail.NewTask.AddTaskActivity;
+import com.example.trail.NewTask.ClipService;
 import com.example.trail.NewTask.Collection.TaskCollector;
 import com.example.trail.NewTask.SimpleTask.Task;
 import com.example.trail.Services.BaiduMapService;
@@ -96,7 +101,24 @@ public class MainActivity extends SkinBaseActivity implements ViewPager.OnPageCh
         Intent intent = new Intent(this, BaiduMapService.class);
         startService(intent);
     }
-
+    public void onResume() {
+        Intent intent = new Intent(this, ClipService.class);
+        startService(intent);
+        super.onResume();
+        ClipboardManager mClipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+        Log.e("Copylistenerdemo", mClipboardManager.getPrimaryClip().getItemAt(0).getText().toString());
+        mClipboardManager = (ClipboardManager)getSystemService(Context.CLIPBOARD_SERVICE);
+//        ClipboardManager.OnPrimaryClipChangedListener
+        final ClipboardManager finalMClipboardManager = mClipboardManager;
+        mClipboardManager.addPrimaryClipChangedListener(new ClipboardManager.OnPrimaryClipChangedListener() {
+            @Override
+            public void onPrimaryClipChanged() {
+                Intent intent = new Intent(MainActivity.this,AddTaskActivity.class);
+                intent.putExtra("clip", finalMClipboardManager.getPrimaryClip().getItemAt(0).getText().toString());
+                startActivity(intent);//跳转到
+            }
+        });
+    }
 
     /**
      * solve result when startActivityForResult ends
