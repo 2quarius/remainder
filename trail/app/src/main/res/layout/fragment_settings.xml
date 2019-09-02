@@ -134,6 +134,38 @@
             app:srcCompat="@drawable/right_arrow" />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/schedule"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:clickable="true">
+
+        <ImageView
+            android:id="@+id/schedule_pic"
+            android:layout_width="@dimen/setting_pic"
+            android:layout_height="@dimen/setting_pic"
+            android:layout_alignParentLeft="true"
+            android:padding="8dp"
+            app:srcCompat="@drawable/schedule" />
+        <TextView
+            android:layout_toRightOf="@+id/schedule_pic"
+            android:text="@string/schedule"
+            android:padding="8dp"
+            android:textSize="16sp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="@dimen/right_arrow"
+            android:layout_height="@dimen/right_arrow"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="matrix"
+            app:srcCompat="@drawable/right_arrow" />
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/about"
         android:padding="8dp"
         android:layout_width="match_parent"

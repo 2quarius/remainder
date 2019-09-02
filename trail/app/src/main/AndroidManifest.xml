@@ -76,6 +76,7 @@
         </receiver>
 
         <service android:name=".Services.BaiduMapService" />
+        <service android:name=".NewTask.ClipService" />
 
         <activity android:name=".Lists.SideMenuActivity" />
         <activity android:name=".NewTask.AddTaskActivity" />
@@ -83,6 +84,7 @@
         <activity android:name=".Setting.AboutActivity"/>
         <activity android:name=".Setting.VoiceActivity" />
         <activity android:name=".Setting.ThemeActivity" />
+        <activity android:name=".Setting.ScheduleTable.ScheduleActivity" />
         <activity android:name=".NoInterrupt.NoInterruptActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -117,7 +117,10 @@ public class AddTaskActivity extends SkinBaseActivity implements
         position = intent.getIntExtra("position",-1);
         task = intent.getSerializableExtra("task")!=null? (Task) intent.getSerializableExtra("task") :new Task();
         miniTasks = task.getMiniTasks();
-        mTimeEditText.setText(intent.getStringExtra("clip"));
+        String clip=intent.getStringExtra("clip");
+//        if (clip.length()!=0){
+//            mTimeEditText.setText(clip);
+//        }
         initLayoutElement();
         setTextByTask();
         installListener();

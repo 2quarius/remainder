@@ -34,6 +34,7 @@
     <string name="theme">主题</string>
     <string name="voice">声音与提醒</string>
     <string name="about">关于</string>
+    <string name="schedule">课程信息</string>
     <string name="copy_right" translatable="false">Copyrights © %1$d</string>
     <string name="back">返回</string>
     <string name="logout">退出登录</string>
