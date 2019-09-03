@@ -28,70 +28,44 @@ import com.zhuangfei.timetable.view.WeekView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScheduleActivity extends AppCompatActivity implements View.OnClickListener{
+public class ScheduleActivity extends AppCompatActivity {
     TimetableView mTimetableView;
     WeekView mWeekView;
-
+    //记录切换的周次，不一定是当前周
+    int target = 1;
     LinearLayout layout;
     TextView titleTextView;
     List<MySubject> mySubjects;
-
-    //记录切换的周次，不一定是当前周
-    int target = -1;
-    AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course);
-        titleTextView = findViewById(R.id.id_title);
-        layout = findViewById(R.id.id_layout);
-        layout.setOnClickListener(this);
         initTimetableView();
-        requestData();
     }
-    /**
-     * 2秒后刷新界面，模拟网络请求
-     */
-    private void requestData() {
-        alertDialog=new AlertDialog.Builder(this)
-                .setMessage("模拟请求网络中..")
-                .setTitle("Tips").create();
-        alertDialog.show();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                handler.sendEmptyMessage(0x123);
-            }
-        }).start();
-    }
-    Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if(alertDialog!=null) alertDialog.hide();
-            mySubjects = SubjectRepertory.loadDefaultSubjects();
-            //增加广告
-            MySubject adSubject=new MySubject();
-            adSubject.setName("【广告】");
-            adSubject.setStart(1);
-            adSubject.setStep(2);
-            adSubject.setDay(7);
-            List<Integer> list= new ArrayList<>();
-            for(int i=1;i<=20;i++) list.add(i);
-            adSubject.setWeekList(list);
-            adSubject.setUrl(AD_URL);
-            mySubjects.add(adSubject);
 
-            mWeekView.source(mySubjects).showView();
-            mTimetableView.source(mySubjects).showView();
-        }
-    };
+//    Handler handler=new Handler(){
+//        @Override
+//        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+//            if(alertDialog!=null) alertDialog.hide();
+//            mySubjects = SubjectRepertory.loadDefaultSubjects();
+//            //增加广告
+//            MySubject adSubject=new MySubject();
+//            adSubject.setName("【广告】");
+//            adSubject.setStart(1);
+//            adSubject.setStep(2);
+//            adSubject.setDay(7);
+//            List<Integer> list= new ArrayList<>();
+//            for(int i=1;i<=20;i++) list.add(i);
+//            adSubject.setWeekList(list);
+//            adSubject.setUrl(AD_URL);
+//            mySubjects.add(adSubject);
+//
+//            mWeekView.source(mySubjects).showView();
+//            mTimetableView.source(mySubjects).showView();
+//        }
+//    };
     /**
      * 初始化课程控件
      */
@@ -99,9 +73,11 @@ public class ScheduleActivity extends AppCompatActivity implements View.OnClickL
         //获取控件
         mWeekView = findViewById(R.id.id_weekview);
         mTimetableView = findViewById(R.id.id_timetableView);
-
+        titleTextView=findViewById(R.id.schedule_title);
+        mySubjects = SubjectRepertory.loadDefaultSubjects();
         //设置周次选择属性
-        mWeekView.curWeek(1)
+        mWeekView.source(mySubjects)
+                .curWeek(1)
                 .callback(new IWeekView.OnWeekItemClickedListener() {
                     @Override
                     public void onWeekClicked(int week) {
@@ -121,7 +97,8 @@ public class ScheduleActivity extends AppCompatActivity implements View.OnClickL
                 .isShow(false)//设置隐藏，默认显示
                 .showView();
 
-        mTimetableView.curWeek(1)
+        mTimetableView.source(mySubjects)
+                .curWeek(1)
                 .curTerm("大三下学期")
                 .callback(new ISchedule.OnItemClickListener() {
                     @Override
@@ -129,45 +106,45 @@ public class ScheduleActivity extends AppCompatActivity implements View.OnClickL
                         display(scheduleList);
                     }
                 })
-                .callback(new ISchedule.OnItemLongClickListener() {
-                    @Override
-                    public void onLongClick(View v, int day, int start) {
-                        Toast.makeText(SimpleActivity.this,
-                                "长按:周" + day  + ",第" + start + "节",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                })
+//                .callback(new ISchedule.OnItemLongClickListener() {
+//                    @Override
+//                    public void onLongClick(View v, int day, int start) {
+//                        Toast.makeText(SimpleActivity.this,
+//                                "长按:周" + day  + ",第" + start + "节",
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                })
                 .callback(new ISchedule.OnWeekChangedListener() {
                     @Override
                     public void onWeekChanged(int curWeek) {
                         titleTextView.setText("第" + curWeek + "周");
                     }
-                })
-                .callback(new OnItemBuildAdapter(){
-                    @Override
-                    public void onItemUpdate(FrameLayout layout, TextView textView, TextView countTextView, Schedule schedule, GradientDrawable gd) {
-                        super.onItemUpdate(layout, textView, countTextView, schedule, gd);
-                        if(schedule.getName().equals("【广告】")){
-                            layout.removeAllViews();
-                            ImageView imageView=new ImageView(SimpleActivity.this);
-                            imageView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-                            layout.addView(imageView);
-                            String url= (String) schedule.getExtras().get(MySubject.EXTRAS_AD_URL);
-
-                            Glide.with(SimpleActivity.this)
-                                    .load(url)
-                                    .into(imageView);
-
-                            imageView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Toast.makeText(SimpleActivity.this,"进入广告网页链接",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    }
-                })
-                .showView();
+                });
+//                .callback(new OnItemBuildAdapter(){
+//                    @Override
+//                    public void onItemUpdate(FrameLayout layout, TextView textView, TextView countTextView, Schedule schedule, GradientDrawable gd) {
+//                        super.onItemUpdate(layout, textView, countTextView, schedule, gd);
+//                        if(schedule.getName().equals("【广告】")){
+//                            layout.removeAllViews();
+//                            ImageView imageView=new ImageView(SimpleActivity.this);
+//                            imageView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+//                            layout.addView(imageView);
+//                            String url= (String) schedule.getExtras().get(MySubject.EXTRAS_AD_URL);
+//
+//                            Glide.with(SimpleActivity.this)
+//                                    .load(url)
+//                                    .into(imageView);
+//
+//                            imageView.setOnClickListener(new View.OnClickListener() {
+//                                @Override
+//                                public void onClick(View v) {
+//                                    Toast.makeText(SimpleActivity.this,"进入广告网页链接",Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+//                        }
+//                    }
+//                })
+//                .showView();
     }
 
     /**
@@ -226,17 +203,17 @@ public class ScheduleActivity extends AppCompatActivity implements View.OnClickL
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.id_layout:
-                //如果周次选择已经显示了，那么将它隐藏，更新课程、日期
-                //否则，显示
-                if (mWeekView.isShowing()) hideWeekView();
-                else showWeekView();
-                break;
-        }
-    }
+//    @Override
+//    public void onClick(View view) {
+//        switch (view.getId()) {
+//            case R.id.id_layout:
+//                //如果周次选择已经显示了，那么将它隐藏，更新课程、日期
+//                //否则，显示
+//                if (mWeekView.isShowing()) hideWeekView();
+//                else showWeekView();
+//                break;
+//        }
+//    }
 
     /**
      * 隐藏周次选择，此时需要将课表的日期恢复到本周并将课表切换到当前周
