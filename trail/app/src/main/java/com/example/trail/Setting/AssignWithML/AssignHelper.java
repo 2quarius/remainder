@@ -21,6 +21,7 @@ import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -32,10 +33,14 @@ import okhttp3.Response;
 import static com.example.trail.Utility.EnumPack.KeyConstants.BIGML_API_KEY;
 import static com.example.trail.Utility.EnumPack.KeyConstants.BIGML_USERNAME;
 @Getter
+@Setter
 @AllArgsConstructor
 public class AssignHelper {
+    public interface HelperListener{
+        public void onPredict(String predictTimeInMills);
+    }
     private Task mTask;
-    private String predictTime;
+    private HelperListener helperListener;
     private static final String HEADER_KEY = "Content-Type";
     private static final String HEADER_VAL = "application/json";
     private static final String baseUrl = "https://bigml.io/andromeda/";
@@ -170,7 +175,9 @@ public class AssignHelper {
                 if (response.code()==201) {
                     String id = parseJsonWithJsonObject(response,"output");
                     if (id!=null){
-                        predictTime = id;
+                        if (helperListener!=null){
+                            helperListener.onPredict(id);
+                        }
                     }
                 }
                 else {

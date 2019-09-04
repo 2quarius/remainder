@@ -17,7 +17,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 public class ThemeActivityTest {
-    private int defaultTheme = 2131099765;
     @Rule
     public ActivityTestRule<ThemeActivity> rule=new ActivityTestRule<>(ThemeActivity.class);
     @Rule

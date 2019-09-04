@@ -1,6 +1,8 @@
 package com.example.trail.Setting.AssignWithML;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +30,22 @@ public class AssignActivity extends SkinBaseActivity implements CalendarPickerCo
     private TextView title;
     private AgendaCalendarView mAgendaCalendarView;
     private List<AssignHelper> helpers = new ArrayList<>();
+    private List<CalendarEvent> eventList = new ArrayList<>();
+    private Handler uiHandler = new Handler(){
+      @Override
+      public void handleMessage(Message msg){
+          if (mAgendaCalendarView!=null){
+              Calendar minDate = Calendar.getInstance();
+              Calendar maxDate = Calendar.getInstance();
+
+              minDate.add(Calendar.MONTH, -2);
+              minDate.set(Calendar.DAY_OF_MONTH, 1);
+              maxDate.add(Calendar.YEAR, 1);
+
+              mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), AssignActivity.this);
+          }
+      }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,21 +61,10 @@ public class AssignActivity extends SkinBaseActivity implements CalendarPickerCo
         });
         title.setText(getResources().getString(R.string.assign));
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
-        Calendar minDate = Calendar.getInstance();
-        Calendar maxDate = Calendar.getInstance();
-
-        minDate.add(Calendar.MONTH, -2);
-        minDate.set(Calendar.DAY_OF_MONTH, 1);
-        maxDate.add(Calendar.YEAR, 1);
-
-        List<CalendarEvent> eventList = new ArrayList<>();
         mockList(eventList);
-
-        mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), this);
     }
-    private void mockList(List<CalendarEvent> eventList) {
+    private void mockList(final List<CalendarEvent> eventList) {
         try {
-            long id = 0;
             for (TaskCollector taskCollector : MainActivity.taskCollectors) {
                 for (Task task : taskCollector.getTasks()) {
                     if (task.getExpireTime() != null && task.getRemindTime() == null) {
@@ -93,39 +100,49 @@ public class AssignActivity extends SkinBaseActivity implements CalendarPickerCo
                     }
                 }
             }
-            for (AssignHelper helper : helpers) {
-                if (helper.getPredictTime() != null) {
-                    String time = helper.getPredictTime();
-                    Task task = helper.getMTask();
-                    if (time.length() == 13) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis(Long.valueOf(time));
-                        Calendar end = TimeUtil.Date2Cal(task.getExpireTime());
-                        int color;
-                        switch (task.getPriority()){
-                            case NONE:
-                                color = R.color.event_color_04;
-                                break;
-                            case LITTLE:
-                                color = R.color.event_color_03;
-                                break;
-                            case MIDDLE:
-                                color = R.color.event_color_02;
-                                break;
-                            case EUGEN:
-                                color = R.color.event_color_01;
-                                break;
-                            default:
-                                color = R.color.event_color_04;
-                                break;
+            for (final AssignHelper helper : helpers) {
+                helper.setHelperListener(new AssignHelper.HelperListener() {
+                    @Override
+                    public void onPredict(String predictTimeInMills) {
+                        Calendar minDate = Calendar.getInstance();
+                        Calendar maxDate = Calendar.getInstance();
+
+                        minDate.add(Calendar.MONTH, -2);
+                        minDate.set(Calendar.DAY_OF_MONTH, 1);
+                        maxDate.add(Calendar.YEAR, 1);
+
+                        Task task = helper.getMTask();
+                        if (predictTimeInMills.length() == 13) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.setTimeInMillis(Long.valueOf(predictTimeInMills));
+                            Calendar end = TimeUtil.Date2Cal(task.getExpireTime());
+                            int color;
+                            switch (task.getPriority()){
+                                case NONE:
+                                    color = R.color.event_color_04;
+                                    break;
+                                case LITTLE:
+                                    color = R.color.event_color_03;
+                                    break;
+                                case MIDDLE:
+                                    color = R.color.event_color_02;
+                                    break;
+                                case EUGEN:
+                                    color = R.color.event_color_01;
+                                    break;
+                                default:
+                                    color = R.color.event_color_04;
+                                    break;
+                            }
+                            BaseCalendarEvent event = new BaseCalendarEvent(task.getTitle(),
+                                                                            task.getDescription(),
+                                                                            (task.getLocation()==null?"":task.getLocation().getPlace()),
+                                                                            color, calendar,end,false);
+                            eventList.add(event);
+                            uiHandler.sendMessage(new Message());
                         }
-                        BaseCalendarEvent event = new BaseCalendarEvent(task.getTitle(),
-                                                                        task.getDescription(),
-                                                                        (task.getLocation()==null?"":task.getLocation().getPlace()),
-                                                                        color, calendar,end,false);
-                        eventList.add(event);
                     }
-                }
+                });
             }
         } catch (Exception e) {
             e.printStackTrace();
