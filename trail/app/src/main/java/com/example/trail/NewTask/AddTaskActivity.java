@@ -189,7 +189,7 @@ public class AddTaskActivity extends SkinBaseActivity implements
             @Override
             public void afterTextChanged(Editable s) {
                 Matcher m = Pattern.compile("(\\d{1,2})月(\\d{1,2})号").matcher(s.toString());
-                Matcher m2 = Pattern.compile("(\\d{2}):(\\d{2})").matcher(s.toString());
+                Matcher m2 = Pattern.compile("(\\d{1,2}):(\\d{2})").matcher(s.toString());
                 Matcher m3 = Pattern.compile("(\\d{1,2})月(\\d{1,2})日").matcher(s.toString());
                 if ((m.find()||m3.find())&&task.getExpireTime() == null){
                     System.out.println("find date");
