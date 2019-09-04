@@ -103,7 +103,8 @@ dependencies {
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.4'
     implementation 'com.zhihu.android:matisse:0.5.2'
 
-
+    //课程表
+    implementation 'com.zhuangfei:TimetableView:1.0.2'
 
     //tencent and wx
     implementation files('libs/open_sdk_r6137_lite.jar')
