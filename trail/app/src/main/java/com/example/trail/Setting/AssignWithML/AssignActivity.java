@@ -1,8 +1,7 @@
 package com.example.trail.Setting.AssignWithML;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +16,7 @@ import com.github.tibolte.agendacalendarview.CalendarPickerController;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,27 +28,14 @@ import solid.ren.skinlibrary.base.SkinBaseActivity;
 public class AssignActivity extends SkinBaseActivity implements CalendarPickerController {
     private LinearLayout back;
     private TextView title;
+    private AVLoadingIndicatorView loading;
     private AgendaCalendarView mAgendaCalendarView;
     private List<AssignHelper> helpers = new ArrayList<>();
     private List<CalendarEvent> eventList = new ArrayList<>();
-    private Handler uiHandler = new Handler(){
-      @Override
-      public void handleMessage(Message msg){
-          if (mAgendaCalendarView!=null){
-              Calendar minDate = Calendar.getInstance();
-              Calendar maxDate = Calendar.getInstance();
-
-              minDate.add(Calendar.MONTH, -2);
-              minDate.set(Calendar.DAY_OF_MONTH, 1);
-              maxDate.add(Calendar.YEAR, 1);
-
-              mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), AssignActivity.this);
-          }
-      }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new AsyncAssign().execute();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assign);
         back = findViewById(R.id.back);
@@ -61,9 +48,10 @@ public class AssignActivity extends SkinBaseActivity implements CalendarPickerCo
         });
         title.setText(getResources().getString(R.string.assign));
         mAgendaCalendarView = findViewById(R.id.agenda_calendar_view);
-        mockList(eventList);
+        loading = findViewById(R.id.loading);
+        loading.show();
     }
-    private void mockList(final List<CalendarEvent> eventList) {
+    private void mockList(final List<CalendarEvent> eventList, final int[] numerator, int[] denominator) {
         try {
             for (TaskCollector taskCollector : MainActivity.taskCollectors) {
                 for (Task task : taskCollector.getTasks()) {
@@ -71,6 +59,7 @@ public class AssignActivity extends SkinBaseActivity implements CalendarPickerCo
                         AssignHelper helper = new AssignHelper(task, null);
                         helper.createInlineSource(MainActivity.taskCollectors);
                         helpers.add(helper);
+                        denominator[0]++;
                     } else if (task.getExpireTime() != null && task.getRemindTime() != null && task.getExpireTime().after(task.getRemindTime())) {
                         Calendar start = TimeUtil.Date2Cal(task.getRemindTime());
                         Calendar end = TimeUtil.Date2Cal(task.getExpireTime());
@@ -139,7 +128,7 @@ public class AssignActivity extends SkinBaseActivity implements CalendarPickerCo
                                                                             (task.getLocation()==null?"":task.getLocation().getPlace()),
                                                                             color, calendar,end,false);
                             eventList.add(event);
-                            uiHandler.sendMessage(new Message());
+                            numerator[0]++;
                         }
                     }
                 });
@@ -161,6 +150,42 @@ public class AssignActivity extends SkinBaseActivity implements CalendarPickerCo
     public void onScrollToDate(Calendar calendar) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+        }
+    }
+    private class AsyncAssign extends AsyncTask<Void,Integer,Void> {
+        private final int[] numerator = new int[]{0},denominator = new int[]{0};
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mockList(eventList, numerator, denominator);
+            while (numerator[0] <= denominator[0]){
+                try {
+                    publishProgress(denominator[0]-numerator[0]);
+                    if (denominator[0]==numerator[0]){
+                        break;
+                    }
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            if (values[0]==0){
+                Calendar minDate = Calendar.getInstance();
+                Calendar maxDate = Calendar.getInstance();
+
+                minDate.add(Calendar.MONTH, -2);
+                minDate.set(Calendar.DAY_OF_MONTH, 1);
+                maxDate.add(Calendar.YEAR, 1);
+
+                mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), AssignActivity.this);
+                loading.hide();
+            }
         }
     }
 }

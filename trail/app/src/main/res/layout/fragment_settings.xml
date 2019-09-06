@@ -14,12 +14,15 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:clickable="true">
-        <ImageView
+        <agency.tango.android.avatarview.views.AvatarView
             android:id="@+id/account_pic"
             android:padding="8dp"
             android:layout_alignParentLeft="true"
             android:layout_width="@dimen/account_avatar"
-            android:layout_height="@dimen/account_avatar" />
+            android:layout_height="@dimen/account_avatar"
+            app:av_border_color="@android:color/white"
+            app:av_border_width="4dp"
+            app:av_text_size_percentage="35" />
         <TextView
             android:id="@+id/account_name"
             android:layout_toRightOf="@+id/account_pic"

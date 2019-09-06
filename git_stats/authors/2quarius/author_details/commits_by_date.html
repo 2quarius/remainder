@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GitStats - remainder</title>
+<meta charset='utf-8'>
+<link href='../../../assets/bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+<style>
+body { padding-top: 60px; }
+</style>
+<link href='../../../assets/bootstrap/css/bootstrap-responsive.min.css' rel='stylesheet' type='text/css'>
+<script src='../../../assets/jquery.min.js' type='text/javascript'></script>
+<script src='../../../assets/bootstrap/js/bootstrap.min.js' type='text/javascript'></script>
+<script src='../../../assets/highstock.js' type='text/javascript'></script>
+<script src='../../../assets/exporting.js' type='text/javascript'></script>
+<script src='../../../assets/export-csv.js' type='text/javascript'></script>
+</head>
+<body>
+<div class='navbar navbar-fixed-top'>
+<div class='navbar-inner'>
+<div class='container'>
+<a class='btn btn-navbar' data-target='.nav-collapse' data-toggle='collapse'>
+<span class='icon-bar'></span>
+<span class='icon-bar'></span>
+<span class='icon-bar'></span>
+</a>
+<a class='brand' href='../../../index.html'>GitStats - remainder</a>
+<div class='nav-collapse collapse'>
+<ul class='nav'>
+<li class=''>
+<a href='../../../general.html'>General</a>
+</li>
+<li class=''>
+<a href='../../../activity/by_date.html'>Activity</a>
+</li>
+<li class='active'>
+<a href='../../best_authors.html'>Authors</a>
+</li>
+<li class=''>
+<a href='../../../files/by_date.html'>Files</a>
+</li>
+<li class=''>
+<a href='../../../lines/by_date.html'>Lines</a>
+</li>
+<li class=''>
+<a href='../../../comments/by_date.html'>Comments</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class='container'>
+<div class='tabbable tabs-left'>
+<ul class='nav nav-tabs'>
+<li class='active'>
+<a href='commits_by_date.html'>Commits by date</a>
+</li>
+<li class=''>
+<a href='changed_lines_by_date.html'>Changed lines by date</a>
+</li>
+<li class=''>
+<a href='insertions_by_date.html'>Lines added by date</a>
+</li>
+<li class=''>
+<a href='deletions_by_date.html'>Lines deleted by date</a>
+</li>
+</ul>
+<div class='tab-content'>
+<div class='tab-pane active'>
+<div class='page-header'>
+<h1 class='pagination-centered'>Commits by date</h1>
+</div>
+                <script type="text/javascript">
+        (function() {
+
+          var onload = window.onload;
+          window.onload = function(){
+            if (typeof onload == "function") onload();
+                    var options = { "title": { "text": "" },"legend": { "enabled": true,"layout": "vertical","backgroundColor": "#FFFFFF","align": "left","verticalAlign": "top","x": 100,"y": 70,"floating": true,"shadow": true },"xAxis": { "title": { "text": null } },"yAxis": { "title": { "text": "Lines" },"labels": {  } },"tooltip": { "enabled": true },"credits": { "enabled": false },"plotOptions": { "areaspline": {  } },"chart": { "defaultSeriesType": "line","renderTo": "charts.commits_sum_by_author_by_date" },"subtitle": {  },"series": [{ "name": "2quarius","type": "spline","data": [ [ 1562079265000,1 ],[ 1562079651000,2 ],[ 1562141203000,3 ],[ 1562149762000,4 ],[ 1562210736000,5 ],[ 1562237795000,6 ],[ 1562296573000,7 ],[ 1562309163000,8 ],[ 1562311466000,9 ],[ 1562311489000,10 ],[ 1562316120000,11 ],[ 1562319044000,12 ],[ 1562322155000,13 ],[ 1562371200000,13 ],[ 1562457600000,13 ],[ 1562548226000,14 ],[ 1562571214000,15 ],[ 1562574422000,16 ],[ 1562575128000,17 ],[ 1562580933000,18 ],[ 1562581067000,19 ],[ 1562588344000,20 ],[ 1562637854000,21 ],[ 1562640833000,22 ],[ 1562640842000,23 ],[ 1562640909000,24 ],[ 1562680543000,25 ],[ 1562685200000,26 ],[ 1562726046000,27 ],[ 1562726901000,28 ],[ 1562729330000,29 ],[ 1562739747000,30 ],[ 1562747343000,31 ],[ 1562759409000,32 ],[ 1562759543000,33 ],[ 1562765524000,34 ],[ 1562769306000,35 ],[ 1562807812000,36 ],[ 1562808618000,37 ],[ 1562810321000,38 ],[ 1562812141000,39 ],[ 1562813249000,40 ],[ 1562813899000,41 ],[ 1562814434000,42 ],[ 1562814627000,43 ],[ 1562814719000,44 ],[ 1562816119000,45 ],[ 1562834466000,46 ],[ 1562840033000,47 ],[ 1562840722000,48 ],[ 1562841432000,49 ],[ 1562841671000,50 ],[ 1562842408000,51 ],[ 1562843094000,52 ],[ 1562850447000,53 ],[ 1562855775000,54 ],[ 1562895255000,55 ],[ 1562895294000,56 ],[ 1562902721000,57 ],[ 1562911696000,58 ],[ 1562919716000,59 ],[ 1562996650000,60 ],[ 1562996655000,61 ],[ 1563027750000,62 ],[ 1563062400000,62 ],[ 1563148800000,62 ],[ 1563235200000,62 ],[ 1563323856000,63 ],[ 1563329775000,64 ],[ 1563329822000,65 ],[ 1563346988000,66 ],[ 1563410509000,67 ],[ 1563494400000,67 ],[ 1563580800000,67 ],[ 1563667200000,67 ],[ 1563765151000,68 ],[ 1563786889000,69 ],[ 1563844809000,70 ],[ 1563849057000,71 ],[ 1563849976000,72 ],[ 1563850341000,73 ],[ 1563850880000,74 ],[ 1563851432000,75 ],[ 1563861261000,76 ],[ 1563933599000,77 ],[ 1563953947000,78 ],[ 1564012800000,78 ],[ 1564110154000,79 ],[ 1564110529000,80 ],[ 1564133005000,81 ],[ 1564185600000,81 ],[ 1564272000000,81 ],[ 1564395810000,82 ],[ 1564444800000,82 ],[ 1564535218000,83 ],[ 1564535324000,84 ],[ 1564544009000,85 ],[ 1564573307000,86 ],[ 1564617600000,86 ],[ 1564704000000,86 ],[ 1564790400000,86 ],[ 1564876800000,86 ],[ 1564963200000,86 ],[ 1565065404000,87 ],[ 1565161650000,88 ],[ 1565222400000,88 ],[ 1565308800000,88 ],[ 1565436132000,89 ],[ 1565452223000,90 ],[ 1565481600000,90 ],[ 1565598670000,91 ],[ 1565671675000,92 ],[ 1565774558000,93 ],[ 1565878091000,94 ],[ 1565913600000,94 ],[ 1566000000000,94 ],[ 1566125511000,95 ],[ 1566206127000,96 ],[ 1566303128000,97 ],[ 1566354568000,98 ],[ 1566432000000,98 ],[ 1566542243000,99 ],[ 1566636119000,100 ],[ 1566691200000,100 ],[ 1566816733000,101 ],[ 1566817349000,102 ],[ 1566878665000,103 ],[ 1566879384000,104 ],[ 1566997524000,105 ],[ 1567081625000,106 ],[ 1567145270000,107 ],[ 1567229387000,108 ],[ 1567252544000,109 ],[ 1567296000000,109 ],[ 1567404139000,110 ],[ 1567468800000,110 ],[ 1567582467000,111 ],[ 1567656160000,112 ],[ 1567656745000,113 ] ] }] };
+        
+        window.chart_charts.commits_sum_by_author_by_date = new Highcharts.StockChart(options);
+
+          };
+                })()
+        </script>
+
+<div id="charts.commits_sum_by_author_by_date"></div>
+<small>
+<center>5 best authors shown</center>
+</small>
+</div>
+</div>
+</div>
+
+
+</div>
+</body>
+</html>

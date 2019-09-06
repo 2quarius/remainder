@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -14,11 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.example.trail.R;
 import com.example.trail.Setting.AssignWithML.AssignActivity;
 import com.example.trail.Setting.NoInterrupt.NoInterruptActivity;
-import com.example.trail.R;
 import com.example.trail.Utility.Utils.DESUtils;
 
+import agency.tango.android.avatarview.IImageLoader;
+import agency.tango.android.avatarview.loader.PicassoLoader;
+import agency.tango.android.avatarview.views.AvatarView;
 import cn.bmob.v3.BmobUser;
 import solid.ren.skinlibrary.base.SkinBaseFragment;
 
@@ -40,7 +42,8 @@ public class SettingsFragment extends SkinBaseFragment {
     private RelativeLayout mGuard;
     private RelativeLayout mAssign;
     private RelativeLayout mAbout;
-    private ImageView mAccountPic;
+    private AvatarView mAccountPic;
+    private IImageLoader imageLoader;
     private TextView mAccountName;
     private User user;
 
@@ -90,11 +93,12 @@ public class SettingsFragment extends SkinBaseFragment {
                 username = user.getUsername();
             }
             //TODO 更新头像
-            mAccountPic.setImageDrawable(getResources().getDrawable(R.drawable.checklist));
+            imageLoader.loadImage(mAccountPic, "http:/example.com/user/someUserAvatar.png", username);
             mAccountName.setText(username);
         }
         else {
-            mAccountPic.setVisibility(View.INVISIBLE);
+            mAccountPic.setVisibility(View.VISIBLE);
+            imageLoader.loadImage(mAccountPic, "http:/example.com/user/someUserAvatar.png", "User Name");
             mAccountName.setText(HAVE_NOT_LOGIN);
         }
     }
@@ -152,6 +156,7 @@ public class SettingsFragment extends SkinBaseFragment {
         mAssign = view.findViewById(R.id.assign);
         mAbout = view.findViewById(R.id.about);
         mAccountPic = view.findViewById(R.id.account_pic);
+        imageLoader = new PicassoLoader();
         mAccountName = view.findViewById(R.id.account_name);
         setUser();
     }
