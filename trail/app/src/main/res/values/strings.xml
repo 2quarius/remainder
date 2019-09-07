@@ -42,4 +42,13 @@
     <string name="orange_theme">橙色</string>
     <string name="blue_theme">蓝色</string>
     <string name="guard">学习陪伴</string>
+    <string name="assign">智能安排</string>
+    <string name="action_today">今日</string>
+    <string name="action_day_view">日视图</string>
+    <string name="action_three_day_view">3日视图</string>
+    <string name="action_week_view">周视图</string>
+    <string name="assign_today">今天</string>
+    <string name="assign_one">日视图</string>
+    <string name="assign_three">三日视图</string>
+    <string name="assign_week">周视图</string>
 </resources>

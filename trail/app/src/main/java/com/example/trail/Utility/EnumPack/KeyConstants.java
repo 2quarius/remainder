@@ -8,6 +8,8 @@ import lombok.Getter;
 public enum  KeyConstants {
     BMOB_SIXPLUS("e023da5238d5d577fc4f2533b74472c0"),BMOB_GSH("b096ac50b630d5a7db1c69abb7a34caa");
     private String key;
+    public static String BIGML_USERNAME="2quarius";
+    public static String BIGML_API_KEY="29936a85c0635fcfb2618775a7bba504bbcc820e";
     /**
      *  此为Bmob的APP_ID
      */

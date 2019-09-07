@@ -57,7 +57,7 @@ public class MainActivityTest {
                 .check(matches(isCompletelyDisplayed()))
                 .check(matches(isEnabled()));
         onView(ViewMatchers.withText(TabConstants.TIME.getTitle())).perform(click());
-        onView(withId(R.id.calendar_card_view))
+        onView(withId(R.id.root))
                 .check(matches(isDisplayed()))
                 .check(matches(isCompletelyDisplayed()))
                 .check(matches(isEnabled()));
@@ -67,7 +67,7 @@ public class MainActivityTest {
                 .check(matches(isCompletelyDisplayed()))
                 .check(matches(isEnabled()));
         onView(ViewMatchers.withText(TabConstants.SETTING.getTitle())).perform(click());
-        onView(withId(R.id.setting))
+        onView(withId(R.id.fragment_settings))
                 .check(matches(isDisplayed()))
                 .check(matches(isCompletelyDisplayed()))
                 .check(matches(isEnabled()));

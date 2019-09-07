@@ -1,4 +1,4 @@
-package com.example.trail.NoInterrupt;
+package com.example.trail.Setting.NoInterrupt;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -27,4 +27,8 @@ public class MyLocation implements Serializable {
     public MyLocation(String s){
         place = s;
     }
+    @Override
+    public String toString(){
+        return place+"|"+latitude+"|"+longitude;
+    }
 }

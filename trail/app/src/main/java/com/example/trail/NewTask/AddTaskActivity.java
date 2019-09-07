@@ -73,7 +73,7 @@ import java.util.regex.Pattern;
 import solid.ren.skinlibrary.base.SkinBaseActivity;
 
 public class AddTaskActivity extends SkinBaseActivity implements
-        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+        DatePickerDialog.OnDateSetListener {
     private static final String CHOOSE_A_PLACE = "Place for remind";
     private Integer position;
     private Task task;
@@ -122,32 +122,11 @@ public class AddTaskActivity extends SkinBaseActivity implements
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         if (view.getTag().equals("ExpireDate")){
-            Calendar calendar = Calendar.getInstance();
-            int hour, minute;
-            Calendar reminderCalendar = Calendar.getInstance();
-            reminderCalendar.set(year, monthOfYear, dayOfMonth);
-            if (reminderCalendar.before(calendar)) {
-                return;
-            }
-            if (task.getExpireTime() != null) {
-                calendar.setTime(task.getExpireTime());
-            }
-            if (DateFormat.is24HourFormat(getApplicationContext())) {
-                hour = calendar.get(Calendar.HOUR_OF_DAY);
-            } else {
-                hour = calendar.get(Calendar.HOUR);
-            }
-            minute = calendar.get(Calendar.MINUTE);
-
-            calendar.set(year, monthOfYear, dayOfMonth, hour, minute);
-            task.setExpireTime(calendar.getTime());
-            setDateEditText(task.getExpireTime(),mExpireDateEditText);
+            setExpireDate(year,monthOfYear,dayOfMonth);
         }
-        setDate(year,monthOfYear,dayOfMonth);
-    }
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        setTime(hourOfDay,minute);
+        else if (view.getTag().equals("RemindDate")) {
+            setRemindDate(year, monthOfYear, dayOfMonth);
+        }
     }
     private void hideKeyboard(EditText et)
     {
@@ -159,12 +138,10 @@ public class AddTaskActivity extends SkinBaseActivity implements
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 task.setTitle(s.toString());
             }
-
             @Override
             public void afterTextChanged(Editable s) {
             }
@@ -172,14 +149,11 @@ public class AddTaskActivity extends SkinBaseActivity implements
         mDescriptionEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 task.setDescription(s.toString());
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 Matcher m = Pattern.compile("(\\d{1,2})month(\\d{1,2})day").matcher(s.toString());
@@ -221,17 +195,7 @@ public class AddTaskActivity extends SkinBaseActivity implements
                     TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-                            Calendar calendar = Calendar.getInstance();
-                            if (task.getRemindTime() != null) {
-                                calendar.setTime(task.getRemindTime());
-                            }
-                            int year = calendar.get(Calendar.YEAR);
-                            int month = calendar.get(Calendar.MONTH);
-                            int day = calendar.get(Calendar.DAY_OF_MONTH);
-                            Log.d("OskarSchindler", "Time set: " + hourOfDay);
-                            calendar.set(year, month, day, hourOfDay, minute, 0);
-                            task.setExpireTime(calendar.getTime());
-                            setTimeEditText(task.getExpireTime(),mExpireTimeEditText);
+                            setExpireTime(hourOfDay,minute);
                         }
                     }, hour, minute, DateFormat.is24HourFormat(getApplicationContext()));
                     timePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
@@ -266,10 +230,8 @@ public class AddTaskActivity extends SkinBaseActivity implements
                 System.out.println(mPriority.getSelectedItem().toString());
                 task.setPriority(Priority.match(mPriority.getSelectedItem().toString()));
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
         mExpireDateEditText.setOnClickListener(new View.OnClickListener() {
@@ -289,7 +251,6 @@ public class AddTaskActivity extends SkinBaseActivity implements
                 datePickerDialog.show(getFragmentManager(),"ExpireDate");
             }
         });
-
         mExpireTimeEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -304,17 +265,7 @@ public class AddTaskActivity extends SkinBaseActivity implements
                 TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-                        Calendar calendar = Calendar.getInstance();
-                        if (task.getRemindTime() != null) {
-                            calendar.setTime(task.getRemindTime());
-                        }
-                        int year = calendar.get(Calendar.YEAR);
-                        int month = calendar.get(Calendar.MONTH);
-                        int day = calendar.get(Calendar.DAY_OF_MONTH);
-                        Log.d("OskarSchindler", "Time set: " + hourOfDay);
-                        calendar.set(year, month, day, hourOfDay, minute, 0);
-                        task.setExpireTime(calendar.getTime());
-                        setTimeEditText(task.getExpireTime(),mExpireTimeEditText);
+                        setExpireTime(hourOfDay,minute);
                     }
                 }, hour, minute, DateFormat.is24HourFormat(getApplicationContext()));
                 timePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
@@ -327,7 +278,6 @@ public class AddTaskActivity extends SkinBaseActivity implements
                 if (!isChecked) {
                     task.setRemindTime(null);
                 }
-                setDateAndTimeEditText(isChecked);
                 setEnterDateLayoutVisibleWithAnimations(isChecked);
                 hideKeyboard(mTitleEditText);
                 hideKeyboard(mDescriptionEditText);
@@ -347,10 +297,9 @@ public class AddTaskActivity extends SkinBaseActivity implements
 
                 DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(AddTaskActivity.this, year, month, day);
                 datePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
-                datePickerDialog.show(getFragmentManager(),"DateFragment");
+                datePickerDialog.show(getFragmentManager(),"RemindDate");
             }
         });
-
         mTimeEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -362,9 +311,14 @@ public class AddTaskActivity extends SkinBaseActivity implements
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 int minute = calendar.get(Calendar.MINUTE);
 
-                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(AddTaskActivity.this, hour, minute, DateFormat.is24HourFormat(getApplicationContext()));
+                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+                        setRemindTime(hourOfDay,minute);
+                    }
+                }, hour, minute, DateFormat.is24HourFormat(getApplicationContext()));
                 timePickerDialog.setAccentColor(getResources().getColor(R.color.inputLine));
-                timePickerDialog.show(getFragmentManager(), "TimeFragment");
+                timePickerDialog.show(getFragmentManager(), "RemindTime");
             }
         });
         mRepeatType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -372,10 +326,8 @@ public class AddTaskActivity extends SkinBaseActivity implements
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 task.setRemindCycle(RemindCycle.match(mRepeatType.getSelectedItem().toString()));
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
         mExpirePlaceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -401,6 +353,9 @@ public class AddTaskActivity extends SkinBaseActivity implements
         });
     }
 
+    /**
+     * add new line in mini task
+     */
     private void addNewLine() {
         final LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.add_task_mini_task_checkbox, null);
         final CheckBox checkBox = linearLayout.findViewById(R.id.done);
@@ -422,16 +377,13 @@ public class AddTaskActivity extends SkinBaseActivity implements
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 miniTask.setContent(charSequence.toString());
                 miniTasks.get(index).setContent(charSequence.toString());
                 task.setMiniTasks(miniTasks);
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 //去掉回车符
@@ -481,7 +433,7 @@ public class AddTaskActivity extends SkinBaseActivity implements
         //set remind me switch and under text
         mRemindMeSwitch.setChecked(task.getRemindTime() != null);
         setEnterDateLayoutVisible(mRemindMeSwitch.isChecked());
-        setDateAndTimeEditText(mRemindMeSwitch.isChecked());
+        setDateAndTimeEditText(task.getRemindTime()!=null);
         setEnterDateLayoutVisibleWithAnimations(mRemindMeSwitch.isChecked());
         //set expire place switch
         mExpirePlaceSwitch.setChecked(task.getLocation() != null);
@@ -509,14 +461,11 @@ public class AddTaskActivity extends SkinBaseActivity implements
                 editText.addTextChangedListener(new TextWatcher() {
                     @Override
                     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                     }
-
                     @Override
                     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                         miniTask.setContent(charSequence.toString());
                     }
-
                     @Override
                     public void afterTextChanged(Editable editable) {
                     }
@@ -527,6 +476,10 @@ public class AddTaskActivity extends SkinBaseActivity implements
         }
     }
 
+    /**
+     * add mini task 'add' button when first come and has mini tasks
+     * @return
+     */
     private View addButton() {
         ImageButton imgb = (ImageButton) getLayoutInflater().inflate(R.layout.add_task_mini_task_add_button, null);
         imgb.setOnClickListener(new View.OnClickListener() {
@@ -537,10 +490,15 @@ public class AddTaskActivity extends SkinBaseActivity implements
         });
         return imgb;
     }
+
+    /**
+     * set ui of expire date and time
+     * @param b
+     */
     private void setExpireTime(boolean b) {
         if (b)
         {
-            String userDate = formatDate("d MMM, yyyy", task.getExpireTime());
+            String userDate = formatDate("d MMM yyyy", task.getExpireTime());
             String formatToUse;
             if (DateFormat.is24HourFormat(getApplicationContext())) {
                 formatToUse = "k:mm";
@@ -574,6 +532,10 @@ public class AddTaskActivity extends SkinBaseActivity implements
         mMiniTaskLayout = (LinearLayout) findViewById(R.id.mini_task_input_layout);
     }
 
+    /**
+     * 调用百度地图api进行地点选择，同时可以搜索，
+     * 选择好地点后，会弹出地点信息的弹窗
+     */
     protected void showDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         final AlertDialog customDialog;
@@ -638,7 +600,6 @@ public class AddTaskActivity extends SkinBaseActivity implements
                     @Override
                     public void onGetReverseGeoCodeResult(ReverseGeoCodeResult arg0) {
                         //获取点击的坐标地址
-                        //TODO 添加info window
                         View infoWindowView = getLayoutInflater().inflate(R.layout.add_task_info_window, null);
                         TextView addr = (TextView) infoWindowView.findViewById(R.id.address);
                         addr.setText(arg0.getAddress());
@@ -654,8 +615,7 @@ public class AddTaskActivity extends SkinBaseActivity implements
                                                                mLatLng, //信息窗的点
                                                                -47, //信息窗与点的位置关系
                                                                //infoWindow监听器
-                                                               onInfoWindowClickListener
-                        );
+                                                               onInfoWindowClickListener);
                         //显示信息窗
                         map.showInfoWindow(infoWindow);
                         address = arg0.getAddress();
@@ -764,6 +724,10 @@ public class AddTaskActivity extends SkinBaseActivity implements
         poiSearch.searchNearby(nearbySearchOption);
     }
 
+    /**
+     * set visible or not on layout under 'remind me'
+     * @param checked
+     */
     private void setEnterDateLayoutVisible(boolean checked) {
         if (checked) {
             mRemindDateLayout.setVisibility(View.VISIBLE);
@@ -771,8 +735,13 @@ public class AddTaskActivity extends SkinBaseActivity implements
             mRemindDateLayout.setVisibility(View.INVISIBLE);
         }
     }
-    private void setDateAndTimeEditText(boolean checked) {
-        if (checked) {
+
+    /**
+     * set ui of remind date and time
+     * @param b
+     */
+    private void setDateAndTimeEditText(boolean b) {
+        if (b) {
             String userDate = formatDate("d MMM, yyyy", task.getRemindTime());
             String formatToUse;
             if (DateFormat.is24HourFormat(getApplicationContext())) {
@@ -786,27 +755,34 @@ public class AddTaskActivity extends SkinBaseActivity implements
             mDateEditText.setText(userDate);
 
         } else {
-            mDateEditText.setText(getString(R.string.date_reminder_default));
-            boolean time24 = DateFormat.is24HourFormat(getApplicationContext());
-            Calendar cal = Calendar.getInstance();
-            if (time24) {
-                cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY) + 1);
-            } else {
-                cal.set(Calendar.HOUR, cal.get(Calendar.HOUR) + 1);
-            }
-            cal.set(Calendar.MINUTE, 0);
-            task.setRemindTime(cal.getTime());
-            mDateEditText.setText(task.getRemindTime().toString().substring(0,11));
-            Log.d("OskarSchindler", "Imagined Date: " + task.getRemindTime());
-            String timeString;
-            if (time24) {
-                timeString = formatDate("k:mm", task.getRemindTime());
-            } else {
-                timeString = formatDate("h:mm a", task.getRemindTime());
-            }
-            mTimeEditText.setText(timeString);
+//            mDateEditText.setText(getString(R.string.date_reminder_default));
+//            boolean time24 = DateFormat.is24HourFormat(getApplicationContext());
+//            Calendar cal = Calendar.getInstance();
+//            if (time24) {
+//                cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY) + 1);
+//            } else {
+//                cal.set(Calendar.HOUR, cal.get(Calendar.HOUR) + 1);
+//            }
+//            cal.set(Calendar.MINUTE, 0);
+//            task.setRemindTime(cal.getTime());
+//            mDateEditText.setText(task.getRemindTime().toString().substring(0,11));
+//            Log.d("OskarSchindler", "Imagined Date: " + task.getRemindTime());
+//            String timeString;
+//            if (time24) {
+//                timeString = formatDate("k:mm", task.getRemindTime());
+//            } else {
+//                timeString = formatDate("h:mm a", task.getRemindTime());
+//            }
+//            mTimeEditText.setText(timeString);
+//            //如果没有checked，最终将remindTime设为null
+//            task.setRemindTime(null);
         }
     }
+
+    /**
+     * animation of layout under 'remind me'
+     * @param checked
+     */
     private void setEnterDateLayoutVisibleWithAnimations(boolean checked) {
         if (checked) {
             setReminderTextView();
@@ -816,15 +792,12 @@ public class AddTaskActivity extends SkinBaseActivity implements
                         public void onAnimationStart(Animator animation) {
                             mRemindDateLayout.setVisibility(View.VISIBLE);
                         }
-
                         @Override
                         public void onAnimationEnd(Animator animation) {
                         }
-
                         @Override
                         public void onAnimationCancel(Animator animation) {
                         }
-
                         @Override
                         public void onAnimationRepeat(Animator animation) {
                         }
@@ -835,29 +808,29 @@ public class AddTaskActivity extends SkinBaseActivity implements
                     new Animator.AnimatorListener() {
                         @Override
                         public void onAnimationStart(Animator animation) {
-
                         }
-
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             mRemindDateLayout.setVisibility(View.INVISIBLE);
                         }
-
                         @Override
                         public void onAnimationCancel(Animator animation) {
-
                         }
-
                         @Override
                         public void onAnimationRepeat(Animator animation) {
-
                         }
                     }
             );
         }
-
     }
-    private void setDate(int year,int monthOfYear, int dayOfMonth){
+
+    /**
+     * set remind date in task
+     * @param year
+     * @param monthOfYear
+     * @param dayOfMonth
+     */
+    private void setRemindDate(int year, int monthOfYear, int dayOfMonth){
         Calendar calendar = Calendar.getInstance();
         int hour, minute;
         Calendar reminderCalendar = Calendar.getInstance();
@@ -881,7 +854,42 @@ public class AddTaskActivity extends SkinBaseActivity implements
         setReminderTextView();
         setDateEditText(task.getRemindTime(),mDateEditText);
     }
-    private void setTime(int hour, int minute) {
+
+    /**
+     * set expire date in task
+     * @param year
+     * @param monthOfYear
+     * @param dayOfMonth
+     */
+    private void setExpireDate(int year, int monthOfYear, int dayOfMonth) {
+        Calendar calendar = Calendar.getInstance();
+        int hour, minute;
+        Calendar reminderCalendar = Calendar.getInstance();
+        reminderCalendar.set(year, monthOfYear, dayOfMonth);
+        if (reminderCalendar.before(calendar)) {
+            return;
+        }
+        if (task.getExpireTime() != null) {
+            calendar.setTime(task.getExpireTime());
+        }
+        if (DateFormat.is24HourFormat(getApplicationContext())) {
+            hour = calendar.get(Calendar.HOUR_OF_DAY);
+        } else {
+            hour = calendar.get(Calendar.HOUR);
+        }
+        minute = calendar.get(Calendar.MINUTE);
+
+        calendar.set(year, monthOfYear, dayOfMonth, hour, minute);
+        task.setExpireTime(calendar.getTime());
+        setDateEditText(task.getExpireTime(),mExpireDateEditText);
+    }
+
+    /**
+     * set remind time in task
+     * @param hour
+     * @param minute
+     */
+    private void setRemindTime(int hour, int minute) {
         Calendar calendar = Calendar.getInstance();
         if (task.getRemindTime() != null) {
             calendar.setTime(task.getRemindTime());
@@ -896,6 +904,29 @@ public class AddTaskActivity extends SkinBaseActivity implements
         setReminderTextView();
         setTimeEditText(task.getRemindTime(),mTimeEditText);
     }
+
+    /**
+     * set expire time in task
+     * @param hourOfDay
+     * @param minute
+     */
+    private void setExpireTime(int hourOfDay, int minute) {
+        Calendar calendar = Calendar.getInstance();
+        if (task.getRemindTime() != null) {
+            calendar.setTime(task.getRemindTime());
+        }
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        Log.d("OskarSchindler", "Time set: " + hourOfDay);
+        calendar.set(year, month, day, hourOfDay, minute, 0);
+        task.setExpireTime(calendar.getTime());
+        setTimeEditText(task.getExpireTime(),mExpireTimeEditText);
+    }
+
+    /**
+     * set ui reminder text view according to task
+     */
     private void setReminderTextView() {
         if (task.getRemindTime() != null) {
             mDateTimeReminderTextView.setVisibility(View.VISIBLE);
@@ -924,10 +955,22 @@ public class AddTaskActivity extends SkinBaseActivity implements
 
         }
     }
+
+    /**
+     * set ui date edit text according to date
+     * @param date
+     * @param editText
+     */
     private void setDateEditText(Date date,EditText editText) {
-        String dateFormat = "d MMM, yyyy";
+        String dateFormat = "d MMM yyyy";
         editText.setText(formatDate(dateFormat, date));
     }
+
+    /**
+     * set ui time edit text according ro date
+     * @param date
+     * @param editText
+     */
     private void setTimeEditText(Date date,EditText editText) {
         String dateFormat;
         if (DateFormat.is24HourFormat(getApplicationContext())) {

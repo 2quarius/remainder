@@ -144,6 +144,7 @@ public class MainActivity extends SkinBaseActivity implements ViewPager.OnPageCh
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
+        installAlarms(getApplicationContext(),taskCollectors);
     }
 
     /**

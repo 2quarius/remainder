@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:agendaCalendar="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include android:id="@+id/header_back"
+        layout="@layout/settings_back"/>
+    <com.wang.avi.AVLoadingIndicatorView
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/loading"
+        app:indicatorColor="@color/black"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicatorName="BallSpinFadeLoaderIndicator"
+        />
+    <com.github.tibolte.agendacalendarview.AgendaCalendarView
+        android:layout_below="@+id/header_back"
+        android:id="@+id/agenda_calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        agendaCalendar:agendaCurrentDayTextColor="@color/colorPrimary"
+        agendaCalendar:calendarColor="@color/colorPrimary"
+        agendaCalendar:calendarCurrentDayTextColor="@color/calendar_text_current_day"
+        agendaCalendar:calendarDayTextColor="@color/theme_text_icons"
+        agendaCalendar:calendarHeaderColor="@color/colorPrimaryDark"
+        agendaCalendar:calendarPastDayTextColor="@color/inputLine"
+        agendaCalendar:fabColor="@color/warning" />
+</RelativeLayout>

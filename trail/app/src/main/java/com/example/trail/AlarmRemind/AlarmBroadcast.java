@@ -2,7 +2,6 @@ package com.example.trail.AlarmRemind;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.Toast;
 
 public class AlarmBroadcast extends BroadcastReceiver {
@@ -20,10 +19,10 @@ public class AlarmBroadcast extends BroadcastReceiver {
         }
         // 处理闹钟事件
         // 振动、响铃、或者跳转页面等
-        if ("startAlarm".equals(intent.getAction())) {
-            Log.d("Alarm", "test");
-            // 处理闹钟事件
-            Toast.makeText(context, "提醒："+intent.getCharSequenceExtra("title")+"任务未完成" , Toast.LENGTH_LONG).show();
-        }
+//        if ("startAlarm".equals(intent.getAction())) {
+//            Log.d("Alarm", "test");
+//            // 处理闹钟事件
+//            Toast.makeText(context, "提醒："+intent.getCharSequenceExtra("title")+"任务未完成" , Toast.LENGTH_LONG).show();
+//        }
     }
 }

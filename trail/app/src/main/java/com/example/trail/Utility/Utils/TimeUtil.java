@@ -31,6 +31,9 @@ public class TimeUtil {
      * @return
      */
     public static Calendar Date2Cal(Date date){
+        if (date==null){
+            return null;
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return calendar;

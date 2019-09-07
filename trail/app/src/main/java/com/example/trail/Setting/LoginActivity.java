@@ -18,6 +18,8 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -65,6 +67,9 @@ public class LoginActivity extends SkinBaseActivity implements View.OnClickListe
         }
     }
     private void initView(){
+        LinearLayout back = findViewById(R.id.back);
+        TextView title = findViewById(R.id.title);
+        title.setText("登录");
         etAccount = findViewById(R.id.et_account);
         etPwd = findViewById(R.id.et_pwd);
 
@@ -73,6 +78,7 @@ public class LoginActivity extends SkinBaseActivity implements View.OnClickListe
         ImageButton btnJaccount = findViewById(R.id.btn_jaccount);
         Button btnLogin = findViewById(R.id.btn_login);
         Button btnRegister = findViewById(R.id.btn_register);
+        back.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
         btnQq.setOnClickListener(this);
@@ -82,6 +88,9 @@ public class LoginActivity extends SkinBaseActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.back:
+                this.finish();
+                break;
             case R.id.btn_login://登录
                 String account = etAccount.getText().toString().trim();
                 String pwd = etPwd.getText().toString().trim();
@@ -163,7 +172,7 @@ public class LoginActivity extends SkinBaseActivity implements View.OnClickListe
                 break;
         }
     }
-    public void loginWithAuth(final BmobUser.BmobThirdUserAuth authInfo){
+    private void loginWithAuth(final BmobUser.BmobThirdUserAuth authInfo){
         BmobUser.loginWithAuthData(authInfo, new LogInListener<JSONObject>() {
             @Override
             public void done(JSONObject jsonObject, BmobException e) {
@@ -187,7 +196,6 @@ public class LoginActivity extends SkinBaseActivity implements View.OnClickListe
         if(mTencent==null){
             mTencent = Tencent.createInstance(KeyConstants.QQ_APP_ID, getApplicationContext());
         }
-//        mTencent.logout(this);
         mTencent.login(this, "all", new IUiListener() {
             @Override
             public void onComplete(Object arg0) {
