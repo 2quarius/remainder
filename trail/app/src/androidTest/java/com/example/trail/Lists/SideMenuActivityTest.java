@@ -4,16 +4,15 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
+import com.example.trail.MainActivity;
 import com.example.trail.R;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.swipeRight;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
@@ -21,17 +20,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isFocusable;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class SideMenuActivityTest {
     @Rule
     public ActivityTestRule<SideMenuActivity> rule = new ActivityTestRule<>(SideMenuActivity.class);
+    @Rule
+    public ActivityTestRule<MainActivity> rule1 = new ActivityTestRule<>(MainActivity.class);
 
-    @Before
-    public void setUp() throws Exception {
-    }
     @Test
     public void testNavMenuClick() {
         onView(ViewMatchers.withText(R.string.add_list_file)).perform(click());

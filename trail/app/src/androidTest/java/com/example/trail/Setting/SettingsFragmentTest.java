@@ -62,12 +62,12 @@ public class SettingsFragmentTest {
                 .check(doesNotExist());
         onView(withId(R.id.back))
                 .perform(click());
-        onView(withId(R.id.assign))
-                .perform(click());
-        onView(withId(R.id.fragment_settings))
-                .check(doesNotExist());
-        onView(withId(R.id.back))
-                .perform(click());
+//        onView(withId(R.id.assign))
+//                .perform(click());
+//        onView(withId(R.id.fragment_settings))
+//                .check(doesNotExist());
+//        onView(withId(R.id.back))
+//                .perform(click());
         onView(withId(R.id.about))
                 .perform(click());
         onView(withId(R.id.fragment_settings))
