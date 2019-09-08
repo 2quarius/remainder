@@ -109,6 +109,8 @@ public class AddTaskActivity extends SkinBaseActivity implements
     private TextView mMiniTaskText;
     private SwitchCompat mMiniTaskSwitch;
     private LinearLayout mMiniTaskLayout;
+    //copy
+    private String clip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,10 +119,7 @@ public class AddTaskActivity extends SkinBaseActivity implements
         position = intent.getIntExtra("position",-1);
         task = intent.getSerializableExtra("task")!=null? (Task) intent.getSerializableExtra("task") :new Task();
         miniTasks = task.getMiniTasks();
-        String clip=intent.getStringExtra("clip");
-//        if (clip.length()!=0){
-//            mTimeEditText.setText(clip);
-//        }
+        clip=intent.getStringExtra("clip");
         initLayoutElement();
         setTextByTask();
         installListener();
@@ -530,6 +529,9 @@ public class AddTaskActivity extends SkinBaseActivity implements
                 editText.setFocusable(false);
                 mMiniTaskLayout.addView(linearLayout);
             }
+        }
+        if (clip!=null&&clip.length()!=0){
+            mTitleEditText.setText(clip);
         }
     }
 
